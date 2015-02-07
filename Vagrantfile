@@ -8,24 +8,23 @@ cd /vagrant
 
 # Install zabbix sources
 echo -e "${BULLET} Downloading and extracting Zabbix sources..."
-sudo -Eu vagrant curl -LO http://sourceforge.net/projects/zabbix/files/ZABBIX%20Latest%20Stable/2.4.3/zabbix-2.4.3.tar.gz
-sudo -Eu vagrant tar -xzf zabbix-2.4.3.tar.gz
+[[ -f zabbix-2.4.3.tar.gz ]] || sudo -Eu vagrant curl -LO http://sourceforge.net/projects/zabbix/files/ZABBIX%20Latest%20Stable/2.4.3/zabbix-2.4.3.tar.gz
+[[ -f zabbix-2.4.3/README ]] || sudo -Eu vagrant tar -xzf zabbix-2.4.3.tar.gz
 
 # Install Zabbix, PostgreSQL and build tools
 echo -e "${BULLET} Installing Zabbix, PostgreSQL and build tools..."
-yum localinstall -y --nogpgcheck http://yum.postgresql.org/9.4/redhat/rhel-6-x86_64/pgdg-centos94-9.4-1.noarch.rpm
-yum localinstall -y --nogpgcheck http://repo.zabbix.com/zabbix/2.4/rhel/7/x86_64/zabbix-release-2.4-1.el7.noarch.rpm
+rpm -qa | grep pgdg >/dev/null || yum localinstall -y --nogpgcheck http://yum.postgresql.org/9.4/redhat/rhel-6-x86_64/pgdg-centos94-9.4-1.noarch.rpm
+rpm -qa | grep zabbix-release >/dev/null || yum localinstall -y --nogpgcheck http://repo.zabbix.com/zabbix/2.4/rhel/7/x86_64/zabbix-release-2.4-1.el7.noarch.rpm
 yum install -y --nogpgcheck make gcc libtool automake autoconf postgresql94-server postgresql94-devel phpPgAdmin zabbix-agent
 
 # Build module
 echo -e "${BULLET} Building the libzbxpgsql agent module..."
-libtoolize
-aclocal
-autoheader
-automake --add-missing
-autoreconf
-./configure
-make
+libtoolize >/dev/null
+aclocal >/dev/null
+autoheader >/dev/null
+automake --add-missing >/dev/null
+autoreconf >/dev/null
+./configure >/dev/null && make >/dev/null
 
 # Configure PostgreSQL
 echo -e "${BULLET} Configuring PostgreSQL server..."
@@ -54,6 +53,7 @@ Alias /phpPgAdmin /usr/share/phpPgAdmin
     </IfModule>
 </Location>
 EOL
+
 sed -i \
     -e "s/\$conf\['extra_login_security'\] = .*;/\$conf\['extra_login_security'\] = false;/" \
     -e "s/\$conf\['servers'\]\[0\]\['host'\] = .*/\$conf\['servers'\]\[0\]\['host'\] = 'localhost';/" \
@@ -67,8 +67,8 @@ echo -e "${BULLET} Installing libzbxpgsql...'
 echo "LoadModule=libzbxpgsql.so" > /etc/zabbix/zabbix_agentd.d/libzbxpgsql.conf
 
 # Install add link to agent modules for built libzbxpgsql module
-mkdir /usr/lib64/modules
-ln -s /vagrant/src/.libs/libzbxpgsql.so /usr/lib64/modules/libzbxpgsql.so
+[[ -d /usr/lib64/modules ]] || mkdir /usr/lib64/modules
+[[ -L /usr/lib64/modules/libzbxpgsql.so ]] || ln -s /vagrant/src/.libs/libzbxpgsql.so /usr/lib64/modules/libzbxpgsql.so
 
 # MOTD
 echo -e "${BULLET} Configuring message of the day..."
@@ -95,12 +95,14 @@ Manage PostgreSQL server from:
 
 MOTD
 
-echo -e "${BULLET} All done!"
+echo -e "${BULLET} All done."
+
 script
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # Use DOE specific CentOS 7.0 image
-  config.vm.box = "chef/centos-7.0"
+  #config.vm.box = "chef/centos-7.0"
+  config.vm.box = "hashicorp/precise64"
 
   # Forward port for phpPgAdmin
   config.vm.network "forwarded_port", guest: 80, host: 8080
