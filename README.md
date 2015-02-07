@@ -13,6 +13,23 @@ in that no process forking or code interpreter is required. This significantly
 reduces the impact of monitoring on the agent system, particularly when
 monitoring hundreds or thousands of checks.
 
+## Table of contents
+
+* [Open source license](#license)
+* [Supported environments](#support)
+* [Building from source](#building)
+* [Module installation](#installation)
+* [Monitoring template](#template)
+* [Vagrant development VM](#vagrant-vm)
+* [Further reading](#further-reading)
+* [Connecting to PostgreSQL server](#connecting-to-postgresql)
+* [Security considerations](#security)
+* [Agent item keys](#agent-keys)
+
+  * [Server keys](#server-keys)
+  * [Database keys](#database-keys)
+  * [Table keys](#table-keys)
+
 
 ## License
 
@@ -54,22 +71,22 @@ To compile the agent module the following packages are required:
 * Zabbix 2.4.3 sources
 
 The Zabbix sources should be extracted into the project root directory or the
-'CFLAGS' directive modified in `src/Makefile.am`.
+`CFLAGS` directive modified in `src/Makefile.am`.
 
 To compile the module:
 
-    ```bash
-    # First time prep
-    libtoolize
-    aclocal
-    autoheader
-    automake --add-missing
-    autoreconf
+```bash
+# First time prep
+libtoolize
+aclocal
+autoheader
+automake --add-missing
+autoreconf
 
-    # Compile
-    ./configure
-    make
-    ```
+# Compile
+./configure
+make
+```
 
 The `libzbxpgsql.so` will then be located under `src/.libs/`.
 
@@ -97,7 +114,7 @@ configuration macros, etc. to suit your environment.
 
 Import the `template_postgresql_server.xml` template into Zabbix get started.
 
-## Vagrant VMs
+## Vagrant VM
 
 A `Vagrantfile` is provided for your convenience which builds a CentOS 7.0
 VirtualBox machine ready for building and testing the agent module.
