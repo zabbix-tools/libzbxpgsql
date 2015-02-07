@@ -25,7 +25,6 @@ monitoring hundreds or thousands of checks.
 * [Connecting to PostgreSQL server](#connecting-to-postgresql)
 * [Security considerations](#security)
 * [Agent item keys](#agent-keys)
-
   * [Server keys](#server-keys)
   * [Database keys](#database-keys)
   * [Table keys](#table-keys)
