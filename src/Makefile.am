@@ -1,10 +1,6 @@
-# Prevent libtools libraries from being installed
-# We only need the dlopen shared libraries (*.so)
-install-exec-hook:
-	rm -f $(DESTDIR)$(libdir)/*.la
-
 lib_LTLIBRARIES = libzbxpgsql.la
 libzbxpgsql_la_SOURCES = \
+	libzbxpgsql.h \
 	libzbxpgsql.c \
 	pg_server.c \
 	pg_namespace.c \
@@ -14,7 +10,7 @@ libzbxpgsql_la_SOURCES = \
 	pg_index.c
 
 libzbxpgsql_la_CFLAGS = \
-	-I../zabbix-2.4.3/include \
+	-I../include -I../../include \
 	-lpq \
 	-I/usr/pgsql-9.4/include \
 	-I/usr/include/postgresql \
@@ -23,3 +19,11 @@ libzbxpgsql_la_CFLAGS = \
 libzbxpgsql_la_LDFLAGS = \
 	-shared \
 	-avoid-version
+
+# Prevent install of the redundant *.la files
+install-exec-hook:
+	rm -f $(DESTDIR)$(libdir)/libzbxpgsql.la
+
+# Fix "files left after uninstall" issue
+uninstall-local:
+	rm -f $(DESTDIR)$(libdir)/libzbxpgsql.so

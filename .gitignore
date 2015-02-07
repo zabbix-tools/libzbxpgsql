@@ -3,6 +3,7 @@
 *.la
 *.lo
 *.o
+*.orig
 *.so
 *.tar.gz
 *.tgz

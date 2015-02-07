@@ -17,6 +17,8 @@ yum install -y --nogpgcheck \
     libtool \
     automake \
     autoconf \
+    rpm-build \
+    git \
     postgresql94-server \
     postgresql94-devel \
     phpPgAdmin \
@@ -24,14 +26,12 @@ yum install -y --nogpgcheck \
     zabbix-server-pgsql \
     zabbix-web-pgsql
 
-# Build module
-echo -e "${BULLET} Building the libzbxpgsql agent module..."
-libtoolize >/dev/null
-aclocal >/dev/null
-autoheader >/dev/null
-automake --add-missing >/dev/null
-autoreconf >/dev/null
-./configure >/dev/null && make >/dev/null
+# Create rpmbuild directories
+if [[ ! -d /home/vagrant/rpmbuild ]]; then
+    mkdir -p /home/vagrant/rpmbuild/{BUILD,RPMS,SOURCES,SPECS,SRPMS}
+    ln -s /vagrant/spec/libzbxpgsql.spec /home/vagrant/rpmbuild/SPECS/libzbxpgsql.spec
+    chown -R vagrant.vagrant /home/vagrant/rpmbuild
+fi
 
 # Configure PostgreSQL
 echo -e "${BULLET} Configuring PostgreSQL server..."
@@ -68,6 +68,15 @@ sed -i \
     /etc/phpPgAdmin/config.inc.php
 systemctl enable httpd
 systemctl start httpd
+
+# Build module
+echo -e "${BULLET} Building the libzbxpgsql agent module..."
+libtoolize >/dev/null
+aclocal >/dev/null
+autoheader >/dev/null
+automake --add-missing >/dev/null
+autoreconf >/dev/null
+./configure >/dev/null && make >/dev/null
 
 # Configure Zabbix Agent
 echo -e "${BULLET} Installing libzbxpgsql..."

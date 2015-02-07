@@ -1,4 +1,4 @@
-AC_INIT([libzbxpgsql], [1.0], [ryan@cavaliercoder.com])
+AC_INIT([libzbxpgsql], [0.1.0], [ryan@cavaliercoder.com])
 AM_INIT_AUTOMAKE([-Wall -Werror foreign])
 AM_PROG_AR
 LT_INIT
