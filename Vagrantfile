@@ -2,28 +2,15 @@
 # vi: set ft=ruby :
 VAGRANTFILE_API_VERSION = "2"
 
-$script_common = <<script
-BULLET="==>"
-
-script
-
-$script_rhel7 = <<script
-
-script
-
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
-  config.vm.box = "chef/centos-7.0"
-
-  config.vm.provision "shell", inline: $script_common
-  
   # Primary CentOS 7.0 4 bit box
-  # vagrant up && vagrant ssh
-  config.vm.define "centos7", primary: true do |default|
+  # vagrant up centos7 && vagrant ssh centos7
+  config.vm.define "centos7", primary: true do |rhel7|
+    rhel7.vm.box = "chef/centos-7.0"
+    rhel7.vm.provision "shell", path: "vagrant/setup_centos7.sh"
+  
     # Forward port for phpPgAdmin
-    default.vm.network "forwarded_port", guest: 80, host: 8080
-    
-    # Pre-configuration
-    default.vm.provision "shell", path: "vagrant/setup_centos7.sh"
+    rhel7.vm.network "forwarded_port", guest: 80, host: 8080
   end
 
   # Ubuntu 12.04 LTS 64 bit box

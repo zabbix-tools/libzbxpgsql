@@ -11,7 +11,18 @@ echo -e "${BULLET} Downloading and extracting Zabbix sources..."
 echo -e "${BULLET} Installing Zabbix, PostgreSQL and build tools..."
 rpm -qa | grep pgdg >/dev/null || yum localinstall -y --nogpgcheck http://yum.postgresql.org/9.4/redhat/rhel-6-x86_64/pgdg-centos94-9.4-1.noarch.rpm
 rpm -qa | grep zabbix-release >/dev/null || yum localinstall -y --nogpgcheck http://repo.zabbix.com/zabbix/2.4/rhel/7/x86_64/zabbix-release-2.4-1.el7.noarch.rpm
-yum install -y --nogpgcheck make gcc libtool automake autoconf postgresql94-server postgresql94-devel phpPgAdmin zabbix-agent
+yum install -y --nogpgcheck \
+    make \
+    gcc \
+    libtool \
+    automake \
+    autoconf \
+    postgresql94-server \
+    postgresql94-devel \
+    phpPgAdmin \
+    zabbix-agent \
+    zabbix-server-pgsql \
+    zabbix-web-pgsql
 
 # Build module
 echo -e "${BULLET} Building the libzbxpgsql agent module..."
