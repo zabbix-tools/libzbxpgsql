@@ -19,9 +19,9 @@
 
 #include "libzbxpgsql.h"
 
-#define PGSQL_DISCOVER_NAMESPACES	"SELECT n.oid, n.nspname, current_database(), a.rolname from pg_namespace n JOIN pg_authid a ON a.oid = n.nspowner"
+#define PGSQL_DISCOVER_NAMESPACES   "SELECT n.oid, n.nspname, current_database(), a.rolname from pg_namespace n JOIN pg_authid a ON a.oid = n.nspowner"
 
-#define PGSQL_GET_NS_SIZE		    "SELECT sum(pg_relation_size(quote_ident(schemaname) || '.' || quote_ident(tablename)))::bigint FROM pg_tables WHERE schemaname = '%s'"
+#define PGSQL_GET_NS_SIZE           "SELECT sum(pg_relation_size(quote_ident(schemaname) || '.' || quote_ident(tablename)))::bigint FROM pg_tables WHERE schemaname = '%s'"
 
 /*
  * Custom key pg.namespace.discovery
@@ -36,41 +36,36 @@
  *                {
  *                        "{#OID}":"12345",
  *                        "{#SCHEMA}":"public",
- *			              "{#DATABASE}:"MyDb",
+ *                        "{#DATABASE}:"MyDb",
  *                        "{#OWNER}":"postgres"}]}
  */
 int    PG_NAMESPACE_DISCOVERY(AGENT_REQUEST *request, AGENT_RESULT *result)
 {
-    int         	ret = SYSINFO_RET_FAIL;            		// Request result code
-    const char	        *__function_name = "PG_NAMESPACE_DISCOVERY";	// Function name for log file
-    struct          	zbx_json j;                           		// JSON response for discovery rule
+    int         ret = SYSINFO_RET_FAIL;                         // Request result code
+    const char  *__function_name = "PG_NAMESPACE_DISCOVERY";    // Function name for log file
+    struct      zbx_json j;                                     // JSON response for discovery rule
     
-    PGconn		*conn = NULL;
-    PGresult		*res = NULL;
-
-    char		*schema = NULL;
-    char		*type = NULL;
+    PGconn      *conn = NULL;
+    PGresult    *res = NULL;
     
-    char		query[MAX_STRING_LEN] = PGSQL_DISCOVER_NAMESPACES;
-    char		* op = PG_WHERE;
-    char		*c = NULL;
-    int			i = 0, count = 0;
+    char        query[MAX_STRING_LEN] = PGSQL_DISCOVER_NAMESPACES;
+    int         i = 0, count = 0;
     
     zabbix_log(LOG_LEVEL_DEBUG, "In %s()", __function_name);
         
     // Connect to PostreSQL
     if(NULL == (conn = pg_connect(request)))
-	goto out;
+        goto out;
     
     // Execute a query
     res = PQexec(conn, query);
     if(PQresultStatus(res) != PGRES_TUPLES_OK) {
-	zabbix_log(LOG_LEVEL_ERR, "Failed to execute PostgreSQL query in %s() with: %s", __function_name, PQresultErrorMessage(res));
-	goto out;
+        zabbix_log(LOG_LEVEL_ERR, "Failed to execute PostgreSQL query in %s() with: %s", __function_name, PQresultErrorMessage(res));
+        goto out;
     }
     
     if(0 == (count = PQntuples(res))) {
-	zabbix_log(LOG_LEVEL_DEBUG, "No results returned for query \"%s\" in %s()", query, __function_name);
+    zabbix_log(LOG_LEVEL_DEBUG, "No results returned for query \"%s\" in %s()", query, __function_name);
     }
              
     // Create JSON array of discovered objects
@@ -80,9 +75,9 @@ int    PG_NAMESPACE_DISCOVERY(AGENT_REQUEST *request, AGENT_RESULT *result)
     for(i = 0; i < count; i++) {
         zbx_json_addobject(&j, NULL);        
         zbx_json_addstring(&j, "{#OID}", PQgetvalue(res, i, 0), ZBX_JSON_TYPE_STRING);
-	zbx_json_addstring(&j, "{#NAMESPACE}", PQgetvalue(res, i, 1), ZBX_JSON_TYPE_STRING);
-	zbx_json_addstring(&j, "{#DATABASE}", PQgetvalue(res, i, 2), ZBX_JSON_TYPE_STRING);
-	zbx_json_addstring(&j, "{#OWNER}", PQgetvalue(res, i, 3), ZBX_JSON_TYPE_STRING);
+        zbx_json_addstring(&j, "{#NAMESPACE}", PQgetvalue(res, i, 1), ZBX_JSON_TYPE_STRING);
+        zbx_json_addstring(&j, "{#DATABASE}", PQgetvalue(res, i, 2), ZBX_JSON_TYPE_STRING);
+        zbx_json_addstring(&j, "{#OWNER}", PQgetvalue(res, i, 3), ZBX_JSON_TYPE_STRING);
         zbx_json_close(&j);         
     }
     
@@ -109,30 +104,30 @@ out:
  *
  * Parameter [0-4]:     <host,port,db,user,passwd>
  *
- * Parameter[schema]:	schema name to assess (default: all)
+ * Parameter[schema]:   schema name to assess (default: all)
  *
  * Returns: u
  */
 int    PG_NAMESPACE_SIZE(AGENT_REQUEST *request, AGENT_RESULT *result)
 {
-    int         	ret = SYSINFO_RET_FAIL;            	// Request result code
-    const char	        *__function_name = "PG_NAMESPACE_SIZE";	// Function name for log file
+    int             ret = SYSINFO_RET_FAIL;             // Request result code
+    const char          *__function_name = "PG_NAMESPACE_SIZE"; // Function name for log file
         
-    char		query[MAX_STRING_LEN];
-    char		*schema = NULL;
+    char        query[MAX_STRING_LEN];
+    char        *schema = NULL;
             
     zabbix_log(LOG_LEVEL_DEBUG, "In %s()", __function_name);
     
     // Parse parameters
     schema = get_rparam(request, PARAM_FIRST);
     
-    // Build query	
+    // Build query  
     if(NULL == schema || '\0' == *schema) {
-	zabbix_log(LOG_LEVEL_ERR, "No schema name specified in %s()", __function_name);
-	goto out;
+    zabbix_log(LOG_LEVEL_ERR, "No schema name specified in %s()", __function_name);
+    goto out;
     }
     else
-	zbx_snprintf(query, sizeof(query), PGSQL_GET_NS_SIZE, schema);
+    zbx_snprintf(query, sizeof(query), PGSQL_GET_NS_SIZE, schema);
 
     ret = pg_get_int(request, result, query);
 

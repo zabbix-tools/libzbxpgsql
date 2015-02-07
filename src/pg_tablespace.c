@@ -19,9 +19,9 @@
 
 #include "libzbxpgsql.h"
 
-#define PGSQL_DISCOVER_TABLESPACES	"SELECT t.oid, t.spcname, a.rolname from pg_tablespace t JOIN pg_authid a ON a.oid = t.spcowner"
+#define PGSQL_DISCOVER_TABLESPACES  "SELECT t.oid, t.spcname, a.rolname from pg_tablespace t JOIN pg_authid a ON a.oid = t.spcowner"
 
-#define PGSQL_GET_TS_SIZE		"SELECT pg_tablespace_size('%s')"
+#define PGSQL_GET_TS_SIZE       "SELECT pg_tablespace_size('%s')"
 /*
  * Custom key pg.tablespace.discovery
  *
@@ -39,36 +39,31 @@
  */
 int    PG_TABLESPACE_DISCOVERY(AGENT_REQUEST *request, AGENT_RESULT *result)
 {
-    int         	ret = SYSINFO_RET_FAIL;            		// Request result code
-    const char	        *__function_name = "PG_TABLESPACE_DISCOVERY";	// Function name for log file
-    struct          	zbx_json j;                           		// JSON response for discovery rule
+    int         ret = SYSINFO_RET_FAIL;                         // Request result code
+    const char  *__function_name = "PG_TABLESPACE_DISCOVERY";   // Function name for log file
+    struct      zbx_json j;                                     // JSON response for discovery rule
     
-    PGconn		*conn = NULL;
-    PGresult		*res = NULL;
-
-    char		*schema = NULL;
-    char		*type = NULL;
+    PGconn      *conn = NULL;
+    PGresult    *res = NULL;
     
-    char		query[MAX_STRING_LEN] = PGSQL_DISCOVER_TABLESPACES;
-    char		* op = PG_WHERE;
-    char		*c = NULL;
-    int			i = 0, count = 0;
+    char        query[MAX_STRING_LEN] = PGSQL_DISCOVER_TABLESPACES;
+    int         i = 0, count = 0;
     
     zabbix_log(LOG_LEVEL_DEBUG, "In %s()", __function_name);
         
     // Connect to PostreSQL
     if(NULL == (conn = pg_connect(request)))
-	goto out;
+    goto out;
     
     // Execute a query
     res = PQexec(conn, query);
     if(PQresultStatus(res) != PGRES_TUPLES_OK) {
-	zabbix_log(LOG_LEVEL_ERR, "Failed to execute PostgreSQL query in %s() with: %s", __function_name, PQresultErrorMessage(res));
-	goto out;
+       zabbix_log(LOG_LEVEL_ERR, "Failed to execute PostgreSQL query in %s() with: %s", __function_name, PQresultErrorMessage(res));
+       goto out;
     }
     
     if(0 == (count = PQntuples(res))) {
-	zabbix_log(LOG_LEVEL_DEBUG, "No results returned for query \"%s\" in %s()", query, __function_name);
+       zabbix_log(LOG_LEVEL_DEBUG, "No results returned for query \"%s\" in %s()", query, __function_name);
     }
              
     // Create JSON array of discovered objects
@@ -78,8 +73,8 @@ int    PG_TABLESPACE_DISCOVERY(AGENT_REQUEST *request, AGENT_RESULT *result)
     for(i = 0; i < count; i++) {
         zbx_json_addobject(&j, NULL);        
         zbx_json_addstring(&j, "{#OID}", PQgetvalue(res, i, 0), ZBX_JSON_TYPE_STRING);
-	zbx_json_addstring(&j, "{#TABLESPACE}", PQgetvalue(res, i, 1), ZBX_JSON_TYPE_STRING);
-	zbx_json_addstring(&j, "{#OWNER}", PQgetvalue(res, i, 2), ZBX_JSON_TYPE_STRING);
+        zbx_json_addstring(&j, "{#TABLESPACE}", PQgetvalue(res, i, 1), ZBX_JSON_TYPE_STRING);
+        zbx_json_addstring(&j, "{#OWNER}", PQgetvalue(res, i, 2), ZBX_JSON_TYPE_STRING);
         zbx_json_close(&j);         
     }
     
@@ -103,32 +98,30 @@ out:
  *
  * Returns the size of the specified tablespace in bytes
  *
- * Parameter [0-4]:     	<host,port,db,user,passwd>
+ * Parameter [0-4]:         <host,port,db,user,passwd>
  *
- * Parameter[tablespace]:	<tablespace>
+ * Parameter[tablespace]:   <tablespace>
  *
  * Returns: u
  */
 int    PG_TABLESPACE_SIZE(AGENT_REQUEST *request, AGENT_RESULT *result)
 {
-    int         	ret = SYSINFO_RET_FAIL;         	// Request result code
-    const char	        *__function_name = "PG_TABLESPACE_SIZE";	// Function name for log file
-    
-    char		*tablespace = NULL;
-    
-    char		*field;
-    char		query[MAX_STRING_LEN];
+    int         ret = SYSINFO_RET_FAIL;                     // Request result code
+    const char  *__function_name = "PG_TABLESPACE_SIZE";    // Function name for log file
+
+    char        *tablespace = NULL;
+    char        query[MAX_STRING_LEN];
     
     zabbix_log(LOG_LEVEL_DEBUG, "In %s()", __function_name);
     
     // Build query
     tablespace = get_rparam(request, PARAM_FIRST);
     if(NULL == tablespace || '\0' == *tablespace) {
-	zabbix_log(LOG_LEVEL_ERR, "No tablespace specified in %s()", __function_name);
-	goto out;
+        zabbix_log(LOG_LEVEL_ERR, "No tablespace specified in %s()", __function_name);
+        goto out;
     }
     else
-	zbx_snprintf(query, sizeof(query), PGSQL_GET_TS_SIZE, tablespace);
+        zbx_snprintf(query, sizeof(query), PGSQL_GET_TS_SIZE, tablespace);
 
     ret = pg_get_int(request, result, query);
     

@@ -19,7 +19,7 @@
 
 #include "libzbxpgsql.h"
 
-#define PGSQL_DISCOVER_INDICES		"\
+#define PGSQL_DISCOVER_INDICES      "\
 SELECT \
     ic.oid \
     , ic.relname \
@@ -35,13 +35,13 @@ JOIN pg_authid a ON a.oid = ic.relowner \
 JOIN pg_class t ON t.oid = i.indrelid \
 JOIN pg_am m ON m.oid = ic.relam"
 
-#define PGSQL_GET_INDEX_SIZE		"SELECT (relpages * 8192) FROM pg_class WHERE (relkind='i' AND relname = '%s')"
+#define PGSQL_GET_INDEX_SIZE        "SELECT (relpages * 8192) FROM pg_class WHERE (relkind='i' AND relname = '%s')"
 
-#define PGSQL_GET_INDEX_SIZE_SUM	"SELECT (SUM(relpages) * 8192) FROM pg_class WHERE relkind='i'"
+#define PGSQL_GET_INDEX_SIZE_SUM    "SELECT (SUM(relpages) * 8192) FROM pg_class WHERE relkind='i'"
 
-#define PGSQL_GET_INDEX_ROWS		"SELECT reltuples FROM pg_class WHERE (relkind='i' AND relname = '%s')"
+#define PGSQL_GET_INDEX_ROWS        "SELECT reltuples FROM pg_class WHERE (relkind='i' AND relname = '%s')"
 
-#define PGSQL_GET_INDEX_ROWS_SUM	"SELECT SUM(reltuples) FROM pg_class WHERE relkind='i'"
+#define PGSQL_GET_INDEX_ROWS_SUM    "SELECT SUM(reltuples) FROM pg_class WHERE relkind='i'"
 
 /*
  * Custom key pg.index.discovery
@@ -64,34 +64,32 @@ JOIN pg_am m ON m.oid = ic.relam"
  */
 int    PG_INDEX_DISCOVERY(AGENT_REQUEST *request, AGENT_RESULT *result)
 {
-    int         	ret = SYSINFO_RET_FAIL;            		// Request result code
-    const char	        *__function_name = "PG_DB_DISCOVERY";		// Function name for log file
-    struct          	zbx_json j;                           // JSON response for discovery rule
+    int         ret = SYSINFO_RET_FAIL;                 // Request result code
+    const char  *__function_name = "PG_DB_DISCOVERY";   // Function name for log file
+    struct      zbx_json j;                             // JSON response for discovery rule
     
-    PGconn		*conn = NULL;
-    PGresult		*res = NULL;
+    PGconn      *conn = NULL;
+    PGresult    *res = NULL;
     
-    char		*query = PGSQL_DISCOVER_INDICES;
-    char		buffer[MAX_STRING_LEN];
-    
-    int			i = 0, count = 0, col = 0;
+    char        *query = PGSQL_DISCOVER_INDICES;
+    int         i = 0, count = 0;
     
     zabbix_log(LOG_LEVEL_DEBUG, "In %s()", __function_name);
     
     // Connect to PostreSQL
     if(NULL == (conn = pg_connect(request)))
-	goto out;
+        goto out;
     
     // Execute a query
     res = PQexec(conn, query);
     if(PQresultStatus(res) != PGRES_TUPLES_OK) {
-	zabbix_log(LOG_LEVEL_ERR, "Failed to execute PostgreSQL query in %s() with: %s", __function_name, PQresultErrorMessage(res));
-	goto out;
+        zabbix_log(LOG_LEVEL_ERR, "Failed to execute PostgreSQL query in %s() with: %s", __function_name, PQresultErrorMessage(res));
+        goto out;
     }
     
     if(0 == (count = PQntuples(res))) {
-	zabbix_log(LOG_LEVEL_DEBUG, "No results returned for query \"%s\" in %s()", query, __function_name);
-	goto out;
+        zabbix_log(LOG_LEVEL_DEBUG, "No results returned for query \"%s\" in %s()", query, __function_name);
+        goto out;
     }
              
     // Create JSON array of discovered objects
@@ -101,12 +99,12 @@ int    PG_INDEX_DISCOVERY(AGENT_REQUEST *request, AGENT_RESULT *result)
     for(i = 0; i < count; i++) {
         zbx_json_addobject(&j, NULL);        
         zbx_json_addstring(&j, "{#OID}", PQgetvalue(res, i, 0), ZBX_JSON_TYPE_STRING);
-	zbx_json_addstring(&j, "{#INDEX}", PQgetvalue(res, i, 1), ZBX_JSON_TYPE_STRING);
-	zbx_json_addstring(&j, "{#DATABASE}", PQgetvalue(res, i, 2), ZBX_JSON_TYPE_STRING);
-	zbx_json_addstring(&j, "{#SCHEMA}", PQgetvalue(res, i, 3), ZBX_JSON_TYPE_STRING);
-	zbx_json_addstring(&j, "{#TABLE}", PQgetvalue(res, i, 4), ZBX_JSON_TYPE_STRING);
-	zbx_json_addstring(&j, "{#OWNER}", PQgetvalue(res, i, 5), ZBX_JSON_TYPE_STRING);
-	zbx_json_addstring(&j, "{#ACCESS}", PQgetvalue(res, i, 6), ZBX_JSON_TYPE_STRING);
+        zbx_json_addstring(&j, "{#INDEX}", PQgetvalue(res, i, 1), ZBX_JSON_TYPE_STRING);
+        zbx_json_addstring(&j, "{#DATABASE}", PQgetvalue(res, i, 2), ZBX_JSON_TYPE_STRING);
+        zbx_json_addstring(&j, "{#SCHEMA}", PQgetvalue(res, i, 3), ZBX_JSON_TYPE_STRING);
+        zbx_json_addstring(&j, "{#TABLE}", PQgetvalue(res, i, 4), ZBX_JSON_TYPE_STRING);
+        zbx_json_addstring(&j, "{#OWNER}", PQgetvalue(res, i, 5), ZBX_JSON_TYPE_STRING);
+        zbx_json_addstring(&j, "{#ACCESS}", PQgetvalue(res, i, 6), ZBX_JSON_TYPE_STRING);
         zbx_json_close(&j);         
     }
     
@@ -117,7 +115,6 @@ int    PG_INDEX_DISCOVERY(AGENT_REQUEST *request, AGENT_RESULT *result)
     ret = SYSINFO_RET_OK;
         
 out:
-
     PQclear(res);
     PQfinish(conn);
     
@@ -138,17 +135,17 @@ out:
  */
 int    PG_STAT_ALL_INDEXES(AGENT_REQUEST *request, AGENT_RESULT *result)
 {
-    int         	ret = SYSINFO_RET_FAIL;            		// Request result code
-    const char	        *__function_name = "PG_STAT_ALL_INDEXES";	// Function name for log file
+    int         ret = SYSINFO_RET_FAIL;                     // Request result code
+    const char  *__function_name = "PG_STAT_ALL_INDEXES";   // Function name for log file
     
-    char		*index = NULL;
+    char        *index = NULL;
     
-    PGconn		*conn = NULL;
-    PGresult		*res = NULL;
+    PGconn      *conn = NULL;
+    PGresult    *res = NULL;
     
-    char		*field;
-    char		query[MAX_STRING_LEN];
-    char		*buffer = NULL;
+    char        *field;
+    char        query[MAX_STRING_LEN];
+    char        *buffer = NULL;
     
     zabbix_log(LOG_LEVEL_DEBUG, "In %s()", __function_name);
     
@@ -158,24 +155,24 @@ int    PG_STAT_ALL_INDEXES(AGENT_REQUEST *request, AGENT_RESULT *result)
     // Build query
     index = get_rparam(request, PARAM_FIRST);
     if(NULL == index || '\0' == *index)
-	zbx_snprintf(query, sizeof(query), "SELECT SUM(%s) FROM pg_stat_all_indexes", field);
+    zbx_snprintf(query, sizeof(query), "SELECT SUM(%s) FROM pg_stat_all_indexes", field);
     else
-	zbx_snprintf(query, sizeof(query),  "SELECT %s FROM pg_stat_all_indexes WHERE indexrelname = '%s'", field, index);
+    zbx_snprintf(query, sizeof(query),  "SELECT %s FROM pg_stat_all_indexes WHERE indexrelname = '%s'", field, index);
 
     // Connect to PostreSQL
     if(NULL == (conn = pg_connect(request)))
-	goto out;
+    goto out;
     
     // Execute a query
     res = PQexec(conn, query);
     if(PQresultStatus(res) != PGRES_TUPLES_OK) {
-	zabbix_log(LOG_LEVEL_ERR, "Failed to execute PostgreSQL query in %s() with: %s", __function_name, PQresultErrorMessage(res));
-	goto out;
+    zabbix_log(LOG_LEVEL_ERR, "Failed to execute PostgreSQL query in %s() with: %s", __function_name, PQresultErrorMessage(res));
+    goto out;
     }
     
     if(0 == PQntuples(res)) {
-	zabbix_log(LOG_LEVEL_ERR, "No results returned for query \"%s\" in %s()", query, __function_name);
-	goto out;
+    zabbix_log(LOG_LEVEL_ERR, "No results returned for query \"%s\" in %s()", query, __function_name);
+    goto out;
     }
     
     // Set result
@@ -204,17 +201,17 @@ out:
  */
 int    PG_STATIO_ALL_INDEXES(AGENT_REQUEST *request, AGENT_RESULT *result)
 {
-    int         	ret = SYSINFO_RET_FAIL;            		// Request result code
-    const char	        *__function_name = "PG_STAT_ALL_INDEXES";	// Function name for log file
+    int             ret = SYSINFO_RET_FAIL;                 // Request result code
+    const char          *__function_name = "PG_STAT_ALL_INDEXES";   // Function name for log file
     
-    char		*index = NULL;
+    char        *index = NULL;
     
-    PGconn		*conn = NULL;
-    PGresult		*res = NULL;
+    PGconn      *conn = NULL;
+    PGresult        *res = NULL;
     
-    char		*field;
-    char		query[MAX_STRING_LEN];
-    char		*buffer = NULL;
+    char        *field;
+    char        query[MAX_STRING_LEN];
+    char        *buffer = NULL;
     
     zabbix_log(LOG_LEVEL_DEBUG, "In %s()", __function_name);
     
@@ -224,24 +221,24 @@ int    PG_STATIO_ALL_INDEXES(AGENT_REQUEST *request, AGENT_RESULT *result)
     // Build query
     index = get_rparam(request, PARAM_FIRST);
     if(NULL == index || '\0' == *index)
-	zbx_snprintf(query, sizeof(query), "SELECT SUM(%s) FROM pg_statio_all_indexes", field);
+        zbx_snprintf(query, sizeof(query), "SELECT SUM(%s) FROM pg_statio_all_indexes", field);
     else
-	zbx_snprintf(query, sizeof(query),  "SELECT %s FROM pg_statio_all_indexes WHERE indexrelname = '%s'", field, index);
+        zbx_snprintf(query, sizeof(query),  "SELECT %s FROM pg_statio_all_indexes WHERE indexrelname = '%s'", field, index);
 
     // Connect to PostreSQL
     if(NULL == (conn = pg_connect(request)))
-	goto out;
+        goto out;
     
     // Execute a query
     res = PQexec(conn, query);
     if(PQresultStatus(res) != PGRES_TUPLES_OK) {
-	zabbix_log(LOG_LEVEL_ERR, "Failed to execute PostgreSQL query in %s() with: %s", __function_name, PQresultErrorMessage(res));
-	goto out;
+        zabbix_log(LOG_LEVEL_ERR, "Failed to execute PostgreSQL query in %s() with: %s", __function_name, PQresultErrorMessage(res));
+        goto out;
     }
     
     if(0 == PQntuples(res)) {
-	zabbix_log(LOG_LEVEL_ERR, "No results returned for query \"%s\" in %s()", query, __function_name);
-	goto out;
+        zabbix_log(LOG_LEVEL_ERR, "No results returned for query \"%s\" in %s()", query, __function_name);
+        goto out;
     }
     
     // Set result
@@ -270,23 +267,22 @@ out:
  */
 int    PG_INDEX_SIZE(AGENT_REQUEST *request, AGENT_RESULT *result)
 {
-    int         	ret = SYSINFO_RET_FAIL;            	// Request result code
-    const char	        *__function_name = "PG_INDEX_SIZE";	// Function name for log file
+    int         ret = SYSINFO_RET_FAIL;             // Request result code
+    const char  *__function_name = "PG_INDEX_SIZE"; // Function name for log file
         
-    char		query[MAX_STRING_LEN];
-    char		*index = NULL, *include = NULL;
-    unsigned long long 	total = 0;
+    char        query[MAX_STRING_LEN];
+    char        *index = NULL; //, *include = NULL;
             
     zabbix_log(LOG_LEVEL_DEBUG, "In %s()", __function_name);
     
     // Parse parameters
-    index = get_rparam(request, PARAM_FIRST);
+    // index = get_rparam(request, PARAM_FIRST);
     
-    // Build query	
+    // Build query  
     if(NULL == index || '\0' == *index)
-	zbx_snprintf(query, sizeof(query), PGSQL_GET_INDEX_SIZE_SUM);
+        zbx_snprintf(query, sizeof(query), PGSQL_GET_INDEX_SIZE_SUM);
     else
-	zbx_snprintf(query, sizeof(query), PGSQL_GET_INDEX_SIZE, index);
+        zbx_snprintf(query, sizeof(query), PGSQL_GET_INDEX_SIZE, index);
 
     ret = pg_get_int(request, result, query);
     
@@ -307,23 +303,22 @@ int    PG_INDEX_SIZE(AGENT_REQUEST *request, AGENT_RESULT *result)
  */
 int    PG_INDEX_ROWS(AGENT_REQUEST *request, AGENT_RESULT *result)
 {
-    int         	ret = SYSINFO_RET_FAIL;            	// Request result code
-    const char	        *__function_name = "PG_INDEX_ROWS";	// Function name for log file
+    int         ret = SYSINFO_RET_FAIL;             // Request result code
+    const char  *__function_name = "PG_INDEX_ROWS"; // Function name for log file
         
-    char		query[MAX_STRING_LEN];
-    char		*index = NULL, *include = NULL;
-    unsigned long long 	total = 0;
+    char        query[MAX_STRING_LEN];
+    char        *index = NULL; //, *include = NULL;
             
     zabbix_log(LOG_LEVEL_DEBUG, "In %s()", __function_name);
     
     // Parse parameters
     index = get_rparam(request, PARAM_FIRST);
     
-    // Build query	
+    // Build query  
     if(NULL == index || '\0' == *index)
-	zbx_snprintf(query, sizeof(query), PGSQL_GET_INDEX_ROWS_SUM);
+        zbx_snprintf(query, sizeof(query), PGSQL_GET_INDEX_ROWS_SUM);
     else
-	zbx_snprintf(query, sizeof(query), PGSQL_GET_INDEX_ROWS, index);
+        zbx_snprintf(query, sizeof(query), PGSQL_GET_INDEX_ROWS, index);
 
     ret = pg_get_int(request, result, query);
     

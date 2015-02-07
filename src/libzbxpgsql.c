@@ -185,9 +185,7 @@ int         zbx_module_uninit()                     { return ZBX_MODULE_OK; }
         zabbix_log(LOG_LEVEL_ERR, "Failed to connect to PostgreSQL server '%s' in %s():\n%s", pghost, __function_name, PQerrorMessage(conn));
         PQfinish(conn);
         conn = NULL;
-    }  
-    
-    out:
+    }
 
     zabbix_log(LOG_LEVEL_DEBUG, "End of %s()", __function_name);
     return conn;
