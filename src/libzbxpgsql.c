@@ -51,7 +51,7 @@ static ZBX_METRIC keys[] =
     {"pg.schema.discovery",         CF_HAVEPARAMS,  PG_NAMESPACE_DISCOVERY,         NULL}, // Alias for pg.namespace.discovery
     {"pg.tablespace.discovery",     CF_HAVEPARAMS,  PG_TABLESPACE_DISCOVERY,        NULL},
     {"pg.table.discovery",          CF_HAVEPARAMS,  PG_TABLE_DISCOVERY,             NULL},
-    {"pg.table.children.discovery", CF_HAVEPARAMS,  PG_TABLE_CHILDREN_DISCOVERY,    NULL},
+    {"pg.table.children.discovery", CF_HAVEPARAMS,  PG_TABLE_CHILDREN_DISCOVERY,    ",,,,,pg_proc"},
     {"pg.index.discovery",          CF_HAVEPARAMS,  PG_INDEX_DISCOVERY,             NULL},
     
     // Asset class sizes
@@ -60,9 +60,9 @@ static ZBX_METRIC keys[] =
     {"pg.table.rows",               CF_HAVEPARAMS,  PG_TABLE_ROWS,                  NULL},
     {"pg.index.size",               CF_HAVEPARAMS,  PG_INDEX_SIZE,                  NULL},
     {"pg.index.rows",               CF_HAVEPARAMS,  PG_INDEX_ROWS,                  NULL},
-    {"pg.tablespace.size",          CF_HAVEPARAMS,  PG_TABLESPACE_SIZE,             NULL},
-    {"pg.namespace.size",           CF_HAVEPARAMS,  PG_NAMESPACE_SIZE,              NULL},
-    {"pg.schema.size",              CF_HAVEPARAMS,  PG_NAMESPACE_SIZE,              NULL}, // Alias for pg.namespace.size
+    {"pg.tablespace.size",          CF_HAVEPARAMS,  PG_TABLESPACE_SIZE,             ",,,,,pg_default"},
+    {"pg.namespace.size",           CF_HAVEPARAMS,  PG_NAMESPACE_SIZE,              ",,,,,pg_catalog"},
+    {"pg.schema.size",              CF_HAVEPARAMS,  PG_NAMESPACE_SIZE,              ",,,,,pg_catalog"}, // Alias for pg.namespace.size
     
     // Database statistics (as per pg_stat_database)
     {"pg.db.numbackends",           CF_HAVEPARAMS,  PG_STAT_DATABASE,               NULL},
@@ -81,12 +81,12 @@ static ZBX_METRIC keys[] =
     {"pg.db.deadlocks",             CF_HAVEPARAMS,  PG_STAT_DATABASE,               NULL},
     {"pg.db.blk_read_time",         CF_HAVEPARAMS,  PG_STAT_DATABASE,               NULL},
     {"pg.db.blk_write_time",        CF_HAVEPARAMS,  PG_STAT_DATABASE,               NULL},
-    {"pg.db.stats_reset",           CF_HAVEPARAMS,  PG_STAT_DATABASE,               NULL},
+    {"pg.db.stats_reset",           CF_HAVEPARAMS,  PG_STAT_DATABASE,               ",,postgres,,,"},
     
     // Table partition info
-    {"pg.table.children",           CF_HAVEPARAMS,  PG_TABLE_CHILDREN,              NULL},
-    {"pg.table.children.size",      CF_HAVEPARAMS,  PG_TABLE_CHILDREN_SIZE,         NULL},
-    {"pg.table.children.tuples",    CF_HAVEPARAMS,  PG_TABLE_CHILDREN_TUPLES,       NULL},
+    {"pg.table.children",           CF_HAVEPARAMS,  PG_TABLE_CHILDREN,              ",,,,,pg_database"},
+    {"pg.table.children.size",      CF_HAVEPARAMS,  PG_TABLE_CHILDREN_SIZE,         ",,,,,pg_database"},
+    {"pg.table.children.tuples",    CF_HAVEPARAMS,  PG_TABLE_CHILDREN_TUPLES,       ",,,,,pg_database"},
     
     // Table statistics (as per pg_stat_all_tables)
     {"pg.table.seq_scan",           CF_HAVEPARAMS,  PG_STAT_ALL_TABLES,             NULL},
@@ -99,10 +99,10 @@ static ZBX_METRIC keys[] =
     {"pg.table.n_tup_hot_upd",      CF_HAVEPARAMS,  PG_STAT_ALL_TABLES,             NULL},
     {"pg.table.n_live_tup",         CF_HAVEPARAMS,  PG_STAT_ALL_TABLES,             NULL},
     {"pg.table.n_dead_tup",         CF_HAVEPARAMS,  PG_STAT_ALL_TABLES,             NULL},
-    {"pg.table.last_vacuum",        CF_HAVEPARAMS,  PG_STAT_ALL_TABLES,             NULL},
-    {"pg.table.last_autovacuum",    CF_HAVEPARAMS,  PG_STAT_ALL_TABLES,             NULL},
-    {"pg.table.last_analyze",       CF_HAVEPARAMS,  PG_STAT_ALL_TABLES,             NULL},
-    {"pg.table.last_autoanalyze",   CF_HAVEPARAMS,  PG_STAT_ALL_TABLES,             NULL},
+    {"pg.table.last_vacuum",        CF_HAVEPARAMS,  PG_STAT_ALL_TABLES,             ",,,,,pg_database"},
+    {"pg.table.last_autovacuum",    CF_HAVEPARAMS,  PG_STAT_ALL_TABLES,             ",,,,,pg_database"},
+    {"pg.table.last_analyze",       CF_HAVEPARAMS,  PG_STAT_ALL_TABLES,             ",,,,,pg_database"},
+    {"pg.table.last_autoanalyze",   CF_HAVEPARAMS,  PG_STAT_ALL_TABLES,             ",,,,,pg_database"},
     {"pg.table.vacuum_count",       CF_HAVEPARAMS,  PG_STAT_ALL_TABLES,             NULL},
     {"pg.table.autovacuum_count",   CF_HAVEPARAMS,  PG_STAT_ALL_TABLES,             NULL},
     {"pg.table.analyze_count",      CF_HAVEPARAMS,  PG_STAT_ALL_TABLES,             NULL},
