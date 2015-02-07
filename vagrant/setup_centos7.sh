@@ -26,13 +26,6 @@ yum install -y --nogpgcheck \
     zabbix-server-pgsql \
     zabbix-web-pgsql
 
-# Create rpmbuild directories
-if [[ ! -d /home/vagrant/rpmbuild ]]; then
-    mkdir -p /home/vagrant/rpmbuild/{BUILD,RPMS,SOURCES,SPECS,SRPMS}
-    ln -s /vagrant/spec/libzbxpgsql.spec /home/vagrant/rpmbuild/SPECS/libzbxpgsql.spec
-    chown -R vagrant.vagrant /home/vagrant/rpmbuild
-fi
-
 # Configure PostgreSQL
 echo -e "${BULLET} Configuring PostgreSQL server..."
 /usr/pgsql-9.4/bin/postgresql94-setup initdb
