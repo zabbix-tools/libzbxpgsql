@@ -2,11 +2,6 @@
 BULLET="==>"
 cd /vagrant
 
-# Install zabbix sources
-echo -e "${BULLET} Downloading and extracting Zabbix sources..."
-[[ -f zabbix-2.4.3.tar.gz ]] || sudo -Eu vagrant curl -LO http://sourceforge.net/projects/zabbix/files/ZABBIX%20Latest%20Stable/2.4.3/zabbix-2.4.3.tar.gz
-[[ -f zabbix-2.4.3/README ]] || sudo -Eu vagrant tar -xzf zabbix-2.4.3.tar.gz
-
 # Install Zabbix, PostgreSQL and build tools
 echo -e "${BULLET} Installing Zabbix, PostgreSQL and build tools..."
 rpm -qa | grep pgdg >/dev/null || yum localinstall -y --nogpgcheck http://yum.postgresql.org/9.4/redhat/rhel-6-x86_64/pgdg-centos94-9.4-1.noarch.rpm

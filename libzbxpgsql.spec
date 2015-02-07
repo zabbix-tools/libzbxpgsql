@@ -5,7 +5,7 @@ Summary     : PostgreSQL monitoring module for Zabbix
 
 Group       : Applications/Internet
 License     : GNU GPLv2
-URL         : http://www.zabbix.com/
+URL         : https://github.com/cavaliercoder/libzbxpgsql
 
 Requires    : zabbix-agent >= 1.8
 
