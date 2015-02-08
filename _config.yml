@@ -1,0 +1,22 @@
+# Site settings
+title: libzbxpgsql
+email: ryan@cavaliercoder.com
+description: > # this means to ignore newlines until "baseurl:"
+  libzbxpgsql is a comprehensive PostgreSQL monitoring module for the Zabbix
+  agent.
+  
+baseurl: "/libzbxpgsql"
+url: "http://cavaliercoder.com"
+twitter_username: cavaliercoder
+github_username:  cavaliercoder
+
+# Build settings
+markdown: kramdown
+
+defaults:
+  -
+    scope:
+      path: ""
+      type: "pages"
+    values:
+      layout: "default"
