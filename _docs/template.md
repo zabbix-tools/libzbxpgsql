@@ -9,7 +9,8 @@ keys made available in this module. It is not recommended to use this template
 out-of-the-box in production without first configuring the check intervals,
 configuration macros, discovery rule filters, etc. to suit your environment.
 
-Import the `template_postgresql_server.xml` template into Zabbix get started.
+Import the `template_postgresql_server.xml` template into Zabbix to get
+started.
 
 Once applied to a host, the template will discover all available tablespaces,
 databases and tables accessible to the configured user account and create items
