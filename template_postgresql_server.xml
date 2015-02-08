@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>2.0</version>
-    <date>2015-02-08T04:35:04Z</date>
+    <date>2015-02-08T11:50:38Z</date>
     <groups>
         <group>
             <name>Templates</name>
@@ -26,6 +26,9 @@
                 </application>
                 <application>
                     <name>PostgreSQL Global Statistics</name>
+                </application>
+                <application>
+                    <name>PostgreSQL Index Statistics</name>
                 </application>
                 <application>
                     <name>PostgreSQL Tablespace Statistics</name>
@@ -627,7 +630,7 @@
                         <conditions/>
                     </filter>
                     <lifetime>30</lifetime>
-                    <description>Discover all database schemas available for connection</description>
+                    <description>Discover all databases available for connection</description>
                     <item_prototypes>
                         <item_prototype>
                             <name>Backends connected ({#DATABASE})</name>
@@ -1425,18 +1428,6 @@
                             <ymax_item_1>0</ymax_item_1>
                             <graph_items>
                                 <graph_item>
-                                    <sortorder>1</sortorder>
-                                    <drawtype>0</drawtype>
-                                    <color>C80000</color>
-                                    <yaxisside>0</yaxisside>
-                                    <calc_fnc>2</calc_fnc>
-                                    <type>0</type>
-                                    <item>
-                                        <host>Template PostgreSQL Server</host>
-                                        <key>pg.db.blks_read[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD}]</key>
-                                    </item>
-                                </graph_item>
-                                <graph_item>
                                     <sortorder>0</sortorder>
                                     <drawtype>0</drawtype>
                                     <color>00C800</color>
@@ -1446,6 +1437,18 @@
                                     <item>
                                         <host>Template PostgreSQL Server</host>
                                         <key>pg.db.blks_hit[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD}]</key>
+                                    </item>
+                                </graph_item>
+                                <graph_item>
+                                    <sortorder>1</sortorder>
+                                    <drawtype>0</drawtype>
+                                    <color>C80000</color>
+                                    <yaxisside>0</yaxisside>
+                                    <calc_fnc>2</calc_fnc>
+                                    <type>0</type>
+                                    <item>
+                                        <host>Template PostgreSQL Server</host>
+                                        <key>pg.db.blks_read[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD}]</key>
                                     </item>
                                 </graph_item>
                             </graph_items>
@@ -1501,18 +1504,6 @@
                             <ymax_item_1>0</ymax_item_1>
                             <graph_items>
                                 <graph_item>
-                                    <sortorder>1</sortorder>
-                                    <drawtype>0</drawtype>
-                                    <color>C80000</color>
-                                    <yaxisside>0</yaxisside>
-                                    <calc_fnc>2</calc_fnc>
-                                    <type>0</type>
-                                    <item>
-                                        <host>Template PostgreSQL Server</host>
-                                        <key>pg.db.deadlocks[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD}]</key>
-                                    </item>
-                                </graph_item>
-                                <graph_item>
                                     <sortorder>0</sortorder>
                                     <drawtype>0</drawtype>
                                     <color>C800C8</color>
@@ -1522,6 +1513,18 @@
                                     <item>
                                         <host>Template PostgreSQL Server</host>
                                         <key>pg.db.conflicts[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD}]</key>
+                                    </item>
+                                </graph_item>
+                                <graph_item>
+                                    <sortorder>1</sortorder>
+                                    <drawtype>0</drawtype>
+                                    <color>C80000</color>
+                                    <yaxisside>0</yaxisside>
+                                    <calc_fnc>2</calc_fnc>
+                                    <type>0</type>
+                                    <item>
+                                        <host>Template PostgreSQL Server</host>
+                                        <key>pg.db.deadlocks[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD}]</key>
                                     </item>
                                 </graph_item>
                             </graph_items>
@@ -1545,18 +1548,6 @@
                             <ymax_item_1>0</ymax_item_1>
                             <graph_items>
                                 <graph_item>
-                                    <sortorder>1</sortorder>
-                                    <drawtype>0</drawtype>
-                                    <color>C80000</color>
-                                    <yaxisside>0</yaxisside>
-                                    <calc_fnc>2</calc_fnc>
-                                    <type>0</type>
-                                    <item>
-                                        <host>Template PostgreSQL Server</host>
-                                        <key>pg.db.blk_write_time[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD}]</key>
-                                    </item>
-                                </graph_item>
-                                <graph_item>
                                     <sortorder>0</sortorder>
                                     <drawtype>0</drawtype>
                                     <color>00C800</color>
@@ -1566,6 +1557,18 @@
                                     <item>
                                         <host>Template PostgreSQL Server</host>
                                         <key>pg.db.blk_read_time[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD}]</key>
+                                    </item>
+                                </graph_item>
+                                <graph_item>
+                                    <sortorder>1</sortorder>
+                                    <drawtype>0</drawtype>
+                                    <color>C80000</color>
+                                    <yaxisside>0</yaxisside>
+                                    <calc_fnc>2</calc_fnc>
+                                    <type>0</type>
+                                    <item>
+                                        <host>Template PostgreSQL Server</host>
+                                        <key>pg.db.blk_write_time[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD}]</key>
                                     </item>
                                 </graph_item>
                             </graph_items>
@@ -1665,33 +1668,9 @@
                             <ymax_item_1>0</ymax_item_1>
                             <graph_items>
                                 <graph_item>
-                                    <sortorder>1</sortorder>
-                                    <drawtype>0</drawtype>
-                                    <color>C80000</color>
-                                    <yaxisside>0</yaxisside>
-                                    <calc_fnc>2</calc_fnc>
-                                    <type>0</type>
-                                    <item>
-                                        <host>Template PostgreSQL Server</host>
-                                        <key>pg.db.tup_fetched[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD}]</key>
-                                    </item>
-                                </graph_item>
-                                <graph_item>
-                                    <sortorder>2</sortorder>
-                                    <drawtype>0</drawtype>
-                                    <color>0000C8</color>
-                                    <yaxisside>0</yaxisside>
-                                    <calc_fnc>2</calc_fnc>
-                                    <type>0</type>
-                                    <item>
-                                        <host>Template PostgreSQL Server</host>
-                                        <key>pg.db.tup_inserted[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD}]</key>
-                                    </item>
-                                </graph_item>
-                                <graph_item>
                                     <sortorder>3</sortorder>
                                     <drawtype>0</drawtype>
-                                    <color>C800C8</color>
+                                    <color>0000C8</color>
                                     <yaxisside>0</yaxisside>
                                     <calc_fnc>2</calc_fnc>
                                     <type>0</type>
@@ -1701,15 +1680,479 @@
                                     </item>
                                 </graph_item>
                                 <graph_item>
+                                    <sortorder>1</sortorder>
+                                    <drawtype>0</drawtype>
+                                    <color>00C800</color>
+                                    <yaxisside>0</yaxisside>
+                                    <calc_fnc>2</calc_fnc>
+                                    <type>0</type>
+                                    <item>
+                                        <host>Template PostgreSQL Server</host>
+                                        <key>pg.db.tup_fetched[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD}]</key>
+                                    </item>
+                                </graph_item>
+                                <graph_item>
+                                    <sortorder>0</sortorder>
+                                    <drawtype>0</drawtype>
+                                    <color>C80000</color>
+                                    <yaxisside>0</yaxisside>
+                                    <calc_fnc>2</calc_fnc>
+                                    <type>0</type>
+                                    <item>
+                                        <host>Template PostgreSQL Server</host>
+                                        <key>pg.db.tup_deleted[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD}]</key>
+                                    </item>
+                                </graph_item>
+                                <graph_item>
+                                    <sortorder>2</sortorder>
+                                    <drawtype>0</drawtype>
+                                    <color>C800C8</color>
+                                    <yaxisside>0</yaxisside>
+                                    <calc_fnc>2</calc_fnc>
+                                    <type>0</type>
+                                    <item>
+                                        <host>Template PostgreSQL Server</host>
+                                        <key>pg.db.tup_inserted[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD}]</key>
+                                    </item>
+                                </graph_item>
+                                <graph_item>
                                     <sortorder>4</sortorder>
                                     <drawtype>0</drawtype>
-                                    <color>00C8C8</color>
+                                    <color>C8C800</color>
                                     <yaxisside>0</yaxisside>
                                     <calc_fnc>2</calc_fnc>
                                     <type>0</type>
                                     <item>
                                         <host>Template PostgreSQL Server</host>
                                         <key>pg.db.tup_updated[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD}]</key>
+                                    </item>
+                                </graph_item>
+                            </graph_items>
+                        </graph_prototype>
+                    </graph_prototypes>
+                    <host_prototypes/>
+                </discovery_rule>
+                <discovery_rule>
+                    <name>Discover PostgreSQL Indexes</name>
+                    <type>7</type>
+                    <snmp_community/>
+                    <snmp_oid/>
+                    <key>pg.index.discovery[{$PG_HOST},{$PG_PORT},{$PG_DB},{$PG_USER},{$PG_PASSWD}]</key>
+                    <delay>30</delay>
+                    <status>0</status>
+                    <allowed_hosts/>
+                    <snmpv3_contextname/>
+                    <snmpv3_securityname/>
+                    <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                    <snmpv3_authprotocol>0</snmpv3_authprotocol>
+                    <snmpv3_authpassphrase/>
+                    <snmpv3_privprotocol>0</snmpv3_privprotocol>
+                    <snmpv3_privpassphrase/>
+                    <delay_flex/>
+                    <params/>
+                    <ipmi_sensor/>
+                    <authtype>0</authtype>
+                    <username/>
+                    <password/>
+                    <publickey/>
+                    <privatekey/>
+                    <port/>
+                    <filter>
+                        <evaltype>0</evaltype>
+                        <formula/>
+                        <conditions/>
+                    </filter>
+                    <lifetime>30</lifetime>
+                    <description>Discover all indexes available to the connected user</description>
+                    <item_prototypes>
+                        <item_prototype>
+                            <name>Index blocks read/sec ({#DATABASE}.{#TABLE}.{#INDEX})</name>
+                            <type>7</type>
+                            <snmp_community/>
+                            <multiplier>0</multiplier>
+                            <snmp_oid/>
+                            <key>pg.index.idx_blks_read[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD},{#INDEX}]</key>
+                            <delay>30</delay>
+                            <history>90</history>
+                            <trends>365</trends>
+                            <status>0</status>
+                            <value_type>3</value_type>
+                            <allowed_hosts/>
+                            <units/>
+                            <delta>1</delta>
+                            <snmpv3_contextname/>
+                            <snmpv3_securityname/>
+                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
+                            <snmpv3_authpassphrase/>
+                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
+                            <snmpv3_privpassphrase/>
+                            <formula>1</formula>
+                            <delay_flex/>
+                            <params/>
+                            <ipmi_sensor/>
+                            <data_type>0</data_type>
+                            <authtype>0</authtype>
+                            <username/>
+                            <password/>
+                            <publickey/>
+                            <privatekey/>
+                            <port/>
+                            <description>Number of disk blocks read from this index</description>
+                            <inventory_link>0</inventory_link>
+                            <applications>
+                                <application>
+                                    <name>PostgreSQL Index Statistics</name>
+                                </application>
+                            </applications>
+                            <valuemap/>
+                            <logtimefmt/>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>Index buffer hits/sec ({#DATABASE}.{#TABLE}.{#INDEX})</name>
+                            <type>7</type>
+                            <snmp_community/>
+                            <multiplier>0</multiplier>
+                            <snmp_oid/>
+                            <key>pg.index.idx_blks_hit[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD},{#INDEX}]</key>
+                            <delay>30</delay>
+                            <history>90</history>
+                            <trends>365</trends>
+                            <status>0</status>
+                            <value_type>3</value_type>
+                            <allowed_hosts/>
+                            <units/>
+                            <delta>1</delta>
+                            <snmpv3_contextname/>
+                            <snmpv3_securityname/>
+                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
+                            <snmpv3_authpassphrase/>
+                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
+                            <snmpv3_privpassphrase/>
+                            <formula>1</formula>
+                            <delay_flex/>
+                            <params/>
+                            <ipmi_sensor/>
+                            <data_type>0</data_type>
+                            <authtype>0</authtype>
+                            <username/>
+                            <password/>
+                            <publickey/>
+                            <privatekey/>
+                            <port/>
+                            <description>Number of buffer hits in this index</description>
+                            <inventory_link>0</inventory_link>
+                            <applications>
+                                <application>
+                                    <name>PostgreSQL Index Statistics</name>
+                                </application>
+                            </applications>
+                            <valuemap/>
+                            <logtimefmt/>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>Index entries fetched/sec ({#DATABASE}.{#TABLE}.{#INDEX})</name>
+                            <type>7</type>
+                            <snmp_community/>
+                            <multiplier>0</multiplier>
+                            <snmp_oid/>
+                            <key>pg.index.idx_tup_fetch[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD},{#INDEX}]</key>
+                            <delay>30</delay>
+                            <history>90</history>
+                            <trends>365</trends>
+                            <status>0</status>
+                            <value_type>3</value_type>
+                            <allowed_hosts/>
+                            <units/>
+                            <delta>1</delta>
+                            <snmpv3_contextname/>
+                            <snmpv3_securityname/>
+                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
+                            <snmpv3_authpassphrase/>
+                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
+                            <snmpv3_privpassphrase/>
+                            <formula>1</formula>
+                            <delay_flex/>
+                            <params/>
+                            <ipmi_sensor/>
+                            <data_type>0</data_type>
+                            <authtype>0</authtype>
+                            <username/>
+                            <password/>
+                            <publickey/>
+                            <privatekey/>
+                            <port/>
+                            <description>Number of live table rows fetched by simple index scans using this index</description>
+                            <inventory_link>0</inventory_link>
+                            <applications>
+                                <application>
+                                    <name>PostgreSQL Index Statistics</name>
+                                </application>
+                            </applications>
+                            <valuemap/>
+                            <logtimefmt/>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>Index entries returned/sec ({#DATABASE}.{#TABLE}.{#INDEX})</name>
+                            <type>7</type>
+                            <snmp_community/>
+                            <multiplier>0</multiplier>
+                            <snmp_oid/>
+                            <key>pg.index.idx_tup_read[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD},{#INDEX}]</key>
+                            <delay>30</delay>
+                            <history>90</history>
+                            <trends>365</trends>
+                            <status>0</status>
+                            <value_type>3</value_type>
+                            <allowed_hosts/>
+                            <units/>
+                            <delta>1</delta>
+                            <snmpv3_contextname/>
+                            <snmpv3_securityname/>
+                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
+                            <snmpv3_authpassphrase/>
+                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
+                            <snmpv3_privpassphrase/>
+                            <formula>1</formula>
+                            <delay_flex/>
+                            <params/>
+                            <ipmi_sensor/>
+                            <data_type>0</data_type>
+                            <authtype>0</authtype>
+                            <username/>
+                            <password/>
+                            <publickey/>
+                            <privatekey/>
+                            <port/>
+                            <description>Number of index entries returned by scans on this index</description>
+                            <inventory_link>0</inventory_link>
+                            <applications>
+                                <application>
+                                    <name>PostgreSQL Index Statistics</name>
+                                </application>
+                            </applications>
+                            <valuemap/>
+                            <logtimefmt/>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>Index row count ({#DATABASE}.{#TABLE}.{#INDEX})</name>
+                            <type>7</type>
+                            <snmp_community/>
+                            <multiplier>0</multiplier>
+                            <snmp_oid/>
+                            <key>pg.index.rows[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD},{#INDEX}]</key>
+                            <delay>30</delay>
+                            <history>90</history>
+                            <trends>365</trends>
+                            <status>0</status>
+                            <value_type>3</value_type>
+                            <allowed_hosts/>
+                            <units/>
+                            <delta>0</delta>
+                            <snmpv3_contextname/>
+                            <snmpv3_securityname/>
+                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
+                            <snmpv3_authpassphrase/>
+                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
+                            <snmpv3_privpassphrase/>
+                            <formula>1</formula>
+                            <delay_flex/>
+                            <params/>
+                            <ipmi_sensor/>
+                            <data_type>0</data_type>
+                            <authtype>0</authtype>
+                            <username/>
+                            <password/>
+                            <publickey/>
+                            <privatekey/>
+                            <port/>
+                            <description/>
+                            <inventory_link>0</inventory_link>
+                            <applications>
+                                <application>
+                                    <name>PostgreSQL Index Statistics</name>
+                                </application>
+                            </applications>
+                            <valuemap/>
+                            <logtimefmt/>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>Index scans/sec ({#DATABASE}.{#TABLE}.{#INDEX})</name>
+                            <type>7</type>
+                            <snmp_community/>
+                            <multiplier>0</multiplier>
+                            <snmp_oid/>
+                            <key>pg.index.idx_scan[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD},{#INDEX}]</key>
+                            <delay>30</delay>
+                            <history>90</history>
+                            <trends>365</trends>
+                            <status>0</status>
+                            <value_type>3</value_type>
+                            <allowed_hosts/>
+                            <units/>
+                            <delta>1</delta>
+                            <snmpv3_contextname/>
+                            <snmpv3_securityname/>
+                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
+                            <snmpv3_authpassphrase/>
+                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
+                            <snmpv3_privpassphrase/>
+                            <formula>1</formula>
+                            <delay_flex/>
+                            <params/>
+                            <ipmi_sensor/>
+                            <data_type>0</data_type>
+                            <authtype>0</authtype>
+                            <username/>
+                            <password/>
+                            <publickey/>
+                            <privatekey/>
+                            <port/>
+                            <description>Number of index scans initiated on this index</description>
+                            <inventory_link>0</inventory_link>
+                            <applications>
+                                <application>
+                                    <name>PostgreSQL Index Statistics</name>
+                                </application>
+                            </applications>
+                            <valuemap/>
+                            <logtimefmt/>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>Index size ({#DATABASE}.{#TABLE}.{#INDEX})</name>
+                            <type>7</type>
+                            <snmp_community/>
+                            <multiplier>0</multiplier>
+                            <snmp_oid/>
+                            <key>pg.index.size[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD},{#INDEX}]</key>
+                            <delay>30</delay>
+                            <history>90</history>
+                            <trends>365</trends>
+                            <status>0</status>
+                            <value_type>3</value_type>
+                            <allowed_hosts/>
+                            <units>B</units>
+                            <delta>0</delta>
+                            <snmpv3_contextname/>
+                            <snmpv3_securityname/>
+                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
+                            <snmpv3_authpassphrase/>
+                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
+                            <snmpv3_privpassphrase/>
+                            <formula>1</formula>
+                            <delay_flex/>
+                            <params/>
+                            <ipmi_sensor/>
+                            <data_type>0</data_type>
+                            <authtype>0</authtype>
+                            <username/>
+                            <password/>
+                            <publickey/>
+                            <privatekey/>
+                            <port/>
+                            <description/>
+                            <inventory_link>0</inventory_link>
+                            <applications>
+                                <application>
+                                    <name>PostgreSQL Index Statistics</name>
+                                </application>
+                            </applications>
+                            <valuemap/>
+                            <logtimefmt/>
+                        </item_prototype>
+                    </item_prototypes>
+                    <trigger_prototypes/>
+                    <graph_prototypes>
+                        <graph_prototype>
+                            <name>PostgreSQL Index {#DATABASE}.{#TABLE}.{#INDEX} Blocks/sec</name>
+                            <width>900</width>
+                            <height>200</height>
+                            <yaxismin>0.0000</yaxismin>
+                            <yaxismax>100.0000</yaxismax>
+                            <show_work_period>1</show_work_period>
+                            <show_triggers>1</show_triggers>
+                            <type>0</type>
+                            <show_legend>1</show_legend>
+                            <show_3d>0</show_3d>
+                            <percent_left>0.0000</percent_left>
+                            <percent_right>0.0000</percent_right>
+                            <ymin_type_1>0</ymin_type_1>
+                            <ymax_type_1>0</ymax_type_1>
+                            <ymin_item_1>0</ymin_item_1>
+                            <ymax_item_1>0</ymax_item_1>
+                            <graph_items>
+                                <graph_item>
+                                    <sortorder>1</sortorder>
+                                    <drawtype>0</drawtype>
+                                    <color>00C800</color>
+                                    <yaxisside>0</yaxisside>
+                                    <calc_fnc>2</calc_fnc>
+                                    <type>0</type>
+                                    <item>
+                                        <host>Template PostgreSQL Server</host>
+                                        <key>pg.index.idx_blks_hit[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD},{#INDEX}]</key>
+                                    </item>
+                                </graph_item>
+                                <graph_item>
+                                    <sortorder>0</sortorder>
+                                    <drawtype>0</drawtype>
+                                    <color>C80000</color>
+                                    <yaxisside>0</yaxisside>
+                                    <calc_fnc>2</calc_fnc>
+                                    <type>0</type>
+                                    <item>
+                                        <host>Template PostgreSQL Server</host>
+                                        <key>pg.index.idx_blks_read[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD},{#INDEX}]</key>
+                                    </item>
+                                </graph_item>
+                            </graph_items>
+                        </graph_prototype>
+                        <graph_prototype>
+                            <name>PostgreSQL Index {#DATABASE}.{#TABLE}.{#INDEX} Reads/sec</name>
+                            <width>900</width>
+                            <height>200</height>
+                            <yaxismin>0.0000</yaxismin>
+                            <yaxismax>100.0000</yaxismax>
+                            <show_work_period>1</show_work_period>
+                            <show_triggers>1</show_triggers>
+                            <type>0</type>
+                            <show_legend>1</show_legend>
+                            <show_3d>0</show_3d>
+                            <percent_left>0.0000</percent_left>
+                            <percent_right>0.0000</percent_right>
+                            <ymin_type_1>0</ymin_type_1>
+                            <ymax_type_1>0</ymax_type_1>
+                            <ymin_item_1>0</ymin_item_1>
+                            <ymax_item_1>0</ymax_item_1>
+                            <graph_items>
+                                <graph_item>
+                                    <sortorder>2</sortorder>
+                                    <drawtype>0</drawtype>
+                                    <color>C80000</color>
+                                    <yaxisside>0</yaxisside>
+                                    <calc_fnc>2</calc_fnc>
+                                    <type>0</type>
+                                    <item>
+                                        <host>Template PostgreSQL Server</host>
+                                        <key>pg.index.idx_scan[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD},{#INDEX}]</key>
+                                    </item>
+                                </graph_item>
+                                <graph_item>
+                                    <sortorder>1</sortorder>
+                                    <drawtype>0</drawtype>
+                                    <color>0000C8</color>
+                                    <yaxisside>0</yaxisside>
+                                    <calc_fnc>2</calc_fnc>
+                                    <type>0</type>
+                                    <item>
+                                        <host>Template PostgreSQL Server</host>
+                                        <key>pg.index.idx_tup_read[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD},{#INDEX}]</key>
                                     </item>
                                 </graph_item>
                                 <graph_item>
@@ -1721,7 +2164,71 @@
                                     <type>0</type>
                                     <item>
                                         <host>Template PostgreSQL Server</host>
-                                        <key>pg.db.tup_deleted[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD}]</key>
+                                        <key>pg.index.idx_tup_fetch[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD},{#INDEX}]</key>
+                                    </item>
+                                </graph_item>
+                            </graph_items>
+                        </graph_prototype>
+                        <graph_prototype>
+                            <name>PostgreSQL Index {#DATABASE}.{#TABLE}.{#INDEX} Row count</name>
+                            <width>900</width>
+                            <height>200</height>
+                            <yaxismin>0.0000</yaxismin>
+                            <yaxismax>100.0000</yaxismax>
+                            <show_work_period>1</show_work_period>
+                            <show_triggers>1</show_triggers>
+                            <type>0</type>
+                            <show_legend>1</show_legend>
+                            <show_3d>0</show_3d>
+                            <percent_left>0.0000</percent_left>
+                            <percent_right>0.0000</percent_right>
+                            <ymin_type_1>0</ymin_type_1>
+                            <ymax_type_1>0</ymax_type_1>
+                            <ymin_item_1>0</ymin_item_1>
+                            <ymax_item_1>0</ymax_item_1>
+                            <graph_items>
+                                <graph_item>
+                                    <sortorder>0</sortorder>
+                                    <drawtype>0</drawtype>
+                                    <color>00C800</color>
+                                    <yaxisside>0</yaxisside>
+                                    <calc_fnc>2</calc_fnc>
+                                    <type>0</type>
+                                    <item>
+                                        <host>Template PostgreSQL Server</host>
+                                        <key>pg.index.rows[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD},{#INDEX}]</key>
+                                    </item>
+                                </graph_item>
+                            </graph_items>
+                        </graph_prototype>
+                        <graph_prototype>
+                            <name>PostgreSQL Index {#DATABASE}.{#TABLE}.{#INDEX} Size</name>
+                            <width>900</width>
+                            <height>200</height>
+                            <yaxismin>0.0000</yaxismin>
+                            <yaxismax>100.0000</yaxismax>
+                            <show_work_period>1</show_work_period>
+                            <show_triggers>1</show_triggers>
+                            <type>0</type>
+                            <show_legend>1</show_legend>
+                            <show_3d>0</show_3d>
+                            <percent_left>0.0000</percent_left>
+                            <percent_right>0.0000</percent_right>
+                            <ymin_type_1>0</ymin_type_1>
+                            <ymax_type_1>0</ymax_type_1>
+                            <ymin_item_1>0</ymin_item_1>
+                            <ymax_item_1>0</ymax_item_1>
+                            <graph_items>
+                                <graph_item>
+                                    <sortorder>0</sortorder>
+                                    <drawtype>0</drawtype>
+                                    <color>00C800</color>
+                                    <yaxisside>0</yaxisside>
+                                    <calc_fnc>2</calc_fnc>
+                                    <type>0</type>
+                                    <item>
+                                        <host>Template PostgreSQL Server</host>
+                                        <key>pg.index.size[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD},{#INDEX}]</key>
                                     </item>
                                 </graph_item>
                             </graph_items>
