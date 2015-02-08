@@ -5,7 +5,8 @@ permalink: /installation/
 ---
 
 This document describes how to install and configure the `libzbxpgsql` module
-onto a PostgreSQL server with the Zabbix monitoring agent already installed.
+onto a PostgreSQL server with the Zabbix monitoring agent
+[already installed](https://www.zabbix.com/documentation/2.4/manual/installation/getting_zabbix).
 
 This module is required to be installed on all agents on which you wish to
 utilize the PostgreSQL agent item keys.
