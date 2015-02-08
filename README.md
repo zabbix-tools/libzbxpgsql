@@ -14,6 +14,7 @@ reduces the impact of monitoring on the agent system, particularly when
 monitoring hundreds or thousands of checks.
 
 * Read the [documentation](http://cavaliercoder.github.io/libzbxpgsql/)
+* Download the [packages](https://sourceforge.net/projects/libzbxpgsl/files/)
 * Clone the [sources](http://github.com/cavaliercoder/libzbxpgsql)
 * Stalk the [author](http://cavaliercoder.com)
 
