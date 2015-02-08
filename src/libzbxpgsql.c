@@ -211,15 +211,14 @@ int         zbx_module_uninit()                     { return ZBX_MODULE_OK; }
  */
  int    pg_get_string(AGENT_REQUEST *request, AGENT_RESULT *result, const char *query)
  {
-    int             ret = SYSINFO_RET_FAIL;             // Request result code
-    const char          *__function_name = "pg_get_string"; // Function name for log file
+    int         ret = SYSINFO_RET_FAIL;             // Request result code
+    const char  *__function_name = "pg_get_string"; // Function name for log file
     
     PGconn      *conn = NULL;
-    PGresult        *res = NULL;
-    
+    PGresult    *res = NULL;
     char        *buffer = NULL;
     
-    zabbix_log(LOG_LEVEL_DEBUG, "In %s()", __function_name);
+    zabbix_log(LOG_LEVEL_DEBUG, "In %s(%s)", __function_name, request->key);
     
     // Connect to PostreSQL
     if(NULL == (conn = pg_connect(request)))
@@ -228,12 +227,12 @@ int         zbx_module_uninit()                     { return ZBX_MODULE_OK; }
     // Execute a query
     res = PQexec(conn, query);
     if(PQresultStatus(res) != PGRES_TUPLES_OK) {
-        zabbix_log(LOG_LEVEL_ERR, "Failed to execute PostgreSQL query in %s() with: %s", __function_name, PQresultErrorMessage(res));
+        zabbix_log(LOG_LEVEL_ERR, "Failed to execute PostgreSQL query in %s(%s) with: %s", __function_name, request->key, PQresultErrorMessage(res));
         goto out;
     }
     
     if(0 == PQntuples(res)) {
-        zabbix_log(LOG_LEVEL_DEBUG, "No results returned for query \"%s\" in %s()", query, __function_name);
+        zabbix_log(LOG_LEVEL_DEBUG, "No results returned for query \"%s\" in %s(%s)", query, __function_name, request->key);
         goto out;
     }
     
@@ -247,7 +246,7 @@ int         zbx_module_uninit()                     { return ZBX_MODULE_OK; }
     PQclear(res);
     PQfinish(conn);
     
-    zabbix_log(LOG_LEVEL_DEBUG, "End of %s()", __function_name);
+    zabbix_log(LOG_LEVEL_DEBUG, "End of %s(%s)", __function_name, request->key);
     return ret;
 }
 
@@ -271,15 +270,14 @@ int         zbx_module_uninit()                     { return ZBX_MODULE_OK; }
  */
  int    pg_get_int(AGENT_REQUEST *request, AGENT_RESULT *result, const char *query)
  {
-    int             ret = SYSINFO_RET_FAIL;             // Request result code
-    const char          *__function_name = "pg_get_int";    // Function name for log file
+    int         ret = SYSINFO_RET_FAIL;             // Request result code
+    const char  *__function_name = "pg_get_int";    // Function name for log file
     
     PGconn      *conn = NULL;
-    PGresult        *res = NULL;
-    
+    PGresult    *res = NULL;
     char        *buffer = NULL;
     
-    zabbix_log(LOG_LEVEL_DEBUG, "In %s()", __function_name);
+    zabbix_log(LOG_LEVEL_DEBUG, "In %s(%s)", __function_name, request->key);
     
     // Connect to PostreSQL
     if(NULL == (conn = pg_connect(request)))
@@ -288,12 +286,12 @@ int         zbx_module_uninit()                     { return ZBX_MODULE_OK; }
     // Execute a query
     res = PQexec(conn, query);
     if(PQresultStatus(res) != PGRES_TUPLES_OK) {
-        zabbix_log(LOG_LEVEL_ERR, "Failed to execute PostgreSQL query in %s() with: %s", __function_name, PQresultErrorMessage(res));
+        zabbix_log(LOG_LEVEL_ERR, "Failed to execute PostgreSQL query in %s(%s) with: %s", __function_name, request->key, PQresultErrorMessage(res));
         goto out;
     }
     
     if(0 == PQntuples(res)) {
-        zabbix_log(LOG_LEVEL_DEBUG, "No results returned for query \"%s\" in %s()", query, __function_name);
+        zabbix_log(LOG_LEVEL_DEBUG, "No results returned for query \"%s\" in %s(%s)", query, __function_name, request->key);
         goto out;
     }
     
@@ -312,12 +310,11 @@ int         zbx_module_uninit()                     { return ZBX_MODULE_OK; }
     
     ret = SYSINFO_RET_OK;
     
-    out:
-
+out:
     PQclear(res);
     PQfinish(conn);
     
-    zabbix_log(LOG_LEVEL_DEBUG, "End of %s()", __function_name);
+    zabbix_log(LOG_LEVEL_DEBUG, "End of %s(%s)", __function_name, request->key);
     return ret;
 }
 
@@ -341,15 +338,14 @@ int         zbx_module_uninit()                     { return ZBX_MODULE_OK; }
  */
  int    pg_get_dbl(AGENT_REQUEST *request, AGENT_RESULT *result, const char *query)
  {
-    int             ret = SYSINFO_RET_FAIL;             // Request result code
-    const char          *__function_name = "pg_get_int";    // Function name for log file
+    int         ret = SYSINFO_RET_FAIL;             // Request result code
+    const char  *__function_name = "pg_get_int";    // Function name for log file
     
     PGconn      *conn = NULL;
-    PGresult        *res = NULL;
-    
+    PGresult    *res = NULL;
     char        *buffer = NULL;
     
-    zabbix_log(LOG_LEVEL_DEBUG, "In %s()", __function_name);
+    zabbix_log(LOG_LEVEL_DEBUG, "In %s(%s)", __function_name, request->key);
     
     // Connect to PostreSQL
     if(NULL == (conn = pg_connect(request)))
@@ -358,12 +354,12 @@ int         zbx_module_uninit()                     { return ZBX_MODULE_OK; }
     // Execute a query
     res = PQexec(conn, query);
     if(PQresultStatus(res) != PGRES_TUPLES_OK) {
-        zabbix_log(LOG_LEVEL_ERR, "Failed to execute PostgreSQL query in %s() with: %s", __function_name, PQresultErrorMessage(res));
+        zabbix_log(LOG_LEVEL_ERR, "Failed to execute PostgreSQL query in %s(%s) with: %s", __function_name, request->key, PQresultErrorMessage(res));
         goto out;
     }
     
     if(0 == PQntuples(res)) {
-        zabbix_log(LOG_LEVEL_DEBUG, "No results returned for query \"%s\" in %s()", query, __function_name);
+        zabbix_log(LOG_LEVEL_DEBUG, "No results returned for query \"%s\" in %s(%s)", query, __function_name, request->key);
         goto out;
     }
     
@@ -377,6 +373,6 @@ int         zbx_module_uninit()                     { return ZBX_MODULE_OK; }
     PQclear(res);
     PQfinish(conn);
     
-    zabbix_log(LOG_LEVEL_DEBUG, "End of %s()", __function_name);
+    zabbix_log(LOG_LEVEL_DEBUG, "End of %s(%s)", __function_name, request->key);
     return ret;
 }

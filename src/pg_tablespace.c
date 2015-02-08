@@ -126,7 +126,6 @@ int    PG_TABLESPACE_SIZE(AGENT_REQUEST *request, AGENT_RESULT *result)
     ret = pg_get_int(request, result, query);
     
 out:
-    
     zabbix_log(LOG_LEVEL_DEBUG, "End of %s()", __function_name);
     return ret;
 }
