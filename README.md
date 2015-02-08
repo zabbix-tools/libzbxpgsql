@@ -15,6 +15,7 @@ monitoring hundreds or thousands of checks.
 
 * Read the [documentation](http://cavaliercoder.github.io/libzbxpgsql/)
 * Clone the [sources](http://github.com/cavaliercoder/libzbxpgsql)
+* Stalk the [author](http://cavaliercoder.com)
 
 ## License
 
