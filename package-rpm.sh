@@ -11,4 +11,4 @@ make dist || exit 1
 cp ${APP}-${VERSION}.tar.gz ~/rpmbuild/SOURCES || exit 1
 
 # Build rpm
-rpmbuild -bb ${APP}.spec
+rpmbuild -ba ${APP}.spec

@@ -21,7 +21,7 @@
 
 #define PGSQL_GET_BGWRITER_STAT     "SELECT %s FROM pg_stat_bgwriter"
 
-#define PGSQL_GET_VERSION       "SELECT version();"
+#define PGSQL_GET_VERSION           "SELECT version();"
 
 /*
  * Custom key pg.connect
@@ -67,10 +67,10 @@ int    PG_CONNECT(AGENT_REQUEST *request, AGENT_RESULT *result)
 int    PG_VERSION(AGENT_REQUEST *request, AGENT_RESULT *result)
 {
     int             ret = SYSINFO_RET_FAIL;             // Request result code
-    const char          *__function_name = "PG_VERSION";    // Function name for log file
+    const char      *__function_name = "PG_VERSION";    // Function name for log file
     
     // Ignore tables that don't allow connections as we can't monitor them anyway!
-    char        *query = PGSQL_GET_VERSION;
+    char            *query = PGSQL_GET_VERSION;
     
     zabbix_log(LOG_LEVEL_DEBUG, "In %s()", __function_name);
     
@@ -91,8 +91,8 @@ int    PG_VERSION(AGENT_REQUEST *request, AGENT_RESULT *result)
  */
 int    PG_STAT_BGWRITER(AGENT_REQUEST *request, AGENT_RESULT *result)
 {
-    int             ret = SYSINFO_RET_FAIL;                 // Request result code
-    const char          *__function_name = "PG_STAT_BGWRITER";  // Function name for log file
+    int         ret = SYSINFO_RET_FAIL;                 // Request result code
+    const char  *__function_name = "PG_STAT_BGWRITER";  // Function name for log file
     
     char        *field;
     char        query[MAX_STRING_LEN];
@@ -109,9 +109,9 @@ int    PG_STAT_BGWRITER(AGENT_REQUEST *request, AGENT_RESULT *result)
     if(0 == strncmp(field, "checkpoint_", 11))
         ret = pg_get_dbl(request, result, query);
     else if(0 == strncmp(field, "stats_reset", 11))
-    ret = pg_get_string(request, result, query);
+        ret = pg_get_string(request, result, query);
     else
-    ret = pg_get_int(request, result, query);
+        ret = pg_get_int(request, result, query);
     
     zabbix_log(LOG_LEVEL_DEBUG, "End of %s()", __function_name);
     return ret;
