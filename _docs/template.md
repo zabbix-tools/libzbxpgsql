@@ -17,7 +17,7 @@ databases and tables accessible to the configured user account and create items
 and graphs for effective monitoring.
 
 For a typical, PostgreSQL server hosting only Zabbix, this will create around
-3000 item checks and 1000 graphs if no filtering is applied.
+6000 item checks and 2500 graphs if no filtering is applied.
 
 Please note that the template uses [Active checks](https://www.zabbix.com/documentation/2.4/manual/appendix/items/activepassive)
 and so a restart of the agent may be required for the new template items to be
