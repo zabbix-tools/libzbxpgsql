@@ -1,7 +1,7 @@
 ---
 layout: page
 title: About
-permalink: /about/
+permalink: /
 ---
 
 This project provides comprehensive monitoring of PostgreSQL servers using a
