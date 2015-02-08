@@ -14,6 +14,8 @@ To configure the Zabbix server to monitor an agent with the module correctly
 installed, see the [pre-built template]({{ site.baseurl }}/template/) or create
 you own template using the keys described in [Agent keys]({{ site.baseurl }}/agent-keys).
 
+![Agent tests screenshot]({{ site.baseurl }}/assets/agenttests.png)
+
 ## From source
 
 * Download the latest `libzbxpgsql` source tarball
