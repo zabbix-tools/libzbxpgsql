@@ -13,8 +13,8 @@ Import the `template_postgresql_server.xml` template into Zabbix to get
 started.
 
 Once applied to a host, the template will discover all available tablespaces,
-databases and tables accessible to the configured user account and create items
-and graphs for effective monitoring.
+databases, tables and indexes accessible to the configured user account and
+create items and graphs for effective monitoring.
 
 For a typical, PostgreSQL server hosting only Zabbix, this will create around
 6000 item checks and 2500 graphs if no filtering is applied.
