@@ -67,10 +67,6 @@ To compile the agent module the following packages are required:
 * `autoconf` and `automake`
 * `libtool`
 * PostgreSQL 9.4 development headers
-* Zabbix 2.4.3 sources
-
-The Zabbix sources should be extracted into the project root directory or the
-`CFLAGS` directive modified in `src/Makefile.am`.
 
 To compile the module:
 
