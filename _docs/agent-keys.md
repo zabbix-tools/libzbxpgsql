@@ -62,64 +62,6 @@ Most agent item keys are mapped directly to a PostgreSQL
 [Statistics Collector view](http://www.postgresql.org/docs/9.4/static/monitoring-stats.html)
 with the documentation copied directly from the PostgreSQL manual.
 
-### Server keys
-
-* `pg.connect`
-
-    Returns 1 if the Zabbix Agent can connect to PostgreSQL instance
-  
-* `pg.version`
-
-    Returns the version string of the connection PostgreSQL Server
-  
-* `pg.checkpoints_timed`
-
-    Returns the number of scheduled checkpoints that have been performed
-    
-* `pg.checkpoints_req`
-
-    Returns the number of requested checkpoints that have been performed
-    
-* `pg.checkpoint_write_time`
-
-    Returns the total amount of time that has been spent in the portion of
-    checkpoint processing where files are written to disk, in milliseconds
-    
-* `pg.checkpoint_sync_time`
-
-    Returns the total amount of time that has been spent in the portion of
-    checkpoint processing where files are synchronized to disk, in milliseconds
-    
-* `pg.buffers_checkpoint`
-
-    Returns the Number of buffers written during checkpoints
-    
-* `pg.buffers_clean`
-
-    Returns the number of buffers written by the background writer
-    
-* `pg.maxwritten_clean`
-
-    Returns the number of times the background writer stopped a cleaning scan
-    because it had written too many buffers
-    
-* `pg.buffers_backend`
-
-    Returns the number of buffers written directly by a backend
-    
-* `pg.buffers_backend_fsync`
-
-    Returns the number of times a backend had to execute its own fsync call
-    (normally the background writer handles those even when the backend does
-    its own write)
-    
-* `pg.buffers_alloc`
-
-    Returns the number of buffers allocated
-    
-* `pg.stats_reset`
-
-    Returns the time at which these statistics were last reset
 
 
 ### Database keys
