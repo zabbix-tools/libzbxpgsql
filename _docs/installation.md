@@ -19,7 +19,7 @@ you own template using the keys described in [Agent keys]({{ site.baseurl }}/age
 
 ## From source
 
-* Download the latest `libzbxpgsql` source tarball
+* Download the latest `libzbxpgsql` source tarball from [SourceForge](https://sourceforge.net/projects/libzbxpgsl/files/sources/)
 
 * Extract, configure and compile the sources with:
   
@@ -60,7 +60,7 @@ in the default directories used by the Zabbix agent packages.
 
 See [Zabbix - Installation from packages](https://www.zabbix.com/documentation/2.4/manual/installation/install_from_packages).
 
-* Download the latest `libzbxpgsql` RPM packages for your distribution
+* Download the latest `libzbxpgsql` RPM package for your distribution from [SourceForge](https://sourceforge.net/projects/libzbxpgsl/files/rpms/)
 
 * Install using RPM with: `rpm -i libzbxpgsql-*.rpm`
 
