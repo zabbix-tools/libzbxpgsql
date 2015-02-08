@@ -48,7 +48,9 @@ The agent module is confirmed to work with Zabbix agent v1.8 to 2.4 on various
 Linux based operating systems including CentOS and Ubuntu.
 
 
-## Further reading
+## Further information
+
+* [libzbxpgsql Sources](https://github.com/cavaliercoder/libzbxpgsql)
 
 * [Zabbix Loadable Modules](https://www.zabbix.com/documentation/2.4/manual/config/items/loadablemodules)
 
