@@ -38,7 +38,7 @@ automake --add-missing >/dev/null
 autoreconf >/dev/null
 ./configure >/dev/null && make >/dev/null
 
-# Configure Zabbix Agent
+# Install Zabbix Agent module
 echo -e "${BULLET} Installing libzbxpgsql..."
 echo "LoadModule=libzbxpgsql.so" > /etc/zabbix/zabbix_agentd.d/libzbxpgsql.conf
 

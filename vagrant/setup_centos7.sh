@@ -2,6 +2,34 @@
 BULLET="==>"
 cd /vagrant
 
+# MOTD
+echo -e "${BULLET} Configuring message of the day..."
+cat > /etc/motd <<MOTD
+  _ _ _        _                               _ 
+ | (_) |__ ___| |____  ___ __   __ _ ___  __ _| |
+ | | | '_ \\_  / '_ \\ \\/ / '_ \\ / _\` / __|/ _\` | |
+ | | | |_) / /| |_) >  <| |_) | (_| \\__ \\ (_| | |
+ |_|_|_.__/___|_.__/_/\\_\\ .__/ \\__, |___/\\__, |_|
+                        |_|    |___/        |_|  
+
+            DΣVΣᄂӨPMΣПƬ VΛGЯΛПƬ BӨX
+
+Test PostgreSQL module keys with:
+    zabbix_agentd -t <key>
+
+Print all key tests with:
+    zabbix_agentd -p | grep '^pg\.'
+
+All project sources are mapped in /vagrant
+
+Manage PostgreSQL server from:
+    http://localhost:8080/phpPgAdmin (postgres:postgres)
+
+Manage Zabbix server from:
+    http://localhost:8080/zabbix (Admin:zabbix)
+
+MOTD
+
 # Install Zabbix, PostgreSQL and build tools
 echo -e "${BULLET} Installing Zabbix, PostgreSQL and build tools..."
 rpm -qa | grep pgdg >/dev/null || yum localinstall -y --nogpgcheck http://yum.postgresql.org/9.4/redhat/rhel-6-x86_64/pgdg-centos94-9.4-1.noarch.rpm
@@ -57,6 +85,24 @@ sed -i \
 systemctl enable httpd
 systemctl start httpd
 
+# Configure Zabbix server
+pgscripts=/usr/share/doc/zabbix-server-pgsql-2.4.3/create
+dbname="zabbix"
+dbuser="zabbix"
+dbpasswd="zabbix"
+dbschema="public"
+psql -At -U $dbuser -c "SELECT table_name FROM information_schema.tables WHERE table_name='hosts' AND table_schema='${dbschema}'" | grep '^hosts$' > /dev/null
+if [[ ! $? ]]; then
+    psql -U postgres -c "CREATE ROLE \"${dbuser}\" WITH LOGIN PASSWORD '${dbpasswd}';"
+    psql -U postgres -c "CREATE DATABASE \"${dbname}\" WITH OWNER \"${dbuser}\" TEMPLATE \"template1\";"
+    psql -U $dbuser -d $dbname -f $pgscripts/schema.sql
+    psql -U $dbuser -d $dbname -f $pgscripts/images.sql
+    psql -U $dbuser -d $dbname -f $pgscripts/data.sql
+
+    chkconfig zabbix-server on
+    service zabbix-server start
+fi
+
 # Build module
 echo -e "${BULLET} Building the libzbxpgsql agent module..."
 libtoolize >/dev/null
@@ -66,37 +112,12 @@ automake --add-missing >/dev/null
 autoreconf >/dev/null
 ./configure >/dev/null && make >/dev/null
 
-# Configure Zabbix Agent
+# Install Zabbix Agent module
 echo -e "${BULLET} Installing libzbxpgsql..."
 echo "LoadModule=libzbxpgsql.so" > /etc/zabbix/zabbix_agentd.d/libzbxpgsql.conf
 
 # Install add link to agent modules for built libzbxpgsql module
 [[ -d /usr/lib64/modules ]] || mkdir /usr/lib64/modules
 [[ -L /usr/lib64/modules/libzbxpgsql.so ]] || ln -s /vagrant/src/.libs/libzbxpgsql.so /usr/lib64/modules/libzbxpgsql.so
-
-# MOTD
-echo -e "${BULLET} Configuring message of the day..."
-cat > /etc/motd <<MOTD
-  _ _ _        _                               _ 
- | (_) |__ ___| |____  ___ __   __ _ ___  __ _| |
- | | | '_ \\_  / '_ \\ \\/ / '_ \\ / _\` / __|/ _\` | |
- | | | |_) / /| |_) >  <| |_) | (_| \\__ \\ (_| | |
- |_|_|_.__/___|_.__/_/\\_\\ .__/ \\__, |___/\\__, |_|
-                        |_|    |___/        |_|  
-
-            DΣVΣᄂӨPMΣПƬ VΛGЯΛПƬ BӨX
-
-Test PostgreSQL module keys with:
-    zabbix_agentd -t <key>
-
-Print all key tests with:
-    zabbix_agentd -p | grep '^pg\.'
-
-All project sources are mapped in /vagrant
-
-Manage PostgreSQL server from:
-    http://localhost:8080/phpPgAdmin (postgres:postgres)
-
-MOTD
 
 echo -e "${BULLET} All done."
