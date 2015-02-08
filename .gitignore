@@ -4,6 +4,7 @@
 *.lo
 *.o
 *.orig
+*.rpm
 *.so
 *.tar.gz
 *.tgz
