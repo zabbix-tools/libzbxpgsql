@@ -46,6 +46,7 @@ yum install -y --nogpgcheck \
     postgresql94-devel \
     phpPgAdmin \
     zabbix-agent \
+    zabbix-get \
     zabbix-server-pgsql \
     zabbix-web-pgsql
 
