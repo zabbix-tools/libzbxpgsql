@@ -14,7 +14,7 @@ row is evaluated.
 
 If no rows are returned, `ZBX_NOT_SUPPORTED` is returned by the agent.
 
-## Table of content
+## Table of contents
 
 * [pg.query.string](#pgquerystringquery)
 * [pg.query.integer](#pgqueryintegerquery)

@@ -17,15 +17,15 @@ Agent item keys are broken up into the following categories:
   server and its processes
 * [Query item keys]({{ site.baseurl }}/agent-keys/queries/) - Execute custom
   queries
-* Tablespace item keys - Discover and
+* [Tablespace item keys]({{ site.baseurl }}/agent-keys/tablespaces/) - Discover and
   monitor PostgreSQL Tablespaces
 * [Database item keys]({{ site.baseurl }}/agent-keys/databases/) - Discover and
   monitor PostgreSQL Databases
-* Namespace item keys - Discover and
+* [Namespace item keys]({{ site.baseurl }}/agent-keys/namespaces/) - Discover and
   monitor PostgreSQL Namespaces (Schema)
 * [Table item keys]({{ site.baseurl }}/agent-keys/tables/) - Discover and
   monitor PostgreSQL Tables
-* Index item keys - Discover and
+* [Index item keys]({{ site.baseurl }}/agent-keys/indexes/) - Discover and
   monitor PostgreSQL Table indexes
 
 Most agent item keys are mapped directly to a PostgreSQL

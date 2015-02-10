@@ -11,6 +11,21 @@ The majority of the following global items are gathered from the
 [pg_stat_bgwriter](http://www.postgresql.org/docs/9.4/static/monitoring-stats.html#PG-STAT-BGWRITER-VIEW)
 view.
 
+## Table of contents
+
+* [pg.connect](#pgconnect)
+* [pg.version](#pgversion)
+* [pg.checkpoints_timed](#pgcheckpointstimed)
+* [pg.checkpoints_req](#pgcheckpointsreq)
+* [pg.checkpoint_write_time](#pgcheckpointwritetime)
+* [pg.checkpoint_sync_time](#pgcheckpointsynctime)
+* [pg.buffers_checkpoint](#pgbufferscheckpoint)
+* [pg.buffers_clean](#pgbuffersclean)
+* [pg.maxwritten_clean](#pgmaxwrittenclean)
+* [pg.buffers_backend](#pgbuffersbackend)
+* [pg.buffers_backend_fsync](#pgbuffersbackendfsync)
+* [pg.buffers_alloc](#pgbuffersalloc)
+* [pg.stats_reset](#pgstatsreset)
 
 ### pg.connect
 
@@ -20,6 +35,10 @@ can connect to the specified PostgreSQL instance.
 *Type:* `Numeric (Unsigned)`
 
 *Value map:* 0: Failure, 1: Success
+
+*Example:*
+    
+    pg.connect[pg-server,5432,my-db,pg-monitor,p4ssw0rD]
 
 
 ### pg.version
