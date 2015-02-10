@@ -28,20 +28,20 @@
 #include <libpq-fe.h>
 
 // Default connection settings
-#define LOCALHOST		"localhost"
-#define PSQL_PORT		"5432"
-#define PSQL_USER               "postgres"
+#define LOCALHOST       "localhost"
+#define PSQL_PORT       "5432"
+#define PSQL_USER       "postgres"
 
 // Index of connection params in user requests
-#define PARAM_HOST		0
-#define PARAM_PORT		1
-#define PARAM_DB		2
-#define PARAM_USER		3
-#define PARAM_PASSWD	4
+#define PARAM_HOST      0
+#define PARAM_PORT      1
+#define PARAM_DB        2
+#define PARAM_USER      3
+#define PARAM_PASSWD    4
 #define PARAM_FIRST     5
 
-#define PG_WHERE		"WHERE"
-#define PG_AND			"AND"
+#define PG_WHERE        "WHERE"
+#define PG_AND          "AND"
 
 #define PG_RELKIND_TABLE        "r"
 #define PG_RELKIND_INDEX        "i"
@@ -61,18 +61,23 @@ int     pg_get_dbl(AGENT_REQUEST *request, AGENT_RESULT *result, const char *que
 int     PG_GET_CLASS_SIZE(AGENT_REQUEST *request, AGENT_RESULT *result, char *relkind, char *relname);
 
 // Define agent key functions
-int	PG_CONNECT(AGENT_REQUEST *request, AGENT_RESULT *result);
+int     PG_CONNECT(AGENT_REQUEST *request, AGENT_RESULT *result);
 int     PG_VERSION(AGENT_REQUEST *request, AGENT_RESULT *result);
+
+int     PG_QUERY_STRING(AGENT_REQUEST *request, AGENT_RESULT *result);
+int     PG_QUERY_INTEGER(AGENT_REQUEST *request, AGENT_RESULT *result);
+int     PG_QUERY_DOUBLE(AGENT_REQUEST *request, AGENT_RESULT *result);
+
 int     PG_STAT_BGWRITER(AGENT_REQUEST *request, AGENT_RESULT *result);
 
-int	PG_DB_DISCOVERY(AGENT_REQUEST *request, AGENT_RESULT *result);
+int     PG_DB_DISCOVERY(AGENT_REQUEST *request, AGENT_RESULT *result);
 int     PG_NAMESPACE_DISCOVERY(AGENT_REQUEST *request, AGENT_RESULT *result);
 int     PG_TABLESPACE_DISCOVERY(AGENT_REQUEST *request, AGENT_RESULT *result);
-int	PG_TABLE_DISCOVERY(AGENT_REQUEST *request, AGENT_RESULT *result);
+int     PG_TABLE_DISCOVERY(AGENT_REQUEST *request, AGENT_RESULT *result);
 int     PG_TABLE_CHILDREN_DISCOVERY(AGENT_REQUEST *request, AGENT_RESULT *result);
 int     PG_INDEX_DISCOVERY(AGENT_REQUEST *request, AGENT_RESULT *result);
 
-int    	PG_STAT_DATABASE(AGENT_REQUEST *request, AGENT_RESULT *result);
+int     PG_STAT_DATABASE(AGENT_REQUEST *request, AGENT_RESULT *result);
 int     PG_DB_SIZE(AGENT_REQUEST *request, AGENT_RESULT *result);
 
 int     PG_TABLESPACE_SIZE(AGENT_REQUEST *request, AGENT_RESULT *result);

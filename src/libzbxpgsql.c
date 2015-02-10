@@ -31,6 +31,11 @@ static ZBX_METRIC keys[] =
 {
     {"pg.connect",                  CF_HAVEPARAMS,  PG_CONNECT,                     NULL},
     {"pg.version",                  CF_HAVEPARAMS,  PG_VERSION,                     NULL},
+
+    // User queries
+    {"pg.query.string",             CF_HAVEPARAMS,  PG_QUERY_STRING,                ",,,,,SELECT 'Lorem ipsum dolor';"},
+    {"pg.query.integer",            CF_HAVEPARAMS,  PG_QUERY_INTEGER,               ",,,,,SELECT pg_backend_pid();"},
+    {"pg.query.double",             CF_HAVEPARAMS,  PG_QUERY_DOUBLE,                ",,,,,SELECT CAST(1234 AS double precision);"},
     
     // Server statistics (as per pg_stat_bgwriter)
     {"pg.checkpoints_timed",        CF_HAVEPARAMS,  PG_STAT_BGWRITER,               NULL},
@@ -241,8 +246,7 @@ int         zbx_module_uninit()                     { return ZBX_MODULE_OK; }
     SET_STR_RESULT(result, buffer);    
     ret = SYSINFO_RET_OK;
     
-    out:
-
+out:
     PQclear(res);
     PQfinish(conn);
     
@@ -368,8 +372,7 @@ out:
     SET_DBL_RESULT(result, strtold(buffer, NULL));
     ret = SYSINFO_RET_OK;
     
-    out:
-
+out:
     PQclear(res);
     PQfinish(conn);
     
