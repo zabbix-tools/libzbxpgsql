@@ -1,6 +1,7 @@
 ---
 layout: page
 title: Installation
+menu: Installation
 permalink: /installation/
 ---
 

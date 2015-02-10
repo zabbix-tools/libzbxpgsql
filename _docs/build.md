@@ -1,6 +1,7 @@
 ---
 layout: page
-title: Build
+title: Compilation/Build
+menu: Build
 permalink: /build/
 ---
 
