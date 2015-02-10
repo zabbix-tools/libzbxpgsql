@@ -4,14 +4,9 @@ title: About
 permalink: /
 ---
 
-This project provides comprehensive monitoring of PostgreSQL servers using a
-natively compiled Zabbix agent module, written in C, with highly configurable
-item keys.
-
-Sources in this project are used to compile `libzbxpgsql.so` which may be
-loaded into a Zabbix agent for the discovery and monitoring of local or remote
-PostgreSQL server assets; including databases, schema, table spaces, tables,
-indexes, etc.
+libzbxpgsql (*Lib-Zabbix-PostgreSQL*) provides comprehensive monitoring of
+PostgreSQL servers using a natively compiled Zabbix agent module, written in C,
+with highly configurable item keys and a complimentary Template.
 
 Native Zabbix agent modules are advantageous over User Parameters and scripts
 in that no process forking, code interpreter or external dependencies are
@@ -20,7 +15,7 @@ system, particularly when monitoring hundreds or thousands of checks.
 
 ## Features
 
-* Powerful discovery of Table spaces, Databases, Namespaces, Tables and Indexes
+* Powerful discovery of Tablespaces, Databases, Namespaces, Tables and Indexes
 * Exhaustive coverage of PostgreSQL Statistics Collector views
 * Execute custom queries specific to your applications
 * Significant performance benefit over `UserParameter` scripts
@@ -28,9 +23,10 @@ system, particularly when monitoring hundreds or thousands of checks.
 * No external dependencies (such as PostgreSQL client tools)
 * Simple installation or bundling with your agent packages
 * Detailed documentation
-* Comprehensive sample Template included
+* Comprehensive PostgreSQL monitoring Template included
 
 ![Zabbix Screen example]({{ site.baseurl }}/assets/screen.png)
+
 
 ## License
 
