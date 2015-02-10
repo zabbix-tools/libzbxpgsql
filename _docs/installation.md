@@ -5,15 +5,22 @@ permalink: /installation/
 ---
 
 This document describes how to install and configure the `libzbxpgsql` module
-onto a PostgreSQL server with the Zabbix monitoring agent
+onto a PostgreSQL server with the Zabbix monitoring agent version 2.2 or above
 [already installed](https://www.zabbix.com/documentation/2.4/manual/installation/getting_zabbix).
 
-This module is required to be installed on all agents on which you wish to
-utilize the PostgreSQL agent item keys.
+The module is installed with the Zabbix agent, typically on the PostgreSQL
+server to be monitored (although monitoring remote servers is possible).
 
-To configure the Zabbix server to monitor an agent with the module correctly
-installed, see the [pre-built template]({{ site.baseurl }}/template/) or create
-you own template using the keys described in [Agent keys]({{ site.baseurl }}/agent-keys).
+Once the agent is configured, you can add PostgreSQL items to your Hosts and
+Templates in the Zabbix administrative console, using the `libzbxpgsql`
+[Agent item keys]({{ site.baseurl }}/agent-keys). Alternatively, you can make
+use of the included [pre-built template]({{ site.baseurl }}/template/).
+
+The following installation methods are available:
+
+* [Compile from source](#from-source) on Linux and compatible operating systems
+
+* [RPM Packages](#rpm-package) for RHEL family operating systems
 
 ![Agent tests screenshot]({{ site.baseurl }}/assets/agenttests.png)
 

@@ -27,6 +27,14 @@ system, particularly when monitoring hundreds or thousands of checks.
 
 ![Zabbix Screen example]({{ site.baseurl }}/assets/screen.png)
 
+## Compatibility
+
+All monitoring keys are confirmed to work with PostgreSQL v8.1 to 9.4 except
+where otherwise noted.
+
+The agent module is confirmed to work with Zabbix agent v2.2+ on various
+Linux based operating systems including CentOS and Ubuntu.
+
 
 ## License
 
@@ -46,15 +54,6 @@ GNU General Public License for more details.
 You should have received a copy of the [GNU General Public License](http://www.gnu.org/licenses/gpl-2.0.html)
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-
-
-## Support
-
-All monitoring keys are confirmed to work with PostgreSQL v8.1 to 9.4 except
-where otherwise noted.
-
-The agent module is confirmed to work with Zabbix agent v1.8 to 2.4 on various
-Linux based operating systems including CentOS and Ubuntu.
 
 
 ## Further information
