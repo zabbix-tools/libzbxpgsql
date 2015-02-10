@@ -1,22 +1,19 @@
 # libzbxpgsql
 
 This project provides comprehensive monitoring of PostgreSQL servers using a
-natively compiled Zabbix agent module and highly configurable item keys.
+natively compiled Zabbix agent module, written in C.
+
+A preconfigured Zabbix Template is also included for your convenience.
 
 Sources in this project are used to compile `libzbxpgsql.so` which may be
-loaded into a Zabbix agent for the discovery and monitoring of local or remote
-PostgreSQL server assets; including databases, schema, table spaces, tables,
-indices, etc.
-
-Native Zabbix agent modules are advantageous over User Parameters and scripts
-in that no process forking or code interpreter is required. This significantly
-reduces the impact of monitoring on the agent system, particularly when
-monitoring hundreds or thousands of checks.
+loaded by a Zabbix agent using the `LoadModule` directive. The module enables
+discovery and monitoring of tablespaces, databases, namespaces, tables,
+indexes, etc.
 
 * Read the [documentation](http://cavaliercoder.github.io/libzbxpgsql/)
 * Download the [packages](https://sourceforge.net/projects/libzbxpgsl/files/)
 * Clone the [sources](http://github.com/cavaliercoder/libzbxpgsql)
-* Stalk the [author](http://cavaliercoder.com)
+* Follow the [author](http://cavaliercoder.com)
 
 ## License
 
