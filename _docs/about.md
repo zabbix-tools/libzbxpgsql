@@ -1,6 +1,7 @@
 ---
 layout: page
-title: About
+title: PostgreSQL monitoring for Zabbix
+menu: About
 permalink: /
 ---
 

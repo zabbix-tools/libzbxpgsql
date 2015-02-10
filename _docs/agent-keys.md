@@ -1,6 +1,7 @@
 ---
 layout: page
-title: Agent keys
+title: Agent item keys
+menu: Keys
 permalink: /agent-keys/
 ---
 
@@ -10,10 +11,27 @@ available for querying by `libzbxpgsql`.
 Theses keys may be queried using `zabbix_get` or by adding Items, Discovery
 Rules and Item Prototypes to Templates and/or Hosts in Zabbix.
 
-To test all available items and see their default values, run the following on
-a [correctly configured]({{ site.baseurl }}/installation/) Zabbix agent:
+Agent item keys are broken up into the following categories:
 
-    zabbix_agentd -p | grep '^pg\.'
+* [Server item keys]({{ site.baseurl }}/agent-keys/server/) - Monitor the
+  server and its processes
+* [Query item keys]({{ site.baseurl }}/agent-keys/queries/) - Execute custom
+  queries
+* Tablespace item keys - Discover and
+  monitor PostgreSQL Tablespaces
+* [Database item keys]({{ site.baseurl }}/agent-keys/databases/) - Discover and
+  monitor PostgreSQL Databases
+* Namespace item keys - Discover and
+  monitor PostgreSQL Namespaces (Schema)
+* [Table item keys]({{ site.baseurl }}/agent-keys/tables/) - Discover and
+  monitor PostgreSQL Tables
+* Index item keys - Discover and
+  monitor PostgreSQL Table indexes
+
+Most agent item keys are mapped directly to a PostgreSQL
+[Statistics Collector view](http://www.postgresql.org/docs/9.4/static/monitoring-stats.html)
+with the documentation copied loosely from the PostgreSQL manual with updates
+for context.
 
 
 ## Connecting to PostgreSQL
@@ -53,212 +71,9 @@ will have visibility of the password in Zabbix, as it will appear everywhere
 the item key appears, such as trigger and event logs, host configuration, etc.
 
 
-## Agent item keys
+## Testing
 
-See the `keys[]` declaration in `src/libzbxpgsql.c` for a definitive list of
-available agent keys and their associated functions.
+To test all available items and see their default values, run the following on
+a [correctly configured]({{ site.baseurl }}/installation/) Zabbix agent:
 
-Most agent item keys are mapped directly to a PostgreSQL
-[Statistics Collector view](http://www.postgresql.org/docs/9.4/static/monitoring-stats.html)
-with the documentation copied directly from the PostgreSQL manual.
-
-
-
-### Database keys
-
-* `pg.db.discovery`
-
-    Returns a JSON array of all known PostgreSQL databases which are available for connection
-    
-* `pg.db.size[,,<database>]`
-
-    Returns the size in bytes of a PostgreSQL database
-
-* `pg.db.numbackends[,,<database>]`
-
-    Returns the number of backends currently connected to this database. This is the only column in this view that returns a value reflecting current state; all other columns return the accumulated values since the last reset.
-    
-* `pg.db.xact_commit[,,<database>]`
-
-    Returns the number of transactions in this database that have been committed
-    
-* `pg.db.xact_rollback[,,<database>]`
-
-    Returns the number of transactions in this database that have been rolled back
-    
-* `pg.db.blks_read[,,<database>]`
-
-    Returns the number of disk blocks read in this database
-    
-* `pg.db.blks_hit[,,<database>]`
-
-    Returns the number of times disk blocks were found already in the buffer cache, so that a read was not necessary (this only includes hits in the PostgreSQL buffer cache, not the operating system's file system cache)
-    
-* `pg.db.tup_returned[,,<database>]`
-
-    Returns the number of rows returned by queries in this database
-    
-* `pg.db.tup_fetched[,,<database>]`
-
-    Returns the number of rows fetched by queries in this database
-    
-* `pg.db.tup_inserted[,,<database>]`
-
-    Returns the number of rows inserted by queries in this database
-    
-* `pg.db.tup_updated[,,<database>]`
-
-    Returns the number of rows updated by queries in this database
-    
-* `pg.db.tup_deleted[,,<database>]`
-
-    Returns the number of rows deleted by queries in this database
-    
-* `pg.db.conflicts[,,<database>]`
-
-    Returns the number of queries canceled due to conflicts with recovery in this database. (Conflicts occur only on standby servers; see pg_stat_database_conflicts for details.)
-    
-* `pg.db.temp_files[,,<database>]`
-
-    Returns the number of temporary files created by queries in this database. All temporary files are counted, regardless of why the temporary file was created (e.g., sorting or hashing), and regardless of the log_temp_files setting.
-    
-* `pg.db.temp_bytes[,,<database>]`
-
-    Returns the total amount of data written to temporary files by queries in this database. All temporary files are counted, regardless of why the temporary file was created, and regardless of the log_temp_files setting.
-    
-* `pg.db.deadlocks[,,<database>]`
-
-    Returns the number of deadlocks detected in this database
-    
-* `pg.db.blk_read_time[,,<database>]`
-
-    Returns the time spent reading data file blocks by backends in this database, in milliseconds
-    
-* `pg.db.blk_write_time[,,<database>]`
-
-    Returns the time spent writing data file blocks by backends in this database, in milliseconds
-    
-* `pg.db.stats_reset[,,<database>]`
-
-    Returns the time at which these statistics were last reset
-
-
-### Table keys
-
-* `pg.table.discovery`
-
-    Returns a JSON array of all known PostgreSQL tables in the current database
-    
-* `pg.table.size[,,,,,<table>]`
-
-    Returns the size in bytes of a PostgreSQL table
-    
-* `pg.table.rows[,,,,,<table>]`
-
-    Returns the number of rows in the table. This is only an estimate used by
-    the planner. It is updated by `VACUUM`, `ANALYZE`, and a few DDL commands such
-    as `CREATE INDEX`. 
-
-* `pg.table.seq_scan[,,,,,<table>]`
-
-	Returns the number of sequential scans initiated on this table
-
-* `pg.table.seq_tup_read[,,,,,<table>]`
-
-	Returns the number of live rows fetched by sequential scans
-
-* `pg.table.idx_scan[,,,,,<table>]`
-
-	Returns the number of index scans initiated on this table
-
-* `pg.table.idx_tup_fetch[,,,,,<table>]`
-
-	Returns the number of live rows fetched by index scans
-
-* `pg.table.n_tup_ins[,,,,,<table>]`
-
-	Returns the number of rows inserted
-
-* `pg.table.n_tup_upd[,,,,,<table>]`
-
-	Returns the number of rows updated
-
-* `pg.table.n_tup_del[,,,,,<table>]`
-
-	Returns the number of rows deleted
-
-* `pg.table.n_tup_hot_upd[,,,,,<table>]`
-
-	Returns the number of rows HOT updated (i.e., with no separate index update required)
-
-* `pg.table.n_live_tup[,,,,,<table>]`
-
-	Returns the estimated number of live rows
-
-* `pg.table.n_dead_tup[,,,,,<table>]`
-
-	Returns the estimated number of dead rows
-
-* `pg.table.last_vacuum[,,,,,<table>]`
-
-	Returns the last time at which this table was manually vacuumed (not counting VACUUM FULL)
-
-* `pg.table.last_autovacuum[,,,,,<table>]`
-
-	Returns the last time at which this table was vacuumed by the autovacuum daemon
-
-* `pg.table.last_analyze[,,,,,<table>]`
-
-	Returns the last time at which this table was manually analyzed
-
-* `pg.table.last_autoanalyze[,,,,,<table>]`
-
-	Returns the last time at which this table was analyzed by the autovacuum daemon
-
-* `pg.table.vacuum_count[,,,,,<table>]`
-
-	Returns the number of times this table has been manually vacuumed (not counting VACUUM FULL)
-
-* `pg.table.autovacuum_count[,,,,,<table>]`
-
-	Returns the number of times this table has been vacuumed by the autovacuum daemon
-
-* `pg.table.analyze_count[,,,,,<table>]`
-
-	Returns the number of times this table has been manually analyzed
-
-* `pg.table.autoanalyze_count[,,,,,<table>]`
-
-    Returns the number of times this table has been analyzed by the autovacuum daemon
-        
-* `pg.table.heap_blks_read[,,,,,<table>]`
-
-	Returns the number of disk blocks read from this table
-
-* `pg.table.heap_blks_hit[,,,,,<table>]`
-
-	Returns the number of buffer hits in this table
-
-* `pg.table.idx_blks_read[,,,,,<table>]`
-
-	Returns the number of disk blocks read from all indexes on this table
-
-* `pg.table.idx_blks_hit[,,,,,<table>]`
-
-	Returns the number of buffer hits in all indexes on this table
-
-* `pg.table.toast_blks_read[,,,,,<table>]`
-
-	Returns the number of disk blocks read from this table's TOAST table (if any)
-
-* `pg.table.toast_blks_hit[,,,,,<table>]`
-
-	Returns the number of buffer hits in this table's TOAST table (if any)
-
-* `pg.table.tidx_blks_read[,,,,,<table>]`
-
-	Returns the number of disk blocks read from this table's TOAST table index (if any)
-
-* `pg.table.tidx_blks_hit[,,,,,<table>]`
-
-	Returns the number of buffer hits in this table's TOAST table index (if any)
+    zabbix_agentd -p | grep '^pg\.'

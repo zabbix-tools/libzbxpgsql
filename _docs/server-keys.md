@@ -4,6 +4,9 @@ title: Server keys
 permalink: /agent-keys/server/
 ---
 
+Theses items collect data representing the PostgreSQL service itself, rather
+than individual assets such as databases and tablespaces.
+
 The majority of the following global items are gathered from the
 [pg_stat_bgwriter](http://www.postgresql.org/docs/9.4/static/monitoring-stats.html#PG-STAT-BGWRITER-VIEW)
 view.

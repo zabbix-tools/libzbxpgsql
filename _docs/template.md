@@ -1,6 +1,7 @@
 ---
 layout: page
-title: Template
+title: Zabbix Template
+menu: Template
 permalink: /template/
 ---
 
