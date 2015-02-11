@@ -7,14 +7,12 @@ permalink: /agent-keys/server/
 Theses items collect data representing the PostgreSQL service itself, rather
 than individual assets such as databases and tablespaces.
 
-The majority of the following global items are gathered from the
-[pg_stat_bgwriter](http://www.postgresql.org/docs/9.4/static/monitoring-stats.html#PG-STAT-BGWRITER-VIEW)
-view.
 
 ## Table of contents
 
 * [pg.connect](#pgconnect)
 * [pg.version](#pgversion)
+* [pg.backends.count](#pgbackendscount)
 * [pg.checkpoints_timed](#pgcheckpointstimed)
 * [pg.checkpoints_req](#pgcheckpointsreq)
 * [pg.checkpoint_write_time](#pgcheckpointwritetime)
@@ -48,6 +46,42 @@ Returns the version string of the connected PostgreSQL Server
 *Type:* `Text`  
 
 *Source:* `SELECT version();`
+
+
+### pg.backends.count
+
+Returns the number of active backend processes for remote connections.
+
+*Type:* `Numeric (unsigned)`
+
+*Parameters:*
+
+  * `database` database name or OID
+  * `user` user name or OID
+  * `application` application name
+  * `client` client hostname or IP address
+  * `waiting` (`true`\|`false`) processes waiting on a lock
+  * `state` overall state of the backend. One of:
+    * `active` the backend is executing a query
+    * `idle` the backend is waiting for a new client command
+    * `idle in transaction` the backend is in a transaction, but is not
+      currently executing a query
+    * `idle in transaction (aborted)` this state is similar to idle in
+      transaction, except one of the statements in the transaction caused an
+      error
+    * `fastpath function call` the backend is executing a fast-path function
+    * `disabled` this state is reported if track_activities is disabled in
+      this backend
+  * `query` the query being executed on the backend
+
+*Source:* `SELECT COUNT(pid) FROM pg_stat_activity WHERE...`
+
+*Example:* 
+
+Count Active backends for `myapp` running as `dbuser`, connected to
+`mydb` from `::1`)
+
+    pg.backends.count[,,,,,mydb,dbuser,myapp,::1,,active]
 
 
 ### pg.checkpoints_timed
