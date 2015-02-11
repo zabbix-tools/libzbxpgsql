@@ -22,7 +22,6 @@
 #define MAX_QUERY_LEN			4096
 #define MAX_CLAUSE_LEN          64
 
-
 #define PGSQL_GET_BACKENDS		"SELECT COUNT(pid) FROM pg_stat_activity" 
 
 /*
@@ -39,8 +38,6 @@
  * Parameter <application>:	name of the connected application
  *
  * Parameter <client>: 		hostname or IP address of the connected host
- *
- * Parameter <port>:        TCP port of the connected host
  *
  * Parameter <waiting>:     return only waiting backends
  *
@@ -97,20 +94,23 @@
     					zbx_snprintf(p, MAX_CLAUSE_LEN, " %s client_hostname='%s'", clause, param);
     				break;
 
-    			case 4: // <port>
-    				zbx_snprintf(p, MAX_CLAUSE_LEN, " %s client_port=%s", clause, param);
+    			case 4: // <waiting>
+    				if(0 == strncmp("true", param, 4)) {
+                        zbx_snprintf(p, MAX_CLAUSE_LEN, " %s waiting=TRUE", clause);
+                    } else if(0 == strncmp("false", param, 5)) {
+                        zbx_snprintf(p, MAX_CLAUSE_LEN, " %s waiting=FALSE", clause);
+                    } else {
+                        zabbix_log(LOG_LEVEL_ERR, "Unsupported 'Waiting' parameter: %s in %s()", param, __function_name);
+                        goto out;
+                    }
+                    
     				break;
 
-
-    			case 5: // <waiting>
-    				// TODO: implement truthy/falsey parameter for backend port
-    				break;
-
-    			case 6: // <state>
+    			case 5: // <state>
     				zbx_snprintf(p, MAX_CLAUSE_LEN, " %s state='%s'", clause, param);
     				break;
 
-    			case 7: // <query>
+    			case 6: // <query>
     				zbx_snprintf(p, MAX_CLAUSE_LEN, " %s query='%s'", clause, param);
     				break;
     		}
@@ -121,7 +121,8 @@
     }
 
     ret = pg_get_int(request, result, query);
-    
+
+out:  
     zabbix_log(LOG_LEVEL_DEBUG, "End of %s()", __function_name);
     return ret;
 }
