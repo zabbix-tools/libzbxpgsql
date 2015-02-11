@@ -33,9 +33,9 @@ static ZBX_METRIC keys[] =
     {"pg.version",                  CF_HAVEPARAMS,  PG_VERSION,                     NULL},
 
     // User queries
-    {"pg.query.string",             CF_HAVEPARAMS,  PG_QUERY_STRING,                ",,,,,SELECT 'Lorem ipsum dolor';"},
-    {"pg.query.integer",            CF_HAVEPARAMS,  PG_QUERY_INTEGER,               ",,,,,SELECT pg_backend_pid();"},
-    {"pg.query.double",             CF_HAVEPARAMS,  PG_QUERY_DOUBLE,                ",,,,,SELECT CAST(1234 AS double precision);"},
+    {"pg.query.string",             CF_HAVEPARAMS,  PG_QUERY,                       ",,,,,SELECT 'Lorem ipsum dolor';"},
+    {"pg.query.integer",            CF_HAVEPARAMS,  PG_QUERY,                       ",,,,,SELECT pg_backend_pid();"},
+    {"pg.query.double",             CF_HAVEPARAMS,  PG_QUERY,                       ",,,,,SELECT CAST(1234 AS double precision);"},
     
     // Server statistics (as per pg_stat_bgwriter)
     {"pg.checkpoints_timed",        CF_HAVEPARAMS,  PG_STAT_BGWRITER,               NULL},

@@ -19,7 +19,7 @@
 
 #include "libzbxpgsql.h"
 
-int     PG_QUERY_STRING(AGENT_REQUEST *request, AGENT_RESULT *result)
+int     PG_QUERY(AGENT_REQUEST *request, AGENT_RESULT *result)
  {
     int         ret = SYSINFO_RET_FAIL;                 // Request result code
     const char  *__function_name = "PG_QUERY_STRING";   // Function name for log file
@@ -27,55 +27,23 @@ int     PG_QUERY_STRING(AGENT_REQUEST *request, AGENT_RESULT *result)
 
     zabbix_log(LOG_LEVEL_DEBUG, "In %s()", __function_name);
 
+    // Get the user SQL query parameter
     query = get_rparam(request, PARAM_FIRST);
     if(NULL == query || '\0' == *query) {
         zabbix_log(LOG_LEVEL_ERR, "No query specified in %s()", __function_name);
         goto out;
     }
 
-    ret = pg_get_string(request, result, query);
-
-out:
-    zabbix_log(LOG_LEVEL_DEBUG, "End of %s()", __function_name);
-    return ret;
-}
-
-int     PG_QUERY_INTEGER(AGENT_REQUEST *request, AGENT_RESULT *result)
- {
-    int         ret = SYSINFO_RET_FAIL;                 // Request result code
-    const char  *__function_name = "PG_QUERY_INTEGER";   // Function name for log file
-    char        *query = NULL;
-
-    zabbix_log(LOG_LEVEL_DEBUG, "In %s()", __function_name);
-
-    query = get_rparam(request, PARAM_FIRST);
-    if(NULL == query || '\0' == *query) {
-        zabbix_log(LOG_LEVEL_ERR, "No query specified in %s()", __function_name);
-        goto out;
-    }
-
-    ret = pg_get_int(request, result, query);
-
-out:
-    zabbix_log(LOG_LEVEL_DEBUG, "End of %s()", __function_name);
-    return ret;
-}
-
-int     PG_QUERY_DOUBLE(AGENT_REQUEST *request, AGENT_RESULT *result)
- {
-    int         ret = SYSINFO_RET_FAIL;                 // Request result code
-    const char  *__function_name = "PG_QUERY_DOUBLE";   // Function name for log file
-    char        *query = NULL;
-
-    zabbix_log(LOG_LEVEL_DEBUG, "In %s()", __function_name);
-
-    query = get_rparam(request, PARAM_FIRST);
-    if(NULL == query || '\0' == *query) {
-        zabbix_log(LOG_LEVEL_ERR, "No query specified in %s()", __function_name);
-        goto out;
-    }
-
-    ret = pg_get_dbl(request, result, query);
+    // Return the appropriate result type for this key
+    // as per `pg.query.{type}`
+    if(0 == strncmp(&request->key[9], "string", 5))
+        ret = pg_get_string(request, result, query);
+    else if(0 == strncmp(&request->key[9], "integer", 7))
+        ret = pg_get_int(request, result, query);
+    else if(0 == strncmp(&request->key[9], "double", 6))
+        ret = pg_get_dbl(request, result, query);
+    else
+        zabbix_log(LOG_LEVEL_ERR, "Unsupported query return type: %s in %s()", request->key[9], __function_name);
 
 out:
     zabbix_log(LOG_LEVEL_DEBUG, "End of %s()", __function_name);
