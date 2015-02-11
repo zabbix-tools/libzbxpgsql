@@ -624,11 +624,7 @@
                     <publickey/>
                     <privatekey/>
                     <port/>
-                    <filter>
-                        <evaltype>0</evaltype>
-                        <formula/>
-                        <conditions/>
-                    </filter>
+                    <filter>:</filter>
                     <lifetime>30</lifetime>
                     <description>Discover all databases available for connection</description>
                     <item_prototypes>
@@ -1757,11 +1753,7 @@
                     <publickey/>
                     <privatekey/>
                     <port/>
-                    <filter>
-                        <evaltype>0</evaltype>
-                        <formula/>
-                        <conditions/>
-                    </filter>
+                    <filter>:</filter>
                     <lifetime>30</lifetime>
                     <description>Discover all indexes available to the connected user</description>
                     <item_prototypes>
@@ -2261,11 +2253,7 @@
                     <publickey/>
                     <privatekey/>
                     <port/>
-                    <filter>
-                        <evaltype>0</evaltype>
-                        <formula/>
-                        <conditions/>
-                    </filter>
+                    <filter>:</filter>
                     <lifetime>30</lifetime>
                     <description>Discovery PostgreSQL Tables available to the connected user</description>
                     <item_prototypes>
@@ -3472,11 +3460,7 @@
                     <publickey/>
                     <privatekey/>
                     <port/>
-                    <filter>
-                        <evaltype>0</evaltype>
-                        <formula/>
-                        <conditions/>
-                    </filter>
+                    <filter>:</filter>
                     <lifetime>30</lifetime>
                     <description/>
                     <item_prototypes>
