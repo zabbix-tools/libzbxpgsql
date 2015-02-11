@@ -12,6 +12,7 @@ than individual assets such as databases and tablespaces.
 
 * [pg.connect](#pgconnect)
 * [pg.version](#pgversion)
+* [pg.setting](#pgsetting)
 * [pg.backends.count](#pgbackendscount)
 * [pg.checkpoints_timed](#pgcheckpointstimed)
 * [pg.checkpoints_req](#pgcheckpointsreq)
