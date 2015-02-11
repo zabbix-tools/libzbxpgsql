@@ -47,6 +47,32 @@ Returns the version string of the connected PostgreSQL Server
 
 *Source:* `SELECT version();`
 
+### pg.setting
+
+Returns the value of the specified run-time configuration setting. This key is
+useful for gathering configuration information such as the PostgreSQL data
+directory, maximum threshold, log file locations, etc.
+
+For a definitive list of settings and their descriptions, execute:
+
+    SELECT * FROM pg_settings;
+
+For more information, see [pg_setting](http://www.postgresql.org/docs/9.4/static/view-pg-settings.html).
+
+*Type:* Varies depending on setting value type as per `pg_settings.vartype`
+
+*Parameters:*
+
+  * `setting` the name of the setting to return
+
+*Source:* 
+    
+    SELECT setting,vartype FROM pg_settings WHERE...
+
+*Example:*
+
+    pg.setting[pg-server,,,db-monitor,,data_directory]
+
 
 ### pg.backends.count
 
