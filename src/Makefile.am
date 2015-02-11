@@ -5,6 +5,7 @@ libzbxpgsql_la_SOURCES = \
 	pg_server.c \
 	pg_query.c \
 	pg_backends.c \
+	pg_setting.c \
 	pg_namespace.c \
 	pg_tablespace.c \
 	pg_database.c \
