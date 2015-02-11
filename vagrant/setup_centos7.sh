@@ -1,5 +1,12 @@
 #!/bin/bash
 BULLET="==>"
+
+ZBX_MAJ=2
+ZBX_MIN=2
+ZBX_PATCH=8
+ZBX_REL=1
+ZBX_VER="${ZBX_MAJ}.${ZBX_MIN}.${ZBX_PATCH}-${ZBX_REL}"
+
 cd /vagrant
 
 # MOTD
@@ -33,7 +40,7 @@ MOTD
 # Install Zabbix, PostgreSQL and build tools
 echo -e "${BULLET} Installing Zabbix, PostgreSQL and build tools..."
 rpm -qa | grep pgdg >/dev/null || yum localinstall -y --nogpgcheck http://yum.postgresql.org/9.4/redhat/rhel-6-x86_64/pgdg-centos94-9.4-1.noarch.rpm
-rpm -qa | grep zabbix-release >/dev/null || yum localinstall -y --nogpgcheck http://repo.zabbix.com/zabbix/2.4/rhel/7/x86_64/zabbix-release-2.4-1.el7.noarch.rpm
+rpm -qa | grep zabbix-release >/dev/null || yum localinstall -y --nogpgcheck http://repo.zabbix.com/zabbix/${ZBX_MAJ}.${ZBX_MIN}/rhel/7/x86_64/zabbix-release-${ZBX_MAJ}.${ZBX_MIN}-1.el7.noarch.rpm
 yum install -y --nogpgcheck \
     make \
     gcc \
@@ -87,13 +94,13 @@ systemctl enable httpd
 systemctl start httpd
 
 # Configure Zabbix server
-pgscripts=/usr/share/doc/zabbix-server-pgsql-2.4.3/create
+pgscripts=/usr/share/doc/zabbix-server-pgsql-${ZBX_MAJ}.${ZBX_MIN}.${ZBX_PATCH}/create
 dbname="zabbix"
 dbuser="zabbix"
 dbpasswd="zabbix"
 dbschema="public"
 psql -At -U $dbuser -c "SELECT table_name FROM information_schema.tables WHERE table_name='hosts' AND table_schema='${dbschema}'" | grep '^hosts$' > /dev/null
-if [[ ! $? ]]; then
+if [[ $? ]]; then
     psql -U postgres -c "CREATE ROLE \"${dbuser}\" WITH LOGIN PASSWORD '${dbpasswd}';"
     psql -U postgres -c "CREATE DATABASE \"${dbname}\" WITH OWNER \"${dbuser}\" TEMPLATE \"template1\";"
     psql -U $dbuser -d $dbname -f $pgscripts/schema.sql

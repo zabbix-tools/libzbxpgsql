@@ -27,7 +27,7 @@ SELECT \
     , n.nspname \
     , t.relname  \
     , a.rolname \
-    ,m.amname \
+    , m.amname \
 FROM pg_index i \
 JOIN pg_class ic ON ic.oid = i.indexrelid \
 JOIN pg_namespace n ON n.oid = ic.relnamespace \
@@ -155,24 +155,24 @@ int    PG_STAT_ALL_INDEXES(AGENT_REQUEST *request, AGENT_RESULT *result)
     // Build query
     index = get_rparam(request, PARAM_FIRST);
     if(NULL == index || '\0' == *index)
-    zbx_snprintf(query, sizeof(query), "SELECT SUM(%s) FROM pg_stat_all_indexes", field);
+        zbx_snprintf(query, sizeof(query), "SELECT SUM(%s) FROM pg_stat_all_indexes", field);
     else
-    zbx_snprintf(query, sizeof(query),  "SELECT %s FROM pg_stat_all_indexes WHERE indexrelname = '%s'", field, index);
+        zbx_snprintf(query, sizeof(query),  "SELECT %s FROM pg_stat_all_indexes WHERE indexrelname = '%s'", field, index);
 
     // Connect to PostreSQL
     if(NULL == (conn = pg_connect(request)))
-    goto out;
+        goto out;
     
     // Execute a query
     res = PQexec(conn, query);
     if(PQresultStatus(res) != PGRES_TUPLES_OK) {
-    zabbix_log(LOG_LEVEL_ERR, "Failed to execute PostgreSQL query in %s() with: %s", __function_name, PQresultErrorMessage(res));
-    goto out;
+        zabbix_log(LOG_LEVEL_ERR, "Failed to execute PostgreSQL query in %s() with: %s", __function_name, PQresultErrorMessage(res));
+        goto out;
     }
     
     if(0 == PQntuples(res)) {
-    zabbix_log(LOG_LEVEL_ERR, "No results returned for query \"%s\" in %s()", query, __function_name);
-    goto out;
+        zabbix_log(LOG_LEVEL_ERR, "No results returned for query \"%s\" in %s()", query, __function_name);
+        goto out;
     }
     
     // Set result
