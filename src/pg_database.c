@@ -44,7 +44,7 @@
  *                        "{#LC_COLLATE}":"en_US.UTF-8",
  *                        "{#LC_CTYPE}":"en_US.UTF-8",
  *                        "{#TEMPLATE}":"1|0",
- *                        "{#TABELSPACE":"pg_default"}]}
+ *                        "{#TABLESPACE":"pg_default"}]}
  */
 int    PG_DB_DISCOVERY(AGENT_REQUEST *request, AGENT_RESULT *result)
 {

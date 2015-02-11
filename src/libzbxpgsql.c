@@ -37,6 +37,9 @@ static ZBX_METRIC keys[] =
     {"pg.query.integer",            CF_HAVEPARAMS,  PG_QUERY,                       ",,,,,SELECT pg_backend_pid();"},
     {"pg.query.double",             CF_HAVEPARAMS,  PG_QUERY,                       ",,,,,SELECT CAST(1234 AS double precision);"},
     
+    // Client connection statistics
+    {"pg.backends.count",           CF_HAVEPARAMS,  PG_BACKENDS_COUNT,              NULL},
+
     // Server statistics (as per pg_stat_bgwriter)
     {"pg.checkpoints_timed",        CF_HAVEPARAMS,  PG_STAT_BGWRITER,               NULL},
     {"pg.checkpoints_req",          CF_HAVEPARAMS,  PG_STAT_BGWRITER,               NULL},

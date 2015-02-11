@@ -66,6 +66,8 @@ int     PG_VERSION(AGENT_REQUEST *request, AGENT_RESULT *result);
 
 int     PG_QUERY(AGENT_REQUEST *request, AGENT_RESULT *result);
 
+int     PG_BACKENDS_COUNT(AGENT_REQUEST *request, AGENT_RESULT *result);
+
 int     PG_STAT_BGWRITER(AGENT_REQUEST *request, AGENT_RESULT *result);
 
 int     PG_DB_DISCOVERY(AGENT_REQUEST *request, AGENT_RESULT *result);
