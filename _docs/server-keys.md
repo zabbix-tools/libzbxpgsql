@@ -14,6 +14,7 @@ than individual assets such as databases and tablespaces.
 * [pg.version](#pgversion)
 * [pg.setting](#pgsetting)
 * [pg.backends.count](#pgbackendscount)
+* [pg.queries.longest](#pgquerieslongest)
 * [pg.checkpoints_timed](#pgcheckpointstimed)
 * [pg.checkpoints_req](#pgcheckpointsreq)
 * [pg.checkpoint_write_time](#pgcheckpointwritetime)
@@ -109,6 +110,24 @@ Count Active backends for `myapp` running as `dbuser`, connected to
 `mydb` from `::1`)
 
     pg.backends.count[,,,,,mydb,dbuser,myapp,::1,,active]
+
+
+### pg.queries.longest
+
+Returns the duration of the longest running currently active query.
+
+*Type:* `Numeric (float)`
+
+*Units:* Seconds
+
+*Source:*
+
+    SELECT
+      EXTRACT(EPOCH FROM NOW()) - EXTRACT(EPOCH FROM query_start) AS duration
+	FROM pg_stat_activity
+	WHERE state = 'active'
+	ORDER BY duration DESC
+	LIMIT 1
 
 
 ### pg.checkpoints_timed
