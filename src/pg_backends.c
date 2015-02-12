@@ -22,7 +22,15 @@
 #define MAX_QUERY_LEN			4096
 #define MAX_CLAUSE_LEN          64
 
-#define PGSQL_GET_BACKENDS		"SELECT COUNT(pid) FROM pg_stat_activity" 
+#define PGSQL_GET_BACKENDS		"SELECT COUNT(pid) FROM pg_stat_activity"
+
+#define PGSQL_GET_LONGEST_QUERY "\
+SELECT \
+  EXTRACT(EPOCH FROM NOW()) - EXTRACT(EPOCH FROM query_start) AS duration \
+FROM pg_stat_activity \
+WHERE state = 'active' \
+ORDER BY duration DESC \
+LIMIT 1"
 
 /*
  * Custom key pg.backends.count
@@ -123,6 +131,28 @@
     ret = pg_get_int(request, result, query);
 
 out:  
+    zabbix_log(LOG_LEVEL_DEBUG, "End of %s()", __function_name);
+    return ret;
+}
+
+/*
+ * Custom key pg.queries.longest
+ *
+ * Returns the duration in seconds of the longest running current query
+ *
+ * Parameter [0-4]:     <host,port,db,user,passwd>
+ *
+ * Returns: d
+ */
+int    PG_QUERIES_LONGEST(AGENT_REQUEST *request, AGENT_RESULT *result)
+{
+    int         ret = SYSINFO_RET_FAIL;                     // Request result code
+    const char  *__function_name = "PG_QUERIES_LONGEST";    // Function name for log file
+    
+    zabbix_log(LOG_LEVEL_DEBUG, "In %s()", __function_name);
+    
+    ret = pg_get_dbl(request, result, PGSQL_GET_LONGEST_QUERY);
+    
     zabbix_log(LOG_LEVEL_DEBUG, "End of %s()", __function_name);
     return ret;
 }

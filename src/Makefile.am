@@ -1,4 +1,5 @@
 lib_LTLIBRARIES = libzbxpgsql.la
+
 libzbxpgsql_la_SOURCES = \
 	libzbxpgsql.h \
 	libzbxpgsql.c \
