@@ -1,6 +1,6 @@
 #!/bin/bash
 APP=libzbxpgsql
-VERSION=0.1.0
+VERSION=0.1.1
 
 # Create RPM build directories
 [[ -d ~/rpmbuild ]] || mkdir -p ~/rpmbuild/{BUILD,RPMS,SOURCES,SPECS,SRPMS} || exit 1

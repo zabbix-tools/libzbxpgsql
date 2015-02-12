@@ -1,6 +1,6 @@
 Name        : libzbxpgsql
 Vendor      : cavaliercoder
-Version     : 0.1.0
+Version     : 0.1.1
 Release     : 1%{?dist}
 Summary     : PostgreSQL monitoring module for Zabbix
 
@@ -8,7 +8,7 @@ Group       : Applications/Internet
 License     : GNU GPLv2
 URL         : https://github.com/cavaliercoder/libzbxpgsql
 
-Requires    : zabbix-agent >= 1.8
+Requires    : zabbix-agent >= 2.2.0
 
 # Zabbix sources (Customized)
 Source0     : %{name}-%{version}.tar.gz
