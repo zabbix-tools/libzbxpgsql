@@ -96,7 +96,7 @@ LIMIT 1"
     				break;
 
     			case 3: // <client>
-    			    if(isdigit(*param))
+    			    if(isdigit(*param) || ':' == *param)
     			    	zbx_snprintf(p, MAX_CLAUSE_LEN, " %s client_addr = inet '%s'", clause, param);
     				else
     					zbx_snprintf(p, MAX_CLAUSE_LEN, " %s client_hostname='%s'", clause, param);
