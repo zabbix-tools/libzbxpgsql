@@ -168,7 +168,7 @@ int         zbx_module_uninit()                     { return ZBX_MODULE_OK; }
  */
  PGconn    *pg_connect(AGENT_REQUEST *request)
  {
-    const char          *__function_name = "PG_CONNECT";
+    const char  *__function_name = "pg_connect";
     PGconn      *conn = NULL;
     char        *pghost = NULL, *pgport = NULL, *pgdb = NULL, *pguser = NULL, *pgpasswd = NULL;
     
@@ -348,7 +348,7 @@ out:
  int    pg_get_dbl(AGENT_REQUEST *request, AGENT_RESULT *result, const char *query)
  {
     int         ret = SYSINFO_RET_FAIL;             // Request result code
-    const char  *__function_name = "pg_get_int";    // Function name for log file
+    const char  *__function_name = "pg_get_dbl";    // Function name for log file
     
     PGconn      *conn = NULL;
     PGresult    *res = NULL;
