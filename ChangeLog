@@ -1,0 +1,9 @@
+v0.1.0 16 Feb 2015
+
+* Implemented `pg.query.*` and `pg.queries.longest` keys
+* Implemented `pg.backends.*` keys
+* Improved documentation
+
+v0.1.0 7 Feb 2015
+
+* Initial release

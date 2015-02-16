@@ -48,5 +48,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_sysconfdir}/zabbix/zabbix_agentd.d/%{name}.conf
 
 %changelog
+* Mon Feb 16 2015 Ryan Armstrong <ryan@cavaliercoder.com> 0.1.1-1
+- Implemented `pg.query.*` and `pg.queries.longest` keys
+- Implemented `pg.backends.*` keys
+- Improved documentation
+
 * Sat Feb 7 2015 Ryan Armstrong <ryan@cavaliercoder.com> 0.1.0-1
 - Initial release
