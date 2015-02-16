@@ -77,3 +77,20 @@ To test all available items and see their default values, run the following on
 a [correctly configured]({{ site.baseurl }}/installation/) Zabbix agent:
 
     zabbix_agentd -p | grep '^pg\.'
+
+## Keys
+
+{% for category in site.data.keys %}
+### {{ category.name }}
+{{ category.description }}
+
+{% for key in category.keys %}
+#### {{ key.key }}
+{{ key.description }}
+
+{{% if key.type %}}*Type:* `{{ key.type }}`{{% endif %}}
+
+{{% if key.units %}}*Units:* `{{ key.units }}`{{% endif %}}
+
+{% endfor %}
+{% endfor %}

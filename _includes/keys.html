@@ -1,0 +1,42 @@
+<h3>Table of contents</h3>
+<ul>
+{% for key in include.keys %}
+	<li><a href="#{{ key.key | slugify }}">{{ key.key }}</a></li>
+{% endfor %}
+</ul>
+
+
+{% for key in include.keys %}
+<h3 id="{{ key.key | slugify }}">{{ key.key }}</h3>
+{% if key.description %}<p>{{ key.description | markdownify }}</p>{% endif %}
+
+{% if key.type %}
+<p>
+	<em>Type:</em>&nbsp;<code>{{ key.type }}</code>
+</p>
+{% endif %}
+
+{% if key.units %}
+<p>
+	<em>Units:</em>&nbsp;{{ key.units }}
+</p>
+{% endif %}
+
+{% if key.parameters %}
+<p>
+	<em>Parameters:</em>
+</p>
+<ul>
+	{% for param in key.parameters %}
+	<li><code>{{ param[0] }}</code>:&nbsp;{{ param[1] | markdownify }}</li>
+	{% endfor %}
+</ul>
+{% endif %}
+
+{% if key.example %}
+<p>
+	<em>Example:</em><p>{{ key.example | markdownify }}</p>
+</p>
+{% endif %}
+
+{% endfor %}
