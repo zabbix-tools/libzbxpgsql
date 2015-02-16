@@ -27,6 +27,8 @@ The following installation methods are available:
 
 ## From source
 
+* Download and install the [libpq development headers](http://www.postgresql.org/download/)
+
 * Download the latest `libzbxpgsql` source tarball from [SourceForge](https://sourceforge.net/projects/libzbxpgsl/files/sources/)
 
 * Extract, configure and compile the sources with:
