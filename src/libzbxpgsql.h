@@ -60,6 +60,7 @@ int     pg_get_string(AGENT_REQUEST *request, AGENT_RESULT *result, const char *
 int     pg_get_int(AGENT_REQUEST *request, AGENT_RESULT *result, const char *query);
 int     pg_get_dbl(AGENT_REQUEST *request, AGENT_RESULT *result, const char *query);
 int     is_valid_ip(char *str);
+int     is_oid(char *str);
 
 int     PG_GET_CLASS_SIZE(AGENT_REQUEST *request, AGENT_RESULT *result, char *relkind, char *relname);
 
