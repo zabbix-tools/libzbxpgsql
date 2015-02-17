@@ -28,6 +28,7 @@ The following installation methods are available:
 ## From source
 
 * Download and install the [libpq development headers](http://www.postgresql.org/download/)
+  (`postgresql-devel` package on RHEL family servers)
 
 * Download the latest `libzbxpgsql` source tarball from [SourceForge](https://sourceforge.net/projects/libzbxpgsl/files/sources/)
 
