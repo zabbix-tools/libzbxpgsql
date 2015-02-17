@@ -413,15 +413,15 @@ int is_oid(char *str)
  */
 int is_valid_ip(char *str)
 {
-    struct sockaddr_in sa;
+    struct in6_addr in;
     int res = 0;
 
     // test for valid IPv4 address
-    if(1 == inet_pton(AF_INET, str, &(sa.sin_addr)))
+    if(1 == inet_pton(AF_INET, str, &(in)))
         res = 1;
 
     // test for valid IPv6 address
-    if(1 == inet_pton(AF_INET6, str, &(sa.sin_addr)))
+    if(1 == inet_pton(AF_INET6, str, &(in)))
         res = 1;
 
     return res;

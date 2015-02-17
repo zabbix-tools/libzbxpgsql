@@ -69,11 +69,11 @@ LIMIT 1"
 
     // Build the sql query
     memset(query, 0, MAX_QUERY_LEN);
-    zbx_strlcpy(p, PGSQL_GET_BACKENDS,MAX_QUERY_LEN);
+    zbx_strlcpy(p, PGSQL_GET_BACKENDS, MAX_QUERY_LEN);
     p += strlen(p);
 
     // iterate over the available parameters
-    for(i = 0; i < 8; i++) {
+    for(i = 0; i < 7; i++) {
     	param = get_rparam(request, PARAM_FIRST + i);
     	if(NULL != param && '\0' != *param) {
     		switch(i) {
@@ -97,7 +97,7 @@ LIMIT 1"
 
     			case 3: // <client>
     			    if(is_valid_ip(param))
-    			    	zbx_snprintf(p, MAX_CLAUSE_LEN, " %s client_addr = inet '%s'", clause, param);
+                    	zbx_snprintf(p, MAX_CLAUSE_LEN, " %s client_addr = inet '%s'", clause, param);
     				else
     					zbx_snprintf(p, MAX_CLAUSE_LEN, " %s client_hostname='%s'", clause, param);
     				break;
