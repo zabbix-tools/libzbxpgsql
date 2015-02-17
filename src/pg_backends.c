@@ -78,14 +78,14 @@ LIMIT 1"
     	if(NULL != param && '\0' != *param) {
     		switch(i) {
     			case 0: // <database>
-    				if(isdigit(*param))
+    				if(is_oid(param))
     					zbx_snprintf(p, MAX_CLAUSE_LEN, " %s datid=%s", clause, param);
     				else
     					zbx_snprintf(p, MAX_CLAUSE_LEN, " %s datname='%s'", clause, param);
     				break;
 
     			case 1: // <user>
-    			    if(isdigit(*param))
+    			    if(is_oid(param))
     			    	zbx_snprintf(p, MAX_CLAUSE_LEN, " %s usesysid=%s", clause, param);
     				else
     					zbx_snprintf(p, MAX_CLAUSE_LEN, " %s usename='%s'", clause, param);
@@ -96,7 +96,7 @@ LIMIT 1"
     				break;
 
     			case 3: // <client>
-    			    if(isdigit(*param) || ':' == *param)
+    			    if(is_valid_ip(param))
     			    	zbx_snprintf(p, MAX_CLAUSE_LEN, " %s client_addr = inet '%s'", clause, param);
     				else
     					zbx_snprintf(p, MAX_CLAUSE_LEN, " %s client_hostname='%s'", clause, param);

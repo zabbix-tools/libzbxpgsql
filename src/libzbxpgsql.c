@@ -384,3 +384,45 @@ out:
     zabbix_log(LOG_LEVEL_DEBUG, "End of %s(%s)", __function_name, request->key);
     return ret;
 }
+
+/*
+ * Function: is_oid
+ * 
+ * Returns: 1 if the specified string is a valid PostgreSQL OID
+ *
+ * See also: http://www.postgresql.org/docs/9.4/static/datatype-oid.html
+ */
+int is_oid(char *str)
+{
+    char *p = NULL;
+    int res = 0;
+
+    for(p = str; '\0' != *p; p++) {
+        if (0 == isdigit(*p))
+            return 0;
+        res = 1;
+    }
+
+    return res;
+}
+
+/* 
+ * Function: is_valid_ip
+ * 
+ * Returns: 1 if the specified string is a valid IPv4 or IPv6 address
+ */
+int is_valid_ip(char *str)
+{
+    struct sockaddr_in sa;
+    int res = 0;
+
+    // test for valid IPv4 address
+    if(1 == inet_pton(AF_INET, str, &(sa.sin_addr)))
+        res = 1;
+
+    // test for valid IPv6 address
+    if(1 == inet_pton(AF_INET6, str, &(sa.sin_addr)))
+        res = 1;
+
+    return res;
+}
