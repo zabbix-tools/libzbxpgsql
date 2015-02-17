@@ -13,7 +13,7 @@
   description: >
     Returns the version string of the connected PostgreSQL Server
   type: Text
-  source: SELECT version();`
+  source: SELECT version();
 
 - key: pg.setting
   description: >
@@ -22,38 +22,70 @@
     directory, maximum threshold, log file locations, etc.
 
     For a definitive list of settings and their descriptions, execute:
-
-        SELECT * FROM pg_settings;
+    {% highlight sql linenos %}
+    SELECT * FROM pg_settings;
+    {% endhighlight %}
 
     For more information, see [pg_setting](http://www.postgresql.org/docs/9.4/static/view-pg-settings.html).
 
-  type: Varies depending on setting value type as per `pg_settings.vartype`
+  type: pg_settings.vartype
 
   parameters: 
-    setting: the name of the setting to return
+    - parameter: setting
+      description: the name of the setting to return
 
   source: SELECT setting,vartype FROM pg_settings WHERE...
   example: pg.setting[pg-server,,,db-monitor,,data_directory]
 
 - key: pg.backends.count
   description: Returns the number of active backend processes for remote connections.
-  type: Numeric (unsigned)`
+  type: Numeric (unsigned)
   parameters: 
+    - parameter: database
+      description: database name or OID
 
-    database: database name or OID
-    user: user name or OID
-    application: application name
-    client: client hostname or IP address
-    waiting: (true|false) processes waiting on a lock
-    state: >
-      overall state of the backend. One of
-      active: the backend is executing a query
-      idle: the backend is waiting for a new client command
-      idle in transaction: the backend is in a transaction, but is not currently executing a query
-      idle in transaction (aborted): this state is similar to idle in transaction, except one of the statements in the transaction caused an error
-      fastpath function call: the backend is executing a fast-path function
-      disabled: this state is reported if track_activities is disabled in this backend
-    query: the query being executed on the backend
+    - parameter: user
+      description: user name or OID
+
+    - parameter: application
+      description: application name
+
+    - parameter: client
+      description: client hostname or IP address
+
+    - parameter: waiting
+      description: processes waiting on a lock
+      options: 
+        - option: true
+          description: only return waiting processes
+        - option: false
+          description: only return processes that are not waiting
+        - option: default
+          description: no filtering based on waiting status
+
+    - parameter: state
+      description: overall state of the backend
+      options:
+        - option: active
+          description: the backend is executing a query
+
+        - option: idle
+          description: the backend is waiting for a new client command
+
+        - option: idle in transaction
+          description: the backend is in a transaction, but is not currently executing a query
+
+        - option: idle in transaction (aborted)
+          description: this state is similar to idle in transaction, except one of the statements in the transaction caused an error
+
+        - option: fastpath function call
+          description: the backend is executing a fast-path function
+
+        - option: disabled
+          description: this state is reported if track_activities is disabled in this backend
+
+    - parameter: query
+      description: the query being executed on the backend
 
   source: SELECT COUNT(pid) FROM pg_stat_activity WHERE...
 
@@ -66,7 +98,7 @@
 
 - key: pg.queries.longest
   description: Returns the duration of the longest running currently active query.
-  type: Numeric (float)`
+  type: Numeric (float)
   units: Seconds
   source: >
     SELECT
@@ -78,57 +110,57 @@
 
 - key: pg.checkpoints_timed
   description: Returns the number of scheduled checkpoints that have been performed
-  type: Numeric (unsigned)`
+  type: Numeric (unsigned)
   source: SELECT checkpoints_timed FROM pg_stat_bgwriter WHERE ...
 
 - key: pg.checkpoints_req
   description: Returns the number of requested checkpoints that have been performed
-  type: Numeric (unsigned)`
+  type: Numeric (unsigned)
   source: SELECT checkpoints_req FROM pg_stat_bgwriter WHERE ...
 
 - key: pg.checkpoint_write_time
   description: Returns the total amount of time that has been spent in the portion of checkpoint processing where files are written to disk, in milliseconds
-  type: Numeric (float)`
+  type: Numeric (float)
   units: Milliseconds
   source: SELECT checkpoint_write_time FROM pg_stat_bgwriter WHERE ...
 
 - key: pg.checkpoint_sync_time
   description: Returns the total amount of time that has been spent in the portion of checkpoint processing where files are synchronized to disk, in milliseconds
-  type: Numeric (float)`
+  type: Numeric (float)
   units: Milliseconds
   source: SELECT checkpoint_sync_time FROM pg_stat_bgwriter WHERE ...
 
 - key: pg.buffers_checkpoint
   description: Returns the Number of buffers written during checkpoints
-  type: Numeric (unsigned)`
+  type: Numeric (unsigned)
   source: SELECT buffers_checkpoint FROM pg_stat_bgwriter WHERE ...
 
 - key: pg.buffers_clean
   description: Returns the number of buffers written by the background writer
-  type: Numeric (unsigned)`
+  type: Numeric (unsigned)
   source: SELECT buffers_clean FROM pg_stat_bgwriter WHERE ...
 
 - key: pg.maxwritten_clean
   description: Returns the number of times the background writer stopped a cleaning scan because it had written too many buffers
-  type: Numeric (unsigned)`
+  type: Numeric (unsigned)
   source: SELECT maxwritten_clean FROM pg_stat_bgwriter WHERE ...
 
 - key: pg.buffers_backend
   description: Returns the number of buffers written directly by a backend
-  type: Numeric (unsigned)`
+  type: Numeric (unsigned)
   source: SELECT buffers_backend FROM pg_stat_bgwriter WHERE ...
 
 - key: pg.buffers_backend_fsync
   description: Returns the number of times a backend had to execute its own fsync call (normally the background writer handles those even when the backend does its own write)
-  type: Numeric (unsigned)`
+  type: Numeric (unsigned)
   source: SELECT buffers_backend_fsync FROM pg_stat_bgwriter WHERE ...
 
 - key: pg.buffers_alloc
   description: Returns the number of buffers allocated
-  type: Numeric (unsigned)`
+  type: Numeric (unsigned)
   source: SELECT buffers_alloc FROM pg_stat_bgwriter WHERE ...
 
 - key: pg.stats_reset
   description: Returns the time at which these statistics were last reset
-  type: Text`
+  type: Text
   source: SELECT stats_reset FROM pg_stat_bgwriter WHERE ...

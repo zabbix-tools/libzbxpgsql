@@ -1,0 +1,89 @@
+---
+- key: pg.index.discovery
+  description: Discover all Indexes visible to the configured user account.
+
+  type: Discovery
+  macros: 
+    - macro: "{#OID}"
+      description: Index unique identifier
+
+    - macro: "{#INDEX}"
+      description: Index name
+
+    - macro: "{#TABLE}`"
+      description: Parent table of the index
+
+    - macro: "{#DATABASE}"
+      description: Parent database of the index
+
+    - macro: "{#SCHEMA}"
+      description: Parent namespace of the index
+
+    - macro: "{#OWNER}"
+      description: Owner name
+
+    - macro: "{#ACCESS}"
+      description: Index access method (e.g. `btree`, `hash`, `gin`, etc.)
+
+  source: >
+
+    SELECT
+        ic.oid
+        , ic.relname
+        , current_database()
+        , n.nspname
+        , t.relname
+        , a.rolname
+        , m.amname
+    FROM pg_index i
+    JOIN pg_class ic ON ic.oid = i.indexrelid
+    JOIN pg_namespace n ON n.oid = ic.relnamespace
+    JOIN pg_authid a ON a.oid = ic.relowner
+    JOIN pg_class t ON t.oid = i.indrelid
+    JOIN pg_am m ON m.oid = ic.relam;
+
+
+- key: pg.index.size
+  description: Returns the size in bytes of a PostgreSQL Index
+  type: Numeric (unsigned)
+  parameters:
+    - parameter: index
+      description: The name or OID of the desired Index. If not specified, the sum size of all accessible indexes is returned
+
+  units: B
+  source: >
+
+    SELECT (relpages * 8192)
+    FROM pg_class
+    WHERE (
+      relkind='i' 
+      AND relname = $1
+    );
+
+    -- or for sum values:
+
+    SELECT (SUM(relpages) * 8192)
+    FROM pg_class
+    WHERE relkind='i';
+
+- key: pg.index.rows
+  description: Returns the estimated row count of a PostgreSQL Index
+  type: Numeric (unsigned)
+  parameters:
+    - parameter: index
+      description: The name or OID of the desired Index. If not specified, the sum estimated row count of all accessible indexes is returned
+
+  source: >
+
+    SELECT reltuples
+    FROM pg_class
+    WHERE (
+      relkind='i'
+      AND relname = $1
+    );
+
+    -- or for sum values:
+
+    SELECT SUM(reltuples)
+    FROM pg_class
+    WHERE relkind='i';
