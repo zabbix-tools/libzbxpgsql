@@ -1,0 +1,231 @@
+---
+- key: pg.table.discovery
+  description: Returns a JSON array of all known PostgreSQL tables in the current database
+  type: Discovery
+  macros: 
+    - macro: "{#OID}"
+      description: Table unique identifier
+
+    - macro: "{#TABLE}`"
+      description: Table name
+
+    - macro: "{#DATABASE}"
+      description: Parent database of the table
+
+    - macro: "{#SCHEMA}"
+      description: Parent namespace of the table
+
+    - macro: "{#TABLESPACE}"
+      description: Parent tablespace of the table
+
+    - macro: "{#TYPE}"
+      description: Table type
+
+    - macro: "{#OWNER}"
+      description: Owner name
+
+    - macro: "{#PERSISTENCE}"
+      description: Persistence of the table (`permenant`, `unlogged` or `temporary`)
+
+    - macro: "{#ISSUBCLASS}"
+      description: Non-zero if the table inherits from other tables
+
+- key: pg.table.size
+  description: Returns the size in bytes of a PostgreSQL table
+  type: Numeric (unsigned)
+  units: B
+  parameters:
+    - parameter: table
+      description: the table to assess
+
+- key: pg.table.rows
+  description: >
+    Returns the number of rows in the table. This is only an estimate used by
+    the planner. It is updated by `VACUUM`, `ANALYZE`, and a few DDL commands such
+    as `CREATE INDEX`. 
+  type: Numeric (unsigned)
+  parameters:
+    - parameter: table
+      description: the table to assess
+
+- key: pg.table.seq_scan
+  description: Returns the number of sequential scans initiated on this table
+  type: Numeric (unsigned)
+  parameters:
+    - parameter: table
+      description: the table to assess
+
+- key: pg.table.seq_tup_read
+  description: Returns the number of live rows fetched by sequential scans
+  type: Numeric (unsigned)
+  parameters:
+    - parameter: table
+      description: the table to assess
+
+- key: pg.table.idx_scan
+  description: Returns the number of index scans initiated on this table
+  type: Numeric (unsigned)
+  parameters:
+    - parameter: table
+      description: the table to assess
+
+- key: pg.table.idx_tup_fetch
+  description: Returns the number of live rows fetched by index scans
+  type: Numeric (unsigned)
+  parameters:
+    - parameter: table
+      description: the table to assess
+
+- key: pg.table.n_tup_ins
+  description: Returns the number of rows inserted
+  type: Numeric (unsigned)
+  parameters:
+    - parameter: table
+      description: the table to assess
+
+- key: pg.table.n_tup_upd
+  description: Returns the number of rows updated
+  type: Numeric (unsigned)
+  parameters:
+    - parameter: table
+      description: the table to assess
+
+- key: pg.table.n_tup_del
+  description: Returns the number of rows deleted
+  type: Numeric (unsigned)
+  parameters:
+    - parameter: table
+      description: the table to assess
+
+- key: pg.table.n_tup_hot_upd
+  description: Returns the number of rows HOT updated (i.e., with no separate index update required)
+  type: Numeric (unsigned)
+  parameters:
+    - parameter: table
+      description: the table to assess
+
+- key: pg.table.n_live_tup
+  description: Returns the estimated number of live rows
+  type: Numeric (unsigned)
+  parameters:
+    - parameter: table
+      description: the table to assess
+
+- key: pg.table.n_dead_tup
+  description: Returns the estimated number of dead rows
+  type: Numeric (unsigned)
+  parameters:
+    - parameter: table
+      description: the table to assess
+
+- key: pg.table.last_vacuum
+  description: Returns the last time at which this table was manually vacuumed (not counting VACUUM FULL)
+  type: Text
+  parameters:
+    - parameter: table
+      description: the table to assess
+
+- key: pg.table.last_autovacuum
+  description: Returns the last time at which this table was vacuumed by the autovacuum daemon
+  type: Text
+  parameters:
+    - parameter: table
+      description: the table to assess
+
+- key: pg.table.last_analyze
+  description: Returns the last time at which this table was manually analyzed
+  type: Text
+  parameters:
+    - parameter: table
+      description: the table to assess
+
+- key: pg.table.last_autoanalyze
+  description: Returns the last time at which this table was analyzed by the autovacuum daemon
+  type: Text
+  parameters:
+    - parameter: table
+      description: the table to assess
+
+- key: pg.table.vacuum_count
+  description: Returns the number of times this table has been manually vacuumed (not counting VACUUM FULL)
+  type: Numeric (unsigned)
+  parameters:
+    - parameter: table
+      description: the table to assess
+
+- key: pg.table.autovacuum_count
+  description: Returns the number of times this table has been vacuumed by the autovacuum daemon
+  type: Numeric (unsigned)
+  parameters:
+    - parameter: table
+      description: the table to assess
+
+- key: pg.table.analyze_count
+  description: Returns the number of times this table has been manually analyzed
+  type: Numeric (unsigned)
+  parameters:
+    - parameter: table
+      description: the table to assess
+
+- key: pg.table.autoanalyze_count
+  description: Returns the number of times this table has been analyzed by the autovacuum daemon
+  type: Numeric (unsigned)
+  parameters:
+    - parameter: table
+      description: the table to assess
+
+- key: pg.table.heap_blks_read
+  description: Returns the number of disk blocks read from this table
+  type: Numeric (unsigned)
+  parameters:
+    - parameter: table
+      description: the table to assess
+
+- key: pg.table.heap_blks_hit
+  description: Returns the number of buffer hits in this table
+  type: Numeric (unsigned)
+  parameters:
+    - parameter: table
+      description: the table to assess
+
+- key: pg.table.idx_blks_read
+  description: Returns the number of disk blocks read from all indexes on this table
+  type: Numeric (unsigned)
+  parameters:
+    - parameter: table
+      description: the table to assess
+
+- key: pg.table.idx_blks_hit
+  description: Returns the number of buffer hits in all indexes on this table
+  type: Numeric (unsigned)
+  parameters:
+    - parameter: table
+      description: the table to assess
+
+- key: pg.table.toast_blks_read
+  description: Returns the number of disk blocks read from this table's TOAST table (if any)
+  type: Numeric (unsigned)
+  parameters:
+    - parameter: table
+      description: the table to assess
+
+- key: pg.table.toast_blks_hit
+  description: Returns the number of buffer hits in this table's TOAST table (if any)
+  type: Numeric (unsigned)
+  parameters:
+    - parameter: table
+      description: the table to assess
+
+- key: pg.table.tidx_blks_read
+  description: Returns the number of disk blocks read from this table's TOAST table index (if any)
+  type: Numeric (unsigned)
+  parameters:
+    - parameter: table
+      description: the table to assess
+
+- key: pg.table.tidx_blks_hit
+  description: Returns the number of buffer hits in this table's TOAST table index (if any)
+  type: Numeric (unsigned)
+  parameters:
+    - parameter: table
+      description: the table to assess

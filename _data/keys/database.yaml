@@ -1,0 +1,82 @@
+---
+- key: pg.db.discovery
+  description: Returns a JSON array of all known PostgreSQL databases which are available for connection
+  type: Discovery
+
+- key: pg.db.size
+  description: Returns the size in bytes of a PostgreSQL database
+  type: Numeric (unsigned)
+  units: Bytes
+
+- key: pg.db.numbackends
+  description: >
+    Returns the number of backends currently connected to this database. This is the only column in this view that description: Returns a value reflecting current state; all other columns return the accumulated values since the last reset.
+  type: Numeric (unsigned)
+
+- key: pg.db.xact_commit
+  description: Returns the number of transactions in this database that have been committed
+  type: Numeric (unsigned)
+
+- key: pg.db.xact_rollback
+  description: Returns the number of transactions in this database that have been rolled back
+  type: Numeric (unsigned)
+
+- key: pg.db.blks_read
+  description: Returns the number of disk blocks read in this database
+  type: Numeric (unsigned)
+
+- key: pg.db.blks_hit
+  description: Returns the number of times disk blocks were found already in the buffer cache, so that a read was not necessary (this only includes hits in the PostgreSQL buffer cache, not the operating system's file system cache)
+  type: Numeric (unsigned)
+
+- key: pg.db.tup_returned
+  description: Returns the number of rows returned by queries in this database
+  type: Numeric (unsigned)
+
+- key: pg.db.tup_fetched
+  description: Returns the number of rows fetched by queries in this database
+  type: Numeric (unsigned)
+
+- key: pg.db.tup_inserted
+  description: Returns the number of rows inserted by queries in this database
+  type: Numeric (unsigned)
+
+- key: pg.db.tup_updated
+  description: Returns the number of rows updated by queries in this database
+  type: Numeric (unsigned)
+
+- key: pg.db.tup_deleted
+  description: Returns the number of rows deleted by queries in this database
+  type: Numeric (unsigned)
+
+- key: pg.db.conflicts
+  description: Returns the number of queries canceled due to conflicts with recovery in this database. (Conflicts occur only on standby servers; see pg_stat_database_conflicts for details.)
+  type: Numeric (unsigned)
+
+- key: pg.db.temp_files
+  description: Returns the number of temporary files created by queries in this database. All temporary files are counted, regardless of why the temporary file was created (e.g., sorting or hashing), and regardless of the log_temp_files setting.
+  type: Numeric (unsigned)
+
+- key: pg.db.temp_bytes
+  description: Returns the total amount of data written to temporary files by queries in this database. All temporary files are counted, regardless of why the temporary file was created, and regardless of the log_temp_files setting.
+  type: Numeric (unsigned)
+  units: Bytes
+
+- key: pg.db.deadlocks
+  description: Returns the number of deadlocks detected in this database
+  type: Numeric (unsigned)
+
+- key: pg.db.blk_read_time
+  description: Returns the time spent reading data file blocks by backends in this database, in milliseconds
+  type: Numeric (unsigned)
+  units: Milliseconds
+
+- key: pg.db.blk_write_time
+  description: Returns the time spent writing data file blocks by backends in this database, in milliseconds
+  type: Numeric (unsigned)
+  units: Milliseconds
+
+- key: pg.db.stats_reset
+  description: Returns the time at which these statistics were last reset
+  type: Text
+

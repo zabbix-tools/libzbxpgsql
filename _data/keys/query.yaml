@@ -1,0 +1,36 @@
+---
+- key: pg.query.string
+  description: Execute a custom SQL query and return the value of the first column of the first row as a string of text.
+  type: Text
+  parameters:
+    - parameter: query
+      description: The scalar SQL query to execute
+
+  example: >
+
+    `pg.query.string[pg-server,5432,postgres,postgres,P4ssw0rd,SELECT 'Lorem ipsem dolor';]`
+
+
+- key: pg.query.integer
+  description: Execute a custom SQL query and return the value of the first column of the first row as an unsigned integer.
+  type: Numeric (unsigned)
+  parameters:
+    - parameter: query
+      description: The scalar SQL query to execute
+
+  example: >
+
+    `pg.query.string[pg-server,5432,postgres,postgres,P4ssw0rd,SELECT 1234;]`
+
+
+- key: pg.query.double
+  description: Execute a custom SQL query and return the value of the first column of the first row as a double precision floating point integer.
+  type: Numeric (float)
+  parameters:
+    - parameter: query
+      description: The scalar SQL query to execute
+
+  example: >
+
+    `pg.query.string[pg-server,5432,postgres,postgres,P4ssw0rd,SELECT 12.34;]`
+

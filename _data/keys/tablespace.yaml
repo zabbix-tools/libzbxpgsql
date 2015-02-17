@@ -1,0 +1,33 @@
+---
+- key: pg.tablespace.discovery
+  description: Discover all Tablespaces visible to the configured user account.
+  type: Discovery
+  macros:
+    - macro: "{#OID}"
+      description: Tablespace unique identifier
+
+    - macro: "{#TABLESPACE}"
+      description: Tablespace name
+
+    - macro: "{#OWNER}"
+      description: Owner name
+
+  source: >
+
+    SELECT
+      t.oid
+      , t.spcname
+      , a.rolname
+    FROM pg_tablespace t
+    JOIN pg_authid a ON a.oid = t.spcowner
+
+
+- key: pg.tablespace.size
+  description: Returns the size in bytes of a PostgreSQL Tablespace
+  type: Numeric (unsigned)
+  parameters:
+    - parameter: tablespace
+      description: The name or OID of the desired Tablespace (required)
+
+  units: B
+  source: SELECT pg_tablespace_size($6)
