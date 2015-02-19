@@ -17,17 +17,27 @@
 ** Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 **/
 
+#ifndef LIBZBXPGSQL_H
+#define LIBZBXPGSQL_H
+
 #include <ctype.h>
 #include <stdarg.h>
 #include <arpa/inet.h>
 
-#include "sysinc.h"
-#include "module.h"
-#include "common.h"
-#include "log.h"
-#include "zbxjson.h"
+#include "include/sysinc.h"
+#include "include/module.h"
+#include "include/common.h"
+#include "include/log.h"
+#include "include/zbxjson.h"
 
 #include <libpq-fe.h>
+
+// Version info
+#ifdef GIT_VERSION
+    #define STRVER	PACKAGE " " GIT_VERSION
+#else
+    #define STRVER	PACKAGE " " PACKAGE_VERSION
+#endif
 
 // Default connection settings
 #define LOCALHOST       "localhost"
@@ -102,3 +112,5 @@ int     PG_STAT_ALL_INDEXES(AGENT_REQUEST *request, AGENT_RESULT *result);
 int     PG_STATIO_ALL_INDEXES(AGENT_REQUEST *request, AGENT_RESULT *result);
 int     PG_INDEX_SIZE(AGENT_REQUEST *request, AGENT_RESULT *result);
 int     PG_INDEX_ROWS(AGENT_REQUEST *request, AGENT_RESULT *result);
+
+#endif

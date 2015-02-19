@@ -145,8 +145,13 @@ static ZBX_METRIC keys[] =
 int         zbx_module_api_version()                { return ZBX_MODULE_API_VERSION_ONE; }
 void        zbx_module_item_timeout(int timeout)    { return; }
 ZBX_METRIC  *zbx_module_item_list()                 { return keys; }
-int         zbx_module_init()                       { return ZBX_MODULE_OK; }
 int         zbx_module_uninit()                     { return ZBX_MODULE_OK; }
+
+int         zbx_module_init() { 
+    zabbix_log(LOG_LEVEL_INFORMATION, "Starting agent module %s", STRVER);
+
+    return ZBX_MODULE_OK; 
+}
 
 /*
  * Function: pg_connect

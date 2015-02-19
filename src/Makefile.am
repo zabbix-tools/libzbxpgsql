@@ -1,3 +1,5 @@
+GIT_VERSION = $(shell git describe --abbrev=4 --dirty --always --tags)
+
 lib_LTLIBRARIES = libzbxpgsql.la
 
 libzbxpgsql_la_SOURCES = \
@@ -14,11 +16,11 @@ libzbxpgsql_la_SOURCES = \
 	pg_index.c
 
 libzbxpgsql_la_CFLAGS = \
-	-I../include -I../../include \
 	-lpq \
 	-I/usr/pgsql-9.4/include \
 	-I/usr/include/postgresql \
-	-L/usr/pgsql-9.4/lib
+	-L/usr/pgsql-9.4/lib \
+	-DGIT_VERSION=\"$(GIT_VERSION)\"
 
 libzbxpgsql_la_LDFLAGS = \
 	-shared \
