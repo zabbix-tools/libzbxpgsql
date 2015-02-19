@@ -1,4 +1,4 @@
-# libzbxpgsql [![Build Status](https://travis-ci.org/cavaliercoder/libzbxpgsql.svg?branch=master)](https://travis-ci.org/cavaliercoder/libzbxpgsql)
+# libzbxpgsql [![Build Status](https://travis-ci.org/cavaliercoder/libzbxpgsql.svg?branch=master)](https://travis-ci.org/cavaliercoder/libzbxpgsql) [![endorse](https://api.coderwall.com/cavaliercoder/endorsecount.png)](https://coderwall.com/cavaliercoder)
 
 This project provides comprehensive monitoring of PostgreSQL servers using a
 natively compiled Zabbix agent module, written in C.
