@@ -23,7 +23,8 @@ To compile the agent module the following items are required:
 * GNU build tools (`make`, `gcc`, `autoconf`, `automake`, `libtool`, `m4`, etc.)
 * [libpq development headers](http://www.postgresql.org/download/)
 
-If you are building from the source distribution tarball, simply run:
+If you are building from sources cloned from GitHub, you first need to
+regenerate the build scripts using `./autogen.sh`. Otherwise:
 
     ./configure
     make
@@ -31,8 +32,9 @@ If you are building from the source distribution tarball, simply run:
 
 Module file `libzbxpgsql.so` will then be installed in `/usr/local/lib`.
 
-If you are building from sources cloned from GitHub, you first need to
-regenerate the build scripts using `./autogen.sh`.
+To build the RPM package on a RHEL6+ family system with `rpm-build` installed:
+
+    make rpm
 
 
 ## License
