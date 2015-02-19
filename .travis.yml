@@ -1,7 +1,7 @@
 language: c
 
 # Container based build
-sudo: false
+# sudo: false
 
 # before build script, run autoreconf
 before_script: ./autogen.sh
