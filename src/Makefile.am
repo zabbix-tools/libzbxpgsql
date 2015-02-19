@@ -1,4 +1,4 @@
-GIT_VERSION = $(shell git describe --abbrev=4 --dirty --always --tags)
+GIT_VERSION = $(shell git describe --abbrev=8 --dirty --always --tags)
 
 lib_LTLIBRARIES = libzbxpgsql.la
 
