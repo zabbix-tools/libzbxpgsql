@@ -16,7 +16,7 @@ Source0     : %{name}-%{version}.tar.gz
 Buildroot   : %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 %description
-A comprehensive PostgreSQL monitoring module for Zabbix
+libzbxpgsql is a comprehensive PostgreSQL discovery and monitoring module for the Zabbix monitoring agent written in C.
 
 %prep
 # Extract and configure sources into $RPM_BUILD_ROOT
