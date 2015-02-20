@@ -19,7 +19,7 @@ use of the included [pre-built template]({{ site.baseurl }}/template/).
 
 The following installation methods are available:
 
-* [Compile from source](#from-source) on Linux and compatible operating systems
+* [Compile from source](#from-source) on Linux and comparable operating systems
 
 * [RPM Packages](#rpm-package) for RedHat family operating systems
 

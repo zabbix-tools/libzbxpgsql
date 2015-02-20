@@ -8,7 +8,7 @@ permalink: /agent-keys/
 This document describes all of the Zabbix agent item keys that are made
 available for querying by `libzbxpgsql`.
 
-Theses keys may be queried using `zabbix_get` or by adding Items, Discovery
+These keys may be queried using `zabbix_get` or by adding Items, Discovery
 Rules and Item Prototypes to Templates and/or Hosts in Zabbix.
 
 Agent item keys are broken up into the following categories:
