@@ -31,9 +31,13 @@ sed -i.orig -e 's|_LIBDIR=/usr/lib|_LIBDIR=%{_libdir}|g' configure
 make %{?_smp_mflags}
 
 %install
-# Stage compiler output
+# Install
 rm -rf $RPM_BUILD_ROOT
 make DESTDIR=$RPM_BUILD_ROOT install
+
+# Move lib into .../modules/
+install -dm 755 $RPM_BUILD_ROOT%{_libdir}/modules
+mv $RPM_BUILD_ROOT%{_libdir}/%{name}.so $RPM_BUILD_ROOT%{_libdir}/modules/%{name}.so
 
 # Create agent config file
 install -dm 755 $RPM_BUILD_ROOT%{_sysconfdir}/zabbix/zabbix_agentd.d
@@ -44,7 +48,7 @@ echo "LoadModule=libzbxpgsql.so" > $RPM_BUILD_ROOT%{_sysconfdir}/zabbix/zabbix_a
 rm -rf $RPM_BUILD_ROOT
 
 %files
-%{_libdir}/libzbxpgsql.so
+%{_libdir}/modules/libzbxpgsql.so
 %{_sysconfdir}/zabbix/zabbix_agentd.d/%{name}.conf
 
 %changelog

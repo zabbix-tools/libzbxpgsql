@@ -15,7 +15,7 @@ dpkg -l zabbix-release > /dev/null || dpkg -i zabbix-release_2.2-1+precise_all.d
 
 # Update package list and install
 apt-get -q update
-apt-get -y install zabbix-agent make gcc autoconf automake m4 libtool postgresql-9.4 postgresql-client-9.4 libpq-dev
+apt-get -y install git zabbix-agent make gcc autoconf automake m4 libtool postgresql-9.4 postgresql-client-9.4 libpq-dev
 
 # Configure PostgreSQL
 echo -e "${BULLET} Configuring PostgreSQL server..."
