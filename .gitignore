@@ -1,4 +1,7 @@
+*.build
+*.changes
 *.deb
+*.dsc
 *.in
 *.la
 *.lo
