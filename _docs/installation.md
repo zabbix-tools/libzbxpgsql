@@ -21,7 +21,9 @@ The following installation methods are available:
 
 * [Compile from source](#from-source) on Linux and compatible operating systems
 
-* [RPM Packages](#rpm-package) for RHEL family operating systems
+* [RPM Packages](#rpm-package) for RedHat family operating systems
+
+* [Deb Packages](#deb-packages) for Debian family operating systems
 
 ![Agent tests screenshot]({{ site.baseurl }}/assets/agenttests.png)
 
@@ -88,6 +90,39 @@ See [Zabbix - Installation from packages](https://www.zabbix.com/documentation/2
   `sudo /etc/init.d/zabbix-agent restart`
 
 * You should see a `loaded modules: libzbxpgsql.so` entry in your Zabbix agent
-  log file (`/var/log/zabbix/zabbix_agentd.conf`)
+  log file (`/var/log/zabbix/zabbix_agentd.log`)
+
+* Test for successful installation with `zabbix_agentd -p | grep '^pg\.'`
+
+
+## Deb Packages
+
+Debian packages are made available for simpler installation on Debian family
+systems such as Ubuntu.
+
+The packages require the installation of the Zabbix SIA provided agent Deb
+package, `zabbix-agent` and install the `libzbxpgsql` module and configuration
+in the default directories used by the Zabbix agent packages.
+
+See [Zabbix - Installation from packages](https://www.zabbix.com/documentation/2.4/manual/installation/install_from_packages).
+
+* Download the latest `libzbxpgsql` Deb package for your distribution from [SourceForge](https://sourceforge.net/projects/libzbxpgsl/files/debs/)
+
+* Install using `dpkg` with: `dpkg -i libzbxpgsql-*.deb`
+
+* The module will be installed to:
+ 
+  `/usr/lib/modules/libzbxpgsql.so` 
+
+  and the agent configuration file will be installed to:
+
+  `/etc/zabbix/zabbix_agentd.d/libzbxpgsql.conf`
+
+* Restart the Zabbix agent with:
+  
+  `sudo /etc/init.d/zabbix-agent restart`
+
+* You should see a `loaded modules: libzbxpgsql.so` entry in your Zabbix agent
+  log file (`/var/log/zabbix/zabbix_agentd.log`)
 
 * Test for successful installation with `zabbix_agentd -p | grep '^pg\.'`
