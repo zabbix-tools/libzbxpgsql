@@ -10,15 +10,18 @@ keys made available in this module. It is not recommended to use this template
 out-of-the-box in production without first configuring the check intervals,
 configuration macros, discovery rule filters, etc. to suit your environment.
 
-Import the `template_postgresql_server.xml` template into Zabbix to get
-started.
+Import `template_postgresql_server.xml` (from 
+[GitHub](https://github.com/cavaliercoder/libzbxpgsql/blob/master/template_postgresql_server.xml)
+or from the [source tarball](https://sourceforge.net/projects/libzbxpgsl/files/sources/))
+into Zabbix to get started. See the [Zabbix manual](https://www.zabbix.com/documentation/2.4/manual/xml_export_import)
+for details on importing templates from XML.
 
 Once applied to a host, the template will discover all available tablespaces,
 databases, tables and indexes accessible to the configured user account and
 create items and graphs for effective monitoring.
 
 For a typical, PostgreSQL server hosting only Zabbix, this will create around
-6000 item checks and 2500 graphs if no filtering is applied.
+**6000 item checks and 2500 graphs** if no filtering is applied.
 
 Please note that the template uses [Active checks](https://www.zabbix.com/documentation/2.4/manual/appendix/items/activepassive)
 and so a restart of the agent may be required for the new template items to be
