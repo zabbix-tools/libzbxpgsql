@@ -1,0 +1,15 @@
+---
+- title: About
+  link: /
+
+- title: Keys
+  link: /agent-keys
+
+- title: Installation
+  link: /installation
+
+- title: Template
+  link: /template
+
+- title: Release notes
+  link: /release-notes
