@@ -20,6 +20,7 @@ libzbxpgsql_la_CFLAGS = \
 	-I/usr/pgsql-9.4/include \
 	-I/usr/include/postgresql \
 	-L/usr/pgsql-9.4/lib \
+	-I../.. \
 	-DGIT_VERSION=\"$(GIT_VERSION)\"
 
 libzbxpgsql_la_LDFLAGS = \
