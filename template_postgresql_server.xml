@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>2.0</version>
-    <date>2015-02-11T15:26:02Z</date>
+    <date>2015-02-25T13:15:43Z</date>
     <groups>
         <group>
             <name>Templates</name>
@@ -431,49 +431,6 @@
                     <logtimefmt/>
                 </item>
                 <item>
-                    <name>Block size</name>
-                    <type>7</type>
-                    <snmp_community/>
-                    <multiplier>0</multiplier>
-                    <snmp_oid/>
-                    <key>pg.setting[{$PG_HOST},{$PG_PORT},{$PG_DB},{$PG_USER},{$PG_PASSWD},block_size]</key>
-                    <delay>30</delay>
-                    <history>90</history>
-                    <trends>365</trends>
-                    <status>0</status>
-                    <value_type>3</value_type>
-                    <allowed_hosts/>
-                    <units/>
-                    <delta>0</delta>
-                    <snmpv3_contextname/>
-                    <snmpv3_securityname/>
-                    <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                    <snmpv3_authprotocol>0</snmpv3_authprotocol>
-                    <snmpv3_authpassphrase/>
-                    <snmpv3_privprotocol>0</snmpv3_privprotocol>
-                    <snmpv3_privpassphrase/>
-                    <formula>1</formula>
-                    <delay_flex/>
-                    <params/>
-                    <ipmi_sensor/>
-                    <data_type>0</data_type>
-                    <authtype>0</authtype>
-                    <username/>
-                    <password/>
-                    <publickey/>
-                    <privatekey/>
-                    <port/>
-                    <description>The size of a disk block.</description>
-                    <inventory_link>0</inventory_link>
-                    <applications>
-                        <application>
-                            <name>PostgreSQL Configuration</name>
-                        </application>
-                    </applications>
-                    <valuemap/>
-                    <logtimefmt/>
-                </item>
-                <item>
                     <name>Buffers allocated</name>
                     <type>7</type>
                     <snmp_community/>
@@ -732,264 +689,6 @@
                     <logtimefmt/>
                 </item>
                 <item>
-                    <name>Config file</name>
-                    <type>7</type>
-                    <snmp_community/>
-                    <multiplier>0</multiplier>
-                    <snmp_oid/>
-                    <key>pg.setting[{$PG_HOST},{$PG_PORT},{$PG_DB},{$PG_USER},{$PG_PASSWD},config_file]</key>
-                    <delay>30</delay>
-                    <history>90</history>
-                    <trends>365</trends>
-                    <status>0</status>
-                    <value_type>4</value_type>
-                    <allowed_hosts/>
-                    <units/>
-                    <delta>0</delta>
-                    <snmpv3_contextname/>
-                    <snmpv3_securityname/>
-                    <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                    <snmpv3_authprotocol>0</snmpv3_authprotocol>
-                    <snmpv3_authpassphrase/>
-                    <snmpv3_privprotocol>0</snmpv3_privprotocol>
-                    <snmpv3_privpassphrase/>
-                    <formula>1</formula>
-                    <delay_flex/>
-                    <params/>
-                    <ipmi_sensor/>
-                    <data_type>0</data_type>
-                    <authtype>0</authtype>
-                    <username/>
-                    <password/>
-                    <publickey/>
-                    <privatekey/>
-                    <port/>
-                    <description>The server's main configuration file.</description>
-                    <inventory_link>0</inventory_link>
-                    <applications>
-                        <application>
-                            <name>PostgreSQL Configuration</name>
-                        </application>
-                    </applications>
-                    <valuemap/>
-                    <logtimefmt/>
-                </item>
-                <item>
-                    <name>Data directory</name>
-                    <type>7</type>
-                    <snmp_community/>
-                    <multiplier>0</multiplier>
-                    <snmp_oid/>
-                    <key>pg.setting[{$PG_HOST},{$PG_PORT},{$PG_DB},{$PG_USER},{$PG_PASSWD},data_directory]</key>
-                    <delay>30</delay>
-                    <history>90</history>
-                    <trends>365</trends>
-                    <status>0</status>
-                    <value_type>4</value_type>
-                    <allowed_hosts/>
-                    <units/>
-                    <delta>0</delta>
-                    <snmpv3_contextname/>
-                    <snmpv3_securityname/>
-                    <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                    <snmpv3_authprotocol>0</snmpv3_authprotocol>
-                    <snmpv3_authpassphrase/>
-                    <snmpv3_privprotocol>0</snmpv3_privprotocol>
-                    <snmpv3_privpassphrase/>
-                    <formula>1</formula>
-                    <delay_flex/>
-                    <params/>
-                    <ipmi_sensor/>
-                    <data_type>0</data_type>
-                    <authtype>0</authtype>
-                    <username/>
-                    <password/>
-                    <publickey/>
-                    <privatekey/>
-                    <port/>
-                    <description>The server's data directory.</description>
-                    <inventory_link>0</inventory_link>
-                    <applications>
-                        <application>
-                            <name>PostgreSQL Configuration</name>
-                        </application>
-                    </applications>
-                    <valuemap/>
-                    <logtimefmt/>
-                </item>
-                <item>
-                    <name>FSync</name>
-                    <type>7</type>
-                    <snmp_community/>
-                    <multiplier>0</multiplier>
-                    <snmp_oid/>
-                    <key>pg.setting[{$PG_HOST},{$PG_PORT},{$PG_DB},{$PG_USER},{$PG_PASSWD},fsync]</key>
-                    <delay>30</delay>
-                    <history>90</history>
-                    <trends>365</trends>
-                    <status>0</status>
-                    <value_type>4</value_type>
-                    <allowed_hosts/>
-                    <units/>
-                    <delta>0</delta>
-                    <snmpv3_contextname/>
-                    <snmpv3_securityname/>
-                    <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                    <snmpv3_authprotocol>0</snmpv3_authprotocol>
-                    <snmpv3_authpassphrase/>
-                    <snmpv3_privprotocol>0</snmpv3_privprotocol>
-                    <snmpv3_privpassphrase/>
-                    <formula>1</formula>
-                    <delay_flex/>
-                    <params/>
-                    <ipmi_sensor/>
-                    <data_type>0</data_type>
-                    <authtype>0</authtype>
-                    <username/>
-                    <password/>
-                    <publickey/>
-                    <privatekey/>
-                    <port/>
-                    <description>Forces synchronization of updates to disk.</description>
-                    <inventory_link>0</inventory_link>
-                    <applications>
-                        <application>
-                            <name>PostgreSQL Configuration</name>
-                        </application>
-                    </applications>
-                    <valuemap/>
-                    <logtimefmt/>
-                </item>
-                <item>
-                    <name>HBA File</name>
-                    <type>7</type>
-                    <snmp_community/>
-                    <multiplier>0</multiplier>
-                    <snmp_oid/>
-                    <key>pg.setting[{$PG_HOST},{$PG_PORT},{$PG_DB},{$PG_USER},{$PG_PASSWD},hba_file]</key>
-                    <delay>30</delay>
-                    <history>90</history>
-                    <trends>365</trends>
-                    <status>0</status>
-                    <value_type>4</value_type>
-                    <allowed_hosts/>
-                    <units/>
-                    <delta>0</delta>
-                    <snmpv3_contextname/>
-                    <snmpv3_securityname/>
-                    <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                    <snmpv3_authprotocol>0</snmpv3_authprotocol>
-                    <snmpv3_authpassphrase/>
-                    <snmpv3_privprotocol>0</snmpv3_privprotocol>
-                    <snmpv3_privpassphrase/>
-                    <formula>1</formula>
-                    <delay_flex/>
-                    <params/>
-                    <ipmi_sensor/>
-                    <data_type>0</data_type>
-                    <authtype>0</authtype>
-                    <username/>
-                    <password/>
-                    <publickey/>
-                    <privatekey/>
-                    <port/>
-                    <description>The server's &quot;hba&quot; configuration file.</description>
-                    <inventory_link>0</inventory_link>
-                    <applications>
-                        <application>
-                            <name>PostgreSQL Configuration</name>
-                        </application>
-                    </applications>
-                    <valuemap/>
-                    <logtimefmt/>
-                </item>
-                <item>
-                    <name>Identity File</name>
-                    <type>7</type>
-                    <snmp_community/>
-                    <multiplier>0</multiplier>
-                    <snmp_oid/>
-                    <key>pg.setting[{$PG_HOST},{$PG_PORT},{$PG_DB},{$PG_USER},{$PG_PASSWD},ident_file]</key>
-                    <delay>30</delay>
-                    <history>90</history>
-                    <trends>365</trends>
-                    <status>0</status>
-                    <value_type>4</value_type>
-                    <allowed_hosts/>
-                    <units/>
-                    <delta>0</delta>
-                    <snmpv3_contextname/>
-                    <snmpv3_securityname/>
-                    <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                    <snmpv3_authprotocol>0</snmpv3_authprotocol>
-                    <snmpv3_authpassphrase/>
-                    <snmpv3_privprotocol>0</snmpv3_privprotocol>
-                    <snmpv3_privpassphrase/>
-                    <formula>1</formula>
-                    <delay_flex/>
-                    <params/>
-                    <ipmi_sensor/>
-                    <data_type>0</data_type>
-                    <authtype>0</authtype>
-                    <username/>
-                    <password/>
-                    <publickey/>
-                    <privatekey/>
-                    <port/>
-                    <description>The server's &quot;ident&quot; configuration file.</description>
-                    <inventory_link>0</inventory_link>
-                    <applications>
-                        <application>
-                            <name>PostgreSQL Configuration</name>
-                        </application>
-                    </applications>
-                    <valuemap/>
-                    <logtimefmt/>
-                </item>
-                <item>
-                    <name>Maximum connections</name>
-                    <type>7</type>
-                    <snmp_community/>
-                    <multiplier>0</multiplier>
-                    <snmp_oid/>
-                    <key>pg.setting[{$PG_HOST},{$PG_PORT},{$PG_DB},{$PG_USER},{$PG_PASSWD},max_connections]</key>
-                    <delay>30</delay>
-                    <history>90</history>
-                    <trends>365</trends>
-                    <status>0</status>
-                    <value_type>3</value_type>
-                    <allowed_hosts/>
-                    <units/>
-                    <delta>0</delta>
-                    <snmpv3_contextname/>
-                    <snmpv3_securityname/>
-                    <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                    <snmpv3_authprotocol>0</snmpv3_authprotocol>
-                    <snmpv3_authpassphrase/>
-                    <snmpv3_privprotocol>0</snmpv3_privprotocol>
-                    <snmpv3_privpassphrase/>
-                    <formula>1</formula>
-                    <delay_flex/>
-                    <params/>
-                    <ipmi_sensor/>
-                    <data_type>0</data_type>
-                    <authtype>0</authtype>
-                    <username/>
-                    <password/>
-                    <publickey/>
-                    <privatekey/>
-                    <port/>
-                    <description>The maximum number of concurrent connections.</description>
-                    <inventory_link>0</inventory_link>
-                    <applications>
-                        <application>
-                            <name>PostgreSQL Configuration</name>
-                        </application>
-                    </applications>
-                    <valuemap/>
-                    <logtimefmt/>
-                </item>
-                <item>
                     <name>Number of times the background writer stopped a cleaning scan because it had written too many buffers</name>
                     <type>7</type>
                     <snmp_community/>
@@ -1199,49 +898,6 @@
                     <applications>
                         <application>
                             <name>PostgreSQL Background Writer</name>
-                        </application>
-                    </applications>
-                    <valuemap/>
-                    <logtimefmt/>
-                </item>
-                <item>
-                    <name>Shared memory buffers</name>
-                    <type>7</type>
-                    <snmp_community/>
-                    <multiplier>0</multiplier>
-                    <snmp_oid/>
-                    <key>pg.setting[{$PG_HOST},{$PG_PORT},{$PG_DB},{$PG_USER},{$PG_PASSWD},shared_buffer]</key>
-                    <delay>30</delay>
-                    <history>90</history>
-                    <trends>365</trends>
-                    <status>0</status>
-                    <value_type>3</value_type>
-                    <allowed_hosts/>
-                    <units/>
-                    <delta>0</delta>
-                    <snmpv3_contextname/>
-                    <snmpv3_securityname/>
-                    <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                    <snmpv3_authprotocol>0</snmpv3_authprotocol>
-                    <snmpv3_authpassphrase/>
-                    <snmpv3_privprotocol>0</snmpv3_privprotocol>
-                    <snmpv3_privpassphrase/>
-                    <formula>1</formula>
-                    <delay_flex/>
-                    <params/>
-                    <ipmi_sensor/>
-                    <data_type>0</data_type>
-                    <authtype>0</authtype>
-                    <username/>
-                    <password/>
-                    <publickey/>
-                    <privatekey/>
-                    <port/>
-                    <description>The number of shared memory buffers used by the server.</description>
-                    <inventory_link>0</inventory_link>
-                    <applications>
-                        <application>
-                            <name>PostgreSQL Configuration</name>
                         </application>
                     </applications>
                     <valuemap/>
@@ -2117,18 +1773,6 @@
                             <ymax_item_1>0</ymax_item_1>
                             <graph_items>
                                 <graph_item>
-                                    <sortorder>0</sortorder>
-                                    <drawtype>0</drawtype>
-                                    <color>00C800</color>
-                                    <yaxisside>0</yaxisside>
-                                    <calc_fnc>2</calc_fnc>
-                                    <type>0</type>
-                                    <item>
-                                        <host>Template PostgreSQL Server</host>
-                                        <key>pg.db.blks_hit[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD}]</key>
-                                    </item>
-                                </graph_item>
-                                <graph_item>
                                     <sortorder>1</sortorder>
                                     <drawtype>0</drawtype>
                                     <color>C80000</color>
@@ -2138,6 +1782,18 @@
                                     <item>
                                         <host>Template PostgreSQL Server</host>
                                         <key>pg.db.blks_read[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD}]</key>
+                                    </item>
+                                </graph_item>
+                                <graph_item>
+                                    <sortorder>0</sortorder>
+                                    <drawtype>0</drawtype>
+                                    <color>00C800</color>
+                                    <yaxisside>0</yaxisside>
+                                    <calc_fnc>2</calc_fnc>
+                                    <type>0</type>
+                                    <item>
+                                        <host>Template PostgreSQL Server</host>
+                                        <key>pg.db.blks_hit[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD}]</key>
                                     </item>
                                 </graph_item>
                             </graph_items>
@@ -2313,18 +1969,6 @@
                             <ymax_item_1>0</ymax_item_1>
                             <graph_items>
                                 <graph_item>
-                                    <sortorder>1</sortorder>
-                                    <drawtype>0</drawtype>
-                                    <color>C80000</color>
-                                    <yaxisside>0</yaxisside>
-                                    <calc_fnc>2</calc_fnc>
-                                    <type>0</type>
-                                    <item>
-                                        <host>Template PostgreSQL Server</host>
-                                        <key>pg.db.xact_rollback[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD}]</key>
-                                    </item>
-                                </graph_item>
-                                <graph_item>
                                     <sortorder>0</sortorder>
                                     <drawtype>0</drawtype>
                                     <color>00C800</color>
@@ -2334,6 +1978,18 @@
                                     <item>
                                         <host>Template PostgreSQL Server</host>
                                         <key>pg.db.xact_commit[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD}]</key>
+                                    </item>
+                                </graph_item>
+                                <graph_item>
+                                    <sortorder>1</sortorder>
+                                    <drawtype>0</drawtype>
+                                    <color>C80000</color>
+                                    <yaxisside>0</yaxisside>
+                                    <calc_fnc>2</calc_fnc>
+                                    <type>0</type>
+                                    <item>
+                                        <host>Template PostgreSQL Server</host>
+                                        <key>pg.db.xact_rollback[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD}]</key>
                                     </item>
                                 </graph_item>
                             </graph_items>
@@ -2357,30 +2013,6 @@
                             <ymax_item_1>0</ymax_item_1>
                             <graph_items>
                                 <graph_item>
-                                    <sortorder>0</sortorder>
-                                    <drawtype>0</drawtype>
-                                    <color>C80000</color>
-                                    <yaxisside>0</yaxisside>
-                                    <calc_fnc>2</calc_fnc>
-                                    <type>0</type>
-                                    <item>
-                                        <host>Template PostgreSQL Server</host>
-                                        <key>pg.db.tup_deleted[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD}]</key>
-                                    </item>
-                                </graph_item>
-                                <graph_item>
-                                    <sortorder>2</sortorder>
-                                    <drawtype>0</drawtype>
-                                    <color>C800C8</color>
-                                    <yaxisside>0</yaxisside>
-                                    <calc_fnc>2</calc_fnc>
-                                    <type>0</type>
-                                    <item>
-                                        <host>Template PostgreSQL Server</host>
-                                        <key>pg.db.tup_inserted[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD}]</key>
-                                    </item>
-                                </graph_item>
-                                <graph_item>
                                     <sortorder>3</sortorder>
                                     <drawtype>0</drawtype>
                                     <color>0000C8</color>
@@ -2402,6 +2034,30 @@
                                     <item>
                                         <host>Template PostgreSQL Server</host>
                                         <key>pg.db.tup_updated[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD}]</key>
+                                    </item>
+                                </graph_item>
+                                <graph_item>
+                                    <sortorder>0</sortorder>
+                                    <drawtype>0</drawtype>
+                                    <color>C80000</color>
+                                    <yaxisside>0</yaxisside>
+                                    <calc_fnc>2</calc_fnc>
+                                    <type>0</type>
+                                    <item>
+                                        <host>Template PostgreSQL Server</host>
+                                        <key>pg.db.tup_deleted[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD}]</key>
+                                    </item>
+                                </graph_item>
+                                <graph_item>
+                                    <sortorder>2</sortorder>
+                                    <drawtype>0</drawtype>
+                                    <color>C800C8</color>
+                                    <yaxisside>0</yaxisside>
+                                    <calc_fnc>2</calc_fnc>
+                                    <type>0</type>
+                                    <item>
+                                        <host>Template PostgreSQL Server</host>
+                                        <key>pg.db.tup_inserted[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD}]</key>
                                     </item>
                                 </graph_item>
                                 <graph_item>
@@ -2817,18 +2473,6 @@
                             <ymax_item_1>0</ymax_item_1>
                             <graph_items>
                                 <graph_item>
-                                    <sortorder>1</sortorder>
-                                    <drawtype>0</drawtype>
-                                    <color>0000C8</color>
-                                    <yaxisside>0</yaxisside>
-                                    <calc_fnc>2</calc_fnc>
-                                    <type>0</type>
-                                    <item>
-                                        <host>Template PostgreSQL Server</host>
-                                        <key>pg.index.idx_tup_read[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD},{#INDEX}]</key>
-                                    </item>
-                                </graph_item>
-                                <graph_item>
                                     <sortorder>0</sortorder>
                                     <drawtype>0</drawtype>
                                     <color>00C800</color>
@@ -2838,6 +2482,18 @@
                                     <item>
                                         <host>Template PostgreSQL Server</host>
                                         <key>pg.index.idx_tup_fetch[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD},{#INDEX}]</key>
+                                    </item>
+                                </graph_item>
+                                <graph_item>
+                                    <sortorder>1</sortorder>
+                                    <drawtype>0</drawtype>
+                                    <color>0000C8</color>
+                                    <yaxisside>0</yaxisside>
+                                    <calc_fnc>2</calc_fnc>
+                                    <type>0</type>
+                                    <item>
+                                        <host>Template PostgreSQL Server</host>
+                                        <key>pg.index.idx_tup_read[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD},{#INDEX}]</key>
                                     </item>
                                 </graph_item>
                                 <graph_item>
@@ -2919,6 +2575,83 @@
                             </graph_items>
                         </graph_prototype>
                     </graph_prototypes>
+                    <host_prototypes/>
+                </discovery_rule>
+                <discovery_rule>
+                    <name>Discover PostgreSQL Settings</name>
+                    <type>7</type>
+                    <snmp_community/>
+                    <snmp_oid/>
+                    <key>pg.setting.discovery[{$PG_HOST},{$PG_PORT},{$PG_DB},{$PG_USER},{$PG_PASSWD}]</key>
+                    <delay>30</delay>
+                    <status>0</status>
+                    <allowed_hosts/>
+                    <snmpv3_contextname/>
+                    <snmpv3_securityname/>
+                    <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                    <snmpv3_authprotocol>0</snmpv3_authprotocol>
+                    <snmpv3_authpassphrase/>
+                    <snmpv3_privprotocol>0</snmpv3_privprotocol>
+                    <snmpv3_privpassphrase/>
+                    <delay_flex/>
+                    <params/>
+                    <ipmi_sensor/>
+                    <authtype>0</authtype>
+                    <username/>
+                    <password/>
+                    <publickey/>
+                    <privatekey/>
+                    <port/>
+                    <filter>:</filter>
+                    <lifetime>30</lifetime>
+                    <description/>
+                    <item_prototypes>
+                        <item_prototype>
+                            <name>Setting: {#SETTING}</name>
+                            <type>7</type>
+                            <snmp_community/>
+                            <multiplier>0</multiplier>
+                            <snmp_oid/>
+                            <key>pg.setting[{$PG_HOST},{$PG_PORT},{$PG_DB},{$PG_USER},{$PG_PASSWD},{#SETTING}]</key>
+                            <delay>30</delay>
+                            <history>90</history>
+                            <trends>365</trends>
+                            <status>0</status>
+                            <value_type>4</value_type>
+                            <allowed_hosts/>
+                            <units/>
+                            <delta>0</delta>
+                            <snmpv3_contextname/>
+                            <snmpv3_securityname/>
+                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
+                            <snmpv3_authpassphrase/>
+                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
+                            <snmpv3_privpassphrase/>
+                            <formula>1</formula>
+                            <delay_flex/>
+                            <params/>
+                            <ipmi_sensor/>
+                            <data_type>0</data_type>
+                            <authtype>0</authtype>
+                            <username/>
+                            <password/>
+                            <publickey/>
+                            <privatekey/>
+                            <port/>
+                            <description>{#DESCRIPTION}</description>
+                            <inventory_link>0</inventory_link>
+                            <applications>
+                                <application>
+                                    <name>PostgreSQL Configuration</name>
+                                </application>
+                            </applications>
+                            <valuemap/>
+                            <logtimefmt/>
+                        </item_prototype>
+                    </item_prototypes>
+                    <trigger_prototypes/>
+                    <graph_prototypes/>
                     <host_prototypes/>
                 </discovery_rule>
                 <discovery_rule>
@@ -3888,6 +3621,18 @@
                                     </item>
                                 </graph_item>
                                 <graph_item>
+                                    <sortorder>1</sortorder>
+                                    <drawtype>0</drawtype>
+                                    <color>00C800</color>
+                                    <yaxisside>0</yaxisside>
+                                    <calc_fnc>2</calc_fnc>
+                                    <type>0</type>
+                                    <item>
+                                        <host>Template PostgreSQL Server</host>
+                                        <key>pg.table.autoanalyze_count[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD},{#TABLE}]</key>
+                                    </item>
+                                </graph_item>
+                                <graph_item>
                                     <sortorder>2</sortorder>
                                     <drawtype>0</drawtype>
                                     <color>0000C8</color>
@@ -3911,18 +3656,6 @@
                                         <key>pg.table.vacuum_count[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD},{#TABLE}]</key>
                                     </item>
                                 </graph_item>
-                                <graph_item>
-                                    <sortorder>1</sortorder>
-                                    <drawtype>0</drawtype>
-                                    <color>00C800</color>
-                                    <yaxisside>0</yaxisside>
-                                    <calc_fnc>2</calc_fnc>
-                                    <type>0</type>
-                                    <item>
-                                        <host>Template PostgreSQL Server</host>
-                                        <key>pg.table.autoanalyze_count[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD},{#TABLE}]</key>
-                                    </item>
-                                </graph_item>
                             </graph_items>
                         </graph_prototype>
                         <graph_prototype>
@@ -3943,6 +3676,18 @@
                             <ymin_item_1>0</ymin_item_1>
                             <ymax_item_1>0</ymax_item_1>
                             <graph_items>
+                                <graph_item>
+                                    <sortorder>2</sortorder>
+                                    <drawtype>0</drawtype>
+                                    <color>0000C8</color>
+                                    <yaxisside>0</yaxisside>
+                                    <calc_fnc>2</calc_fnc>
+                                    <type>0</type>
+                                    <item>
+                                        <host>Template PostgreSQL Server</host>
+                                        <key>pg.table.rows[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD},{#TABLE}]</key>
+                                    </item>
+                                </graph_item>
                                 <graph_item>
                                     <sortorder>0</sortorder>
                                     <drawtype>0</drawtype>
@@ -3965,18 +3710,6 @@
                                     <item>
                                         <host>Template PostgreSQL Server</host>
                                         <key>pg.table.n_live_tup[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD},{#TABLE}]</key>
-                                    </item>
-                                </graph_item>
-                                <graph_item>
-                                    <sortorder>2</sortorder>
-                                    <drawtype>0</drawtype>
-                                    <color>0000C8</color>
-                                    <yaxisside>0</yaxisside>
-                                    <calc_fnc>2</calc_fnc>
-                                    <type>0</type>
-                                    <item>
-                                        <host>Template PostgreSQL Server</host>
-                                        <key>pg.table.rows[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD},{#TABLE}]</key>
                                     </item>
                                 </graph_item>
                             </graph_items>
@@ -4076,15 +3809,15 @@
                             <ymax_item_1>0</ymax_item_1>
                             <graph_items>
                                 <graph_item>
-                                    <sortorder>0</sortorder>
+                                    <sortorder>1</sortorder>
                                     <drawtype>0</drawtype>
-                                    <color>0000C8</color>
+                                    <color>C800C8</color>
                                     <yaxisside>0</yaxisside>
                                     <calc_fnc>2</calc_fnc>
                                     <type>0</type>
                                     <item>
                                         <host>Template PostgreSQL Server</host>
-                                        <key>pg.table.n_tup_ins[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD},{#TABLE}]</key>
+                                        <key>pg.table.n_tup_upd[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD},{#TABLE}]</key>
                                     </item>
                                 </graph_item>
                                 <graph_item>
@@ -4100,15 +3833,15 @@
                                     </item>
                                 </graph_item>
                                 <graph_item>
-                                    <sortorder>1</sortorder>
+                                    <sortorder>0</sortorder>
                                     <drawtype>0</drawtype>
-                                    <color>C800C8</color>
+                                    <color>0000C8</color>
                                     <yaxisside>0</yaxisside>
                                     <calc_fnc>2</calc_fnc>
                                     <type>0</type>
                                     <item>
                                         <host>Template PostgreSQL Server</host>
-                                        <key>pg.table.n_tup_upd[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD},{#TABLE}]</key>
+                                        <key>pg.table.n_tup_ins[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD},{#TABLE}]</key>
                                     </item>
                                 </graph_item>
                                 <graph_item>
@@ -4297,18 +4030,6 @@
                     </item>
                 </graph_item>
                 <graph_item>
-                    <sortorder>2</sortorder>
-                    <drawtype>0</drawtype>
-                    <color>C80000</color>
-                    <yaxisside>0</yaxisside>
-                    <calc_fnc>2</calc_fnc>
-                    <type>0</type>
-                    <item>
-                        <host>Template PostgreSQL Server</host>
-                        <key>pg.backends.count[{$PG_HOST},{$PG_PORT},{$PG_DB},{$PG_USER},{$PG_PASSWD},,,,,true]</key>
-                    </item>
-                </graph_item>
-                <graph_item>
                     <sortorder>3</sortorder>
                     <drawtype>0</drawtype>
                     <color>000000</color>
@@ -4318,6 +4039,18 @@
                     <item>
                         <host>Template PostgreSQL Server</host>
                         <key>pg.backends.count[{$PG_HOST},{$PG_PORT},{$PG_DB},{$PG_USER},{$PG_PASSWD}]</key>
+                    </item>
+                </graph_item>
+                <graph_item>
+                    <sortorder>2</sortorder>
+                    <drawtype>0</drawtype>
+                    <color>C80000</color>
+                    <yaxisside>0</yaxisside>
+                    <calc_fnc>2</calc_fnc>
+                    <type>0</type>
+                    <item>
+                        <host>Template PostgreSQL Server</host>
+                        <key>pg.backends.count[{$PG_HOST},{$PG_PORT},{$PG_DB},{$PG_USER},{$PG_PASSWD},,,,,true]</key>
                     </item>
                 </graph_item>
                 <graph_item>
@@ -4365,18 +4098,6 @@
                     </item>
                 </graph_item>
                 <graph_item>
-                    <sortorder>0</sortorder>
-                    <drawtype>0</drawtype>
-                    <color>00C800</color>
-                    <yaxisside>0</yaxisside>
-                    <calc_fnc>2</calc_fnc>
-                    <type>0</type>
-                    <item>
-                        <host>Template PostgreSQL Server</host>
-                        <key>pg.buffers_alloc[{$PG_HOST},{$PG_PORT},{$PG_DB},{$PG_USER},{$PG_PASSWD}]</key>
-                    </item>
-                </graph_item>
-                <graph_item>
                     <sortorder>3</sortorder>
                     <drawtype>0</drawtype>
                     <color>C800C8</color>
@@ -4400,6 +4121,18 @@
                         <key>pg.buffers_clean[{$PG_HOST},{$PG_PORT},{$PG_DB},{$PG_USER},{$PG_PASSWD}]</key>
                     </item>
                 </graph_item>
+                <graph_item>
+                    <sortorder>0</sortorder>
+                    <drawtype>0</drawtype>
+                    <color>00C800</color>
+                    <yaxisside>0</yaxisside>
+                    <calc_fnc>2</calc_fnc>
+                    <type>0</type>
+                    <item>
+                        <host>Template PostgreSQL Server</host>
+                        <key>pg.buffers_alloc[{$PG_HOST},{$PG_PORT},{$PG_DB},{$PG_USER},{$PG_PASSWD}]</key>
+                    </item>
+                </graph_item>
             </graph_items>
         </graph>
         <graph>
@@ -4421,18 +4154,6 @@
             <ymax_item_1>0</ymax_item_1>
             <graph_items>
                 <graph_item>
-                    <sortorder>1</sortorder>
-                    <drawtype>0</drawtype>
-                    <color>0000C8</color>
-                    <yaxisside>0</yaxisside>
-                    <calc_fnc>2</calc_fnc>
-                    <type>0</type>
-                    <item>
-                        <host>Template PostgreSQL Server</host>
-                        <key>pg.checkpoint_write_time[{$PG_HOST},{$PG_PORT},{$PG_DB},{$PG_USER},{$PG_PASSWD}]</key>
-                    </item>
-                </graph_item>
-                <graph_item>
                     <sortorder>0</sortorder>
                     <drawtype>0</drawtype>
                     <color>00C800</color>
@@ -4442,6 +4163,18 @@
                     <item>
                         <host>Template PostgreSQL Server</host>
                         <key>pg.checkpoint_sync_time[{$PG_HOST},{$PG_PORT},{$PG_DB},{$PG_USER},{$PG_PASSWD}]</key>
+                    </item>
+                </graph_item>
+                <graph_item>
+                    <sortorder>1</sortorder>
+                    <drawtype>0</drawtype>
+                    <color>0000C8</color>
+                    <yaxisside>0</yaxisside>
+                    <calc_fnc>2</calc_fnc>
+                    <type>0</type>
+                    <item>
+                        <host>Template PostgreSQL Server</host>
+                        <key>pg.checkpoint_write_time[{$PG_HOST},{$PG_PORT},{$PG_DB},{$PG_USER},{$PG_PASSWD}]</key>
                     </item>
                 </graph_item>
             </graph_items>

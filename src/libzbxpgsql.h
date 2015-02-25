@@ -77,7 +77,9 @@ int     PG_GET_CLASS_SIZE(AGENT_REQUEST *request, AGENT_RESULT *result, char *re
 // Define agent key functions
 int     PG_CONNECT(AGENT_REQUEST *request, AGENT_RESULT *result);
 int     PG_VERSION(AGENT_REQUEST *request, AGENT_RESULT *result);
+
 int     PG_SETTING(AGENT_REQUEST *request, AGENT_RESULT *result);
+int     PG_SETTING_DISCOVERY(AGENT_REQUEST *request, AGENT_RESULT *result);
 
 int     PG_QUERY(AGENT_REQUEST *request, AGENT_RESULT *result);
 

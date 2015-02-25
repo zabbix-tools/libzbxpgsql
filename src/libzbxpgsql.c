@@ -31,7 +31,9 @@ static ZBX_METRIC keys[] =
 {
     {"pg.connect",                  CF_HAVEPARAMS,  PG_CONNECT,                     NULL},
     {"pg.version",                  CF_HAVEPARAMS,  PG_VERSION,                     NULL},
+
     {"pg.setting",                  CF_HAVEPARAMS,  PG_SETTING,                     ",,,,,data_directory"},
+    {"pg.setting.discovery",        CF_HAVEPARAMS,  PG_SETTING_DISCOVERY,           NULL},
 
     // User queries
     {"pg.query.string",             CF_HAVEPARAMS,  PG_QUERY,                       ",,,,,SELECT 'Lorem ipsum dolor';"},
