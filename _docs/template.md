@@ -32,6 +32,9 @@ made known to the agent.
 * Import [template_postgresql_server.xml](https://raw.githubusercontent.com/cavaliercoder/libzbxpgsql/master/template_postgresql_server.xml)
   from the source repository. For information on importing Templates, see the [Zabbix manual](https://www.zabbix.com/documentation/2.4/manual/xml_export_import).
 
+* Modify the update intervals of each Discovery Rule, Item Prototype and Item
+  to suit your needs. Also, enable and disables items as desired.
+
 * Configure your PostgreSQL connection details on the desired host using the
   provided [macros](#macros).
 
