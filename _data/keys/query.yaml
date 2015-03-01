@@ -20,7 +20,7 @@
 
   example: >
 
-    `pg.query.string[pg-server,5432,postgres,postgres,P4ssw0rd,SELECT 1234;]`
+    `pg.query.integer[pg-server,5432,postgres,postgres,P4ssw0rd,SELECT 1234;]`
 
 
 - key: pg.query.double
@@ -32,5 +32,5 @@
 
   example: >
 
-    `pg.query.string[pg-server,5432,postgres,postgres,P4ssw0rd,SELECT 12.34;]`
+    `pg.query.double[pg-server,5432,postgres,postgres,P4ssw0rd,SELECT 12.34;]`
 
