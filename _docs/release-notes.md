@@ -5,6 +5,15 @@ menu: Release notes
 permalink: /release-notes/
 ---
 
+## v0.1.3
+Release: Mar 17 2015
+
+- Added configuration directive discovery
+
+  All configuration directives in the `pg_settings` table can now be
+  automatically discovered using a discovery rule and monitored for changes.
+
+
 ## v0.1.2 
 Released: Feb 20 2015
 
