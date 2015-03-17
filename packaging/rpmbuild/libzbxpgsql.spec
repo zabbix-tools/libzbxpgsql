@@ -52,7 +52,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_sysconfdir}/zabbix/zabbix_agentd.d/%{name}.conf
 
 %changelog
-* Tues Mar 17 2015 Ryan Armstrong <ryan@cavaliercoder.com> 0.1.3-1
+* Tue Mar 17 2015 Ryan Armstrong <ryan@cavaliercoder.com> 0.1.3-1
 - Added configuration directive discovery
 
 * Fri Feb 20 2015 Ryan Armstrong <ryan@cavaliercoder.com> 0.1.2-1
