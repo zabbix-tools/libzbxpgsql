@@ -1,6 +1,6 @@
 Name        : libzbxpgsql
 Vendor      : cavaliercoder
-Version     : 0.1.2
+Version     : 0.1.3
 Release     : 1%{?dist}
 Summary     : PostgreSQL monitoring module for Zabbix
 
@@ -52,6 +52,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_sysconfdir}/zabbix/zabbix_agentd.d/%{name}.conf
 
 %changelog
+* Tues Mar 17 2015 Ryan Armstrong <ryan@cavaliercoder.com> 0.1.3-1
+- Added configuration directive discovery
+
 * Fri Feb 20 2015 Ryan Armstrong <ryan@cavaliercoder.com> 0.1.2-1
 - Fixed module installation path
 - Added git reference to library version info

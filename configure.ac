@@ -1,4 +1,4 @@
-AC_INIT([libzbxpgsql], [0.1.2], [ryan@cavaliercoder.com])
+AC_INIT([libzbxpgsql], [0.1.3], [ryan@cavaliercoder.com])
 AM_INIT_AUTOMAKE([-Wall -Werror -Wno-portability foreign])
 m4_pattern_allow([AM_PROG_AR])
 AM_PROG_AR
