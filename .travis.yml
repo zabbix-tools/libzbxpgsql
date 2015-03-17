@@ -1,0 +1,14 @@
+language: c
+
+# Build deps
+install: 
+  - sudo apt-get install rpm devscripts debhelper
+
+# before build script, run autoreconf
+before_script: ./autogen.sh
+
+# Default is "./configure && make && make test", but no tests yet
+script: 
+  - "./configure && make"
+  - make rpm
+  - make deb

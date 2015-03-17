@@ -1,0 +1,5 @@
+libzbxpgsql (0.1.2-1) UNRELEASED; urgency=low
+
+  * Initial release for Debian.
+
+ -- Ryan Armstrong <ryan@cavaliercoder.com>  Fri, 20 Feb 2015 09:52:13 +0000

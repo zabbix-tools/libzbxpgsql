@@ -17,16 +17,27 @@
 ** Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 **/
 
+#ifndef LIBZBXPGSQL_H
+#define LIBZBXPGSQL_H
+
 #include <ctype.h>
 #include <stdarg.h>
+#include <arpa/inet.h>
 
-#include "sysinc.h"
-#include "module.h"
-#include "common.h"
-#include "log.h"
-#include "zbxjson.h"
+#include "include/sysinc.h"
+#include "include/module.h"
+#include "include/common.h"
+#include "include/log.h"
+#include "include/zbxjson.h"
 
 #include <libpq-fe.h>
+
+// Version info
+#ifdef GIT_VERSION
+    #define STRVER	PACKAGE " " GIT_VERSION
+#else
+    #define STRVER	PACKAGE " " PACKAGE_VERSION
+#endif
 
 // Default connection settings
 #define LOCALHOST       "localhost"
@@ -58,13 +69,17 @@ PGconn  *pg_connect(AGENT_REQUEST *request);
 int     pg_get_string(AGENT_REQUEST *request, AGENT_RESULT *result, const char *query);
 int     pg_get_int(AGENT_REQUEST *request, AGENT_RESULT *result, const char *query);
 int     pg_get_dbl(AGENT_REQUEST *request, AGENT_RESULT *result, const char *query);
+int     is_valid_ip(char *str);
+int     is_oid(char *str);
 
 int     PG_GET_CLASS_SIZE(AGENT_REQUEST *request, AGENT_RESULT *result, char *relkind, char *relname);
 
 // Define agent key functions
 int     PG_CONNECT(AGENT_REQUEST *request, AGENT_RESULT *result);
 int     PG_VERSION(AGENT_REQUEST *request, AGENT_RESULT *result);
+
 int     PG_SETTING(AGENT_REQUEST *request, AGENT_RESULT *result);
+int     PG_SETTING_DISCOVERY(AGENT_REQUEST *request, AGENT_RESULT *result);
 
 int     PG_QUERY(AGENT_REQUEST *request, AGENT_RESULT *result);
 
@@ -99,3 +114,5 @@ int     PG_STAT_ALL_INDEXES(AGENT_REQUEST *request, AGENT_RESULT *result);
 int     PG_STATIO_ALL_INDEXES(AGENT_REQUEST *request, AGENT_RESULT *result);
 int     PG_INDEX_SIZE(AGENT_REQUEST *request, AGENT_RESULT *result);
 int     PG_INDEX_ROWS(AGENT_REQUEST *request, AGENT_RESULT *result);
+
+#endif

@@ -31,7 +31,9 @@ static ZBX_METRIC keys[] =
 {
     {"pg.connect",                  CF_HAVEPARAMS,  PG_CONNECT,                     NULL},
     {"pg.version",                  CF_HAVEPARAMS,  PG_VERSION,                     NULL},
+
     {"pg.setting",                  CF_HAVEPARAMS,  PG_SETTING,                     ",,,,,data_directory"},
+    {"pg.setting.discovery",        CF_HAVEPARAMS,  PG_SETTING_DISCOVERY,           NULL},
 
     // User queries
     {"pg.query.string",             CF_HAVEPARAMS,  PG_QUERY,                       ",,,,,SELECT 'Lorem ipsum dolor';"},
@@ -145,8 +147,13 @@ static ZBX_METRIC keys[] =
 int         zbx_module_api_version()                { return ZBX_MODULE_API_VERSION_ONE; }
 void        zbx_module_item_timeout(int timeout)    { return; }
 ZBX_METRIC  *zbx_module_item_list()                 { return keys; }
-int         zbx_module_init()                       { return ZBX_MODULE_OK; }
 int         zbx_module_uninit()                     { return ZBX_MODULE_OK; }
+
+int         zbx_module_init() { 
+    zabbix_log(LOG_LEVEL_INFORMATION, "Starting agent module %s", STRVER);
+
+    return ZBX_MODULE_OK; 
+}
 
 /*
  * Function: pg_connect
@@ -168,7 +175,7 @@ int         zbx_module_uninit()                     { return ZBX_MODULE_OK; }
  */
  PGconn    *pg_connect(AGENT_REQUEST *request)
  {
-    const char          *__function_name = "PG_CONNECT";
+    const char  *__function_name = "pg_connect";
     PGconn      *conn = NULL;
     char        *pghost = NULL, *pgport = NULL, *pgdb = NULL, *pguser = NULL, *pgpasswd = NULL;
     
@@ -348,7 +355,7 @@ out:
  int    pg_get_dbl(AGENT_REQUEST *request, AGENT_RESULT *result, const char *query)
  {
     int         ret = SYSINFO_RET_FAIL;             // Request result code
-    const char  *__function_name = "pg_get_int";    // Function name for log file
+    const char  *__function_name = "pg_get_dbl";    // Function name for log file
     
     PGconn      *conn = NULL;
     PGresult    *res = NULL;
@@ -383,4 +390,46 @@ out:
     
     zabbix_log(LOG_LEVEL_DEBUG, "End of %s(%s)", __function_name, request->key);
     return ret;
+}
+
+/*
+ * Function: is_oid
+ * 
+ * Returns: 1 if the specified string is a valid PostgreSQL OID
+ *
+ * See also: http://www.postgresql.org/docs/9.4/static/datatype-oid.html
+ */
+int is_oid(char *str)
+{
+    char *p = NULL;
+    int res = 0;
+
+    for(p = str; '\0' != *p; p++) {
+        if (0 == isdigit(*p))
+            return 0;
+        res = 1;
+    }
+
+    return res;
+}
+
+/* 
+ * Function: is_valid_ip
+ * 
+ * Returns: 1 if the specified string is a valid IPv4 or IPv6 address
+ */
+int is_valid_ip(char *str)
+{
+    struct in6_addr in;
+    int res = 0;
+
+    // test for valid IPv4 address
+    if(1 == inet_pton(AF_INET, str, &(in)))
+        res = 1;
+
+    // test for valid IPv6 address
+    if(1 == inet_pton(AF_INET6, str, &(in)))
+        res = 1;
+
+    return res;
 }

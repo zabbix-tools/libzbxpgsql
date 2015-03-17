@@ -1,4 +1,4 @@
-# libzbxpgsql
+# libzbxpgsql [![Build Status](https://travis-ci.org/cavaliercoder/libzbxpgsql.svg?branch=master)](https://travis-ci.org/cavaliercoder/libzbxpgsql) [![endorse](https://api.coderwall.com/cavaliercoder/endorsecount.png)](https://coderwall.com/cavaliercoder)
 
 This project provides comprehensive monitoring of PostgreSQL servers using a
 natively compiled Zabbix agent module, written in C.
@@ -16,28 +16,25 @@ indexes, etc.
 * Follow the [author](http://cavaliercoder.com)
 
 
-## Build
+## Installation
 
 To compile the agent module the following items are required:
 
 * GNU build tools (`make`, `gcc`, `autoconf`, `automake`, `libtool`, `m4`, etc.)
 * [libpq development headers](http://www.postgresql.org/download/)
 
-To compile the module:
+If you are building from sources cloned from GitHub, you first need to
+regenerate the build scripts using `./autogen.sh`. Otherwise:
 
-    # First time prep
-    libtoolize
-    aclocal
-    autoheader
-    automake --add-missing
-    autoreconf
+    ./configure
+    make
+    make install
 
-    # Compile
-    ./configure && make
+Module file `libzbxpgsql.so` will then be installed in `/usr/local/lib`.
 
-The `libzbxpgsql.so` will then be located under `src/.libs/`.
+To build the RPM package on a RHEL6+ family system with `rpm-build` installed:
 
-Call `make install` to install the module in `/usr/local/lib`
+    make rpm
 
 
 ## License

@@ -1,6 +1,10 @@
+*.build
+*.changes
 *.deb
+*.dsc
 *.in
 *.la
+*.lineno
 *.lo
 *.o
 *.orig
@@ -26,6 +30,7 @@ configure.in
 depcomp
 install-sh
 libtool
+libzbxpgsql-*/
 ltmain.sh
 m4/
 Makefile
