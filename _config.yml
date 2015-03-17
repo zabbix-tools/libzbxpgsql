@@ -4,7 +4,7 @@ email: ryan@cavaliercoder.com
 
 summary: PostgreSQL monitoring for Zabbix
 description: >
-  libzbxpgsql is a comprehensive PostgreSQL discovery and monitoring module for
+  libzbxpgsql is a comprehensive PostgreSQL monitoring template and module for
   the Zabbix monitoring agent written in C.
 
 baseurl: "/libzbxpgsql"
