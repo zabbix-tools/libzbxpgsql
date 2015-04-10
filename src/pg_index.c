@@ -31,7 +31,7 @@ SELECT \
 FROM pg_index i \
 JOIN pg_class ic ON ic.oid = i.indexrelid \
 JOIN pg_namespace n ON n.oid = ic.relnamespace \
-JOIN pg_authid a ON a.oid = ic.relowner \
+JOIN pg_roles a ON a.oid = ic.relowner \
 JOIN pg_class t ON t.oid = i.indrelid \
 JOIN pg_am m ON m.oid = ic.relam"
 
