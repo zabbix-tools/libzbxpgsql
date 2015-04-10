@@ -43,7 +43,7 @@ SELECT \
 FROM pg_class c \
 JOIN pg_namespace n ON c.relnamespace = n.oid \
 JOIN pg_type t ON c.reltype = t.oid \
-JOIN pg_authid a ON c.relowner = a.oid \
+JOIN pg_roles a ON c.relowner = a.oid \
 WHERE c.relkind='r'"
 
 #define PGSQL_DISCOVER_TABLE_CHILDREN   "SELECT c.oid , c.relname, n.nspname FROM pg_inherits i JOIN pg_class c ON i.inhrelid = c.oid JOIN pg_namespace n ON c.relnamespace = n.oid WHERE i.inhparent = '%s'::regclass"
