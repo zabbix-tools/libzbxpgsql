@@ -56,7 +56,7 @@ WHERE c.relkind='r'"
 
 #define PGSQL_GET_TABLE_STATIO_SUM  "SELECT SUM(%s) FROM pg_statio_all_tables"
 
-#define PGSQL_GET_TABLE_SIZE        "SELECT (relpages * 8192) FROM pg_class WHERE relkind='r' AND relname = '%s'"
+#define PGSQL_GET_TABLE_SIZE        "SELECT (CAST(relpages AS bigint) * 8192) FROM pg_class WHERE relkind='r' AND relname = '%s'"
 
 #define PGSQL_GET_TABLE_SIZE_SUM    "SELECT (SUM(relpages) * 8192) FROM pg_class WHERE relkind='r'"
 
@@ -66,7 +66,7 @@ WHERE c.relkind='r'"
 
 #define PGSQL_GET_TABLE_CHILD_COUNT "SELECT COUNT(i.inhrelid) FROM pg_inherits i WHERE i.inhparent = '%s'::regclass"
 
-#define PGSQL_GET_CHILDREN_SIZE     "SELECT SUM(c.relpages * 8192) FROM pg_inherits i JOIN pg_class c ON inhrelid = c.oid WHERE i.inhparent = '%s'::regclass"
+#define PGSQL_GET_CHILDREN_SIZE     "SELECT (SUM(c.relpages) * 8192) FROM pg_inherits i JOIN pg_class c ON inhrelid = c.oid WHERE i.inhparent = '%s'::regclass"
 
 #define PGSQL_GET_CHILDREN_ROWS     "SELECT SUM(c.reltuples) FROM pg_inherits i JOIN pg_class c ON inhrelid = c.oid WHERE i.inhparent = '%s'::regclass"
 

@@ -35,7 +35,7 @@ JOIN pg_roles a ON a.oid = ic.relowner \
 JOIN pg_class t ON t.oid = i.indrelid \
 JOIN pg_am m ON m.oid = ic.relam"
 
-#define PGSQL_GET_INDEX_SIZE        "SELECT (relpages * 8192) FROM pg_class WHERE (relkind='i' AND relname = '%s')"
+#define PGSQL_GET_INDEX_SIZE        "SELECT (CAST(relpages AS bigint) * 8192) FROM pg_class WHERE (relkind='i' AND relname = '%s')"
 
 #define PGSQL_GET_INDEX_SIZE_SUM    "SELECT (SUM(relpages) * 8192) FROM pg_class WHERE relkind='i'"
 
