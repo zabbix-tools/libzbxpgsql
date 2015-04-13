@@ -276,7 +276,7 @@ int    PG_INDEX_SIZE(AGENT_REQUEST *request, AGENT_RESULT *result)
     zabbix_log(LOG_LEVEL_DEBUG, "In %s()", __function_name);
     
     // Parse parameters
-    // index = get_rparam(request, PARAM_FIRST);
+    index = get_rparam(request, PARAM_FIRST);
     
     // Build query  
     if(NULL == index || '\0' == *index)
