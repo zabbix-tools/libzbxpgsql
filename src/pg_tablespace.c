@@ -19,7 +19,7 @@
 
 #include "libzbxpgsql.h"
 
-#define PGSQL_DISCOVER_TABLESPACES  "SELECT t.oid, t.spcname, a.rolname from pg_tablespace t JOIN pg_authid a ON a.oid = t.spcowner"
+#define PGSQL_DISCOVER_TABLESPACES  "SELECT t.oid, t.spcname, a.rolname from pg_tablespace t JOIN pg_roles a ON a.oid = t.spcowner"
 
 #define PGSQL_GET_TS_SIZE       "SELECT pg_tablespace_size('%s')"
 /*
