@@ -1,4 +1,5 @@
 ACLOCAL_AMFLAGS = -I m4
+
 SUBDIRS = \
 	src
 
@@ -41,3 +42,5 @@ debclean:
 	rm -f $(PACKAGE)_$(PACKAGE_VERSION)-*.debian.tar.gz
 	rm -f $(PACKAGE)_$(PACKAGE_VERSION)-*.deb
 	rm -f $(PACKAGE)_$(PACKAGE_VERSION)-*.dsc
+
+.PHONY: rpm rpmclean deb debclean 

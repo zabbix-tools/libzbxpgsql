@@ -43,11 +43,7 @@ EOL
 
 # Build module
 echo -e "${BULLET} Building the libzbxpgsql agent module..."
-libtoolize >/dev/null
-aclocal >/dev/null
-autoheader >/dev/null
-automake --add-missing >/dev/null
-autoreconf >/dev/null
+./autogen.sh >/dev/null
 ./configure >/dev/null && make >/dev/null
 
 # Configure Zabbix Agent

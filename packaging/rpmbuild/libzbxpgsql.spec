@@ -8,15 +8,17 @@ Group       : Applications/Internet
 License     : GNU GPLv2
 URL         : https://github.com/cavaliercoder/libzbxpgsql
 
-Requires    : zabbix-agent >= 2.2.0
-
-BuildRequires : libtool
-BuildRequires : postgresql-devel
-
 # Zabbix sources (Customized)
 Source0     : %{name}-%{version}.tar.gz
 
 Buildroot   : %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+
+%if "%{_vendor}" == "redhat" || "%{_vendor}" == "suse"
+BuildRequires : libtool
+BuildRequires : postgresql-devel
+%endif
+
+Requires    : zabbix-agent >= 2.2.0
 
 %description
 libzbxpgsql is a comprehensive PostgreSQL discovery and monitoring module for the Zabbix monitoring agent written in C.
