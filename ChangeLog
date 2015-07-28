@@ -3,6 +3,7 @@ v0.1.4 TBC
 * Fixed PostgreSQL include path (courtesy: ElliotVR)
 * Fixed integer overflow on large objects (courtesy: papegaaij)
 * Switched from pg_authid to pg_roles (courtesy: sboschman)
+* Switched TravisCI build to use Docker platform
 
 v0.1.3 17 Mar 2015
 
