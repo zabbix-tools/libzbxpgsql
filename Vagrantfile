@@ -26,4 +26,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     p64.vm.box = "hashicorp/precise64"
     p64.vm.provision "shell", path: "vagrant/setup_ubuntu12.sh"
   end
+
+  # OpenSUSE 13.2 64 bit box
+  # vagrant up opensuse13 && vagrant ssh opensuse13
+  config.vm.define "opensuse13", autostart: false do |suse|
+    suse.vm.box = "webhippie/opensuse-13.2"
+    suse.vm.provision "shell", path: "vagrant/setup_centos7.sh"
+  end
 end
