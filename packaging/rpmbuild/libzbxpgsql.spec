@@ -64,12 +64,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_sysconfdir}/zabbix/zabbix_agentd.d/%{name}.conf
 
 %changelog
-* TBC Ryan Armstrong <ryan@cavaliercoder.com> 0.1.4-1
-- Fixed RPM build on OpenSUSE (courtesy: hgomez)
-- Fixed PostgreSQL include path (courtesy: ElliotVR)
-- Fixed integer overflow on large objects (courtesy: papegaaij)
-- Switched from pg_authid to pg_roles (courtesy: sboschman)
-
 * Tue Mar 17 2015 Ryan Armstrong <ryan@cavaliercoder.com> 0.1.3-1
 - Added configuration directive discovery
 
