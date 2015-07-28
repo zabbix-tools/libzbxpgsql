@@ -1,5 +1,8 @@
 GIT_VERSION = $(shell git describe --abbrev=8 --dirty --always --tags)
 
+PSQL_INCLUDE = $(shell pg_config --includedir)
+PSQL_LIB = $(shell pg_config --libdir)
+
 lib_LTLIBRARIES = libzbxpgsql.la
 
 libzbxpgsql_la_SOURCES = \
@@ -17,9 +20,8 @@ libzbxpgsql_la_SOURCES = \
 
 libzbxpgsql_la_CFLAGS = \
 	-lpq \
-	-I/usr/pgsql-9.4/include \
-	-I/usr/include/postgresql \
-	-L/usr/pgsql-9.4/lib \
+	-I$(PSQL_INCLUDE) \
+	-L$(PSQL_LIB) \
 	-I../.. \
 	-DGIT_VERSION=\"$(GIT_VERSION)\"
 
