@@ -1,8 +1,15 @@
 language: c
 
+# allow containerized build
+sude: false 
+
 # Build deps
-install: 
-  - sudo apt-get install rpm devscripts debhelper
+addons:
+  apt:
+    packages:
+    - rpm
+    - devscripts
+    - debhelper
 
 # before build script, run autoreconf
 before_script: ./autogen.sh
