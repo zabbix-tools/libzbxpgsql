@@ -10,6 +10,9 @@ URL         : https://github.com/cavaliercoder/libzbxpgsql
 
 Requires    : zabbix-agent >= 2.2.0
 
+BuildRequires : libtool
+BuildRequires : postgresql-devel
+
 # Zabbix sources (Customized)
 Source0     : %{name}-%{version}.tar.gz
 
@@ -24,6 +27,11 @@ libzbxpgsql is a comprehensive PostgreSQL discovery and monitoring module for th
 
 # fix up some lib64 issues
 sed -i.orig -e 's|_LIBDIR=/usr/lib|_LIBDIR=%{_libdir}|g' configure
+
+# make it build on openSUSE too (pgsql/libpq-fe.h)
+%if 0%{?suse_version}
+sed -i.orig -e 's|libpq-fe.h|pgsql/libpq-fe.h|g' src/libzbxpgsql.h
+%endif
 
 %build
 # Configure and compile sources into $RPM_BUILD_ROOT
