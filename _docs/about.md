@@ -30,12 +30,23 @@ system, particularly when monitoring hundreds or thousands of checks.
 
 ## Compatibility
 
-All monitoring keys are confirmed to work with PostgreSQL v8.1 to 9.4 except
+All monitoring keys are confirmed to work with PostgreSQL v8.4 to 9.4 except
 where otherwise noted.
 
 The agent module is confirmed to work with Zabbix agent v2.2+ on various
-Linux based operating systems including CentOS and Ubuntu.
+Linux based operating systems including RedHat, CentOS, openSUSE and Ubuntu.
 
+__WARNING__ There is a known bug [KZBX-9218](https://support.zabbix.com/browse/ZBX-9218)
+in Zabbix agent v2.4.3 (and possibly earlier 2.4.x versions) which causes a
+segmentation fault if any item in a loaded module becomes unsupported. The
+issue is fixed in v2.4.4+.
+
+The issue produces the following line immediately following an unsupported item
+in the zabbix agent log file:
+
+	Got signal [signal:11(SIGSEGV),reason:1,refaddr:(nil)]. Crashing ...
+
+Further comment is welcome on the [GitHub issue](https://github.com/cavaliercoder/libzbxpgsql/issues/5).
 
 ## License
 
