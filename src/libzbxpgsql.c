@@ -29,6 +29,7 @@
 static ZBX_METRIC keys[] =
 /*      KEY                         FLAG            FUNCTION                        TEST PARAMETERS */
 {
+    {"pg.modver",                   0,              MODVER,                         NULL},
     {"pg.connect",                  CF_HAVEPARAMS,  PG_CONNECT,                     NULL},
     {"pg.version",                  CF_HAVEPARAMS,  PG_VERSION,                     NULL},
 
@@ -153,6 +154,30 @@ int         zbx_module_init() {
     zabbix_log(LOG_LEVEL_INFORMATION, "Starting agent module %s", STRVER);
 
     return ZBX_MODULE_OK; 
+}
+
+/*
+ * Custom key: MODVER
+ *
+ * Returns the version string of the libzbxpgsql module.
+ *
+ * Parameters:
+ *
+ * Returns: s
+ */
+ int    MODVER(AGENT_REQUEST *request, AGENT_RESULT *result)
+ {
+    int         ret = SYSINFO_RET_FAIL;         // Request result code
+    const char  *__function_name = "MODVER";    // Function name for log file
+    
+    zabbix_log(LOG_LEVEL_DEBUG, "In %s", __function_name);
+    
+    // Set result
+    SET_STR_RESULT(result, strdup(STRVER));
+    ret = SYSINFO_RET_OK;
+    
+    zabbix_log(LOG_LEVEL_DEBUG, "End of %s", __function_name);
+    return ret;
 }
 
 /*

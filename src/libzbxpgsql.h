@@ -81,6 +81,7 @@ char    *strcat2(char *destination, const char *source);
 int     PG_GET_CLASS_SIZE(AGENT_REQUEST *request, AGENT_RESULT *result, char *relkind, char *relname);
 
 // Define agent key functions
+int     MODVER(AGENT_REQUEST *request, AGENT_RESULT *result);
 int     PG_CONNECT(AGENT_REQUEST *request, AGENT_RESULT *result);
 int     PG_VERSION(AGENT_REQUEST *request, AGENT_RESULT *result);
 

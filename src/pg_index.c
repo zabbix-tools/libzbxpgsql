@@ -39,6 +39,12 @@ WHERE \
     AND n.nspname <> 'information_schema' \
     AND n.nspname !~ '^pg_toast'"
 
+#define PGSQL_GET_INDEX_STATIO_SUM    "\
+SELECT SUM(%s) FROM pg_statio_all_indexes \
+WHERE \
+    schemaname !~ '^pg_toast' \
+    AND schemaname <> 'pg_catalog' \
+    AND schemaname <> 'information_schema'"
 
 #define PGSQL_GET_INDEX_SIZE        "SELECT (CAST(relpages AS bigint) * 8192) FROM pg_class WHERE (relkind='i' AND relname = '%s')"
 
@@ -54,6 +60,8 @@ WHERE \
  * Parameters:
  *   0:  connection string
  *   1:  connection database
+ *   2:  filter by schema name
+ *   3:  filter by table name
  *
  * Returns all known indexes in a PostgreSQL database
  *
@@ -103,7 +111,7 @@ int    PG_INDEX_DISCOVERY(AGENT_REQUEST *request, AGENT_RESULT *result)
         c = strcat2(c, buffer);
     }
     
-    // Connect to PostreSQL
+    // Connect to PostgreSQL
     if(NULL == (conn = pg_connect(request)))
         goto out;
     
@@ -227,17 +235,13 @@ out:
  */
 int    PG_STATIO_ALL_INDEXES(AGENT_REQUEST *request, AGENT_RESULT *result)
 {
-    int             ret = SYSINFO_RET_FAIL;                 // Request result code
-    const char          *__function_name = "PG_STAT_ALL_INDEXES";   // Function name for log file
+    int         ret = SYSINFO_RET_FAIL;                     // Request result code
+    const char  *__function_name = "PG_STAT_ALL_INDEXES";   // Function name for log file
     
     char        *index = NULL;
-    
-    PGconn      *conn = NULL;
-    PGresult        *res = NULL;
-    
+
     char        *field;
     char        query[MAX_STRING_LEN];
-    char        *buffer = NULL;
     
     zabbix_log(LOG_LEVEL_DEBUG, "In %s()", __function_name);
     
@@ -246,35 +250,12 @@ int    PG_STATIO_ALL_INDEXES(AGENT_REQUEST *request, AGENT_RESULT *result)
     
     // Build query
     index = get_rparam(request, PARAM_FIRST);
-    if(NULL == index || '\0' == *index)
-        zbx_snprintf(query, sizeof(query), "SELECT SUM(%s) FROM pg_statio_all_indexes", field);
+    if(strisnull(index))
+        zbx_snprintf(query, sizeof(query), PGSQL_GET_INDEX_STATIO_SUM, field);
     else
         zbx_snprintf(query, sizeof(query),  "SELECT %s FROM pg_statio_all_indexes WHERE indexrelname = '%s'", field, index);
 
-    // Connect to PostreSQL
-    if(NULL == (conn = pg_connect(request)))
-        goto out;
-    
-    // Execute a query
-    res = pg_exec(conn, query);
-    if(PQresultStatus(res) != PGRES_TUPLES_OK) {
-        zabbix_log(LOG_LEVEL_ERR, "Failed to execute PostgreSQL query in %s() with: %s", __function_name, PQresultErrorMessage(res));
-        goto out;
-    }
-    
-    if(0 == PQntuples(res)) {
-        zabbix_log(LOG_LEVEL_ERR, "No results returned for query \"%s\" in %s()", query, __function_name);
-        goto out;
-    }
-    
-    // Set result
-    buffer = strdup(PQgetvalue(res, 0, 0));
-    SET_UI64_RESULT(result, atoi(buffer));
-    ret = SYSINFO_RET_OK;
-        
-out:
-    PQclear(res);
-    PQfinish(conn);
+    ret = pg_get_int(request, result, query);
     
     zabbix_log(LOG_LEVEL_DEBUG, "End of %s()", __function_name);
     return ret;

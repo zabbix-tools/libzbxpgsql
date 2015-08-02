@@ -183,7 +183,7 @@ out:
         goto out;
     }
     
-    // Set result
+    // Set result by type
     value = strdup(PQgetvalue(res, 0, 0));
     type = strdup(PQgetvalue(res, 0, 1));
 
