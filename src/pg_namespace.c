@@ -19,7 +19,18 @@
 
 #include "libzbxpgsql.h"
 
-#define PGSQL_DISCOVER_NAMESPACES   "SELECT n.oid, n.nspname, current_database(), a.rolname from pg_namespace n JOIN pg_authid a ON a.oid = n.nspowner"
+#define PGSQL_DISCOVER_NAMESPACES   "\
+SELECT  \
+  n.oid as oid, \
+  n.nspname AS namespace, \
+  current_database() as database, \
+  pg_catalog.pg_get_userbyid(n.nspowner) AS owner, \
+  pg_catalog.obj_description(n.oid, 'pg_namespace') AS description \
+FROM pg_catalog.pg_namespace n \
+WHERE  \
+  n.nspname !~ '^pg_'  \
+  AND n.nspname <> 'information_schema' \
+ORDER BY namespace;"
 
 #define PGSQL_GET_NS_SIZE           "SELECT sum(pg_relation_size(quote_ident(schemaname) || '.' || quote_ident(tablename)))::bigint FROM pg_tables WHERE schemaname = '%s'"
 
@@ -80,6 +91,7 @@ int    PG_NAMESPACE_DISCOVERY(AGENT_REQUEST *request, AGENT_RESULT *result)
         zbx_json_addstring(&j, "{#NAMESPACE}", PQgetvalue(res, i, 1), ZBX_JSON_TYPE_STRING);
         zbx_json_addstring(&j, "{#DATABASE}", PQgetvalue(res, i, 2), ZBX_JSON_TYPE_STRING);
         zbx_json_addstring(&j, "{#OWNER}", PQgetvalue(res, i, 3), ZBX_JSON_TYPE_STRING);
+        zbx_json_addstring(&j, "{#DESCRIPTION}", PQgetvalue(res, i, 4), ZBX_JSON_TYPE_STRING);
         zbx_json_close(&j);         
     }
     
