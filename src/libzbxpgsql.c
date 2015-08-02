@@ -444,3 +444,23 @@ int is_valid_ip(char *str)
 
     return res;
 }
+
+/*
+ * Function: strcat2
+ *
+ * An attempt to improve the performance and usability of strcat.
+ * Buffer sizing is the responsibility of the caller.
+ *
+ * Returns: pointer to the last character of the updated destination string
+ */
+char *strcat2(char *destination, const char *source)
+{
+    // seek to the end of the destination string
+    while (*destination) destination++;
+
+    // copy one char at a time from source
+    while (*destination++ = *source++);
+    
+    // return the last character
+    return --destination;
+}

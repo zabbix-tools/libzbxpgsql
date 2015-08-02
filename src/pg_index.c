@@ -78,10 +78,30 @@ int    PG_INDEX_DISCOVERY(AGENT_REQUEST *request, AGENT_RESULT *result)
     PGconn      *conn = NULL;
     PGresult    *res = NULL;
     
-    char        *query = PGSQL_DISCOVER_INDEXES;
+    char        query[MAX_STRING_LEN], buffer[MAX_STRING_LEN];
+    char        *c = NULL;
     int         i = 0, count = 0;
+
+    char        *param_table = NULL, *param_schema = NULL;
     
     zabbix_log(LOG_LEVEL_DEBUG, "In %s()", __function_name);
+
+    // build the query
+    c = strcat2(query, PGSQL_DISCOVER_INDEXES);
+
+    // filter by schema name
+    param_schema = get_rparam(request, PARAM_FIRST);
+    if(!strisnull(param_schema)) {
+        zbx_snprintf(buffer, sizeof(buffer), " AND n.nspname = '%s'", param_schema);
+        c = strcat2(c, buffer);
+    }
+
+    // filter by table name
+    param_table = get_rparam(request, PARAM_FIRST + 1);
+    if(!strisnull(param_table)) {
+        zbx_snprintf(buffer, sizeof(buffer), " AND t.relname = '%s'", param_table);
+        c = strcat2(c, buffer);
+    }
     
     // Connect to PostreSQL
     if(NULL == (conn = pg_connect(request)))

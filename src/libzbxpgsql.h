@@ -34,9 +34,9 @@
 
 // Version info
 #ifdef GIT_VERSION
-    #define STRVER	PACKAGE " " GIT_VERSION
+    #define STRVER  PACKAGE " " GIT_VERSION
 #else
-    #define STRVER	PACKAGE " " PACKAGE_VERSION
+    #define STRVER  PACKAGE " " PACKAGE_VERSION
 #endif
 
 // Default connection settings
@@ -45,12 +45,12 @@
 #define PSQL_USER       "postgres"
 
 // Index of connection params in user requests
-#define PARAM_CONN_STRING	0
+#define PARAM_CONN_STRING   0
 #define PARAM_DBNAME        1
-#define PARAM_FIRST			2
+#define PARAM_FIRST         2
 
-#define DEFAULT_CONN_STRING	"\0"
-#define DEFAULT_CONN_DBNAME	NULL
+#define DEFAULT_CONN_STRING "\0"
+#define DEFAULT_CONN_DBNAME NULL
 
 #define PG_WHERE        "WHERE"
 #define PG_AND          "AND"
@@ -64,7 +64,8 @@
 #define PG_RELKIND_TOAST        "t"
 #define PG_RELKIND_FGNTABLE     "f"
 
-#define strisnull(c)			(NULL == c || '\0' == *c)
+// function to determine if a string is null or empty
+#define strisnull(c)            (NULL == c || '\0' == *c)
 
 // Local helper functions
 PGconn  *pg_connect(AGENT_REQUEST *request);
@@ -73,6 +74,7 @@ int     pg_get_int(AGENT_REQUEST *request, AGENT_RESULT *result, const char *que
 int     pg_get_dbl(AGENT_REQUEST *request, AGENT_RESULT *result, const char *query);
 int     is_valid_ip(char *str);
 int     is_oid(char *str);
+char    *strcat2(char *destination, const char *source);
 
 int     PG_GET_CLASS_SIZE(AGENT_REQUEST *request, AGENT_RESULT *result, char *relkind, char *relname);
 

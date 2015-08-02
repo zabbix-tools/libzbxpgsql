@@ -51,19 +51,45 @@ ORDER BY c.relname"
 
 #define PGSQL_DISCOVER_TABLE_CHILDREN   "SELECT c.oid , c.relname, n.nspname FROM pg_inherits i JOIN pg_class c ON i.inhrelid = c.oid JOIN pg_namespace n ON c.relnamespace = n.oid WHERE i.inhparent = '%s'::regclass"
 
-#define PGSQL_GET_TABLE_STAT_SUM    "SELECT SUM(%s) FROM pg_stat_all_tables"
+#define PGSQL_GET_TABLE_STAT_SUM    "\
+SELECT SUM(%s) FROM pg_stat_all_tables \
+WHERE \
+    schemaname <> 'pg_catalog' \
+    AND schemaname <> 'information_schema' \
+    AND schemaname !~ '^pg_toast'"
 
 #define PGSQL_GET_TABLE_STAT        "SELECT %s FROM pg_stat_all_tables WHERE relname = '%s'"
 
 #define PGSQL_GET_TABLE_STATIO      "SELECT %s FROM pg_statio_all_tables WHERE relname = '%s'"
 
-#define PGSQL_GET_TABLE_STATIO_SUM  "SELECT SUM(%s) FROM pg_statio_all_tables"
+#define PGSQL_GET_TABLE_STATIO_SUM  "\
+SELECT SUM(%s) FROM pg_statio_all_tables \
+WHERE \
+    schemaname <> 'pg_catalog' \
+    AND schemaname <> 'information_schema' \
+    AND schemaname !~ '^pg_toast'"
 
 #define PGSQL_GET_TABLE_SIZE        "SELECT (CAST(relpages AS bigint) * 8192) FROM pg_class WHERE relkind='r' AND relname = '%s'"
 
-#define PGSQL_GET_TABLE_SIZE_SUM    "SELECT (SUM(relpages) * 8192) FROM pg_class WHERE relkind='r'"
+#define PGSQL_GET_TABLE_SIZE_SUM    "\
+SELECT (SUM(relpages) * 8192) \
+FROM pg_class t \
+JOIN pg_namespace n ON n.oid = t.relnamespace \
+WHERE \
+    t.relkind = 'r' \
+    AND n.nspname <> 'pg_catalog' \
+    AND n.nspname <> 'information_schema' \
+    AND n.nspname !~ '^pg_toast'"
 
-#define PGSQL_GET_TABLE_ROWS_SUM    "SELECT SUM(reltuples) FROM pg_class WHERE relkind='r'"
+#define PGSQL_GET_TABLE_ROWS_SUM    "\
+SELECT SUM(reltuples) \
+FROM pg_class t \
+JOIN pg_namespace n ON n.oid = t.relnamespace \
+WHERE \
+    t.relkind = 'r' \
+    AND n.nspname <> 'pg_catalog' \
+    AND n.nspname <> 'information_schema' \
+    AND n.nspname !~ '^pg_toast'"
 
 #define PGSQL_GET_TABLE_ROWS        "SELECT reltuples FROM pg_class WHERE relkind='r' AND relname = '%s'"
 
@@ -80,6 +106,7 @@ ORDER BY c.relname"
  *
  * Parameters:
  *   0:  connection string
+ *   1:  connection database
  * 
  * Returns:
  * {
@@ -163,7 +190,8 @@ out:
  *
  * Parameters:
  *   0:  connection string
- *   1:  parent table name
+ *   1:  connection database
+ *   2:  parent table name
  *
  * Returns:
  * {
@@ -247,7 +275,8 @@ out:
  *
  * Parameters:
  *   0:  connection string
- *   1:  table name (default: sum for all)
+ *   1:  connection database
+ *   2:  table name (default: sum for all)
  *
  * Returns: u
  */
@@ -300,7 +329,8 @@ out:
  *
  * Parameters:
  *   0:  connection string
- *   1:  table name (default: sum for all)
+ *   1:  connection database
+ *   2:  table name (default: sum for all)
  *
  * Returns: u
  */
