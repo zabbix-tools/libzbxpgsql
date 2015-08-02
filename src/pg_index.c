@@ -19,21 +19,26 @@
 
 #include "libzbxpgsql.h"
 
-#define PGSQL_DISCOVER_INDICES      "\
+#define PGSQL_DISCOVER_INDEXES      "\
 SELECT \
-    ic.oid \
-    , ic.relname \
-    , current_database() \
-    , n.nspname \
-    , t.relname  \
-    , a.rolname \
-    , m.amname \
+    ic.oid AS oid \
+    , ic.relname AS index \
+    , current_database() AS database \
+    , n.nspname AS schema \
+    , t.relname AS table \
+    , a.rolname AS owner \
+    , m.amname AS access \
 FROM pg_index i \
 JOIN pg_class ic ON ic.oid = i.indexrelid \
 JOIN pg_namespace n ON n.oid = ic.relnamespace \
 JOIN pg_roles a ON a.oid = ic.relowner \
 JOIN pg_class t ON t.oid = i.indrelid \
-JOIN pg_am m ON m.oid = ic.relam"
+JOIN pg_am m ON m.oid = ic.relam \
+WHERE \
+    n.nspname <> 'pg_catalog' \
+    AND n.nspname <> 'information_schema' \
+    AND n.nspname !~ '^pg_toast'"
+
 
 #define PGSQL_GET_INDEX_SIZE        "SELECT (CAST(relpages AS bigint) * 8192) FROM pg_class WHERE (relkind='i' AND relname = '%s')"
 
@@ -50,7 +55,7 @@ JOIN pg_am m ON m.oid = ic.relam"
  *   0:  connection string
  *   1:  connection database
  *
- * Returns all known indices in a PostgreSQL database
+ * Returns all known indexes in a PostgreSQL database
  *
  * Returns:
  * {
@@ -73,7 +78,7 @@ int    PG_INDEX_DISCOVERY(AGENT_REQUEST *request, AGENT_RESULT *result)
     PGconn      *conn = NULL;
     PGresult    *res = NULL;
     
-    char        *query = PGSQL_DISCOVER_INDICES;
+    char        *query = PGSQL_DISCOVER_INDEXES;
     int         i = 0, count = 0;
     
     zabbix_log(LOG_LEVEL_DEBUG, "In %s()", __function_name);
@@ -88,12 +93,9 @@ int    PG_INDEX_DISCOVERY(AGENT_REQUEST *request, AGENT_RESULT *result)
         zabbix_log(LOG_LEVEL_ERR, "Failed to execute PostgreSQL query in %s() with: %s", __function_name, PQresultErrorMessage(res));
         goto out;
     }
-    
-    if(0 == (count = PQntuples(res))) {
-        zabbix_log(LOG_LEVEL_DEBUG, "No results returned for query \"%s\" in %s()", query, __function_name);
-        goto out;
-    }
-             
+
+    count = PQntuples(res);
+
     // Create JSON array of discovered objects
     zbx_json_init(&j, ZBX_JSON_STAT_BUF_LEN);
     zbx_json_addarray(&j, ZBX_PROTO_TAG_DATA);

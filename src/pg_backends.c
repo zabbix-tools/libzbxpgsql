@@ -140,6 +140,8 @@ out:
  *   1:  connection database
  *
  * Returns: d
+ *
+ * TODO: allow filtering in pg.queries.longest similar to pg.backends.count
  */
 int    PG_QUERIES_LONGEST(AGENT_REQUEST *request, AGENT_RESULT *result)
 {

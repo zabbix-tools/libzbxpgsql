@@ -19,7 +19,22 @@
 
 #include "libzbxpgsql.h"
 
-#define PGSQL_DISCOVER_DBS  "SELECT d.oid, d.datname, d.datcollate, d.datctype, d.datistemplate, t.spcname FROM pg_database d JOIN pg_tablespace t ON d.dattablespace = t.oid WHERE datallowconn = 't';"
+#define PGSQL_DISCOVER_DBS  "\
+SELECT  \
+    d.oid as oid, \
+    d.datname as database, \
+    pg_catalog.pg_encoding_to_char(d.encoding) as encoding, \
+    d.datcollate as lc_collate, \
+    d.datctype as lc_ctype, \
+    pg_catalog.pg_get_userbyid(d.datdba) as owner, \
+    t.spcname as tablespace, \
+    pg_catalog.shobj_description(d.oid, 'pg_database') as description \
+FROM pg_catalog.pg_database d \
+    JOIN pg_catalog.pg_tablespace t on d.dattablespace = t.oid \
+WHERE \
+    d.datallowconn = 't' \
+    AND d.datistemplate = 'n' \
+ORDER BY 1;"
 
 #define PGSQL_GET_DB_STAT   "SELECT %s FROM pg_stat_database WHERE datname = '%s'"
 
@@ -87,10 +102,12 @@ int    PG_DB_DISCOVERY(AGENT_REQUEST *request, AGENT_RESULT *result)
         zbx_json_addobject(&j, NULL);
         zbx_json_addstring(&j, "{#OID}", PQgetvalue(res, i, 0), ZBX_JSON_TYPE_STRING);
         zbx_json_addstring(&j, "{#DATABASE}", PQgetvalue(res, i, 1), ZBX_JSON_TYPE_STRING);
-        zbx_json_addstring(&j, "{#LC_COLLATE}", PQgetvalue(res, i, 2), ZBX_JSON_TYPE_STRING);
-        zbx_json_addstring(&j, "{#LC_CTYPE}", PQgetvalue(res, i, 3), ZBX_JSON_TYPE_STRING); 
-        zbx_json_addstring(&j, "{#TEMPLATE}", 't' == *PQgetvalue(res, i, 4) ? "1" : "0", ZBX_JSON_TYPE_STRING);
-        zbx_json_addstring(&j, "{#TABLESPACE}", PQgetvalue(res, i, 5), ZBX_JSON_TYPE_STRING);
+        zbx_json_addstring(&j, "{#ENCODING}", PQgetvalue(res, i, 2), ZBX_JSON_TYPE_STRING);
+        zbx_json_addstring(&j, "{#LC_COLLATE}", PQgetvalue(res, i, 3), ZBX_JSON_TYPE_STRING);
+        zbx_json_addstring(&j, "{#LC_CTYPE}", PQgetvalue(res, i, 4), ZBX_JSON_TYPE_STRING); 
+        zbx_json_addstring(&j, "{#OWNER}", PQgetvalue(res, i, 5), ZBX_JSON_TYPE_STRING);
+        zbx_json_addstring(&j, "{#TABLESPACE}", PQgetvalue(res, i, 6), ZBX_JSON_TYPE_STRING);
+        zbx_json_addstring(&j, "{#DESCRIPTION}", PQgetvalue(res, i, 7), ZBX_JSON_TYPE_STRING);
         zbx_json_close(&j);         
     }
     
