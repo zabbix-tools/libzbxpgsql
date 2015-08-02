@@ -40,8 +40,8 @@ LIMIT 1"
  * Parameters:
  *   0:  connection string
  *   1:  connection database
- *   2:  filter by connected database oid name
- *   3:  filter by connected user OID or name
+ *   2:  filter by database oid name
+ *   3:  filter by user OID or name
  *   4:  filter by application name
  *   5:  filter by hostname or IP address of the connected host
  *   6:  return only waiting backends

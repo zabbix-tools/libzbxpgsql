@@ -27,7 +27,7 @@ SELECT  \
   , pg_catalog.pg_tablespace_location(oid) AS location \
   , pg_catalog.shobj_description(oid, 'pg_tablespace') AS description \
 FROM pg_catalog.pg_tablespace t \
-ORDER BY 1;"
+ORDER BY t.spcname;"
 
 #define PGSQL_GET_TS_SIZE       "SELECT pg_tablespace_size('%s')"
 
@@ -128,13 +128,14 @@ int    PG_TABLESPACE_SIZE(AGENT_REQUEST *request, AGENT_RESULT *result)
     
     // Build query
     tablespace = get_rparam(request, PARAM_FIRST);
-    if(NULL == tablespace || '\0' == *tablespace) {
+    if(strisnull(tablespace)) {
         zabbix_log(LOG_LEVEL_ERR, "No tablespace specified in %s()", __function_name);
         goto out;
     }
     else
         zbx_snprintf(query, sizeof(query), PGSQL_GET_TS_SIZE, tablespace);
 
+    // execute query
     ret = pg_get_int(request, result, query);
     
 out:

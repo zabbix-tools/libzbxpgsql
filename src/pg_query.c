@@ -34,8 +34,8 @@
  */
 int     PG_QUERY(AGENT_REQUEST *request, AGENT_RESULT *result)
 {
-    int         ret = SYSINFO_RET_FAIL;                 // Request result code
-    const char  *__function_name = "PG_QUERY_STRING";   // Function name for log file
+    int         ret = SYSINFO_RET_FAIL;         // Request result code
+    const char  *__function_name = "PG_QUERY";  // Function name for log file
     char        *query = NULL;
 
     zabbix_log(LOG_LEVEL_DEBUG, "In %s()", __function_name);
@@ -55,6 +55,8 @@ int     PG_QUERY(AGENT_REQUEST *request, AGENT_RESULT *result)
         ret = pg_get_int(request, result, query);
     else if(0 == strncmp(&request->key[9], "double", 6))
         ret = pg_get_dbl(request, result, query);
+    else if(0 == strncmp(&request->key[9], "discovery", 0))
+        ret = pg_get_discovery(request, result, query);
     else
         zabbix_log(LOG_LEVEL_ERR, "Unsupported query return type: %s in %s()", request->key[9], __function_name);
 

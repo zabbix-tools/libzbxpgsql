@@ -40,6 +40,7 @@ static ZBX_METRIC keys[] =
     {"pg.query.string",             CF_HAVEPARAMS,  PG_QUERY,                       ",,,,,SELECT 'Lorem ipsum dolor';"},
     {"pg.query.integer",            CF_HAVEPARAMS,  PG_QUERY,                       ",,,,,SELECT pg_backend_pid();"},
     {"pg.query.double",             CF_HAVEPARAMS,  PG_QUERY,                       ",,,,,SELECT CAST(1234 AS double precision);"},
+    {"pg.query.discovery",          CF_HAVEPARAMS,  PG_QUERY,                       "SELECT * FROM pg_database;"},
     
     // Client connection statistics
     {"pg.backends.count",           CF_HAVEPARAMS,  PG_BACKENDS_COUNT,              NULL},
@@ -151,13 +152,13 @@ ZBX_METRIC  *zbx_module_item_list()                 { return keys; }
 int         zbx_module_uninit()                     { return ZBX_MODULE_OK; }
 
 int         zbx_module_init() { 
+    // log version on startup
     zabbix_log(LOG_LEVEL_INFORMATION, "Starting agent module %s", STRVER);
-
     return ZBX_MODULE_OK; 
 }
 
 /*
- * Custom key: MODVER
+ * Custom key: pg.modver
  *
  * Returns the version string of the libzbxpgsql module.
  *
@@ -435,6 +436,88 @@ out:
     PQclear(res);
     PQfinish(conn);
     
+    zabbix_log(LOG_LEVEL_DEBUG, "End of %s(%s)", __function_name, request->key);
+    return ret;
+}
+
+/*
+ * Function: pg_get_discovery
+ *
+ * Executes a PostgreSQL Query using connection details from a Zabbix agent
+ * request structure and updates the agent result structure with the JSON
+ * discovery data for each returned row.
+ *
+ * Parameter [request]: Zabbix agent request structure.
+ *          Passed to pg_connect to fetch as valid PostgreSQL
+ *          server connection
+ *
+ * Parameter [result]:  Zabbix agent result structure
+ *
+ * Paramater [query]:   PostgreSQL query to execute. Query should column names
+            that match the desired discovery fields.
+ *
+ * Returns: SYSINFO_RET_OK or SYSINFO_RET_FAIL on error
+ */
+ int    pg_get_discovery(AGENT_REQUEST *request, AGENT_RESULT *result, const char *query)
+ {
+    int         ret = SYSINFO_RET_FAIL;                 // Request result code
+    const char  *__function_name = "pg_get_discovery";  // Function name for log file
+    
+    PGconn      *conn = NULL;
+    PGresult    *res = NULL;
+    struct      zbx_json j;                             // JSON response for discovery rule
+    int         i = 0, x = 0, columns = 0, rows = 0;
+    char        *colname = NULL, *c = NULL;
+    char        buffer[MAX_STRING_LEN];
+    
+    zabbix_log(LOG_LEVEL_DEBUG, "In %s(%s)", __function_name, request->key);
+    
+    // Connect to PostreSQL
+    if(NULL == (conn = pg_connect(request)))
+        goto out;
+    
+    // Execute a query
+    res = pg_exec(conn, query);
+    if(PQresultStatus(res) != PGRES_TUPLES_OK) {
+        zabbix_log(LOG_LEVEL_ERR, "Failed to execute PostgreSQL query in %s(%s) with: %s", __function_name, request->key, PQresultErrorMessage(res));
+        goto out;
+    }
+
+    rows = PQntuples(res);
+    columns = PQnfields(res);
+    
+    // Create JSON array of discovered objects
+    zbx_json_init(&j, ZBX_JSON_STAT_BUF_LEN);
+    zbx_json_addarray(&j, ZBX_PROTO_TAG_DATA);
+    
+    // create discovery instance for each row
+    for(i = 0; i < rows; i++) {
+        zbx_json_addobject(&j, NULL);
+        
+        // add each fields as a discovery field
+        for(x = 0; x < columns; x++) {
+            // set discovery key name to uppercase column name
+            zbx_snprintf(buffer, sizeof(buffer), "{#%s}", PQfname(res, x));
+            for(c = &buffer[0]; *c; c++)
+                *c = toupper(*c);
+
+            zbx_json_addstring(&j, buffer, PQgetvalue(res, i, x), ZBX_JSON_TYPE_STRING);
+        }
+
+        zbx_json_close(&j);         
+    }
+    
+    // Finalize JSON response
+    zbx_json_close(&j);
+    SET_STR_RESULT(result, strdup(j.buffer));
+    zbx_json_free(&j);
+
+    ret = SYSINFO_RET_OK;
+    
+out:
+    PQclear(res);
+    PQfinish(conn);
+
     zabbix_log(LOG_LEVEL_DEBUG, "End of %s(%s)", __function_name, request->key);
     return ret;
 }
