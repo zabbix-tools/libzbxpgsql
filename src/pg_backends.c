@@ -39,13 +39,14 @@ LIMIT 1"
  *
  * Parameters:
  *   0:  connection string
- *   1:  filter by connected database OID or name
- *   2:  filter by connected user OID or name
- *   3:  filter by application name
- *   4:  filter by hostname or IP address of the connected host
- *   5:  return only waiting backends
- *   6:  filter by backend state
- *   7:  filter by SQL query being executed    
+ *   1:  connection database
+ *   2:  filter by connected database oid name
+ *   3:  filter by connected user OID or name
+ *   4:  filter by application name
+ *   5:  filter by hostname or IP address of the connected host
+ *   6:  return only waiting backends
+ *   7:  filter by backend state
+ *   8:  filter by SQL query being executed    
  *
  * Returns: u
  */
@@ -136,6 +137,7 @@ out:
  *
  * Parameters:
  *   0:  connection string
+ *   1:  connection database
  *
  * Returns: d
  */

@@ -67,6 +67,7 @@ host    all             all             ::1/128                 trust
 EOL
 systemctl enable postgresql-9.4
 systemctl start postgresql-9.4
+export PATH=\$PATH:/usr/pgsql-9.4/bin
 
 # Configure phpPgAdmin
 echo -e "${BULLET} Configuring phpPgAdmin web console..."

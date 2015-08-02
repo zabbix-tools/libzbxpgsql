@@ -30,6 +30,7 @@
  *
  * Parameters:
  *   0:  connection string
+ *   1:  connection database
  *
  * Returns: b
  */
@@ -67,6 +68,7 @@ int    PG_CONNECT(AGENT_REQUEST *request, AGENT_RESULT *result)
  *
  * Parameters:
  *   0:  connection string
+ *   1:  connection database
  *
  * Returns: s
  */
@@ -75,7 +77,6 @@ int    PG_VERSION(AGENT_REQUEST *request, AGENT_RESULT *result)
     int             ret = SYSINFO_RET_FAIL;             // Request result code
     const char      *__function_name = "PG_VERSION";    // Function name for log file
     
-    // Ignore tables that don't allow connections as we can't monitor them anyway!
     char            *query = PGSQL_GET_VERSION;
     
     zabbix_log(LOG_LEVEL_DEBUG, "In %s()", __function_name);
@@ -93,6 +94,7 @@ int    PG_VERSION(AGENT_REQUEST *request, AGENT_RESULT *result)
  *
  * Parameters:
  *   0:  connection string
+ *   1:  connection database
  *
  * Returns: u
  */

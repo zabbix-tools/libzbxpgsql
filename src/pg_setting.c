@@ -47,6 +47,7 @@ FROM pg_settings;"
  *
  * Parameters:
  *   0:  connection string
+ *   1:  connection database
  *
  * Returns:
  * {
@@ -136,7 +137,8 @@ out:
  *
  * Parameters:
  *   0:  connection string
- *   1:  run-time configuration parameter name
+ *   1:  connection database
+ *   2:  run-time configuration parameter name
  *
  * Returns: determined by parameter vartype
  */

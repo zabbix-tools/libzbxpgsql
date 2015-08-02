@@ -34,6 +34,7 @@
  *
  * Parameters:
  *   0:  connection string
+ *   1:  connection database
  *
  * Returns all known Databases in a PostgreSQL instances
  *
@@ -114,7 +115,8 @@ out:
  *
  * Parameters:
  *   0:  connection string
- *   1:  filter by database name (default: sum of all databases)
+ *   1:  connection database
+ *   2:  filter by database name (default: sum of all databases)
  *
  * Returns: u
  */
@@ -133,7 +135,7 @@ int    PG_STAT_DATABASE(AGENT_REQUEST *request, AGENT_RESULT *result)
     field = &request->key[6];
     
     // Build query
-    datname = get_rparam(request, 1);
+    datname = get_rparam(request, PARAM_FIRST);
     if(NULL == datname || '\0' == *datname)
         zbx_snprintf(query, sizeof(query), PGSQL_GET_DB_STAT_SUM, field);
     else
@@ -167,7 +169,8 @@ out:
  *
  * Parameters:
  *   0:  connection string
- *   1:  filter by database name (default: sum of all databases)
+ *   1:  connection database
+ *   2:  filter by database name (default: sum of all databases)
  *
  * Returns: u
  */
@@ -182,7 +185,7 @@ int    PG_DB_SIZE(AGENT_REQUEST *request, AGENT_RESULT *result)
     zabbix_log(LOG_LEVEL_DEBUG, "In %s()", __function_name);
     
     // Build query
-    datname = get_rparam(request, 1);
+    datname = get_rparam(request, PARAM_FIRST);
     if(NULL == datname || '\0' == *datname)
         zbx_snprintf(query, sizeof(query), PGSQL_GET_DB_SIZE_SUM);
     else

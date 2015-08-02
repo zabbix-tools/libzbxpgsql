@@ -27,7 +27,8 @@
  *
  * Parameters:
  *   0:  connection string
- *   1:  scalar SQL query to execute
+ *   1:  connection database
+ *   2:  scalar SQL query to execute
  *
  * Returns: u
  */

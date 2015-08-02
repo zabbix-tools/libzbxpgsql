@@ -48,6 +48,7 @@ JOIN pg_am m ON m.oid = ic.relam"
  *
  * Parameters:
  *   0:  connection string
+ *   1:  connection database
  *
  * Returns all known indices in a PostgreSQL database
  *
@@ -130,7 +131,8 @@ out:
  *
  * Parameters:
  *   0:  connection string
- *   1:  filter by index name (default: sum of all indexes)
+ *   1:  connection database
+ *   2:  filter by index name (default: sum of all indexes)
  *
  * Returns: u
  */
@@ -196,7 +198,8 @@ out:
  *
  * Parameters:
  *   0:  connection string
- *   1:  filter by index name (default: sum of all indexes)
+ *   1:  connection database
+ *   2:  filter by index name (default: sum of all indexes)
  *
  * Returns: u
  */
@@ -262,7 +265,8 @@ out:
  *
  * Parameters:
  *   0:  connection string
- *   1:  filter by index name (default: sum of all indexes)
+ *   1:  connection database
+ *   2:  filter by index name (default: sum of all indexes)
  *
  * Returns: u
  */
@@ -298,7 +302,8 @@ int    PG_INDEX_SIZE(AGENT_REQUEST *request, AGENT_RESULT *result)
  *
  * Parameters:
  *   0:  connection string
- *   1:  filter by index name (default: sum of all indexes)
+ *   1:  connection database
+ *   2:  filter by index name (default: sum of all indexes)
  *
  * Returns: u
  */

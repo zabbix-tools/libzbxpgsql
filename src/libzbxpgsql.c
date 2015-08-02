@@ -165,7 +165,8 @@ int         zbx_module_init() {
  * Parameter [request]: Zabbix agent request structure.
  *          The following parameters may be set:
  *
- *          0: Connection string (default: DEFAULT_CONN_STRING)
+ *          0: connection string (default: DEFAULT_CONN_STRING)
+ *          1: connection database (default: DEFAULT_CONN_DBNAME)
  *
  * Returns: Valid PostgreSQL connection or NULL on error
  */
@@ -173,20 +174,46 @@ int         zbx_module_init() {
  {
     const char  *__function_name = "pg_connect";
     PGconn      *conn = NULL;
-    char        *pgconnstring = NULL;
+    char        *param_connstring = NULL, *param_dbname = NULL, *connstring = NULL;
+    int         param_connstring_len = 0, param_dbname_len = 0, connstring_len = 0;;
 
     zabbix_log(LOG_LEVEL_DEBUG, "In %s()", __function_name);
     
-    pgconnstring = get_rparam(request, PARAM_CONN_STRING);
-    pgconnstring = (NULL == pgconnstring) ? DEFAULT_CONN_STRING : pgconnstring;
+    // get connection string from first parameter
+    param_connstring = get_rparam(request, PARAM_CONN_STRING);
+    param_connstring = (NULL == param_connstring) ? DEFAULT_CONN_STRING : param_connstring;
+    param_connstring_len = strlen(param_connstring);
 
-    conn = PQconnectdb(pgconnstring);
+    // get database name from second parameter
+    param_dbname = get_rparam(request, PARAM_DBNAME);
+    param_dbname = (NULL == param_dbname) ? DEFAULT_CONN_DBNAME : param_dbname;
+    param_dbname_len = strisnull(param_dbname) ? 0 : strlen(param_dbname);
 
+    // create buffer to concat connection string and database name
+    connstring_len = param_connstring_len + param_dbname_len + 9; // +9 to allow for ' dbname=' + '\0'
+    connstring = zbx_malloc(NULL, connstring_len);
+    zbx_strlcpy(connstring, param_connstring, param_connstring_len + 1);
+
+    // append dbname= key
+    if (!strisnull(param_dbname)) {
+        if (!strisnull(connstring)) {
+            zbx_strlcat(connstring, " ", connstring_len);
+        }
+        zbx_strlcat(connstring, "dbname=", connstring_len);
+        zbx_strlcat(connstring, param_dbname, connstring_len);
+    }
+
+    // connect
+    conn = PQconnectdb(connstring);
     if(CONNECTION_OK != PQstatus(conn)) {
         zabbix_log(LOG_LEVEL_ERR, "Failed to connect to PostgreSQL in %s():\n%s", __function_name, PQerrorMessage(conn));
+        zabbix_log(LOG_LEVEL_DEBUG, "Connection string: %s", connstring);
         PQfinish(conn);
         conn = NULL;
     }
+
+    // clean up
+    zbx_free(connstring);
 
     zabbix_log(LOG_LEVEL_DEBUG, "End of %s()", __function_name);
     return conn;

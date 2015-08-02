@@ -30,6 +30,7 @@
  *
  * Parameters:
  *   0:  connection string
+ *   1:  connection database
  *
  * Returns:
  * {
@@ -104,7 +105,8 @@ out:
  *
  * Parameters:
  *   0:  connection string
- *   1:  filter by schema name (default: sum of all schema)
+ *   1:  connection database
+ *   2:  filter by schema name (default: sum of all schema)
  *
  * Returns: u
  */
