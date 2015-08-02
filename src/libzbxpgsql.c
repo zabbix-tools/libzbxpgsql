@@ -160,16 +160,12 @@ int         zbx_module_init() {
  *
  * Parses a Zabbix agent request and returns a PostgreSQL connection.
  *
- * See: http://www.postgresql.org/docs/9.3/static/catalog-pg-class.html
+ * See: http://www.postgresql.org/docs/9.4/static/libpq-connect.html#LIBPQ-PQCONNECTDB
  *
  * Parameter [request]: Zabbix agent request structure.
  *          The following parameters may be set:
  *
- *          0: Hostname (default: localhost)
- *          1: Port (default: 5432)
- *          2: Database (default: postgres)
- *          3: Username (default: postgres)
- *          4: Password (default: blank) * 
+ *          0: Connection string (default: "")
  *
  * Returns: Valid PostgreSQL connection or NULL on error
  */
@@ -177,29 +173,17 @@ int         zbx_module_init() {
  {
     const char  *__function_name = "pg_connect";
     PGconn      *conn = NULL;
-    char        *pghost = NULL, *pgport = NULL, *pgdb = NULL, *pguser = NULL, *pgpasswd = NULL;
-    
+    char        *pgconnstring = NULL;
+
     zabbix_log(LOG_LEVEL_DEBUG, "In %s()", __function_name);
     
-    pghost = get_rparam(request, PARAM_HOST);
-    pghost = (NULL == pghost|| '\0' == *pghost) ? LOCALHOST : pghost;
-    
-    pgport = get_rparam(request, PARAM_PORT);
-    pgport = (NULL == pgport || '\0' == *pgport) ? PSQL_PORT : pgport;
-    
-    pgdb = get_rparam(request, PARAM_DB);
-    pgdb = (NULL == pgdb || '\0' == *pgdb) ? NULL : pgdb;
-    
-    pguser = get_rparam(request, PARAM_USER);
-    pguser = (NULL == pguser || '\0' == *pguser) ? PSQL_USER : pguser;
-    
-    pgpasswd = get_rparam(request, PARAM_PASSWD);
-    pgpasswd = (NULL == pgpasswd || '\0' == *pgpasswd) ? NULL :  pgpasswd;
-    
-    conn = PQsetdbLogin(pghost, pgport, NULL, NULL, pgdb, pguser, pgpasswd);
-    
+    pgconnstring = get_rparam(request, PARAM_CONN_STRING);
+    pgconnstring = (NULL == pgconnstring) ? DEFAULT_CONN_STRING : pgconnstring;
+
+    conn = PQconnectdb(pgconnstring);
+
     if(CONNECTION_OK != PQstatus(conn)) {
-        zabbix_log(LOG_LEVEL_ERR, "Failed to connect to PostgreSQL server '%s' in %s():\n%s", pghost, __function_name, PQerrorMessage(conn));
+        zabbix_log(LOG_LEVEL_ERR, "Failed to connect to PostgreSQL in %s():\n%s", __function_name, PQerrorMessage(conn));
         PQfinish(conn);
         conn = NULL;
     }

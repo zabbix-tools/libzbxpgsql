@@ -111,7 +111,8 @@ out:
  *
  * Returns the requested statistic for the specified database
  *
- * Parameter [0-4]:     <host,port,db,user,passwd>
+ * Parameter [0]:     connection string
+ * Parameter [1]:     database name
  *
  * Returns: u
  */
@@ -130,7 +131,7 @@ int    PG_STAT_DATABASE(AGENT_REQUEST *request, AGENT_RESULT *result)
     field = &request->key[6];
     
     // Build query
-    datname = get_rparam(request, PARAM_DB);
+    datname = get_rparam(request, 1);
     if(NULL == datname || '\0' == *datname)
         zbx_snprintf(query, sizeof(query), PGSQL_GET_DB_STAT_SUM, field);
     else
@@ -162,7 +163,8 @@ out:
  *
  * See: https://wiki.postgresql.org/wiki/Disk_Usage
  *
- * Parameter [0-4]:     <host,port,db,user,passwd>
+ * Parameter [0]:       connection string
+ * Parameter [1]:       database name
  *
  * Returns: u
  */
@@ -177,7 +179,7 @@ int    PG_DB_SIZE(AGENT_REQUEST *request, AGENT_RESULT *result)
     zabbix_log(LOG_LEVEL_DEBUG, "In %s()", __function_name);
     
     // Build query
-    datname = get_rparam(request, PARAM_DB);
+    datname = get_rparam(request, 1);
     if(NULL == datname || '\0' == *datname)
         zbx_snprintf(query, sizeof(query), PGSQL_GET_DB_SIZE_SUM);
     else

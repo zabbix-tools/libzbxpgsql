@@ -45,12 +45,19 @@
 #define PSQL_USER       "postgres"
 
 // Index of connection params in user requests
+#define PARAM_CONN_STRING	0
+#define PARAM_FIRST			1
+
+#define DEFAULT_CONN_STRING	"\0"
+
+/*
 #define PARAM_HOST      0
 #define PARAM_PORT      1
 #define PARAM_DB        2
 #define PARAM_USER      3
 #define PARAM_PASSWD    4
 #define PARAM_FIRST     5
+*/
 
 #define PG_WHERE        "WHERE"
 #define PG_AND          "AND"
