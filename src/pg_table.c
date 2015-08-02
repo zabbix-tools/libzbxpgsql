@@ -208,18 +208,17 @@ int    PG_STAT_ALL_TABLES(AGENT_REQUEST *request, AGENT_RESULT *result)
     
     // Build query
     tablename = get_rparam(request, PARAM_FIRST);
-    if(NULL == tablename || '\0' == *tablename) {   
+    if(strisnull(tablename) {
         zbx_snprintf(query, sizeof(query), PGSQL_GET_TABLE_STAT_SUM, field);
-    }
-    else {
+    } else {
         zbx_snprintf(query, sizeof(query), PGSQL_GET_TABLE_STAT, field, tablename);
     }
     
     // Set result
     if(0 == strncmp(field, "last_", 5)) {
-        if(NULL == tablename || '\0' == *tablename) {
+        if(strisnull(tablename) {
             // Can't do SUMs on text fields!
-            zabbix_log(LOG_LEVEL_ERR, "No table specified bro, in %s", __function_name);
+            zabbix_log(LOG_LEVEL_ERR, "No table name specified, in %s(%s)", __function_name, field);
             goto out;
         }
     

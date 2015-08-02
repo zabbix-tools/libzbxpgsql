@@ -239,7 +239,6 @@ int         zbx_module_init() {
     conn = PQconnectdb(connstring);
     if(CONNECTION_OK != PQstatus(conn)) {
         zabbix_log(LOG_LEVEL_ERR, "Failed to connect to PostgreSQL in %s():\n%s", __function_name, PQerrorMessage(conn));
-        zabbix_log(LOG_LEVEL_DEBUG, "Connection string: %s", connstring);
         PQfinish(conn);
         conn = NULL;
     }
