@@ -32,7 +32,8 @@
 /*
  * Custom key pg.db.discovery
  *
- * Parameter [0-4]:     <host,port,db,user,passwd>
+ * Parameters:
+ *   0:  connection string
  *
  * Returns all known Databases in a PostgreSQL instances
  *
@@ -111,8 +112,9 @@ out:
  *
  * Returns the requested statistic for the specified database
  *
- * Parameter [0]:     connection string
- * Parameter [1]:     database name
+ * Parameters:
+ *   0:  connection string
+ *   1:  filter by database name (default: sum of all databases)
  *
  * Returns: u
  */
@@ -163,8 +165,9 @@ out:
  *
  * See: https://wiki.postgresql.org/wiki/Disk_Usage
  *
- * Parameter [0]:       connection string
- * Parameter [1]:       database name
+ * Parameters:
+ *   0:  connection string
+ *   1:  filter by database name (default: sum of all databases)
  *
  * Returns: u
  */

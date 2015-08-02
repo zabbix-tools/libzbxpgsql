@@ -28,7 +28,8 @@
  *
  * Returns all known schemas/namespaces in a PostgreSQL database
  *
- * Parameter [0-4]:     <host,port,db,user,passwd>
+ * Parameters:
+ *   0:  connection string
  *
  * Returns:
  * {
@@ -96,15 +97,14 @@ out:
     return ret;
 }
 
-
 /*
  * Custom key pg.namespace.size
  *
  * Returns the disk usage in bytes for the specified namespace/schema
  *
- * Parameter [0-4]:     <host,port,db,user,passwd>
- *
- * Parameter[schema]:   schema name to assess (default: all)
+ * Parameters:
+ *   0:  connection string
+ *   1:  filter by schema name (default: sum of all schema)
  *
  * Returns: u
  */

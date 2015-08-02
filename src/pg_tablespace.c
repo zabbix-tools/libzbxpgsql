@@ -22,12 +22,14 @@
 #define PGSQL_DISCOVER_TABLESPACES  "SELECT t.oid, t.spcname, a.rolname from pg_tablespace t JOIN pg_roles a ON a.oid = t.spcowner"
 
 #define PGSQL_GET_TS_SIZE       "SELECT pg_tablespace_size('%s')"
+
 /*
  * Custom key pg.tablespace.discovery
  *
  * Returns all known tablespaces in a PostgreSQL instance
  *
- * Parameter [0-4]:     <host,port,db,user,passwd>
+ * Parameters:
+ *   0:  connection string
  *
  * Returns:
  * {
@@ -98,9 +100,9 @@ out:
  *
  * Returns the size of the specified tablespace in bytes
  *
- * Parameter [0-4]:         <host,port,db,user,passwd>
- *
- * Parameter[tablespace]:   <tablespace>
+ * Parameters:
+ *   0:  connection string
+ *   1:  tablespace name
  *
  * Returns: u
  */

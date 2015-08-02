@@ -43,9 +43,10 @@ FROM pg_settings;"
 /*
  * Custom key pg.setting.discovery
  *
- * Parameter [0-4]:     <host,port,db,user,passwd>
- *
  * Returns all known configuration settings
+ *
+ * Parameters:
+ *   0:  connection string
  *
  * Returns:
  * {
@@ -133,9 +134,9 @@ out:
  * Provides access to run-time parameters of the server such as those returned
  * by `SHOW` commands.
  *
- * Parameter [0-4]:     	<host,port,db,user,passwd>
- *
- * Parameter [setting]:  	run-time configuration parameter name
+ * Parameters:
+ *   0:  connection string
+ *   1:  run-time configuration parameter name
  *
  * Returns: determined by parameter vartype
  */
@@ -154,13 +155,14 @@ out:
     
     zabbix_log(LOG_LEVEL_DEBUG, "In %s()", __function_name);
     
-    // Build the query
+    // parse parameters
     setting = get_rparam(request, PARAM_FIRST);
     if(NULL == setting || '\0' == *setting) {
         zabbix_log(LOG_LEVEL_ERR, "No setting name specified in %s()", __function_name);
         goto out;
     }
 
+    // Build the query
     zbx_snprintf(query, sizeof(query), PGSQL_GET_SETTING, setting);    
     
     // Connect to PostreSQL

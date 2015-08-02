@@ -28,6 +28,9 @@
  *
  * Returns 1 if the Zabbix Agent can connect to PostgreSQL instance
  *
+ * Parameters:
+ *   0:  connection string
+ *
  * Returns: b
  */
 int    PG_CONNECT(AGENT_REQUEST *request, AGENT_RESULT *result)
@@ -58,9 +61,12 @@ int    PG_CONNECT(AGENT_REQUEST *request, AGENT_RESULT *result)
 /*
  * Custom key pg.version
  *
- * Parameter [0-4]:     <host,port,db,user,passwd>
+ * Returns the version string of the connection PostgreSQL Server, E.g.:
+ *  PostgreSQL 9.4.4 on x86_64-unknown-linux-gnu, compiled by gcc 
+ *  (Ubuntu/Linaro 4.6.3-1ubuntu5) 4.6.3, 64-bit
  *
- * Returns the version string of the connection PostgreSQL Server
+ * Parameters:
+ *   0:  connection string
  *
  * Returns: s
  */
@@ -85,7 +91,8 @@ int    PG_VERSION(AGENT_REQUEST *request, AGENT_RESULT *result)
  *
  * Returns the requested global statistic for the PostgreSQL server
  *
- * Parameter [0-4]:     <host,port,db,user,passwd>
+ * Parameters:
+ *   0:  connection string
  *
  * Returns: u
  */

@@ -19,8 +19,6 @@
 
 #include "libzbxpgsql.h"
 
-// #define  PGSQL_DISCOVER_TABLES       "SELECT table_catalog, table_schema, table_name FROM information_schema.tables"
-
 #define PGSQL_DISCOVER_TABLES       "\
 SELECT \
     c.oid \
@@ -75,8 +73,9 @@ WHERE c.relkind='r'"
  *
  * Returns all known Tables in a PostgreSQL database
  *
- * Parameter [0-4]:     <host,port,db,user,passwd>
- * *
+ * Parameters:
+ *   0:  connection string
+ * 
  * Returns:
  * {
  *        "data":[
@@ -156,10 +155,10 @@ out:
  *
  * Returns all known child tables for the specified parent table
  *
- * Parameter [0-4]:     <host,port,db,user,passwd>
+ * Parameters:
+ *   0:  connection string
+ *   1:  parent table name
  *
- * Parameter[table]:    Parent table
- * 
  * Returns:
  * {
  *        "data":[
@@ -240,9 +239,9 @@ out:
  *
  * Returns the requested statistic for the specified data table
  *
- * Parameter [0-4]:     <host,port,db,user,passwd>
- *
- * Parameter[table]:    table name to assess (default: all)
+ * Parameters:
+ *   0:  connection string
+ *   1:  table name (default: sum for all)
  *
  * Returns: u
  */
@@ -293,9 +292,9 @@ out:
  *
  * Returns the requested IO statistic for the specified data table
  *
- * Parameter [0-4]:     <host,port,db,user,passwd>
- *
- * Parameter[table]:    table name to assess (default: all)
+ * Parameters:
+ *   0:  connection string
+ *   1:  table name (default: sum for all)
  *
  * Returns: u
  */
@@ -332,11 +331,13 @@ int    PG_STATIO_ALL_TABLES(AGENT_REQUEST *request, AGENT_RESULT *result)
  *
  * Returns the disk usage in bytes for the specified data table
  *
- * Parameter [0-4]:     <host,port,db,user,passwd>
- *
- * Parameter[table]:    table name to assess (default: all)
- *
- * Parameter[include]:  table (default) | children | all
+ * Parameters:
+ *   0:  connection string
+ *   1:  table name (default: sum for all)
+ *   2:  include statistics for on of:
+ *         table:    named table only (default)
+ *         children: children of the named table only
+ *         all:      named table and its children
  *
  * Returns: u
  */
@@ -352,7 +353,6 @@ int    PG_TABLE_SIZE(AGENT_REQUEST *request, AGENT_RESULT *result)
     
     // Parse parameters
     tablename = get_rparam(request, PARAM_FIRST);
-    // include = get_rparam(request, PARAM_FIRST + 1);
     
     // Build query
     if(NULL == tablename || '\0' == *tablename)
@@ -371,12 +371,12 @@ int    PG_TABLE_SIZE(AGENT_REQUEST *request, AGENT_RESULT *result)
  *
  * Returns the estimated row count for the specified class (table, index, etc.)
  *
- * See: http://www.postgresql.org/docs/9.3/static/catalog-pg-class.html
+ * See: http://www.postgresql.org/docs/9.4/static/catalog-pg-class.html
  *      https://wiki.postgresql.org/wiki/Disk_Usage
  *
- * Parameter [0-4]:     <host,port,db,user,passwd>
- * 
- * Parameter[table]:    table name to assess (default: all)
+ * Parameters:
+ *   0:  connection string
+ *   1:  table name (default: sum for all)
  *
  * Returns: u
  */
@@ -393,9 +393,9 @@ int    PG_TABLE_ROWS(AGENT_REQUEST *request, AGENT_RESULT *result)
     tablename = get_rparam(request, PARAM_FIRST);
     
     if(NULL == tablename || '\0' == *tablename)
-    zbx_snprintf(query, sizeof(query), PGSQL_GET_TABLE_ROWS_SUM);
+        zbx_snprintf(query, sizeof(query), PGSQL_GET_TABLE_ROWS_SUM);
     else
-    zbx_snprintf(query, sizeof(query), PGSQL_GET_TABLE_ROWS, tablename);
+        zbx_snprintf(query, sizeof(query), PGSQL_GET_TABLE_ROWS, tablename);
 
     ret = pg_get_int(request, result, query);
     
@@ -408,9 +408,9 @@ int    PG_TABLE_ROWS(AGENT_REQUEST *request, AGENT_RESULT *result)
  *
  * Returns the number of tables that inherit from the specified table
  *
- * Parameter [0-4]:     <host,port,db,user,passwd>
- * 
- * Parameter[table]:    table name to assess (required)
+ * Parameters:
+ *   0:  connection string
+ *   1:  table name
  *
  * Returns: u
  */
@@ -426,11 +426,11 @@ int    PG_TABLE_CHILDREN(AGENT_REQUEST *request, AGENT_RESULT *result)
     
     tablename = get_rparam(request, PARAM_FIRST);
     if(NULL == tablename || '\0' == *tablename) {
-    zabbix_log(LOG_LEVEL_ERR, "Invalid parameter count in %s(). Please specify a table name.", __function_name);
+        zabbix_log(LOG_LEVEL_ERR, "Invalid parameter count in %s(). Please specify a table name.", __function_name);
         goto out;
     }
     else
-    zbx_snprintf(query, sizeof(query), PGSQL_GET_TABLE_CHILD_COUNT, tablename);
+        zbx_snprintf(query, sizeof(query), PGSQL_GET_TABLE_CHILD_COUNT, tablename);
 
     ret = pg_get_int(request, result, query);
     
@@ -444,9 +444,9 @@ out:
  *
  * Returns the sum size in bytes of all tables that inherit from the specified table
  *
- * Parameter [0-4]:     <host,port,db,user,passwd>
- * 
- * Parameter[table]:    table name to assess (required)
+ * Parameters:
+ *   0:  connection string
+ *   1:  table name
  *
  * Returns: u
  */
@@ -462,11 +462,11 @@ int    PG_TABLE_CHILDREN_SIZE(AGENT_REQUEST *request, AGENT_RESULT *result)
     
     tablename = get_rparam(request, PARAM_FIRST);
     if(NULL == tablename || '\0' == *tablename) {
-    zabbix_log(LOG_LEVEL_ERR, "Invalid parameter count in %s(). Please specify a table name.", __function_name);
+        zabbix_log(LOG_LEVEL_ERR, "Invalid parameter count in %s(). Please specify a table name.", __function_name);
         goto out;
     }
     else
-    zbx_snprintf(query, sizeof(query), PGSQL_GET_CHILDREN_SIZE, tablename);
+        zbx_snprintf(query, sizeof(query), PGSQL_GET_CHILDREN_SIZE, tablename);
 
     ret = pg_get_int(request, result, query);
     
@@ -480,9 +480,9 @@ out:
  *
  * Returns the sum size in bytes of all tables that inherit from the specified table
  *
- * Parameter [0-4]:     <host,port,db,user,passwd>
- * 
- * Parameter[table]:    table name to assess (required)
+ * Parameters:
+ *   0:  connection string
+ *   1:  table name
  *
  * Returns: u
  */
@@ -498,11 +498,11 @@ int    PG_TABLE_CHILDREN_TUPLES(AGENT_REQUEST *request, AGENT_RESULT *result)
     
     tablename = get_rparam(request, PARAM_FIRST);
     if(NULL == tablename || '\0' == *tablename) {
-    zabbix_log(LOG_LEVEL_ERR, "Invalid parameter count in %s(). Please specify a table name.", __function_name);
+        zabbix_log(LOG_LEVEL_ERR, "Invalid parameter count in %s(). Please specify a table name.", __function_name);
         goto out;
     }
     else
-    zbx_snprintf(query, sizeof(query), PGSQL_GET_CHILDREN_ROWS, tablename);
+        zbx_snprintf(query, sizeof(query), PGSQL_GET_CHILDREN_ROWS, tablename);
 
     ret = pg_get_int(request, result, query);
     

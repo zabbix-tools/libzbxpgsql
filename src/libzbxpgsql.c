@@ -165,7 +165,7 @@ int         zbx_module_init() {
  * Parameter [request]: Zabbix agent request structure.
  *          The following parameters may be set:
  *
- *          0: Connection string (default: "")
+ *          0: Connection string (default: DEFAULT_CONN_STRING)
  *
  * Returns: Valid PostgreSQL connection or NULL on error
  */

@@ -46,7 +46,8 @@ JOIN pg_am m ON m.oid = ic.relam"
 /*
  * Custom key pg.index.discovery
  *
- * Parameter [0-4]:     <host,port,db,user,passwd>
+ * Parameters:
+ *   0:  connection string
  *
  * Returns all known indices in a PostgreSQL database
  *
@@ -127,9 +128,9 @@ out:
  *
  * Returns the requested statistic for the specified index
  *
- * Parameter [0-4]:     <host,port,db,user,passwd>
- *
- * Parameter[index]:    index to assess (default: all)
+ * Parameters:
+ *   0:  connection string
+ *   1:  filter by index name (default: sum of all indexes)
  *
  * Returns: u
  */
@@ -193,9 +194,9 @@ out:
  *
  * Returns the requested IO statistic for the specified index
  *
- * Parameter [0-4]:     <host,port,db,user,passwd>
- *
- * Parameter[index]:    index to assess (default: all)
+ * Parameters:
+ *   0:  connection string
+ *   1:  filter by index name (default: sum of all indexes)
  *
  * Returns: u
  */
@@ -259,9 +260,9 @@ out:
  *
  * Returns the disk usage in bytes for the specified index
  *
- * Parameter [0-4]:     <host,port,db,user,passwd>
- *
- * Parameter[index]:    index name or OID to assess (default: all)
+ * Parameters:
+ *   0:  connection string
+ *   1:  filter by index name (default: sum of all indexes)
  *
  * Returns: u
  */
@@ -295,9 +296,9 @@ int    PG_INDEX_SIZE(AGENT_REQUEST *request, AGENT_RESULT *result)
  *
  * Returns the estimated row count for the specified index
  *
- * Parameter [0-4]:     <host,port,db,user,passwd>
- *
- * Parameter[index]:    index name or OID to assess (default: all)
+ * Parameters:
+ *   0:  connection string
+ *   1:  filter by index name (default: sum of all indexes)
  *
  * Returns: u
  */

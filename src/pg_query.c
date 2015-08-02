@@ -19,8 +19,20 @@
 
 #include "libzbxpgsql.h"
 
+/*
+ * Custom key pg.query.*
+ *
+ * Returns the value of the first column of the first row returned by the
+ * specified SQL query.
+ *
+ * Parameters:
+ *   0:  connection string
+ *   1:  scalar SQL query to execute
+ *
+ * Returns: u
+ */
 int     PG_QUERY(AGENT_REQUEST *request, AGENT_RESULT *result)
- {
+{
     int         ret = SYSINFO_RET_FAIL;                 // Request result code
     const char  *__function_name = "PG_QUERY_STRING";   // Function name for log file
     char        *query = NULL;
