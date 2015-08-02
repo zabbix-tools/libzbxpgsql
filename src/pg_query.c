@@ -51,12 +51,16 @@ int     PG_QUERY(AGENT_REQUEST *request, AGENT_RESULT *result)
     // as per `pg.query.{type}`
     if(0 == strncmp(&request->key[9], "string", 5))
         ret = pg_get_string(request, result, query);
+
     else if(0 == strncmp(&request->key[9], "integer", 7))
         ret = pg_get_int(request, result, query);
+
     else if(0 == strncmp(&request->key[9], "double", 6))
         ret = pg_get_dbl(request, result, query);
-    else if(0 == strncmp(&request->key[9], "discovery", 0))
+
+    else if(0 == strncmp(&request->key[9], "discovery", 9))
         ret = pg_get_discovery(request, result, query);
+
     else
         zabbix_log(LOG_LEVEL_ERR, "Unsupported query return type: %s in %s()", request->key[9], __function_name);
 

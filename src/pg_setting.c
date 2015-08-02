@@ -25,17 +25,17 @@
 
 #define PGSQL_DISCOVER_SETTINGS     "\
 SELECT \
-    name \
-    , unit \
-    , category \
-    , short_desc \
-    , context \
-    , vartype \
-    , source \
-    , boot_val \
-    , reset_val \
-    , sourcefile \
-    , sourceline \
+    name AS setting\
+    , unit AS unit \
+    , category AS category \
+    , short_desc AS description \
+    , context AS context \
+    , vartype AS vartype \
+    , source AS source \
+    , boot_val AS bootval \
+    , reset_val AS resetval \
+    , sourcefile AS sourcefile \
+    , sourceline AS sourceline \
 FROM pg_settings;"
 
 #define PGSQL_GET_SETTING		     "SELECT setting,vartype FROM pg_settings WHERE name='%s';"
@@ -69,62 +69,11 @@ int    PG_SETTING_DISCOVERY(AGENT_REQUEST *request, AGENT_RESULT *result)
 {
     int         ret = SYSINFO_RET_FAIL;                     // Request result code
     const char  *__function_name = "PG_SETTING_DISCOVERY";  // Function name for log file
-    struct      zbx_json j;                                 // JSON response for discovery rule
-    
-    PGconn      *conn = NULL;
-    PGresult    *res = NULL;
-    
-    char        *query = PGSQL_DISCOVER_SETTINGS;
-    int         i = 0, count = 0;
     
     zabbix_log(LOG_LEVEL_DEBUG, "In %s()", __function_name);
     
-    // Connect to PostgreSQL
-    if(NULL == (conn = pg_connect(request)))
-        goto out;
-    
-    // Execute a query
-    res = pg_exec(conn, query);
-    if(PQresultStatus(res) != PGRES_TUPLES_OK) {
-        zabbix_log(LOG_LEVEL_ERR, "Failed to execute PostgreSQL query in %s() with: %s", __function_name, PQresultErrorMessage(res));
-        goto out;
-    }
-    
-    if(0 == (count = PQntuples(res))) {
-        zabbix_log(LOG_LEVEL_DEBUG, "No results returned for query \"%s\" in %s()", query, __function_name);
-        goto out;
-    }
-             
-    // Create JSON array of discovered objects
-    zbx_json_init(&j, ZBX_JSON_STAT_BUF_LEN);
-    zbx_json_addarray(&j, ZBX_PROTO_TAG_DATA);
-    
-    for(i = 0; i < count; i++) {
-        zbx_json_addobject(&j, NULL);
-        zbx_json_addstring(&j, "{#SETTING}", PQgetvalue(res, i, 0), ZBX_JSON_TYPE_STRING);
-        zbx_json_addstring(&j, "{#UNIT}", PQgetvalue(res, i, 1), ZBX_JSON_TYPE_STRING);
-        zbx_json_addstring(&j, "{#CATEGORY}", PQgetvalue(res, i, 2), ZBX_JSON_TYPE_STRING);
-        zbx_json_addstring(&j, "{#DESCRIPTION}", PQgetvalue(res, i, 3), ZBX_JSON_TYPE_STRING);
-        zbx_json_addstring(&j, "{#CONTEXT}", PQgetvalue(res, i, 4), ZBX_JSON_TYPE_STRING); 
-        zbx_json_addstring(&j, "{#VARTYPE}", PQgetvalue(res, i, 5), ZBX_JSON_TYPE_STRING);
-        zbx_json_addstring(&j, "{#SOURCE}", PQgetvalue(res, i, 6), ZBX_JSON_TYPE_STRING);
-        zbx_json_addstring(&j, "{#BOOTVAL}", PQgetvalue(res, i, 7), ZBX_JSON_TYPE_STRING);
-        zbx_json_addstring(&j, "{#RESETVAL}", PQgetvalue(res, i, 8), ZBX_JSON_TYPE_STRING);
-        zbx_json_addstring(&j, "{#SOURCEFILE}", PQgetvalue(res, i, 9), ZBX_JSON_TYPE_STRING);
-        zbx_json_addstring(&j, "{#SOURCELINE}", PQgetvalue(res, i, 10), ZBX_JSON_TYPE_STRING);
-        zbx_json_close(&j);         
-    }
-    
-    // Finalize JSON response
-    zbx_json_close(&j);
-    SET_STR_RESULT(result, strdup(j.buffer));
-    zbx_json_free(&j);
-    ret = SYSINFO_RET_OK;
-        
-out:
-    PQclear(res);
-    PQfinish(conn);
-    
+    ret = pg_get_discovery(request, result, PGSQL_DISCOVER_SETTINGS);
+
     zabbix_log(LOG_LEVEL_DEBUG, "End of %s()", __function_name);
     return ret;
 }
