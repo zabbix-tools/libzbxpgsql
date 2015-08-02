@@ -68,7 +68,9 @@
 #define strisnull(c)            (NULL == c || '\0' == *c)
 
 // Local helper functions
-PGconn  *pg_connect(AGENT_REQUEST *request);
+PGconn      *pg_connect(AGENT_REQUEST *request);
+PGresult    *pg_exec(PGconn *conn, const char *command);
+
 int     pg_get_string(AGENT_REQUEST *request, AGENT_RESULT *result, const char *query);
 int     pg_get_int(AGENT_REQUEST *request, AGENT_RESULT *result, const char *query);
 int     pg_get_dbl(AGENT_REQUEST *request, AGENT_RESULT *result, const char *query);

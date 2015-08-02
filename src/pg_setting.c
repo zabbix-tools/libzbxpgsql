@@ -84,7 +84,7 @@ int    PG_SETTING_DISCOVERY(AGENT_REQUEST *request, AGENT_RESULT *result)
         goto out;
     
     // Execute a query
-    res = PQexec(conn, query);
+    res = pg_exec(conn, query);
     if(PQresultStatus(res) != PGRES_TUPLES_OK) {
         zabbix_log(LOG_LEVEL_ERR, "Failed to execute PostgreSQL query in %s() with: %s", __function_name, PQresultErrorMessage(res));
         goto out;
@@ -172,7 +172,7 @@ out:
         goto out;
 
     // Execute the query
-    res = PQexec(conn, query);
+    res = pg_exec(conn, query);
     if(PQresultStatus(res) != PGRES_TUPLES_OK) {
         zabbix_log(LOG_LEVEL_ERR, "Failed to execute PostgreSQL query in %s() with: %s", __function_name, PQresultErrorMessage(res));
         goto out;

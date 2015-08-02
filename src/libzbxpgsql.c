@@ -219,6 +219,17 @@ int         zbx_module_init() {
     return conn;
  }
 
+/* Function: pg_exec
+ *
+ * Wrapper for PQexec to include logging
+ *
+ * Returns: PGresult
+ */
+PGresult    *pg_exec(PGconn *conn, const char *command) {
+    zabbix_log(LOG_LEVEL_DEBUG, "Executing query: %s", command);
+    return PQexec(conn, command);
+}
+
 /*
  * Function: pg_get_string
  *
@@ -253,7 +264,7 @@ int         zbx_module_init() {
         goto out;
     
     // Execute a query
-    res = PQexec(conn, query);
+    res = pg_exec(conn, query);
     if(PQresultStatus(res) != PGRES_TUPLES_OK) {
         zabbix_log(LOG_LEVEL_ERR, "Failed to execute PostgreSQL query in %s(%s) with: %s", __function_name, request->key, PQresultErrorMessage(res));
         goto out;
@@ -311,7 +322,7 @@ out:
         goto out;
     
     // Execute a query
-    res = PQexec(conn, query);
+    res = pg_exec(conn, query);
     if(PQresultStatus(res) != PGRES_TUPLES_OK) {
         zabbix_log(LOG_LEVEL_ERR, "Failed to execute PostgreSQL query in %s(%s) with: %s", __function_name, request->key, PQresultErrorMessage(res));
         goto out;
@@ -379,7 +390,7 @@ out:
         goto out;
     
     // Execute a query
-    res = PQexec(conn, query);
+    res = pg_exec(conn, query);
     if(PQresultStatus(res) != PGRES_TUPLES_OK) {
         zabbix_log(LOG_LEVEL_ERR, "Failed to execute PostgreSQL query in %s(%s) with: %s", __function_name, request->key, PQresultErrorMessage(res));
         goto out;
