@@ -281,8 +281,11 @@ int    PG_STATIO_ALL_TABLES(AGENT_REQUEST *request, AGENT_RESULT *result)
  *
  * Parameters:
  *   0:  connection string
- *   1:  table name (default: sum for all)
- *   2:  include statistics for on of:
+ *   1:  connection database
+ *   2:  table name (default: sum for all)
+ *
+ * TODO: implement sizing of parent/child/all for tables
+ *   3:  include statistics for on of:
  *         table:    named table only (default)
  *         children: children of the named table only
  *         all:      named table and its children
@@ -324,7 +327,8 @@ int    PG_TABLE_SIZE(AGENT_REQUEST *request, AGENT_RESULT *result)
  *
  * Parameters:
  *   0:  connection string
- *   1:  table name (default: sum for all)
+ *   1:  connection database
+ *   2:  table name (default: sum for all)
  *
  * Returns: u
  */
@@ -358,7 +362,8 @@ int    PG_TABLE_ROWS(AGENT_REQUEST *request, AGENT_RESULT *result)
  *
  * Parameters:
  *   0:  connection string
- *   1:  table name
+ *   1:  connection database
+ *   2:  table name
  *
  * Returns: u
  */
@@ -394,7 +399,8 @@ out:
  *
  * Parameters:
  *   0:  connection string
- *   1:  table name
+ *   1:  connection database
+ *   2:  table name
  *
  * Returns: u
  */
@@ -424,13 +430,14 @@ out:
 }
 
 /*
- * Custom key pg.table.children.size
+ * Custom key pg.table.children.tuples
  *
  * Returns the sum size in bytes of all tables that inherit from the specified table
  *
  * Parameters:
  *   0:  connection string
- *   1:  table name
+ *   1:  connection database
+ *   2:  table name
  *
  * Returns: u
  */

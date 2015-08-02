@@ -45,7 +45,12 @@ LIMIT 1"
  *   4:  filter by application name
  *   5:  filter by hostname or IP address of the connected host
  *   6:  return only waiting backends
- *   7:  filter by backend state
+ *   7:  filter by backend state. one of:
+ *         - idle
+ *         - idle in transaction
+ *         - idle in transaction (aborted)
+ *         - fastpath function call
+ *         - disabled
  *   8:  filter by SQL query being executed    
  *
  * Returns: u

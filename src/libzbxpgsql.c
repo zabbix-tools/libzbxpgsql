@@ -200,7 +200,8 @@ int         zbx_module_init() {
  {
     const char  *__function_name = "pg_connect";
     PGconn      *conn = NULL;
-    char        *param_connstring = NULL, *param_dbname = NULL, *connstring = NULL;
+    char        *param_connstring = NULL, *param_dbname = NULL;
+    char        connstring[MAX_STRING_LEN], *c = NULL;
     int         param_connstring_len = 0, param_dbname_len = 0, connstring_len = 0;;
 
     zabbix_log(LOG_LEVEL_DEBUG, "In %s()", __function_name);
@@ -216,20 +217,25 @@ int         zbx_module_init() {
     param_dbname_len = strisnull(param_dbname) ? 0 : strlen(param_dbname);
 
     // create buffer to concat connection string and database name
-    connstring_len = param_connstring_len + param_dbname_len + 9; // +9 to allow for ' dbname=' + '\0'
-    connstring = zbx_malloc(NULL, connstring_len);
-    zbx_strlcpy(connstring, param_connstring, param_connstring_len + 1);
+    zbx_strlcpy(connstring, param_connstring, sizeof(connstring));
+    c = connstring;
 
     // append dbname= key
     if (!strisnull(param_dbname)) {
-        if (!strisnull(connstring)) {
-            zbx_strlcat(connstring, " ", connstring_len);
-        }
-        zbx_strlcat(connstring, "dbname=", connstring_len);
-        zbx_strlcat(connstring, param_dbname, connstring_len);
+        if (!strisnull(connstring))
+            c = strcat2(c, " ");
+
+        c = strcat(c, "dbname=");
+        c = strcat(c, param_dbname);
     }
 
+    // append application name
+    if (!strisnull(connstring))
+        c = strcat2(c, " ");
+    c = strcat(c, "application_name='" STRVER "'");
+
     // connect
+    zabbix_log(LOG_LEVEL_DEBUG, "Connecting to PostgreSQL with: %s", connstring);
     conn = PQconnectdb(connstring);
     if(CONNECTION_OK != PQstatus(conn)) {
         zabbix_log(LOG_LEVEL_ERR, "Failed to connect to PostgreSQL in %s():\n%s", __function_name, PQerrorMessage(conn));
@@ -237,9 +243,6 @@ int         zbx_module_init() {
         PQfinish(conn);
         conn = NULL;
     }
-
-    // clean up
-    zbx_free(connstring);
 
     zabbix_log(LOG_LEVEL_DEBUG, "End of %s()", __function_name);
     return conn;

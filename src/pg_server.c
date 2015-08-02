@@ -117,8 +117,10 @@ int    PG_STAT_BGWRITER(AGENT_REQUEST *request, AGENT_RESULT *result)
     // Get field value
     if(0 == strncmp(field, "checkpoint_", 11))
         ret = pg_get_dbl(request, result, query);
+
     else if(0 == strncmp(field, "stats_reset", 11))
         ret = pg_get_string(request, result, query);
+    
     else
         ret = pg_get_int(request, result, query);
     
