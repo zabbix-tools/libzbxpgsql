@@ -21,28 +21,33 @@
 
 #define PGSQL_DISCOVER_TABLES       "\
 SELECT \
-    c.oid \
-    , current_database() \
-    , n.nspname \
+    c.oid AS oid \
+    , current_database() AS database \
+    , n.nspname AS schema \
     , CASE c.reltablespace \
-    WHEN 0 THEN (SELECT ds.spcname FROM pg_tablespace ds JOIN pg_database d ON d.dattablespace = ds.oid WHERE d.datname = current_database()) \
-    ELSE (SELECT spcname FROM pg_tablespace WHERE oid = c.reltablespace) \
-    END \
-    , c.relname \
-    ,t.typname \
-    ,a.rolname \
+        WHEN 0 THEN (SELECT ds.spcname FROM pg_tablespace ds JOIN pg_database d ON d.dattablespace = ds.oid WHERE d.datname = current_database()) \
+        ELSE (SELECT spcname FROM pg_tablespace WHERE oid = c.reltablespace) \
+        END AS tablespace \
+    , c.relname AS table \
+    ,t.typname AS type \
+    , pg_catalog.pg_get_userbyid(c.relowner) AS owner \
     , CASE c.relpersistence \
         WHEN 'p' THEN 'permenant' \
         WHEN 'u' THEN 'unlogged' \
         WHEN 't' THEN 'temporary' \
         ELSE 'Unknown' \
-    END \
-    , (SELECT COUNT(inhparent) FROM pg_inherits WHERE inhrelid = c.oid) \
+    END AS persistence \
+    , (SELECT COUNT(inhparent) FROM pg_inherits WHERE inhrelid = c.oid) AS issubclass \
+    , pg_catalog.obj_description(c.oid, 'pg_class') as description \
 FROM pg_class c \
 JOIN pg_namespace n ON c.relnamespace = n.oid \
 JOIN pg_type t ON c.reltype = t.oid \
-JOIN pg_roles a ON c.relowner = a.oid \
-WHERE c.relkind='r'"
+WHERE \
+    c.relkind='r' \
+    AND n.nspname <> 'pg_catalog' \
+    AND n.nspname <> 'information_schema' \
+    AND n.nspname !~ '^pg_toast' \
+ORDER BY c.relname"
 
 #define PGSQL_DISCOVER_TABLE_CHILDREN   "SELECT c.oid , c.relname, n.nspname FROM pg_inherits i JOIN pg_class c ON i.inhrelid = c.oid JOIN pg_namespace n ON c.relnamespace = n.oid WHERE i.inhparent = '%s'::regclass"
 
@@ -133,6 +138,7 @@ int    PG_TABLE_DISCOVERY(AGENT_REQUEST *request, AGENT_RESULT *result)
         zbx_json_addstring(&j, "{#OWNER}", PQgetvalue(res, i, 6), ZBX_JSON_TYPE_STRING);
         zbx_json_addstring(&j, "{#PERSISTENCE}", PQgetvalue(res, i, 7), ZBX_JSON_TYPE_STRING);
         zbx_json_addstring(&j, "{#ISSUBCLASS}", PQgetvalue(res, i, 8), ZBX_JSON_TYPE_STRING);
+        zbx_json_addstring(&j, "{#DESCRIPTION}", PQgetvalue(res, i, 9), ZBX_JSON_TYPE_STRING);
         zbx_json_close(&j);         
     }
     

@@ -19,7 +19,15 @@
 
 #include "libzbxpgsql.h"
 
-#define PGSQL_DISCOVER_TABLESPACES  "SELECT t.oid, t.spcname, a.rolname from pg_tablespace t JOIN pg_roles a ON a.oid = t.spcowner"
+#define PGSQL_DISCOVER_TABLESPACES  "\
+SELECT  \
+  t.oid AS oid \
+  , t.spcname AS tablespace \
+  , pg_catalog.pg_get_userbyid(spcowner) AS owner \
+  , pg_catalog.pg_tablespace_location(oid) AS location \
+  , pg_catalog.shobj_description(oid, 'pg_tablespace') AS description \
+FROM pg_catalog.pg_tablespace t \
+ORDER BY 1;"
 
 #define PGSQL_GET_TS_SIZE       "SELECT pg_tablespace_size('%s')"
 
@@ -77,6 +85,8 @@ int    PG_TABLESPACE_DISCOVERY(AGENT_REQUEST *request, AGENT_RESULT *result)
         zbx_json_addstring(&j, "{#OID}", PQgetvalue(res, i, 0), ZBX_JSON_TYPE_STRING);
         zbx_json_addstring(&j, "{#TABLESPACE}", PQgetvalue(res, i, 1), ZBX_JSON_TYPE_STRING);
         zbx_json_addstring(&j, "{#OWNER}", PQgetvalue(res, i, 2), ZBX_JSON_TYPE_STRING);
+        zbx_json_addstring(&j, "{#LOCATION}", PQgetvalue(res, i, 3), ZBX_JSON_TYPE_STRING);
+        zbx_json_addstring(&j, "{#DESCRIPTION}", PQgetvalue(res, i, 4), ZBX_JSON_TYPE_STRING);
         zbx_json_close(&j);         
     }
     
