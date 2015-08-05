@@ -1,0 +1,6 @@
+set init
+set daemon 5
+
+check process zabbix_agentd with pidfile /var/run/zabbix/zabbix_agentd.pid
+	start program = "/usr/sbin/zabbix_agentd -c /etc/zabbix/zabbix_agentd.conf"
+	stop program = "/usr/bin/kill $(cat /var/run/zabbix/zabbix_agentd.pid)"
