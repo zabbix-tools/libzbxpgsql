@@ -2,9 +2,13 @@
 # see: https://github.com/cavaliercoder/zabbix_agent_bench
 #
 # run a simple pass/fail test with:
-#   zabbix_agent_bench -keys zabbix_agent_bench.keys -limit=1 -threads=1 -errorcount
+#   zabbix_agent_bench -keys zabbix_agent_bench.keys -iterations=1 -strict
 
 pg.connect
+pg.version
+pg.modver
+pg.starttime
+pg.uptime
 pg.setting.discovery
     pg.setting[,,{#SETTING}]
 
@@ -37,6 +41,7 @@ pg.buffers_backend_fsync
 pg.buffers_alloc
 pg.stats_reset
 
+# database discovery
 pg.db.discovery[,zabbix]
 	pg.db.size[,zabbix,{#DATABASE}]
     pg.db.numbackends[,zabbix,{#DATABASE}]
@@ -57,6 +62,7 @@ pg.db.discovery[,zabbix]
     pg.db.blk_write_time[,zabbix,{#DATABASE}]
     pg.db.stats_reset[,zabbix,{#DATABASE}]
 
+# table discovery
 pg.table.discovery[,zabbix]
     pg.table.children[,{#DATABASE},{#TABLE}]
     pg.table.children.size[,{#DATABASE},{#TABLE}]
@@ -115,5 +121,7 @@ pg.table.toast_blks_hit[,zabbix]
 pg.table.tidx_blks_read[,zabbix]
 pg.table.tidx_blks_hit[,zabbix]
 
-pg.version
-pg.modver
+# index discovery
+pg.index.discovery[,zabbix]
+    pg.index.size[,{#DATABASE},{#INDEX}]
+    pg.index.rows[,{#DATABASE},{#INDEX}]
