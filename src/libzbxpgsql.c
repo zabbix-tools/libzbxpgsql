@@ -32,6 +32,8 @@ static ZBX_METRIC keys[] =
     {"pg.modver",                   0,              MODVER,                         NULL},
     {"pg.connect",                  CF_HAVEPARAMS,  PG_CONNECT,                     NULL},
     {"pg.version",                  CF_HAVEPARAMS,  PG_VERSION,                     NULL},
+    {"pg.starttime",                CF_HAVEPARAMS,  PG_STARTTIME,                   NULL},
+    {"pg.uptime",                   CF_HAVEPARAMS,  PG_UPTIME,                      NULL},
 
     {"pg.setting",                  CF_HAVEPARAMS,  PG_SETTING,                     ",,,,,data_directory"},
     {"pg.setting.discovery",        CF_HAVEPARAMS,  PG_SETTING_DISCOVERY,           NULL},
@@ -229,11 +231,13 @@ int         zbx_module_init() {
         c = strcat(c, param_dbname);
     }
 
+    /*
     // append application name
     if (!strisnull(connstring))
         c = strcat2(c, " ");
     c = strcat(c, "application_name='" STRVER "'");
-
+    */
+    
     // connect
     zabbix_log(LOG_LEVEL_DEBUG, "Connecting to PostgreSQL with: %s", connstring);
     conn = PQconnectdb(connstring);

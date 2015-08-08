@@ -19,9 +19,13 @@
 
 #include "libzbxpgsql.h"
 
-#define PGSQL_GET_BGWRITER_STAT     "SELECT %s FROM pg_stat_bgwriter"
+#define PGSQL_GET_BGWRITER_STAT     "SELECT %s FROM pg_stat_bgwriter;"
 
 #define PGSQL_GET_VERSION           "SELECT version();"
+
+#define PGSQL_GET_STARTTIME         "SELECT pg_postmaster_start_time();"
+
+#define PGSQL_GET_UPTIME            "SELECT EXTRACT(EPOCH FROM NOW()) - EXTRACT(EPOCH FROM pg_postmaster_start_time());"
 
 /*
  * Custom key pg.connect
@@ -86,6 +90,61 @@ int    PG_VERSION(AGENT_REQUEST *request, AGENT_RESULT *result)
     zabbix_log(LOG_LEVEL_DEBUG, "End of %s()", __function_name);
     return ret;
 }
+
+/*
+ * Custom key pg.startttime
+ *
+ * Returns the start time of the postmaster daemon. E.g.
+ *  2015-08-08 08:00:17.894706+00
+ *
+ * Parameters:
+ *   0:  connection string
+ *   1:  connection database
+ *
+ * Returns: s
+ */
+int    PG_STARTTIME(AGENT_REQUEST *request, AGENT_RESULT *result)
+{
+    int             ret = SYSINFO_RET_FAIL;            // Request result code
+    const char      *__function_name = "PG_STARTTIME"; // Function name for log file
+    
+    char            *query = PGSQL_GET_STARTTIME;
+    
+    zabbix_log(LOG_LEVEL_DEBUG, "In %s()", __function_name);
+    
+    ret = pg_get_string(request, result, query);
+    
+    zabbix_log(LOG_LEVEL_DEBUG, "End of %s()", __function_name);
+    return ret;
+}
+
+/*
+ * Custom key pg.uptime
+ *
+ * Returns the uptime of the postmaster daemon in second. E.g.
+ *  86400
+ *
+ * Parameters:
+ *   0:  connection string
+ *   1:  connection database
+ *
+ * Returns: u
+ */
+int    PG_UPTIME(AGENT_REQUEST *request, AGENT_RESULT *result)
+{
+    int             ret = SYSINFO_RET_FAIL;         // Request result code
+    const char      *__function_name = "PG_UPTIME"; // Function name for log file
+    
+    char            *query = PGSQL_GET_UPTIME;
+    
+    zabbix_log(LOG_LEVEL_DEBUG, "In %s()", __function_name);
+    
+    ret = pg_get_int(request, result, query);
+    
+    zabbix_log(LOG_LEVEL_DEBUG, "End of %s()", __function_name);
+    return ret;
+}
+
 
 /*
  * Custom keys pg.* (for each field in pg_stat_bgwriter)
