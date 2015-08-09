@@ -73,17 +73,18 @@ PGresult    *pg_exec_vparams(PGconn *conn, const char *command, va_list ap);
 PGresult    *pg_exec_params(PGconn *conn, const char *command, ...);
 #define     pg_exec(conn, command)  pg_exec_params(conn, command, NULL)
 
-int     pg_get_string_params(AGENT_REQUEST *request, AGENT_RESULT *result, const char *query, ...);
-#define pg_get_string(request, result, query)   pg_get_string_params(request, result, query, NULL)
+int     pg_get_result(AGENT_REQUEST *request, AGENT_RESULT *result, int type, const char *query, ...);
+#define pg_get_string_params(request, result, query, ...) pg_get_result(request, result, AR_STRING, query, ...)
+#define pg_get_string(request, result, query)             pg_get_result(request, result, AR_STRING, query, NULL)
 
-int     pg_get_int_params(AGENT_REQUEST *request, AGENT_RESULT *result, const char *query, ...);
-#define pg_get_int(request, result, query)   pg_get_int_params(request, result, query, NULL)
+#define pg_get_int_params(request, result, query, ...)    pg_get_result(request, result, AR_UINT64, query, ...)
+#define pg_get_int(request, result, query)                pg_get_result(request, result, AR_UINT64, query, NULL)
 
-int     pg_get_dbl_params(AGENT_REQUEST *request, AGENT_RESULT *result, const char *query, ...);
-#define pg_get_dbl(request, result, query)   pg_get_dbl_params(request, result, query, NULL)
+#define pg_get_dbl_params(request, result, query, ...)    pg_get_result(request, result, AR_DOUBLE, query, ...)
+#define pg_get_dbl(request, result, query)                pg_get_result(request, result, AR_DOUBLE, query, NULL)
 
 int     pg_get_discovery_params(AGENT_REQUEST *request, AGENT_RESULT *result, const char *query, ...);
-#define pg_get_discovery(request, result, query)   pg_get_discovery_params(request, result, query, NULL)
+#define pg_get_discovery(request, result, query)          pg_get_discovery_params(request, result, query, NULL)
 
 int     is_valid_ip(char *str);
 int     is_oid(char *str);

@@ -322,76 +322,10 @@ PGresult    *pg_exec_params(PGconn *conn, const char *command, ...) {
  *
  * Returns: SYSINFO_RET_OK or SYSINFO_RET_FAIL on error
  */
- int    pg_get_string_params(AGENT_REQUEST *request, AGENT_RESULT *result, const char *query, ...)
- {
+int    pg_get_result(AGENT_REQUEST *request, AGENT_RESULT *result, int type, const char *query, ...)
+{
     int         ret = SYSINFO_RET_FAIL;             // Request result code
-    const char  *__function_name = "pg_get_string"; // Function name for log file
-    
-    PGconn      *conn = NULL;
-    PGresult    *res = NULL;
-    char        *buffer = NULL;
-
-    va_list    ap;
-    
-    zabbix_log(LOG_LEVEL_DEBUG, "In %s(%s)", __function_name, request->key);
-    
-    // Connect to PostreSQL
-    if(NULL == (conn = pg_connect(request)))
-        goto out;
-    
-    // Execute a query
-    va_start(ap, query);
-    res = pg_exec_vparams(conn, query, ap);
-    va_end(ap);
-
-    if(PQresultStatus(res) != PGRES_TUPLES_OK) {
-        zabbix_log(LOG_LEVEL_ERR, "Failed to execute PostgreSQL query in %s(%s) with: %s", __function_name, request->key, PQresultErrorMessage(res));
-        goto out;
-    }
-    
-    if(0 == PQntuples(res)) {
-        zabbix_log(LOG_LEVEL_DEBUG, "No results returned for query \"%s\" in %s(%s)", query, __function_name, request->key);
-        goto out;
-    }
-    
-    // Set result
-    buffer = strdup(PQgetvalue(res, 0, 0));
-    SET_STR_RESULT(result, buffer);    
-    ret = SYSINFO_RET_OK;
-    
-out:
-    PQclear(res);
-    PQfinish(conn);
-    
-    zabbix_log(LOG_LEVEL_DEBUG, "End of %s(%s)", __function_name, request->key);
-    return ret;
-}
-
-/*
- * Function: pg_get_int_params
- *
- * Executes a PostgreSQL Query using connection details from a Zabbix agent
- * request structure and updates the agent result structure with the integer
- * value of the first column of the first row returned.
- *
- * Query parameters may be provided as a NULL terminated sequence of *char
- * values in the ... parameter.
- *
- * Parameter [request]: Zabbix agent request structure.
- *          Passed to pg_connect to fetch as valid PostgreSQL
- *          server connection
- *
- * Parameter [result]:  Zabbix agent result structure
- *
- * Paramater [query]:   PostgreSQL query to execute. Query should return a
- *          single scalar integer value
- *
- * Returns: SYSINFO_RET_OK or SYSINFO_RET_FAIL on error
- */
- int    pg_get_int_params(AGENT_REQUEST *request, AGENT_RESULT *result, const char *query, ...)
- {
-    int         ret = SYSINFO_RET_FAIL;             // Request result code
-    const char  *__function_name = "pg_get_int";    // Function name for log file
+    const char  *__function_name = "pg_get_result"; // Function name for log file
     
     PGconn      *conn = NULL;
     PGresult    *res = NULL;
@@ -420,85 +354,40 @@ out:
         goto out;
     }
     
-    // Set result
     buffer = strdup(PQgetvalue(res, 0, 0));
-    
-    // Convert E Notation
-    if(1 < strlen(buffer) && '.' == buffer[1]) {
-        double dbl = strtod(buffer, NULL);
-        SET_UI64_RESULT(result, (unsigned long long) dbl);
-    }
-    
-    else {
-        SET_UI64_RESULT(result, strtoull(buffer, NULL, 10));
-    }
-    
-    ret = SYSINFO_RET_OK;
-    
-out:
-    PQclear(res);
-    PQfinish(conn);
-    
-    zabbix_log(LOG_LEVEL_DEBUG, "End of %s(%s)", __function_name, request->key);
-    return ret;
-}
 
-/*
- * Function: pg_get_dbl_params
- *
- * Executes a PostgreSQL Query using connection details from a Zabbix agent
- * request structure and updates the agent result structure with the floating
- * point integer value of the first column of the first row returned.
- *
- * Query parameters may be provided as a NULL terminated sequence of *char
- * values in the ... parameter.
- *
- * Parameter [request]: Zabbix agent request structure.
- *          Passed to pg_connect to fetch as valid PostgreSQL
- *          server connection
- *
- * Parameter [result]:  Zabbix agent result structure
- *
- * Paramater [query]:   PostgreSQL query to execute. Query should return a
- *          single scalar floating point number value
- *
- * Returns: SYSINFO_RET_OK or SYSINFO_RET_FAIL on error
- */
- int    pg_get_dbl_params(AGENT_REQUEST *request, AGENT_RESULT *result, const char *query, ...)
- {
-    int         ret = SYSINFO_RET_FAIL;             // Request result code
-    const char  *__function_name = "pg_get_dbl";    // Function name for log file
-    
-    PGconn      *conn = NULL;
-    PGresult    *res = NULL;
-    char        *buffer = NULL;
-
-    va_list     ap;
-    
-    zabbix_log(LOG_LEVEL_DEBUG, "In %s(%s)", __function_name, request->key);
-    
-    // Connect to PostreSQL
-    if(NULL == (conn = pg_connect(request)))
-        goto out;
-    
-    // Execute a query
-    va_start(ap, query);
-    res = pg_exec_vparams(conn, query, ap);
-    va_end(ap);
-
-    if(PQresultStatus(res) != PGRES_TUPLES_OK) {
-        zabbix_log(LOG_LEVEL_ERR, "Failed to execute PostgreSQL query in %s(%s) with: %s", __function_name, request->key, PQresultErrorMessage(res));
-        goto out;
-    }
-    
-    if(0 == PQntuples(res)) {
-        zabbix_log(LOG_LEVEL_DEBUG, "No results returned for query \"%s\" in %s(%s)", query, __function_name, request->key);
-        goto out;
-    }
-    
     // Set result
-    buffer = strdup(PQgetvalue(res, 0, 0));
-    SET_DBL_RESULT(result, strtold(buffer, NULL));
+    switch(type) {
+        case AR_STRING:
+            // string result
+            SET_STR_RESULT(result, buffer); 
+            break;
+
+        case AR_UINT64:
+            // integer result
+            // Convert E Notation
+            if(1 < strlen(buffer) && '.' == buffer[1]) {
+                double dbl = strtod(buffer, NULL);
+                SET_UI64_RESULT(result, (unsigned long long) dbl);
+            } else {
+                SET_UI64_RESULT(result, strtoull(buffer, NULL, 10));
+            }
+            zbx_free(buffer);
+            break;
+
+        case AR_DOUBLE:
+            // double result
+            SET_DBL_RESULT(result, strtold(buffer, NULL));
+            zbx_free(buffer);
+            break;
+
+        default:
+            // unknown result type
+            zabbix_log(LOG_LEVEL_ERR, "Unsupported result type: 0x%0X in %s", type, __function_name);
+            zbx_free(buffer);
+            goto out;
+    }
+
     ret = SYSINFO_RET_OK;
     
 out:
