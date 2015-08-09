@@ -11,6 +11,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   
     # Forward port for phpPgAdmin
     rhel7.vm.network "forwarded_port", guest: 80, host: 8080
+    rhel7.vm.network "forwarded_port", guest: 5432, host: 5432
   end
 
   # CentOS 6.5 64 bit box
