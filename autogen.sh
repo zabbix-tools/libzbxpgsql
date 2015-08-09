@@ -1,7 +1,7 @@
 #!/bin/sh
-libtoolize -vcf || exit 1
-aclocal --verbose || exit 1
-autoheader -v || exit 1
-automake -acv || exit 1
-autoreconf -iv || exit 1
+libtoolize -c -f || exit 1
+aclocal --force --verbose || exit 1
+autoheader -fv || exit 1
+automake -acfv || exit 1
+autoreconf -ifv || exit 1
 # ./configure
