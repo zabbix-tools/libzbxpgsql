@@ -329,7 +329,7 @@ int    pg_get_result(AGENT_REQUEST *request, AGENT_RESULT *result, int type, con
     
     PGconn      *conn = NULL;
     PGresult    *res = NULL;
-    char        *buffer = NULL;
+    char        *value = NULL;
 
     va_list     ap;
     
@@ -354,37 +354,35 @@ int    pg_get_result(AGENT_REQUEST *request, AGENT_RESULT *result, int type, con
         goto out;
     }
     
-    buffer = strdup(PQgetvalue(res, 0, 0));
+    // get scalar value (freed later by PQclear)
+    value = PQgetvalue(res, 0, 0);
 
     // Set result
     switch(type) {
         case AR_STRING:
-            // string result
-            SET_STR_RESULT(result, buffer); 
+            // string result (zabbix will clean the strdup'd buffer)
+            SET_STR_RESULT(result, strdup(value));
             break;
 
         case AR_UINT64:
             // integer result
             // Convert E Notation
-            if(1 < strlen(buffer) && '.' == buffer[1]) {
-                double dbl = strtod(buffer, NULL);
+            if(1 < strlen(value) && '.' == value[1]) {
+                double dbl = strtod(value, NULL);
                 SET_UI64_RESULT(result, (unsigned long long) dbl);
             } else {
-                SET_UI64_RESULT(result, strtoull(buffer, NULL, 10));
+                SET_UI64_RESULT(result, strtoull(value, NULL, 10));
             }
-            zbx_free(buffer);
             break;
 
         case AR_DOUBLE:
             // double result
-            SET_DBL_RESULT(result, strtold(buffer, NULL));
-            zbx_free(buffer);
+            SET_DBL_RESULT(result, strtold(value, NULL));
             break;
 
         default:
             // unknown result type
             zabbix_log(LOG_LEVEL_ERR, "Unsupported result type: 0x%0X in %s", type, __function_name);
-            zbx_free(buffer);
             goto out;
     }
 
