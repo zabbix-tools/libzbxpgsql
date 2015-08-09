@@ -14,10 +14,6 @@ RPMBUILD = rpmbuild
 RPMBUILD_FLAGS = -ba
 RPMFILE = $(PACKAGE)-$(PACKAGE_VERSION)-*.$(build_cpu).rpm
 
-
-bench: all
-	zabbix_agent_bench -keys zabbix_agent_bench.keys -iterations 1 -strict
-
 rpm:
 	sed -i 's/^Version\s*:.*/Version     : $(PACKAGE_VERSION)/' packaging/rpmbuild/$(PACKAGE).spec
 	mkdir -p $(RPMBASE)/{BUILD,RPMS,SOURCES,SPECS,SRPMS} || :
