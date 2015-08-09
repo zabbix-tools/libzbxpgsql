@@ -2,8 +2,8 @@
 BULLET="==>"
 
 ZBX_MAJ=2
-ZBX_MIN=2
-ZBX_PATCH=9
+ZBX_MIN=4
+ZBX_PATCH=5
 ZBX_REL=1
 ZBX_VER="${ZBX_MAJ}.${ZBX_MIN}.${ZBX_PATCH}-${ZBX_REL}"
 
@@ -40,7 +40,7 @@ MOTD
 # Install Zabbix, PostgreSQL and build tools
 echo -e "${BULLET} Installing Zabbix, PostgreSQL and build tools..."
 rpm -qa | grep pgdg >/dev/null || yum localinstall -y --nogpgcheck http://yum.postgresql.org/9.4/redhat/rhel-6-x86_64/pgdg-centos94-9.4-1.noarch.rpm
-rpm -qa | grep zabbix-release >/dev/null || yum localinstall -y --nogpgcheck http://repo.zabbix.com/zabbix/${ZBX_MAJ}.${ZBX_MIN}/rhel/7/x86_64/zabbix-release-${ZBX_MAJ}.${ZBX_MIN}-1.el7.noarch.rpm
+rpm -qa zabbix-release >/dev/null || yum localinstall -y --nogpgcheck http://repo.zabbix.com/zabbix/${ZBX_MAJ}.${ZBX_MIN}/rhel/7/x86_64/zabbix-release-${ZBX_MAJ}.${ZBX_MIN}-1.el7.noarch.rpm
 yum install -y --nogpgcheck \
     make \
     gcc \
@@ -49,6 +49,7 @@ yum install -y --nogpgcheck \
     autoconf \
     rpm-build \
     git \
+    postgresql-devel \
     postgresql94-server \
     postgresql94-devel \
     phpPgAdmin \
@@ -56,6 +57,8 @@ yum install -y --nogpgcheck \
     zabbix-get \
     zabbix-server-pgsql \
     zabbix-web-pgsql
+
+rpm -q zabbix_agent_bench >/dev/null || yum localinstall -y --nogpgcheck http://sourceforge.net/projects/zabbixagentbench/files/rpm/zabbix_agent_bench-0.3.0-1.x86_64.rpm
 
 # Configure PostgreSQL
 echo -e "${BULLET} Configuring PostgreSQL server..."
