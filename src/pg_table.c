@@ -31,12 +31,6 @@ SELECT \
     , c.relname AS table \
     ,t.typname AS type \
     , pg_catalog.pg_get_userbyid(c.relowner) AS owner \
-    , CASE c.relpersistence \
-        WHEN 'p' THEN 'permenant' \
-        WHEN 'u' THEN 'unlogged' \
-        WHEN 't' THEN 'temporary' \
-        ELSE 'Unknown' \
-    END AS persistence \
     , (SELECT COUNT(inhparent) FROM pg_inherits WHERE inhrelid = c.oid) AS issubclass \
     , pg_catalog.obj_description(c.oid, 'pg_class') as description \
 FROM pg_class c \
