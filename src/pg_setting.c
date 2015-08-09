@@ -38,7 +38,7 @@ SELECT \
     , sourceline AS sourceline \
 FROM pg_settings;"
 
-#define PGSQL_GET_SETTING		     "SELECT setting,vartype FROM pg_settings WHERE name='%s';"
+#define PGSQL_GET_SETTING		     "SELECT setting,vartype FROM pg_settings WHERE name=$1;"
 
 /*
  * Custom key pg.setting.discovery
@@ -102,7 +102,6 @@ int    PG_SETTING_DISCOVERY(AGENT_REQUEST *request, AGENT_RESULT *result)
     char        *setting = NULL;
     char        *value = NULL;
     char        *type = NULL;
-    char        query[MAX_STRING_LEN];
     
     zabbix_log(LOG_LEVEL_DEBUG, "In %s()", __function_name);
     
@@ -113,22 +112,19 @@ int    PG_SETTING_DISCOVERY(AGENT_REQUEST *request, AGENT_RESULT *result)
         goto out;
     }
 
-    // Build the query
-    zbx_snprintf(query, sizeof(query), PGSQL_GET_SETTING, setting);    
-    
     // Connect to PostreSQL
     if(NULL == (conn = pg_connect(request)))
         goto out;
 
     // Execute the query
-    res = pg_exec(conn, query);
+    res = pg_exec_params(conn, PGSQL_GET_SETTING, setting, NULL);
     if(PQresultStatus(res) != PGRES_TUPLES_OK) {
         zabbix_log(LOG_LEVEL_ERR, "Failed to execute PostgreSQL query in %s() with: %s", __function_name, PQresultErrorMessage(res));
         goto out;
     }
     
     if(0 == PQntuples(res)) {
-        zabbix_log(LOG_LEVEL_DEBUG, "No results returned for query \"%s\" in %s()", query, __function_name);
+        zabbix_log(LOG_LEVEL_DEBUG, "No results returned for query \"%s\" in %s()", PGSQL_GET_SETTING, __function_name);
         goto out;
     }
     

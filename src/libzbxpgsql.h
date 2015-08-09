@@ -69,7 +69,8 @@
 
 // Local helper functions
 PGconn      *pg_connect(AGENT_REQUEST *request);
-PGresult    *pg_exec(PGconn *conn, const char *command);
+PGresult    *pg_exec_params(PGconn *conn, const char *command, ...);
+#define     pg_exec(conn, command)	pg_exec_params(conn, command, NULL)
 
 int     pg_get_string(AGENT_REQUEST *request, AGENT_RESULT *result, const char *query);
 int     pg_get_int(AGENT_REQUEST *request, AGENT_RESULT *result, const char *query);
