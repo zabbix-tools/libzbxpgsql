@@ -42,16 +42,8 @@ LIMIT 1"
  *   1:  connection database
  *   2:  filter by database oid name
  *   3:  filter by user OID or name
- *   4:  filter by application name
- *   5:  filter by hostname or IP address of the connected host
- *   6:  return only waiting backends
- *   7:  filter by backend state. one of:
- *         - idle
- *         - idle in transaction
- *         - idle in transaction (aborted)
- *         - fastpath function call
- *         - disabled
- *   8:  filter by SQL query being executed    
+ *   4:  filter by hostname or IP address of the connected host
+ *   5:  return only waiting backends
  *
  * Returns: u
  */
@@ -99,11 +91,6 @@ LIMIT 1"
     					zbx_snprintf(p, MAX_CLAUSE_LEN, " %s usename=$%i", clause, ++pgi);
     				break;
 
-    			case 2: // <application>
-                    pgparams = param_append(pgparams, param);
-    				zbx_snprintf(p, MAX_CLAUSE_LEN, " %s application_name=$%i", clause, ++pgi);
-    				break;
-
     			case 3: // <client>
                     pgparams = param_append(pgparams, param);
     			    if(is_valid_ip(param))
@@ -122,19 +109,6 @@ LIMIT 1"
                         goto out;
                     }
                     
-    				break;
-
-    			case 5: // <state>
-                    pgparams = param_append(pgparams, param);
-    				zbx_snprintf(p, MAX_CLAUSE_LEN, " %s state=$%i", clause, ++pgi);
-    				break;
-
-    			case 6: // <query>
-                    pgparams = param_append(pgparams, param);
-                    if (90200 <= version) // current_query renamed to query in v9.2
-    				    zbx_snprintf(p, MAX_CLAUSE_LEN, " %s query=$%i", clause, ++pgi);
-                    else
-                        zbx_snprintf(p, MAX_CLAUSE_LEN, " %s current_query=$%i", clause, ++pgi);
     				break;
     		}
 
