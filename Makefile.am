@@ -15,7 +15,7 @@ RPMBUILD_FLAGS = -ba
 RPMFILE = $(PACKAGE)-$(PACKAGE_VERSION)-*.$(build_cpu).rpm
 
 
-test: all
+bench: all
 	zabbix_agent_bench -keys zabbix_agent_bench.keys -iterations 1 -strict
 
 rpm:
