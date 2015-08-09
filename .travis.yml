@@ -1,7 +1,7 @@
 language: c
 
 # allow containerized build
-sude: false 
+sudo: false 
 
 # Build deps
 addons:
