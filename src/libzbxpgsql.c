@@ -252,39 +252,64 @@ int         zbx_module_init() {
     return conn;
 }
 
-
-/* Function: pg_exec
+/* 
+ * Function: pg_exec_vparams
  *
- * Wrapper for PQexecParams to include logging
+ * Wrapper for PQexecParams. Only supports text parameters as binary parameters
+ * are not possible in Zabbix item keys.
+ * 
+ * Query parameters are provided are provided as va_list of *char in ap.
  *
  * Returns: PGresult
  */
-PGresult    *pg_exec_params(PGconn *conn, const char *command, ...) {
-    int                 nParams = 0;
-    char                *param = NULL;
-    char                **paramValues = NULL;
-    va_list             ap;
+PGresult    *pg_exec_vparams(PGconn *conn, const char *command, va_list ap) {
+    int  nParams = 0;
+    char *param = NULL;
+    char **paramValues = NULL;
 
-    // expand parameters
-    va_start(ap, command);
+    // convert va_list to PostgreSQL params array
+    // args list must be NULL terminated
     while(NULL != (param = va_arg(ap, char *))) {
         nParams++;
         paramValues = zbx_realloc(paramValues, nParams);
         paramValues[nParams - 1] = param;
     }
-    va_end(ap);
 
     zabbix_log(LOG_LEVEL_DEBUG, "Executing query: %s", command);
-
     return PQexecParams(conn, command, nParams, NULL, paramValues, NULL, NULL, 0);
 }
 
+/* 
+ * Function: pg_exec_params
+ *
+ * Wrapper for PQexecParams. Only supports text parameters as binary parameters
+ * are not possible in Zabbix item keys.
+ * 
+ * Query parameters are provided are provided as a sequence of *char in ...
+ *
+ * Returns: PGresult
+ */
+PGresult    *pg_exec_params(PGconn *conn, const char *command, ...) {
+    va_list  ap;
+    PGresult *res = NULL;
+
+    // expand parameters and call pg_exec_vparams
+    va_start(ap, command);
+    res = pg_exec_vparams(conn, command, ap);
+    va_end(ap);
+
+    return res;
+}
+
 /*
- * Function: pg_get_string
+ * Function: pg_get_string_params
  *
  * Executes a PostgreSQL Query using connection details from a Zabbix agent
  * request structure and updates the agent result structure with the string
  * value of the first column of the first row returned.
+ *
+ * Query parameters may be provided as a NULL terminated sequence of *char
+ * values in the ... parameter.
  *
  * Parameter [request]: Zabbix agent request structure.
  *          Passed to pg_connect to fetch as valid PostgreSQL
@@ -297,7 +322,7 @@ PGresult    *pg_exec_params(PGconn *conn, const char *command, ...) {
  *
  * Returns: SYSINFO_RET_OK or SYSINFO_RET_FAIL on error
  */
- int    pg_get_string(AGENT_REQUEST *request, AGENT_RESULT *result, const char *query)
+ int    pg_get_string_params(AGENT_REQUEST *request, AGENT_RESULT *result, const char *query, ...)
  {
     int         ret = SYSINFO_RET_FAIL;             // Request result code
     const char  *__function_name = "pg_get_string"; // Function name for log file
@@ -305,6 +330,8 @@ PGresult    *pg_exec_params(PGconn *conn, const char *command, ...) {
     PGconn      *conn = NULL;
     PGresult    *res = NULL;
     char        *buffer = NULL;
+
+    va_list    ap;
     
     zabbix_log(LOG_LEVEL_DEBUG, "In %s(%s)", __function_name, request->key);
     
@@ -313,7 +340,10 @@ PGresult    *pg_exec_params(PGconn *conn, const char *command, ...) {
         goto out;
     
     // Execute a query
-    res = pg_exec(conn, query);
+    va_start(ap, query);
+    res = pg_exec_vparams(conn, query, ap);
+    va_end(ap);
+
     if(PQresultStatus(res) != PGRES_TUPLES_OK) {
         zabbix_log(LOG_LEVEL_ERR, "Failed to execute PostgreSQL query in %s(%s) with: %s", __function_name, request->key, PQresultErrorMessage(res));
         goto out;
@@ -338,11 +368,14 @@ out:
 }
 
 /*
- * Function: pg_get_int
+ * Function: pg_get_int_params
  *
  * Executes a PostgreSQL Query using connection details from a Zabbix agent
  * request structure and updates the agent result structure with the integer
  * value of the first column of the first row returned.
+ *
+ * Query parameters may be provided as a NULL terminated sequence of *char
+ * values in the ... parameter.
  *
  * Parameter [request]: Zabbix agent request structure.
  *          Passed to pg_connect to fetch as valid PostgreSQL
@@ -355,7 +388,7 @@ out:
  *
  * Returns: SYSINFO_RET_OK or SYSINFO_RET_FAIL on error
  */
- int    pg_get_int(AGENT_REQUEST *request, AGENT_RESULT *result, const char *query)
+ int    pg_get_int_params(AGENT_REQUEST *request, AGENT_RESULT *result, const char *query, ...)
  {
     int         ret = SYSINFO_RET_FAIL;             // Request result code
     const char  *__function_name = "pg_get_int";    // Function name for log file
@@ -363,6 +396,8 @@ out:
     PGconn      *conn = NULL;
     PGresult    *res = NULL;
     char        *buffer = NULL;
+
+    va_list     ap;
     
     zabbix_log(LOG_LEVEL_DEBUG, "In %s(%s)", __function_name, request->key);
     
@@ -371,7 +406,10 @@ out:
         goto out;
     
     // Execute a query
-    res = pg_exec(conn, query);
+    va_start(ap, query);
+    res = pg_exec_vparams(conn, query, ap);
+    va_end(ap);
+
     if(PQresultStatus(res) != PGRES_TUPLES_OK) {
         zabbix_log(LOG_LEVEL_ERR, "Failed to execute PostgreSQL query in %s(%s) with: %s", __function_name, request->key, PQresultErrorMessage(res));
         goto out;
@@ -406,11 +444,14 @@ out:
 }
 
 /*
- * Function: pg_get_dbl
+ * Function: pg_get_dbl_params
  *
  * Executes a PostgreSQL Query using connection details from a Zabbix agent
  * request structure and updates the agent result structure with the floating
  * point integer value of the first column of the first row returned.
+ *
+ * Query parameters may be provided as a NULL terminated sequence of *char
+ * values in the ... parameter.
  *
  * Parameter [request]: Zabbix agent request structure.
  *          Passed to pg_connect to fetch as valid PostgreSQL
@@ -423,7 +464,7 @@ out:
  *
  * Returns: SYSINFO_RET_OK or SYSINFO_RET_FAIL on error
  */
- int    pg_get_dbl(AGENT_REQUEST *request, AGENT_RESULT *result, const char *query)
+ int    pg_get_dbl_params(AGENT_REQUEST *request, AGENT_RESULT *result, const char *query, ...)
  {
     int         ret = SYSINFO_RET_FAIL;             // Request result code
     const char  *__function_name = "pg_get_dbl";    // Function name for log file
@@ -431,6 +472,8 @@ out:
     PGconn      *conn = NULL;
     PGresult    *res = NULL;
     char        *buffer = NULL;
+
+    va_list     ap;
     
     zabbix_log(LOG_LEVEL_DEBUG, "In %s(%s)", __function_name, request->key);
     
@@ -439,7 +482,10 @@ out:
         goto out;
     
     // Execute a query
-    res = pg_exec(conn, query);
+    va_start(ap, query);
+    res = pg_exec_vparams(conn, query, ap);
+    va_end(ap);
+
     if(PQresultStatus(res) != PGRES_TUPLES_OK) {
         zabbix_log(LOG_LEVEL_ERR, "Failed to execute PostgreSQL query in %s(%s) with: %s", __function_name, request->key, PQresultErrorMessage(res));
         goto out;
@@ -464,11 +510,14 @@ out:
 }
 
 /*
- * Function: pg_get_discovery
+ * Function: pg_get_discovery_params
  *
  * Executes a PostgreSQL Query using connection details from a Zabbix agent
  * request structure and updates the agent result structure with the JSON
  * discovery data for each returned row.
+ *
+ * Query parameters may be provided as a NULL terminated sequence of *char
+ * values in the ... parameter.
  *
  * Parameter [request]: Zabbix agent request structure.
  *          Passed to pg_connect to fetch as valid PostgreSQL
@@ -481,7 +530,7 @@ out:
  *
  * Returns: SYSINFO_RET_OK or SYSINFO_RET_FAIL on error
  */
- int    pg_get_discovery(AGENT_REQUEST *request, AGENT_RESULT *result, const char *query)
+ int    pg_get_discovery_params(AGENT_REQUEST *request, AGENT_RESULT *result, const char *query, ...)
  {
     int         ret = SYSINFO_RET_FAIL;                 // Request result code
     const char  *__function_name = "pg_get_discovery";  // Function name for log file
@@ -492,6 +541,8 @@ out:
     int         i = 0, x = 0, columns = 0, rows = 0;
     char        *colname = NULL, *c = NULL;
     char        buffer[MAX_STRING_LEN];
+
+    va_list     ap;
     
     zabbix_log(LOG_LEVEL_DEBUG, "In %s(%s)", __function_name, request->key);
     
@@ -500,7 +551,10 @@ out:
         goto out;
     
     // Execute a query
-    res = pg_exec(conn, query);
+    va_start(ap, query);
+    res = pg_exec_vparams(conn, query, ap);
+    va_end(ap);
+
     if(PQresultStatus(res) != PGRES_TUPLES_OK) {
         zabbix_log(LOG_LEVEL_ERR, "Failed to execute PostgreSQL query in %s(%s) with: %s", __function_name, request->key, PQresultErrorMessage(res));
         goto out;

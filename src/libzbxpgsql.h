@@ -69,13 +69,22 @@
 
 // Local helper functions
 PGconn      *pg_connect(AGENT_REQUEST *request);
+PGresult    *pg_exec_vparams(PGconn *conn, const char *command, va_list ap);
 PGresult    *pg_exec_params(PGconn *conn, const char *command, ...);
-#define     pg_exec(conn, command)	pg_exec_params(conn, command, NULL)
+#define     pg_exec(conn, command)  pg_exec_params(conn, command, NULL)
 
-int     pg_get_string(AGENT_REQUEST *request, AGENT_RESULT *result, const char *query);
-int     pg_get_int(AGENT_REQUEST *request, AGENT_RESULT *result, const char *query);
-int     pg_get_dbl(AGENT_REQUEST *request, AGENT_RESULT *result, const char *query);
-int     pg_get_discovery(AGENT_REQUEST *request, AGENT_RESULT *result, const char *query);
+int     pg_get_string_params(AGENT_REQUEST *request, AGENT_RESULT *result, const char *query, ...);
+#define pg_get_string(request, result, query)   pg_get_string_params(request, result, query, NULL)
+
+int     pg_get_int_params(AGENT_REQUEST *request, AGENT_RESULT *result, const char *query, ...);
+#define pg_get_int(request, result, query)   pg_get_int_params(request, result, query, NULL)
+
+int     pg_get_dbl_params(AGENT_REQUEST *request, AGENT_RESULT *result, const char *query, ...);
+#define pg_get_dbl(request, result, query)   pg_get_dbl_params(request, result, query, NULL)
+
+int     pg_get_discovery_params(AGENT_REQUEST *request, AGENT_RESULT *result, const char *query, ...);
+#define pg_get_discovery(request, result, query)   pg_get_discovery_params(request, result, query, NULL)
+
 int     is_valid_ip(char *str);
 int     is_oid(char *str);
 char    *strcat2(char *destination, const char *source);
