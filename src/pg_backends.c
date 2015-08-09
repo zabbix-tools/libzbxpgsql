@@ -22,7 +22,7 @@
 #define MAX_QUERY_LEN			4096
 #define MAX_CLAUSE_LEN          64
 
-#define PGSQL_GET_BACKENDS		"SELECT COUNT(pid) FROM pg_stat_activity"
+#define PGSQL_GET_BACKENDS		"SELECT COUNT(datid) FROM pg_stat_activity"
 
 #define PGSQL_GET_LONGEST_QUERY "\
 SELECT \
