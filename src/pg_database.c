@@ -36,11 +36,11 @@ WHERE \
     AND d.datistemplate = 'n' \
 ORDER BY 1;"
 
-#define PGSQL_GET_DB_STAT   "SELECT %s FROM pg_stat_database WHERE datname = '%s'"
+#define PGSQL_GET_DB_STAT   "SELECT %s FROM pg_stat_database WHERE datname = $1"
 
 #define PGSQL_GET_DB_STAT_SUM   "SELECT SUM(%s) FROM pg_stat_database"
 
-#define PGSQL_GET_DB_SIZE   "SELECT pg_catalog.pg_database_size(d.datname) FROM pg_catalog.pg_database d WHERE d.datname = '%s'"
+#define PGSQL_GET_DB_SIZE   "SELECT pg_catalog.pg_database_size(d.datname) FROM pg_catalog.pg_database d WHERE d.datname = $1"
 
 #define PGSQL_GET_DB_SIZE_SUM   "SELECT SUM(pg_catalog.pg_database_size(d.datname)) FROM pg_catalog.pg_database d"
 
@@ -93,8 +93,8 @@ int    PG_DB_DISCOVERY(AGENT_REQUEST *request, AGENT_RESULT *result)
  */
 int    PG_STAT_DATABASE(AGENT_REQUEST *request, AGENT_RESULT *result)
 {
-    int         ret = SYSINFO_RET_FAIL;                 // Request result code
-    const char  *__function_name = "PG_STAT_DATABASE";  // Function name for log file
+    int         ret = SYSINFO_RET_FAIL;                // Request result code
+    const char  *__function_name = "PG_STAT_DATABASE"; // Function name for log file
     
     char        *datname = NULL;
     char        *field;
@@ -103,28 +103,36 @@ int    PG_STAT_DATABASE(AGENT_REQUEST *request, AGENT_RESULT *result)
     zabbix_log(LOG_LEVEL_DEBUG, "In %s()", __function_name);
     
     // Get stat field from requested key name "pb.db.<field>"
+    // No escaping needed as the fields are hard coded
     field = &request->key[6];
     
     // Build query
     datname = get_rparam(request, PARAM_FIRST);
-    if(NULL == datname || '\0' == *datname)
+    if(strisnull(datname)) {
+        // no database name provided. get sum of all
         zbx_snprintf(query, sizeof(query), PGSQL_GET_DB_STAT_SUM, field);
-    else
-        zbx_snprintf(query, sizeof(query),  PGSQL_GET_DB_STAT, field, datname);
+        datname = NULL; // ensure datname is NULL, not '\0'
+    } else {
+        zbx_snprintf(query, sizeof(query),  PGSQL_GET_DB_STAT, field);
+    }
 
     // Get results based on type
     if (0 == strncmp(field, "stats_reset", 11)) {
-        if(NULL == datname || '\0' == *datname) {
+        // stats_reset is a string
+        if(strisnull(datname)) {
             // Can't do SUMs on text fields!
-            zabbix_log(LOG_LEVEL_ERR, "No database specified bro, in %s", __function_name);
+            zabbix_log(LOG_LEVEL_ERR, "No database specified, in %s", __function_name);
             goto out;
         }
-        ret = pg_get_string(request, result, query);
+
+        ret = pg_get_string_params(request, result, query, datname);
     }
     else if(0 == strncmp(field, "blk_", 4))
-        ret = pg_get_dbl(request, result, query);
+        // all blk_* fields are doubles
+        ret = pg_get_dbl_params(request, result, query, datname);
     else 
-        ret = pg_get_int(request, result, query);
+        // all other fields are integers
+        ret = pg_get_int_params(request, result, query, datname);
     
 out:
     zabbix_log(LOG_LEVEL_DEBUG, "End of %s()", __function_name);
@@ -151,18 +159,20 @@ int    PG_DB_SIZE(AGENT_REQUEST *request, AGENT_RESULT *result)
     const char  *__function_name = "PG_DB_SIZE";    // Function name for log file
     
     char        *datname = NULL;
-    char        query[MAX_STRING_LEN];
+    char        *query = NULL;
     
     zabbix_log(LOG_LEVEL_DEBUG, "In %s()", __function_name);
     
     // Build query
     datname = get_rparam(request, PARAM_FIRST);
-    if(NULL == datname || '\0' == *datname)
-        zbx_snprintf(query, sizeof(query), PGSQL_GET_DB_SIZE_SUM);
-    else
-        zbx_snprintf(query, sizeof(query), PGSQL_GET_DB_SIZE, datname);
+    if (strisnull(datname)) {
+        query = PGSQL_GET_DB_SIZE_SUM;
+        datname = NULL; // ensure datname is NULL, not '\0'
+    } else {
+        query = PGSQL_GET_DB_SIZE;
+    }
 
-    ret = pg_get_int(request, result, query);
+    ret = pg_get_int_params(request, result, query, datname);
     
     zabbix_log(LOG_LEVEL_DEBUG, "End of %s()", __function_name);
     return ret;

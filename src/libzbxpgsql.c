@@ -302,11 +302,13 @@ PGresult    *pg_exec_params(PGconn *conn, const char *command, ...) {
 }
 
 /*
- * Function: pg_get_string_params
+ * Function: pg_get_result
  *
  * Executes a PostgreSQL Query using connection details from a Zabbix agent
- * request structure and updates the agent result structure with the string
- * value of the first column of the first row returned.
+ * request structure and updates the agent result structure with the value of
+ * the first column of the first row returned.
+ *
+ * type may be 
  *
  * Query parameters may be provided as a NULL terminated sequence of *char
  * values in the ... parameter.
@@ -317,8 +319,13 @@ PGresult    *pg_exec_params(PGconn *conn, const char *command, ...) {
  *
  * Parameter [result]:  Zabbix agent result structure
  *
+ * Parameter [type]:    Result type to set. May be one of AR_STRING, AR_UINT64
+ *          or AR_DOUBLE.
+ *
  * Paramater [query]:   PostgreSQL query to execute. Query should return a
- *          single scalar string value
+ *          single scalar string value. Parameters defined using PostgreSQL's
+ *          '$n' notation will be replaced with the corresponding variadic
+ *          argument provided in ...
  *
  * Returns: SYSINFO_RET_OK or SYSINFO_RET_FAIL on error
  */
