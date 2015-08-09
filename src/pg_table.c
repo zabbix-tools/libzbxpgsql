@@ -122,7 +122,7 @@ int    PG_TABLE_DISCOVERY(AGENT_REQUEST *request, AGENT_RESULT *result)
     
     zabbix_log(LOG_LEVEL_DEBUG, "In %s()", __function_name);
     
-    ret = pg_get_discovery(request, result, PGSQL_DISCOVER_TABLES);
+    ret = pg_get_discovery(request, result, PGSQL_DISCOVER_TABLES, NULL);
 
     zabbix_log(LOG_LEVEL_DEBUG, "End of %s()", __function_name);
     return ret;
@@ -167,7 +167,7 @@ int    PG_TABLE_CHILDREN_DISCOVERY(AGENT_REQUEST *request, AGENT_RESULT *result)
     // Build query
     zbx_snprintf(query, sizeof(query), PGSQL_DISCOVER_TABLE_CHILDREN, tablename);
     
-    ret = pg_get_discovery(request, result, query);
+    ret = pg_get_discovery(request, result, query, NULL);
 
 out:
     zabbix_log(LOG_LEVEL_DEBUG, "End of %s()", __function_name);
@@ -216,10 +216,10 @@ int    PG_STAT_ALL_TABLES(AGENT_REQUEST *request, AGENT_RESULT *result)
             goto out;
         }
     
-        ret = pg_get_string(request, result, query);
+        ret = pg_get_string(request, result, query, NULL);
     }
     else {
-        ret = pg_get_int(request, result, query);
+        ret = pg_get_int(request, result, query, NULL);
     }
     
 out:
@@ -261,7 +261,7 @@ int    PG_STATIO_ALL_TABLES(AGENT_REQUEST *request, AGENT_RESULT *result)
     else
         zbx_snprintf(query, sizeof(query), PGSQL_GET_TABLE_STATIO, field, tablename);
 
-    ret = pg_get_int(request, result, query);
+    ret = pg_get_int(request, result, query, NULL);
     
     zabbix_log(LOG_LEVEL_DEBUG, "End of %s()", __function_name);
     return ret;
@@ -304,7 +304,7 @@ int    PG_TABLE_SIZE(AGENT_REQUEST *request, AGENT_RESULT *result)
     else
         zbx_snprintf(query, sizeof(query), PGSQL_GET_TABLE_SIZE, tablename);
 
-    ret = pg_get_int(request, result, query);
+    ret = pg_get_int(request, result, query, NULL);
     
     zabbix_log(LOG_LEVEL_DEBUG, "End of %s()", __function_name);
     return ret;
@@ -342,7 +342,7 @@ int    PG_TABLE_ROWS(AGENT_REQUEST *request, AGENT_RESULT *result)
     else
         zbx_snprintf(query, sizeof(query), PGSQL_GET_TABLE_ROWS, tablename);
 
-    ret = pg_get_int(request, result, query);
+    ret = pg_get_int(request, result, query, NULL);
     
     zabbix_log(LOG_LEVEL_DEBUG, "End of %s()", __function_name);
     return ret;
@@ -378,7 +378,7 @@ int    PG_TABLE_CHILDREN(AGENT_REQUEST *request, AGENT_RESULT *result)
     else
         zbx_snprintf(query, sizeof(query), PGSQL_GET_TABLE_CHILD_COUNT, tablename);
 
-    ret = pg_get_int(request, result, query);
+    ret = pg_get_int(request, result, query, NULL);
     
 out:
     zabbix_log(LOG_LEVEL_DEBUG, "End of %s()", __function_name);
@@ -399,11 +399,11 @@ out:
  */
 int    PG_TABLE_CHILDREN_SIZE(AGENT_REQUEST *request, AGENT_RESULT *result)
 {
-    int             ret = SYSINFO_RET_FAIL;                 // Request result code
-    const char          *__function_name = "PG_TABLE_CHILDREN_SIZE";    // Function name for log file
+    int           ret = SYSINFO_RET_FAIL;                 // Request result code
+    const char    *__function_name = "PG_TABLE_CHILDREN_SIZE";    // Function name for log file
         
-    char                *tablename = NULL;
-    char        query[MAX_STRING_LEN];
+    char          *tablename = NULL;
+    char          query[MAX_STRING_LEN];
     
     zabbix_log(LOG_LEVEL_DEBUG, "In %s()", __function_name);
     
@@ -415,7 +415,7 @@ int    PG_TABLE_CHILDREN_SIZE(AGENT_REQUEST *request, AGENT_RESULT *result)
     else
         zbx_snprintf(query, sizeof(query), PGSQL_GET_CHILDREN_SIZE, tablename);
 
-    ret = pg_get_int(request, result, query);
+    ret = pg_get_int(request, result, query, NULL);
     
 out:
     zabbix_log(LOG_LEVEL_DEBUG, "End of %s()", __function_name);
@@ -452,7 +452,7 @@ int    PG_TABLE_CHILDREN_TUPLES(AGENT_REQUEST *request, AGENT_RESULT *result)
     else
         zbx_snprintf(query, sizeof(query), PGSQL_GET_CHILDREN_ROWS, tablename);
 
-    ret = pg_get_int(request, result, query);
+    ret = pg_get_int(request, result, query, NULL);
     
 out:
     zabbix_log(LOG_LEVEL_DEBUG, "End of %s()", __function_name);

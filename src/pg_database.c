@@ -73,7 +73,7 @@ int    PG_DB_DISCOVERY(AGENT_REQUEST *request, AGENT_RESULT *result)
     
     zabbix_log(LOG_LEVEL_DEBUG, "In %s()", __function_name);
  
-    ret = pg_get_discovery(request, result, PGSQL_DISCOVER_DBS);
+    ret = pg_get_discovery(request, result, PGSQL_DISCOVER_DBS, NULL);
     
     zabbix_log(LOG_LEVEL_DEBUG, "End of %s()", __function_name);
     return ret;
@@ -125,14 +125,14 @@ int    PG_STAT_DATABASE(AGENT_REQUEST *request, AGENT_RESULT *result)
             goto out;
         }
 
-        ret = pg_get_string_params(request, result, query, datname);
+        ret = pg_get_string(request, result, query, param_new(datname));
     }
     else if(0 == strncmp(field, "blk_", 4))
         // all blk_* fields are doubles
-        ret = pg_get_dbl_params(request, result, query, datname);
+        ret = pg_get_dbl(request, result, query, param_new(datname));
     else 
         // all other fields are integers
-        ret = pg_get_int_params(request, result, query, datname);
+        ret = pg_get_int(request, result, query, param_new(datname));
     
 out:
     zabbix_log(LOG_LEVEL_DEBUG, "End of %s()", __function_name);
@@ -172,7 +172,7 @@ int    PG_DB_SIZE(AGENT_REQUEST *request, AGENT_RESULT *result)
         query = PGSQL_GET_DB_SIZE;
     }
 
-    ret = pg_get_int_params(request, result, query, datname);
+    ret = pg_get_int(request, result, query, param_new(datname));
     
     zabbix_log(LOG_LEVEL_DEBUG, "End of %s()", __function_name);
     return ret;

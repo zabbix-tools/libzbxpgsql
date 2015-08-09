@@ -108,7 +108,7 @@ int    PG_INDEX_DISCOVERY(AGENT_REQUEST *request, AGENT_RESULT *result)
     }
 
     // build results
-    ret = pg_get_discovery(request, result, query);
+    ret = pg_get_discovery(request, result, query, NULL);
 
     zabbix_log(LOG_LEVEL_DEBUG, "End of %s()", __function_name);
     return ret;
@@ -157,7 +157,7 @@ int    PG_STAT_ALL_INDEXES(AGENT_REQUEST *request, AGENT_RESULT *result)
         goto out;
     
     // Execute a query
-    res = pg_exec(conn, query);
+    res = pg_exec(conn, query, NULL);
     if(PQresultStatus(res) != PGRES_TUPLES_OK) {
         zabbix_log(LOG_LEVEL_ERR, "Failed to execute PostgreSQL query in %s() with: %s", __function_name, PQresultErrorMessage(res));
         goto out;
@@ -215,7 +215,7 @@ int    PG_STATIO_ALL_INDEXES(AGENT_REQUEST *request, AGENT_RESULT *result)
     else
         zbx_snprintf(query, sizeof(query),  "SELECT %s FROM pg_statio_all_indexes WHERE indexrelname = '%s'", field, index);
 
-    ret = pg_get_int(request, result, query);
+    ret = pg_get_int(request, result, query, NULL);
     
     zabbix_log(LOG_LEVEL_DEBUG, "End of %s()", __function_name);
     return ret;
@@ -252,7 +252,7 @@ int    PG_INDEX_SIZE(AGENT_REQUEST *request, AGENT_RESULT *result)
     else
         zbx_snprintf(query, sizeof(query), PGSQL_GET_INDEX_SIZE, index);
 
-    ret = pg_get_int(request, result, query);
+    ret = pg_get_int(request, result, query, NULL);
     
     zabbix_log(LOG_LEVEL_DEBUG, "End of %s()", __function_name);
     return ret;
@@ -289,7 +289,7 @@ int    PG_INDEX_ROWS(AGENT_REQUEST *request, AGENT_RESULT *result)
     else
         zbx_snprintf(query, sizeof(query), PGSQL_GET_INDEX_ROWS, index);
 
-    ret = pg_get_int(request, result, query);
+    ret = pg_get_int(request, result, query, NULL);
     
     zabbix_log(LOG_LEVEL_DEBUG, "End of %s()", __function_name);
     return ret;

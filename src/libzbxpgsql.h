@@ -67,28 +67,26 @@
 // function to determine if a string is null or empty
 #define strisnull(c)            (NULL == c || '\0' == *c)
 
+typedef char** PGparams;
+
 // Local helper functions
 PGconn      *pg_connect(AGENT_REQUEST *request);
-PGresult    *pg_exec_vparams(PGconn *conn, const char *command, va_list ap);
-PGresult    *pg_exec_params(PGconn *conn, const char *command, ...);
-#define     pg_exec(conn, command)  pg_exec_params(conn, command, NULL)
+PGresult    *pg_exec(PGconn *conn, const char *command, PGparams params);
 
-int     pg_get_result(AGENT_REQUEST *request, AGENT_RESULT *result, int type, const char *query, ...);
-#define pg_get_string_params(request, result, query, ...)    pg_get_result(request, result, AR_STRING, query, __VA_ARGS__, NULL)
-#define pg_get_string(request, result, query)                pg_get_result(request, result, AR_STRING, query, NULL)
+int     pg_get_result(AGENT_REQUEST *request, AGENT_RESULT *result, int type, const char *query, PGparams params);
+int     pg_get_discovery(AGENT_REQUEST *request, AGENT_RESULT *result, const char *query, PGparams params);
 
-#define pg_get_int_params(request, result, query, ...)       pg_get_result(request, result, AR_UINT64, query, __VA_ARGS__, NULL)
-#define pg_get_int(request, result, query)                   pg_get_result(request, result, AR_UINT64, query, NULL)
-
-#define pg_get_dbl_params(request, result, query, ...)       pg_get_result(request, result, AR_DOUBLE, query, __VA_ARGS__, NULL)
-#define pg_get_dbl(request, result, query)                   pg_get_result(request, result, AR_DOUBLE, query, NULL)
-
-int     pg_get_discovery_params(AGENT_REQUEST *request, AGENT_RESULT *result, const char *query, ...);
-#define pg_get_discovery(request, result, query)             pg_get_discovery_params(request, result, query, NULL)
+#define pg_get_string(request, result, query, params)     pg_get_result(request, result, AR_STRING, query, params)
+#define pg_get_int(request, result, query, params)        pg_get_result(request, result, AR_UINT64, query, params)
+#define pg_get_dbl(request, result, query, params)        pg_get_result(request, result, AR_DOUBLE, query, params)
 
 int     is_valid_ip(char *str);
 int     is_oid(char *str);
 char    *strcat2(char *destination, const char *source);
+
+int     param_len(char **params);
+char    **param_append(char **dest, char *s);
+#define param_new(s)    param_append(NULL, s)
 
 int     PG_GET_CLASS_SIZE(AGENT_REQUEST *request, AGENT_RESULT *result, char *relkind, char *relname);
 

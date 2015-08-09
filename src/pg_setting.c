@@ -72,7 +72,7 @@ int    PG_SETTING_DISCOVERY(AGENT_REQUEST *request, AGENT_RESULT *result)
     
     zabbix_log(LOG_LEVEL_DEBUG, "In %s()", __function_name);
     
-    ret = pg_get_discovery(request, result, PGSQL_DISCOVER_SETTINGS);
+    ret = pg_get_discovery(request, result, PGSQL_DISCOVER_SETTINGS, NULL);
 
     zabbix_log(LOG_LEVEL_DEBUG, "End of %s()", __function_name);
     return ret;
@@ -117,7 +117,7 @@ int    PG_SETTING_DISCOVERY(AGENT_REQUEST *request, AGENT_RESULT *result)
         goto out;
 
     // Execute the query
-    res = pg_exec_params(conn, PGSQL_GET_SETTING, setting, NULL);
+    res = pg_exec(conn, PGSQL_GET_SETTING, param_new(setting));
     if(PQresultStatus(res) != PGRES_TUPLES_OK) {
         zabbix_log(LOG_LEVEL_ERR, "Failed to execute PostgreSQL query in %s() with: %s", __function_name, PQresultErrorMessage(res));
         goto out;

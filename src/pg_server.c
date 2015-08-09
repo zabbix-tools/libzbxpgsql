@@ -85,7 +85,7 @@ int    PG_VERSION(AGENT_REQUEST *request, AGENT_RESULT *result)
     
     zabbix_log(LOG_LEVEL_DEBUG, "In %s()", __function_name);
     
-    ret = pg_get_string(request, result, query);
+    ret = pg_get_string(request, result, query, NULL);
     
     zabbix_log(LOG_LEVEL_DEBUG, "End of %s()", __function_name);
     return ret;
@@ -112,7 +112,7 @@ int    PG_STARTTIME(AGENT_REQUEST *request, AGENT_RESULT *result)
     
     zabbix_log(LOG_LEVEL_DEBUG, "In %s()", __function_name);
     
-    ret = pg_get_string(request, result, query);
+    ret = pg_get_string(request, result, query, NULL);
     
     zabbix_log(LOG_LEVEL_DEBUG, "End of %s()", __function_name);
     return ret;
@@ -139,7 +139,7 @@ int    PG_UPTIME(AGENT_REQUEST *request, AGENT_RESULT *result)
     
     zabbix_log(LOG_LEVEL_DEBUG, "In %s()", __function_name);
     
-    ret = pg_get_int(request, result, query);
+    ret = pg_get_int(request, result, query, NULL);
     
     zabbix_log(LOG_LEVEL_DEBUG, "End of %s()", __function_name);
     return ret;
@@ -175,13 +175,13 @@ int    PG_STAT_BGWRITER(AGENT_REQUEST *request, AGENT_RESULT *result)
     
     // Get field value
     if(0 == strncmp(field, "checkpoint_", 11))
-        ret = pg_get_dbl(request, result, query);
+        ret = pg_get_dbl(request, result, query, NULL);
 
     else if(0 == strncmp(field, "stats_reset", 11))
-        ret = pg_get_string(request, result, query);
+        ret = pg_get_string(request, result, query, NULL);
     
     else
-        ret = pg_get_int(request, result, query);
+        ret = pg_get_int(request, result, query, NULL);
     
     zabbix_log(LOG_LEVEL_DEBUG, "End of %s()", __function_name);
     return ret;

@@ -64,6 +64,8 @@ LIMIT 1"
 	int         i = 0;
 	char        *param = NULL;
 	char        *clause = PG_WHERE;
+    PGparams    pgparams = NULL;
+    int         pgi = 0;
 
     zabbix_log(LOG_LEVEL_DEBUG, "In %s()", __function_name);
 
@@ -75,31 +77,35 @@ LIMIT 1"
     // iterate over the available parameters
     for(i = 0; i < 7; i++) {
     	param = get_rparam(request, PARAM_FIRST + i);
-    	if(NULL != param && '\0' != *param) {
+    	if(!strisnull(param)) {
     		switch(i) {
     			case 0: // <database>
+                    pgparams = param_append(pgparams, param);
     				if(is_oid(param))
-    					zbx_snprintf(p, MAX_CLAUSE_LEN, " %s datid=%s", clause, param);
+    					zbx_snprintf(p, MAX_CLAUSE_LEN, " %s datid=$%i", clause, ++pgi);
     				else
-    					zbx_snprintf(p, MAX_CLAUSE_LEN, " %s datname='%s'", clause, param);
+    					zbx_snprintf(p, MAX_CLAUSE_LEN, " %s datname=$%i", clause, ++pgi);
     				break;
 
     			case 1: // <user>
+                    pgparams = param_append(pgparams, param);
     			    if(is_oid(param))
-    			    	zbx_snprintf(p, MAX_CLAUSE_LEN, " %s usesysid=%s", clause, param);
+    			    	zbx_snprintf(p, MAX_CLAUSE_LEN, " %s usesysid=$%i", clause, ++pgi);
     				else
-    					zbx_snprintf(p, MAX_CLAUSE_LEN, " %s usename='%s'", clause, param);
+    					zbx_snprintf(p, MAX_CLAUSE_LEN, " %s usename=$%i", clause, ++pgi);
     				break;
 
     			case 2: // <application>
-    				zbx_snprintf(p, MAX_CLAUSE_LEN, " %s application_name='%s'", clause, param);
+                    pgparams = param_append(pgparams, param);
+    				zbx_snprintf(p, MAX_CLAUSE_LEN, " %s application_name=$%i", clause, ++pgi);
     				break;
 
     			case 3: // <client>
+                    pgparams = param_append(pgparams, param);
     			    if(is_valid_ip(param))
-                    	zbx_snprintf(p, MAX_CLAUSE_LEN, " %s client_addr = inet '%s'", clause, param);
+                    	zbx_snprintf(p, MAX_CLAUSE_LEN, " %s client_addr = $%i::inet", clause, ++pgi);
     				else
-    					zbx_snprintf(p, MAX_CLAUSE_LEN, " %s client_hostname='%s'", clause, param);
+    					zbx_snprintf(p, MAX_CLAUSE_LEN, " %s client_hostname=$%i", clause, ++pgi);
     				break;
 
     			case 4: // <waiting>
@@ -115,11 +121,13 @@ LIMIT 1"
     				break;
 
     			case 5: // <state>
-    				zbx_snprintf(p, MAX_CLAUSE_LEN, " %s state='%s'", clause, param);
+                    pgparams = param_append(pgparams, param);
+    				zbx_snprintf(p, MAX_CLAUSE_LEN, " %s state=$%i", clause, ++pgi);
     				break;
 
     			case 6: // <query>
-    				zbx_snprintf(p, MAX_CLAUSE_LEN, " %s query='%s'", clause, param);
+                    pgparams = param_append(pgparams, param);
+    				zbx_snprintf(p, MAX_CLAUSE_LEN, " %s query=$%i", clause, ++pgi);
     				break;
     		}
 
@@ -128,7 +136,7 @@ LIMIT 1"
     	}
     }
 
-    ret = pg_get_int(request, result, query);
+    ret = pg_get_int(request, result, query, pgparams);
 
 out:  
     zabbix_log(LOG_LEVEL_DEBUG, "End of %s()", __function_name);
@@ -155,7 +163,7 @@ int    PG_QUERIES_LONGEST(AGENT_REQUEST *request, AGENT_RESULT *result)
     
     zabbix_log(LOG_LEVEL_DEBUG, "In %s()", __function_name);
     
-    ret = pg_get_dbl(request, result, PGSQL_GET_LONGEST_QUERY);
+    ret = pg_get_dbl(request, result, PGSQL_GET_LONGEST_QUERY, NULL);
     
     zabbix_log(LOG_LEVEL_DEBUG, "End of %s()", __function_name);
     return ret;

@@ -25,10 +25,13 @@
  * Returns the value of the first column of the first row returned by the
  * specified SQL query.
  *
+ * TODO: Allow for query parameters to be supplied as key parameters?
+ *
  * Parameters:
  *   0:  connection string
  *   1:  connection database
  *   2:  scalar SQL query to execute
+ *   n:  query parameters
  *
  * Returns: u
  */
@@ -37,6 +40,8 @@ int     PG_QUERY(AGENT_REQUEST *request, AGENT_RESULT *result)
     int         ret = SYSINFO_RET_FAIL;         // Request result code
     const char  *__function_name = "PG_QUERY";  // Function name for log file
     char        *query = NULL;
+    // char        **params = NULL;
+    // int         nparams = 0, i = 0;
 
     zabbix_log(LOG_LEVEL_DEBUG, "In %s()", __function_name);
 
@@ -47,19 +52,31 @@ int     PG_QUERY(AGENT_REQUEST *request, AGENT_RESULT *result)
         goto out;
     }
 
+    // TODO: allocate array of additional parameters in pg.query.*
+    /*
+    if(request->nparam > 3) {
+        nparams = request->nparam - 3;
+        params = zbx_malloc(params, sizeof(params) * nparams);
+
+        for(i = 0; i < nparams; i++) {
+            params[i] = get_rparam(request, 3 + i);
+        }
+    }
+    */
+
     // Return the appropriate result type for this key
     // as per `pg.query.{type}`
     if(0 == strncmp(&request->key[9], "string", 5))
-        ret = pg_get_string(request, result, query);
+        ret = pg_get_string(request, result, query, NULL);
 
     else if(0 == strncmp(&request->key[9], "integer", 7))
-        ret = pg_get_int(request, result, query);
+        ret = pg_get_int(request, result, query, NULL);
 
     else if(0 == strncmp(&request->key[9], "double", 6))
-        ret = pg_get_dbl(request, result, query);
+        ret = pg_get_dbl(request, result, query, NULL);
 
     else if(0 == strncmp(&request->key[9], "discovery", 9))
-        ret = pg_get_discovery(request, result, query);
+        ret = pg_get_discovery(request, result, query, NULL);
 
     else
         zabbix_log(LOG_LEVEL_ERR, "Unsupported query return type: %s in %s()", request->key[9], __function_name);

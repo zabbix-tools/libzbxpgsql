@@ -59,7 +59,7 @@ int    PG_NAMESPACE_DISCOVERY(AGENT_REQUEST *request, AGENT_RESULT *result)
 
     zabbix_log(LOG_LEVEL_DEBUG, "In %s()", __function_name);
     
-    ret = pg_get_discovery(request, result, PGSQL_DISCOVER_NAMESPACES);
+    ret = pg_get_discovery(request, result, PGSQL_DISCOVER_NAMESPACES, NULL);
 
     zabbix_log(LOG_LEVEL_DEBUG, "End of %s()", __function_name);
     return ret;
@@ -98,7 +98,7 @@ int    PG_NAMESPACE_SIZE(AGENT_REQUEST *request, AGENT_RESULT *result)
     else
     zbx_snprintf(query, sizeof(query), PGSQL_GET_NS_SIZE, schema);
 
-    ret = pg_get_int(request, result, query);
+    ret = pg_get_int(request, result, query, NULL);
 
 out:
 

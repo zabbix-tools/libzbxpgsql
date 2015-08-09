@@ -9,15 +9,16 @@ lib_LTLIBRARIES = libzbxpgsql.la
 libzbxpgsql_la_SOURCES = \
 	libzbxpgsql.h \
 	libzbxpgsql.c \
-	pg_server.c \
-	pg_query.c \
 	pg_backends.c \
-	pg_setting.c \
-	pg_namespace.c \
-	pg_tablespace.c \
 	pg_database.c \
+	pg_index.c \
+	pg_namespace.c \
+	pg_params.c \
+	pg_query.c \
+	pg_server.c \
+	pg_setting.c \
 	pg_table.c \
-	pg_index.c
+	pg_tablespace.c
 
 libzbxpgsql_la_CFLAGS = \
 	-lpq \
