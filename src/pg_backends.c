@@ -58,12 +58,8 @@ LIMIT 1"
 	char        *clause = PG_WHERE;
     PGparams    pgparams = NULL;
     int         pgi = 0;
-    long int    version = 0;
-
+    
     zabbix_log(LOG_LEVEL_DEBUG, "In %s()", __function_name);
-
-    // get server version
-    version = pg_version(request);
 
     // Build the sql query
     memset(query, 0, MAX_QUERY_LEN);
@@ -71,7 +67,7 @@ LIMIT 1"
     p += strlen(p);
 
     // iterate over the available parameters
-    for(i = 0; i < 7; i++) {
+    for(i = 0; i < 4; i++) {
     	param = get_rparam(request, PARAM_FIRST + i);
     	if(!strisnull(param)) {
     		switch(i) {
@@ -91,15 +87,16 @@ LIMIT 1"
     					zbx_snprintf(p, MAX_CLAUSE_LEN, " %s usename=$%i", clause, ++pgi);
     				break;
 
-    			case 3: // <client>
+    			case 2: // <client>
                     pgparams = param_append(pgparams, param);
     			    if(is_valid_ip(param))
                     	zbx_snprintf(p, MAX_CLAUSE_LEN, " %s client_addr = $%i::inet", clause, ++pgi);
     				else
+                        // requires v9.1+
     					zbx_snprintf(p, MAX_CLAUSE_LEN, " %s client_hostname=$%i", clause, ++pgi);
     				break;
 
-    			case 4: // <waiting>
+    			case 3: // <waiting>
     				if(0 == strncmp("true", param, 4)) {
                         zbx_snprintf(p, MAX_CLAUSE_LEN, " %s waiting=TRUE", clause);
                     } else if(0 == strncmp("false", param, 5)) {
@@ -134,6 +131,8 @@ out:
  *   1:  connection database
  *
  * Returns: d
+ *
+ * Support: Requires PostgreSQL v9.2 or above
  *
  * TODO: allow filtering in pg.queries.longest similar to pg.backends.count
  */

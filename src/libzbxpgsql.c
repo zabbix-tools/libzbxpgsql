@@ -527,7 +527,7 @@ int is_valid_ip(char *str)
     // test for valid IPv6 address
     if(1 == inet_pton(AF_INET6, str, &(in)))
         res = 1;
-
+    
     return res;
 }
 
