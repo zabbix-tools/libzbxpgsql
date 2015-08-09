@@ -257,18 +257,25 @@ int         zbx_module_init() {
  *
  * Wrapper for PQexecParams. Only supports text parameters as binary parameters
  * are not possible in Zabbix item keys.
- * 
- * Query parameters are provided are provided as a sequence of *char in ...
  *
  * Returns: PGresult
  */
 PGresult    *pg_exec(PGconn *conn, const char *command, PGparams params) {
     PGresult *res = NULL;
-    int      nparams = 0;
+    int      i = 0, nparams = 0;
 
+    // count parameters
     nparams = param_len(params);
+
+    // log the query
+    zabbix_log(LOG_LEVEL_DEBUG, "Executing query with %i parameters: %s", nparams, command);
+    for (i = 0; i < nparams; i++)
+        zabbix_log(LOG_LEVEL_DEBUG, "  $%i: %s", i, params[i]);
+
+    // execute query with escaped parameters
     res = PQexecParams(conn, command, nparams, NULL, params, NULL, NULL, 0);
 
+    //free up the params array which would have been alloc'ed for this request
     param_free(params);
 
     return res;

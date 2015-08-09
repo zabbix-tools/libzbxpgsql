@@ -17,20 +17,12 @@
 ** Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 **/
 
-/*
- * See:
- *     LibPQ:       http://www.postgresql.org/docs/9.4/static/libpq.html
- *     Statistics:  http://www.postgresql.org/docs/9.4/static/monitoring-stats.html
- */
-
 #include "libzbxpgsql.h"
 
-// TODO: Add clean up func
- 
 int param_len(PGparams params)
 {
-    int  len = 0;
-    char **c = NULL;
+    int         len = 0;
+    PGparams    c = NULL;
 
     if (NULL == params)
         return 0;
@@ -41,29 +33,29 @@ int param_len(PGparams params)
     return len;
 }
 
-char **param_append(PGparams dest, char *s)
+char **param_append(PGparams params, char *s)
 {
     int len = 0;
 
     // never append nulls
     if(NULL == s)
-        return dest;
+        return params;
 
     // allocate new array
-    if(NULL == dest) {
-        dest = zbx_malloc(dest, sizeof(PGparams) * 2);
-        dest[0] = strdup(s);
-        dest[1] = NULL;
-        return dest;
+    if(NULL == params) {
+        params = zbx_malloc(params, sizeof(PGparams) * 2);
+        params[0] = strdup(s);
+        params[1] = NULL;
+        return params;
     } 
 
     // extend array and append
-    len = param_len(dest);
-    dest = zbx_realloc(dest, len + 2);
-    dest[len] = strdup(s); // dup so we can free everything later
-    dest[len + 1] = NULL;
+    len = param_len(params);
+    params = zbx_realloc(params, sizeof(PGparams) * (len + 2));
+    params[len] = strdup(s); // dup so we can free everything later
+    params[len + 1] = NULL;
 
-    return dest;
+    return params;
 }
 
 void param_free(PGparams params)
@@ -77,6 +69,4 @@ void param_free(PGparams params)
         zbx_free(*p);
 
     zbx_free(params);
-
-    zabbix_log(LOG_LEVEL_DEBUG, "Free param list %p", params);
 }

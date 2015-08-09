@@ -84,8 +84,9 @@ int     is_valid_ip(char *str);
 int     is_oid(char *str);
 char    *strcat2(char *destination, const char *source);
 
-int     param_len(char **params);
-char    **param_append(char **dest, char *s);
+int     param_len(PGparams params);
+char    **param_append(PGparams params, char *s);
+void    param_free(PGparams params);
 #define param_new(s)    param_append(NULL, s)
 
 int     PG_GET_CLASS_SIZE(AGENT_REQUEST *request, AGENT_RESULT *result, char *relkind, char *relname);
