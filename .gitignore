@@ -37,3 +37,6 @@ Makefile
 missing
 stamp-h1
 zabbix-*/
+
+# ignore sample database
+docker/dell*
