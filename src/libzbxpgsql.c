@@ -281,6 +281,30 @@ PGresult    *pg_exec(PGconn *conn, const char *command, PGparams params) {
     return res;
 }
 
+long int pg_version(AGENT_REQUEST *request) {
+    PGconn      *conn = NULL;
+    PGresult    *res = NULL;
+    long int    version = 0;
+
+    // connect to PostgreSQL
+    conn = pg_connect(request);
+    if (NULL == conn)
+        return 0;
+
+    // get server version
+    res = pg_exec(conn, "SELECT setting FROM pg_settings WHERE name='server_version_num'", NULL);
+    if(0 == PQntuples(res)) {
+        zabbix_log(LOG_LEVEL_ERR, "Failed to get PostgreSQL server version");
+        return 0;
+    }
+
+    // convert to integer
+    version = atol(PQgetvalue(res, 0, 0));
+
+    zabbix_log(LOG_LEVEL_DEBUG, "PostgreSQL server version: %lu", version);
+    return version;
+}
+
 /*
  * Function: pg_get_result
  *

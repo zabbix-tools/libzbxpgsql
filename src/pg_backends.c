@@ -66,8 +66,12 @@ LIMIT 1"
 	char        *clause = PG_WHERE;
     PGparams    pgparams = NULL;
     int         pgi = 0;
+    long int    version = 0;
 
     zabbix_log(LOG_LEVEL_DEBUG, "In %s()", __function_name);
+
+    // get server version
+    version = pg_version(request);
 
     // Build the sql query
     memset(query, 0, MAX_QUERY_LEN);
@@ -127,7 +131,10 @@ LIMIT 1"
 
     			case 6: // <query>
                     pgparams = param_append(pgparams, param);
-    				zbx_snprintf(p, MAX_CLAUSE_LEN, " %s query=$%i", clause, ++pgi);
+                    if (90200 <= version) // current_query renamed to query in v9.2
+    				    zbx_snprintf(p, MAX_CLAUSE_LEN, " %s query=$%i", clause, ++pgi);
+                    else
+                        zbx_snprintf(p, MAX_CLAUSE_LEN, " %s current_query=$%i", clause, ++pgi);
     				break;
     		}
 
