@@ -24,6 +24,15 @@ SELECT  \
   t.oid AS oid \
   , t.spcname AS tablespace \
   , pg_catalog.pg_get_userbyid(spcowner) AS owner \
+  , pg_catalog.shobj_description(oid, 'pg_tablespace') AS description \
+FROM pg_catalog.pg_tablespace t \
+ORDER BY t.spcname;"
+
+#define PGSQL_DISCOVER_TABLESPACES_92  "\
+SELECT  \
+  t.oid AS oid \
+  , t.spcname AS tablespace \
+  , pg_catalog.pg_get_userbyid(spcowner) AS owner \
   , pg_catalog.pg_tablespace_location(oid) AS location \
   , pg_catalog.shobj_description(oid, 'pg_tablespace') AS description \
 FROM pg_catalog.pg_tablespace t \
@@ -53,9 +62,12 @@ int    PG_TABLESPACE_DISCOVERY(AGENT_REQUEST *request, AGENT_RESULT *result)
     const char  *__function_name = "PG_TABLESPACE_DISCOVERY";   // Function name for log file
     
     zabbix_log(LOG_LEVEL_DEBUG, "In %s()", __function_name);
-        
-    ret = pg_get_discovery(request, result, PGSQL_DISCOVER_TABLESPACES, NULL);
     
+    if (pg_version(request) >= 90200)
+        ret = pg_get_discovery(request, result, PGSQL_DISCOVER_TABLESPACES_92, NULL);
+    else
+        ret = pg_get_discovery(request, result, PGSQL_DISCOVER_TABLESPACES, NULL);
+
     zabbix_log(LOG_LEVEL_DEBUG, "End of %s()", __function_name);
     return ret;
 }
