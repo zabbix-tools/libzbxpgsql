@@ -7,7 +7,7 @@
 
 
 {% for key in include.keys %}
-<h3 id="{{ key.key | slugify }}">{{ key.key }}{% if key.require %}&nbsp;<span class="version-badge">v{{ key.require }}+{% endif %}</span></h3>
+<h3 id="{{ key.key | slugify }}">{{ key.key }}{% if key.require %}&nbsp;<span class="version-badge" title="Requires PostgreSQL server v{{ key.require }} or above">v{{ key.require }}+{% endif %}</span></h3>
 {% if key.description %}<p>{{ key.description | markdownify }}</p>{% endif %}
 
 <!-- Key type -->
@@ -37,7 +37,7 @@
 	</li>
 	{% for param in key.parameters %}
 	<li>
-		<code>{{ param.parameter }}</code>&nbsp;-&nbsp;{{ param.description  }}
+		<code>{{ param.parameter }}</code>&nbsp;-&nbsp;{{ param.description  }}{% if param.default %}&nbsp;(default: {{param.default }}){% endif %}
 		{% if param.options %}
 		<ul>
 			{% for option in param.options %}

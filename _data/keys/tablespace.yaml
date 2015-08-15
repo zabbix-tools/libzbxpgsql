@@ -34,4 +34,4 @@
       description: The name or OID of the desired Tablespace (required)
 
   units: B
-  source: SELECT pg_tablespace_size($6)
+  source: SELECT pg_tablespace_size($1)

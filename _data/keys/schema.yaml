@@ -37,9 +37,9 @@
     - parameter: schema
       description: The name or OID of the desired schema (required)
   units: B
+  example: pg.schema.size[,,public]
   source: >
-
     SELECT
-      sum(pg_relation_size(quote_ident(schemaname) || '.' || quote_ident(tablename)))::bigint
+      SUM(pg_relation_size(quote_ident(schemaname) || '.' || quote_ident(tablename)))::bigint
     FROM pg_tables
     WHERE schemaname = $1

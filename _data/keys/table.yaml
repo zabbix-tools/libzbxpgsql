@@ -80,120 +80,200 @@
       description: Parent schema of the child table
 
 - key: pg.table.size
-  description: Returns the size in bytes of a PostgreSQL table
+  description: >
+    Returns the size in bytes of a PostgreSQL table in the connected database.
+    If no table is specified, the sum size of all tables in the connected
+    database is returned.
+
   type: Numeric (unsigned)
   units: B
   parameters:
     - parameter: table
-      description: the table to assess
+      description: the table to return the size of
+      default: sum of all tables in the connected database
+  source: >
+    SELECT
+      (CAST(relpages AS bigint) * 8192)
+    FROM pg_class
+    WHERE relkind='r' AND relname = '%s'
+  example: pg.table.size[,,my_table]
 
 - key: pg.table.rows
   description: >
     Returns the number of rows in the table. This is only an estimate used by
     the planner. It is updated by `VACUUM`, `ANALYZE`, and a few DDL commands such
-    as `CREATE INDEX`. 
+    as `CREATE INDEX`. If no table is specified, the sum estimate of rows in
+    all tables in the connected database is returned.
   type: Numeric (unsigned)
   parameters:
     - parameter: table
-      description: the table to assess
+      description: the table to return the row count for
+      default: sum estimate of all tables in the connected database
+  example: pg.table.size[,,my_table]
+  source: >
+    SELECT reltuples
+    FROM pg_class
+    WHERE
+      relkind='r'
+      AND relname = $1
+
+- key: pg.table.children
+  description: >
+    Returns the number of tables that inherit from the specified parent table.
+  type: Numeric (Unsigned)
+  parameters:
+    - parameter: table
+      description: the table to return the child count for
+  example: pg.table.children[,,parent_table]
+  source: > 
+    SELECT
+      COUNT(i.inhrelid)
+    FROM pg_inherits i
+    WHERE i.inhparent = $1::regclass
+
+- key: pg.table.children.size
+  description: >
+    Returns the sum size in bytes of all tables that inherit from the specified
+    parent table.
+  type: Numeric (Unsigned)
+  parameters:
+    - parameter: table
+      description: the table to return the child size for
+  example: pg.table.children.size[,,parent_table]
+  source: >
+    SELECT
+      (SUM(c.relpages) * 8192)
+    FROM pg_inherits i
+    JOIN pg_class c ON inhrelid = c.oid
+    WHERE i.inhparent = $1::regclass
+
+- key: pg.table.children.rows
+  description: >
+    Returns the sum estimated row count of all tables that inherit from the
+    specified parent table. This is only an estimate used by the planner. 
+  type: Numeric (Unsigned)
+  parameters:
+    - parameter: table
+      description: the table to return the child row count for
+  example: pg.table.children.rows[,,parent_table]
+  source: >
+    SELECT
+      SUM(c.reltuples::bigint)
+    FROM pg_inherits i
+    JOIN pg_class c ON inhrelid = c.oid
+    WHERE i.inhparent = $1::regclass
 
 - key: pg.table.seq_scan
   description: Returns the number of sequential scans initiated on this table
   type: Numeric (unsigned)
   parameters:
     - parameter: table
-      description: the table to assess
+      description: table to return statistics for
+  source: SELECT seq_scan FROM pg_stat_all_tables WHERE relname = $1
 
 - key: pg.table.seq_tup_read
   description: Returns the number of live rows fetched by sequential scans
   type: Numeric (unsigned)
   parameters:
     - parameter: table
-      description: the table to assess
+      description: table to return statistics for
+  source: SELECT seq_tup_read FROM pg_stat_all_tables WHERE relname = $1
 
 - key: pg.table.idx_scan
   description: Returns the number of index scans initiated on this table
   type: Numeric (unsigned)
   parameters:
     - parameter: table
-      description: the table to assess
+      description: table to return statistics for
+  source: SELECT idx_scan FROM pg_stat_all_tables WHERE relname = $1
 
 - key: pg.table.idx_tup_fetch
   description: Returns the number of live rows fetched by index scans
   type: Numeric (unsigned)
   parameters:
     - parameter: table
-      description: the table to assess
+      description: table to return statistics for
+  source: SELECT idx_tup_fetch FROM pg_stat_all_tables WHERE relname = $1
 
 - key: pg.table.n_tup_ins
   description: Returns the number of rows inserted
   type: Numeric (unsigned)
   parameters:
     - parameter: table
-      description: the table to assess
+      description: table to return statistics for
+  source: SELECT n_tup_ins FROM pg_stat_all_tables WHERE relname = $1
 
 - key: pg.table.n_tup_upd
   description: Returns the number of rows updated
   type: Numeric (unsigned)
   parameters:
     - parameter: table
-      description: the table to assess
+      description: table to return statistics for
+  source: SELECT n_tup_upd FROM pg_stat_all_tables WHERE relname = $1
 
 - key: pg.table.n_tup_del
   description: Returns the number of rows deleted
   type: Numeric (unsigned)
   parameters:
     - parameter: table
-      description: the table to assess
+      description: table to return statistics for
+  source: SELECT n_tup_del FROM pg_stat_all_tables WHERE relname = $1
 
 - key: pg.table.n_tup_hot_upd
   description: Returns the number of rows HOT updated (i.e., with no separate index update required)
   type: Numeric (unsigned)
   parameters:
     - parameter: table
-      description: the table to assess
+      description: table to return statistics for
+  source: SELECT n_tup_hot_upd FROM pg_stat_all_tables WHERE relname = $1
 
 - key: pg.table.n_live_tup
   description: Returns the estimated number of live rows
   type: Numeric (unsigned)
   parameters:
     - parameter: table
-      description: the table to assess
+      description: table to return statistics for
+  source: SELECT n_live_tup FROM pg_stat_all_tables WHERE relname = $1
 
 - key: pg.table.n_dead_tup
   description: Returns the estimated number of dead rows
   type: Numeric (unsigned)
   parameters:
     - parameter: table
-      description: the table to assess
+      description: table to return statistics for
+  source: SELECT n_dead_tup FROM pg_stat_all_tables WHERE relname = $1
 
 - key: pg.table.last_vacuum
   description: Returns the last time at which this table was manually vacuumed (not counting VACUUM FULL)
   type: Text
   parameters:
     - parameter: table
-      description: the table to assess
+      description: table to return statistics for
+  source: SELECT last_vacuum FROM pg_stat_all_tables WHERE relname = $1
 
 - key: pg.table.last_autovacuum
   description: Returns the last time at which this table was vacuumed by the autovacuum daemon
   type: Text
   parameters:
     - parameter: table
-      description: the table to assess
+      description: table to return statistics for
+  source: SELECT last_autovacuum FROM pg_stat_all_tables WHERE relname = $1
 
 - key: pg.table.last_analyze
   description: Returns the last time at which this table was manually analyzed
   type: Text
   parameters:
     - parameter: table
-      description: the table to assess
+      description: table to return statistics for
+  source: SELECT last_analyze FROM pg_stat_all_tables WHERE relname = $1
 
 - key: pg.table.last_autoanalyze
   description: Returns the last time at which this table was analyzed by the autovacuum daemon
   type: Text
   parameters:
     - parameter: table
-      description: the table to assess
+      description: table to return statistics for
+  source: SELECT last_autoanalyze FROM pg_stat_all_tables WHERE relname = $1
 
 - key: pg.table.vacuum_count
   description: Returns the number of times this table has been manually vacuumed (not counting VACUUM FULL)
@@ -201,7 +281,8 @@
   require: 9.1
   parameters:
     - parameter: table
-      description: the table to assess
+      description: table to return statistics for
+  source: SELECT vacuum_count FROM pg_stat_all_tables WHERE relname = $1
 
 - key: pg.table.autovacuum_count
   description: Returns the number of times this table has been vacuumed by the autovacuum daemon
@@ -209,7 +290,8 @@
   require: 9.1
   parameters:
     - parameter: table
-      description: the table to assess
+      description: table to return statistics for
+  source: SELECT autovacuum_count FROM pg_stat_all_tables WHERE relname = $1
 
 - key: pg.table.analyze_count
   description: Returns the number of times this table has been manually analyzed
@@ -217,7 +299,8 @@
   require: 9.1
   parameters:
     - parameter: table
-      description: the table to assess
+      description: table to return statistics for
+  source: SELECT analyze_count FROM pg_stat_all_tables WHERE relname = $1
 
 - key: pg.table.autoanalyze_count
   description: Returns the number of times this table has been analyzed by the autovacuum daemon
@@ -225,60 +308,69 @@
   require: 9.1
   parameters:
     - parameter: table
-      description: the table to assess
+      description: table to return statistics for
+  source: SELECT autoanalyze_count FROM pg_stat_all_tables WHERE relname = $1
 
 - key: pg.table.heap_blks_read
   description: Returns the number of disk blocks read from this table
   type: Numeric (unsigned)
   parameters:
     - parameter: table
-      description: the table to assess
+      description: table to return statistics for
+  source: SELECT heap_blks_read FROM pg_statio_all_tables WHERE relname = $1
 
 - key: pg.table.heap_blks_hit
   description: Returns the number of buffer hits in this table
   type: Numeric (unsigned)
   parameters:
     - parameter: table
-      description: the table to assess
+      description: table to return statistics for
+  source: SELECT heap_blks_hit FROM pg_statio_all_tables WHERE relname = $1
 
 - key: pg.table.idx_blks_read
   description: Returns the number of disk blocks read from all indexes on this table
   type: Numeric (unsigned)
   parameters:
     - parameter: table
-      description: the table to assess
+      description: table to return statistics for
+  source: SELECT idx_blks_read FROM pg_statio_all_tables WHERE relname = $1
 
 - key: pg.table.idx_blks_hit
   description: Returns the number of buffer hits in all indexes on this table
   type: Numeric (unsigned)
   parameters:
     - parameter: table
-      description: the table to assess
+      description: table to return statistics for
+  source: SELECT dx_blks_hit FROM pg_statio_all_tables WHERE relname = $1
 
 - key: pg.table.toast_blks_read
   description: Returns the number of disk blocks read from this table's TOAST table (if any)
   type: Numeric (unsigned)
   parameters:
     - parameter: table
-      description: the table to assess
+      description: table to return statistics for
+  source: SELECT toast_blks_read FROM pg_statio_all_tables WHERE relname = $1
 
 - key: pg.table.toast_blks_hit
   description: Returns the number of buffer hits in this table's TOAST table (if any)
   type: Numeric (unsigned)
   parameters:
     - parameter: table
-      description: the table to assess
+      description: table to return statistics for
+  source: SELECT toast_blks_hit FROM pg_statio_all_tables WHERE relname = $1
 
 - key: pg.table.tidx_blks_read
   description: Returns the number of disk blocks read from this table's TOAST table index (if any)
   type: Numeric (unsigned)
   parameters:
     - parameter: table
-      description: the table to assess
+      description: table to return statistics for
+  source: SELECT tidx_blks_read FROM pg_statio_all_tables WHERE relname = $1
 
 - key: pg.table.tidx_blks_hit
   description: Returns the number of buffer hits in this table's TOAST table index (if any)
   type: Numeric (unsigned)
   parameters:
     - parameter: table
-      description: the table to assess
+      description: table to return statistics for
+  source: SELECT tidx_blks_hit FROM pg_statio_all_tables WHERE relname = $1

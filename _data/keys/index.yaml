@@ -46,46 +46,97 @@
       AND ...
 
 - key: pg.index.size
-  description: Returns the size in bytes of a PostgreSQL Index
+  description: >
+    Returns the size in bytes of a PostgreSQL Index. If no index is specified,
+    the sum size of all indexes in the connected databse is returned.
   type: Numeric (unsigned)
   parameters:
     - parameter: index
-      description: The name or OID of the desired Index. If not specified, the sum size of all accessible indexes is returned
+      description: >
+        The name or OID of the desired Index. If not specified, the sum size of
+        all accessible indexes is returned
 
   units: B
+  example: pg.index.size[,,ix_my_index]
   source: >
-
-    SELECT (relpages * 8192)
+    SELECT
+      relpages::bigint * 8192
     FROM pg_class
-    WHERE (
-      relkind='i' 
+    WHERE
+      relkind='i'
       AND relname = $1
-    );
-
-    -- or for sum values:
-
-    SELECT (SUM(relpages) * 8192)
-    FROM pg_class
-    WHERE relkind='i';
 
 - key: pg.index.rows
-  description: Returns the estimated row count of a PostgreSQL Index
+  description: >
+    Returns the estimated row count of a PostgreSQL Index. If no index is
+    specified, the sum count of all indexes in the connected databse is
+    returned.
   type: Numeric (unsigned)
   parameters:
     - parameter: index
-      description: The name or OID of the desired Index. If not specified, the sum estimated row count of all accessible indexes is returned
+      description: >
+        The name or OID of the desired Index. If not specified, the sum count
+        of all accessible indexes is returned
 
+  units: B
+  example: pg.index.rows[,,ix_my_index]
   source: >
-
-    SELECT reltuples
+    SELECT
+      reltuples
     FROM pg_class
-    WHERE (
+    WHERE
       relkind='i'
       AND relname = $1
-    );
 
-    -- or for sum values:
+- key: pg.index.idx_scan
+  description: Number of index scans initiated on this index
+  type: Numeric (unsigned)
+  parameters:
+    - parameter: index
+      description: >
+        The name or OID of the desired Index. If not specified, the sum count
+        of all accessible indexes is returned
+  example: pg.index.idx_scan[,,ix_my_index]
+  source: SELECT idx_scan FROM pg_stat_all_indexes WHERE indexrelname = $1
 
-    SELECT SUM(reltuples)
-    FROM pg_class
-    WHERE relkind='i';
+- key: pg.index.idx_tup_read
+  description: Number of index entries returned by scans on this index
+  type: Numeric (unsigned)
+  parameters:
+    - parameter: index
+      description: >
+        The name or OID of the desired Index. If not specified, the sum count
+        of all accessible indexes is returned
+  example: pg.index.idx_tup_read[,,ix_my_index]
+  source: SELECT idx_tup_read FROM pg_stat_all_indexes WHERE indexrelname = $1
+
+- key: pg.index.idx_tup_fetch
+  description: Number of live table rows fetched by simple index scans using this index
+  type: Numeric (unsigned)
+  parameters:
+    - parameter: index
+      description: >
+        The name or OID of the desired Index. If not specified, the sum count
+        of all accessible indexes is returned
+  example: pg.index.idx_tup_fetch[,,ix_my_index]
+  source: SELECT idx_tup_fetch FROM pg_stat_all_indexes WHERE indexrelname = $1
+
+- key: pg.index.idx_blks_read
+  description: Number of disk blocks read from this index
+  parameters:
+    - parameter: index
+      description: >
+        The name or OID of the desired Index. If not specified, the sum count
+        of all accessible indexes is returned
+  example: pg.index.idx_blks_read[,,ix_my_index]
+  source: SELECT idx_blks_read FROM pg_statio_all_indexes WHERE indexrelname = $1
+
+- key: pg.index.idx_blks_hit
+  description: Number of buffer hits in this index
+  parameters:
+    - parameter: index
+      description: >
+        The name or OID of the desired Index. If not specified, the sum count
+        of all accessible indexes is returned
+  example: pg.index.idx_blks_read[,,ix_my_index]
+  source: SELECT idx_blks_hit FROM pg_statio_all_indexes WHERE indexrelname = $1
