@@ -38,7 +38,7 @@ SELECT  \
 FROM pg_catalog.pg_tablespace t \
 ORDER BY t.spcname;"
 
-#define PGSQL_GET_TS_SIZE       "SELECT pg_tablespace_size('%s')"
+#define PGSQL_GET_TS_SIZE       "SELECT pg_tablespace_size($1)"
 
 /*
  * Custom key pg.tablespace.discovery
@@ -87,9 +87,7 @@ int    PG_TABLESPACE_SIZE(AGENT_REQUEST *request, AGENT_RESULT *result)
 {
     int         ret = SYSINFO_RET_FAIL;                     // Request result code
     const char  *__function_name = "PG_TABLESPACE_SIZE";    // Function name for log file
-
     char        *tablespace = NULL;
-    char        query[MAX_STRING_LEN];
     
     zabbix_log(LOG_LEVEL_DEBUG, "In %s()", __function_name);
     
@@ -99,11 +97,9 @@ int    PG_TABLESPACE_SIZE(AGENT_REQUEST *request, AGENT_RESULT *result)
         zabbix_log(LOG_LEVEL_ERR, "No tablespace specified in %s()", __function_name);
         goto out;
     }
-    else
-        zbx_snprintf(query, sizeof(query), PGSQL_GET_TS_SIZE, tablespace);
-
+    
     // execute query
-    ret = pg_get_int(request, result, query, NULL);
+    ret = pg_get_int(request, result, PGSQL_GET_TS_SIZE, param_new(tablespace));
     
 out:
     zabbix_log(LOG_LEVEL_DEBUG, "End of %s()", __function_name);

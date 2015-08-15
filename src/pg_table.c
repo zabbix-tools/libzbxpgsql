@@ -43,7 +43,15 @@ WHERE \
     AND n.nspname !~ '^pg_toast' \
 ORDER BY c.relname"
 
-#define PGSQL_DISCOVER_TABLE_CHILDREN   "SELECT c.oid AS oid, c.relname AS table, n.nspname AS schema FROM pg_inherits i JOIN pg_class c ON i.inhrelid = c.oid JOIN pg_namespace n ON c.relnamespace = n.oid WHERE i.inhparent = '%s'::regclass"
+#define PGSQL_DISCOVER_TABLE_CHILDREN   "\
+SELECT \
+    c.oid AS oid \
+    , c.relname AS table \
+    , n.nspname AS schema \
+FROM pg_inherits i \
+JOIN pg_class c ON i.inhrelid = c.oid \
+JOIN pg_namespace n ON c.relnamespace = n.oid \
+WHERE i.inhparent = $1::regclass"
 
 #define PGSQL_GET_TABLE_STAT_SUM    "\
 SELECT SUM(%s) FROM pg_stat_all_tables \
@@ -52,9 +60,9 @@ WHERE \
     AND schemaname <> 'information_schema' \
     AND schemaname !~ '^pg_toast'"
 
-#define PGSQL_GET_TABLE_STAT        "SELECT %s FROM pg_stat_all_tables WHERE relname = '%s'"
+#define PGSQL_GET_TABLE_STAT        "SELECT %s FROM pg_stat_all_tables WHERE relname = $1"
 
-#define PGSQL_GET_TABLE_STATIO      "SELECT %s FROM pg_statio_all_tables WHERE relname = '%s'"
+#define PGSQL_GET_TABLE_STATIO      "SELECT %s FROM pg_statio_all_tables WHERE relname = $1"
 
 #define PGSQL_GET_TABLE_STATIO_SUM  "\
 SELECT SUM(%s) FROM pg_statio_all_tables \
@@ -63,9 +71,13 @@ WHERE \
     AND schemaname <> 'information_schema' \
     AND schemaname !~ '^pg_toast'"
 
-#define PGSQL_GET_TABLE_SIZE        "SELECT (CAST(relpages AS bigint) * 8192) FROM pg_class WHERE relkind='r' AND relname = '%s'"
+#define PGSQL_GET_TABLE_SIZE "\
+SELECT \
+    (CAST(relpages AS bigint) * 8192) \
+FROM pg_class \
+WHERE relkind='r' AND relname = $1"
 
-#define PGSQL_GET_TABLE_SIZE_SUM    "\
+#define PGSQL_GET_TABLE_SIZE_SUM "\
 SELECT (SUM(relpages) * 8192) \
 FROM pg_class t \
 JOIN pg_namespace n ON n.oid = t.relnamespace \
@@ -75,8 +87,8 @@ WHERE \
     AND n.nspname <> 'information_schema' \
     AND n.nspname !~ '^pg_toast'"
 
-#define PGSQL_GET_TABLE_ROWS_SUM    "\
-SELECT SUM(reltuples) \
+#define PGSQL_GET_TABLE_ROWS_SUM "\
+SELECT SUM(reltuples::bigint) \
 FROM pg_class t \
 JOIN pg_namespace n ON n.oid = t.relnamespace \
 WHERE \
@@ -85,13 +97,32 @@ WHERE \
     AND n.nspname <> 'information_schema' \
     AND n.nspname !~ '^pg_toast'"
 
-#define PGSQL_GET_TABLE_ROWS        "SELECT reltuples FROM pg_class WHERE relkind='r' AND relname = '%s'"
+#define PGSQL_GET_TABLE_ROWS "\
+SELECT reltuples \
+FROM pg_class \
+WHERE \
+    relkind='r' \
+    AND relname = $1"
 
-#define PGSQL_GET_TABLE_CHILD_COUNT "SELECT COUNT(i.inhrelid) FROM pg_inherits i WHERE i.inhparent = '%s'::regclass"
+#define PGSQL_GET_TABLE_CHILD_COUNT "\
+SELECT \
+    COUNT(i.inhrelid) \
+FROM pg_inherits i \
+WHERE i.inhparent = $1::regclass"
 
-#define PGSQL_GET_CHILDREN_SIZE     "SELECT (SUM(c.relpages) * 8192) FROM pg_inherits i JOIN pg_class c ON inhrelid = c.oid WHERE i.inhparent = '%s'::regclass"
+#define PGSQL_GET_CHILDREN_SIZE "\
+SELECT \
+    (SUM(c.relpages::bigint) * 8192) \
+FROM pg_inherits i \
+JOIN pg_class c ON inhrelid = c.oid \
+WHERE i.inhparent = $1::regclass"
 
-#define PGSQL_GET_CHILDREN_ROWS     "SELECT SUM(c.reltuples) FROM pg_inherits i JOIN pg_class c ON inhrelid = c.oid WHERE i.inhparent = '%s'::regclass"
+#define PGSQL_GET_CHILDREN_ROWS     "\
+SELECT \
+    SUM(c.reltuples) \
+FROM pg_inherits i \
+JOIN pg_class c ON inhrelid = c.oid \
+WHERE i.inhparent = $1::regclass"
 
 /*
  * Custom key pg.table.discovery
@@ -150,10 +181,7 @@ int    PG_TABLE_CHILDREN_DISCOVERY(AGENT_REQUEST *request, AGENT_RESULT *result)
 {
     int         ret = SYSINFO_RET_FAIL;                             // Request result code
     const char  *__function_name = "PG_TABLE_CHILDREN_DISCOVERY";   // Function name for log file
-    
     char        *tablename = NULL;
-    
-    char        query[MAX_STRING_LEN];
     
     zabbix_log(LOG_LEVEL_DEBUG, "In %s()", __function_name);
     
@@ -164,10 +192,7 @@ int    PG_TABLE_CHILDREN_DISCOVERY(AGENT_REQUEST *request, AGENT_RESULT *result)
         goto out;
     }
     
-    // Build query
-    zbx_snprintf(query, sizeof(query), PGSQL_DISCOVER_TABLE_CHILDREN, tablename);
-    
-    ret = pg_get_discovery(request, result, query, NULL);
+    ret = pg_get_discovery(request, result, PGSQL_DISCOVER_TABLE_CHILDREN, param_new(tablename));
 
 out:
     zabbix_log(LOG_LEVEL_DEBUG, "End of %s()", __function_name);
@@ -205,7 +230,7 @@ int    PG_STAT_ALL_TABLES(AGENT_REQUEST *request, AGENT_RESULT *result)
     if(strisnull(tablename)) {
         zbx_snprintf(query, sizeof(query), PGSQL_GET_TABLE_STAT_SUM, field);
     } else {
-        zbx_snprintf(query, sizeof(query), PGSQL_GET_TABLE_STAT, field, tablename);
+        zbx_snprintf(query, sizeof(query), PGSQL_GET_TABLE_STAT, field);
     }
     
     // Set result
@@ -216,10 +241,10 @@ int    PG_STAT_ALL_TABLES(AGENT_REQUEST *request, AGENT_RESULT *result)
             goto out;
         }
     
-        ret = pg_get_string(request, result, query, NULL);
+        ret = pg_get_string(request, result, query, param_new(tablename));
     }
     else {
-        ret = pg_get_int(request, result, query, NULL);
+        ret = pg_get_int(request, result, query, param_new(tablename));
     }
     
 out:
@@ -259,9 +284,9 @@ int    PG_STATIO_ALL_TABLES(AGENT_REQUEST *request, AGENT_RESULT *result)
     if(NULL == tablename || '\0' == *tablename)
         zbx_snprintf(query, sizeof(query), PGSQL_GET_TABLE_STATIO_SUM, field);
     else
-        zbx_snprintf(query, sizeof(query), PGSQL_GET_TABLE_STATIO, field, tablename);
+        zbx_snprintf(query, sizeof(query), PGSQL_GET_TABLE_STATIO, field);
 
-    ret = pg_get_int(request, result, query, NULL);
+    ret = pg_get_int(request, result, query, param_new(tablename));
     
     zabbix_log(LOG_LEVEL_DEBUG, "End of %s()", __function_name);
     return ret;
@@ -290,8 +315,8 @@ int    PG_TABLE_SIZE(AGENT_REQUEST *request, AGENT_RESULT *result)
     int         ret = SYSINFO_RET_FAIL;             // Request result code
     const char  *__function_name = "PG_TABLE_SIZE"; // Function name for log file
         
-    char        query[MAX_STRING_LEN];
-    char        *tablename = NULL; //, *include = NULL;
+    char        *query = NULL;
+    char        *tablename = NULL;
             
     zabbix_log(LOG_LEVEL_DEBUG, "In %s()", __function_name);
     
@@ -299,12 +324,12 @@ int    PG_TABLE_SIZE(AGENT_REQUEST *request, AGENT_RESULT *result)
     tablename = get_rparam(request, PARAM_FIRST);
     
     // Build query
-    if(NULL == tablename || '\0' == *tablename)
-        zbx_snprintf(query, sizeof(query), PGSQL_GET_TABLE_SIZE_SUM);
+    if(strisnull(tablename))
+        query = PGSQL_GET_TABLE_SIZE_SUM;
     else
-        zbx_snprintf(query, sizeof(query), PGSQL_GET_TABLE_SIZE, tablename);
+        query = PGSQL_GET_TABLE_SIZE;
 
-    ret = pg_get_int(request, result, query, NULL);
+    ret = pg_get_int(request, result, query, param_new(tablename));
     
     zabbix_log(LOG_LEVEL_DEBUG, "End of %s()", __function_name);
     return ret;
@@ -327,22 +352,21 @@ int    PG_TABLE_SIZE(AGENT_REQUEST *request, AGENT_RESULT *result)
  */
 int    PG_TABLE_ROWS(AGENT_REQUEST *request, AGENT_RESULT *result)
 {
-    int             ret = SYSINFO_RET_FAIL;             // Request result code
-    const char          *__function_name = "PG_TABLE_ROWS"; // Function name for log file
+    int         ret = SYSINFO_RET_FAIL;             // Request result code
+    const char  *__function_name = "PG_TABLE_ROWS"; // Function name for log file
         
-    char                *tablename = NULL;
-    char        query[MAX_STRING_LEN];
+    char        *tablename = NULL;
+    char        *query = NULL;
     
     zabbix_log(LOG_LEVEL_DEBUG, "In %s()", __function_name);
     
     tablename = get_rparam(request, PARAM_FIRST);
-    
-    if(NULL == tablename || '\0' == *tablename)
-        zbx_snprintf(query, sizeof(query), PGSQL_GET_TABLE_ROWS_SUM);
+    if(strisnull(tablename))
+        query = PGSQL_GET_TABLE_ROWS_SUM;
     else
-        zbx_snprintf(query, sizeof(query), PGSQL_GET_TABLE_ROWS, tablename);
+        query = PGSQL_GET_TABLE_ROWS;
 
-    ret = pg_get_int(request, result, query, NULL);
+    ret = pg_get_int(request, result, query, param_new(tablename));
     
     zabbix_log(LOG_LEVEL_DEBUG, "End of %s()", __function_name);
     return ret;
@@ -362,23 +386,21 @@ int    PG_TABLE_ROWS(AGENT_REQUEST *request, AGENT_RESULT *result)
  */
 int    PG_TABLE_CHILDREN(AGENT_REQUEST *request, AGENT_RESULT *result)
 {
-    int             ret = SYSINFO_RET_FAIL;                 // Request result code
-    const char          *__function_name = "PG_TABLE_CHILDREN";     // Function name for log file
+    int         ret = SYSINFO_RET_FAIL;                 // Request result code
+    const char  *__function_name = "PG_TABLE_CHILDREN"; // Function name for log file
         
-    char                *tablename = NULL;
+    char        *tablename = NULL;
     char        query[MAX_STRING_LEN];
     
     zabbix_log(LOG_LEVEL_DEBUG, "In %s()", __function_name);
     
     tablename = get_rparam(request, PARAM_FIRST);
-    if(NULL == tablename || '\0' == *tablename) {
+    if(strisnull(tablename)) {
         zabbix_log(LOG_LEVEL_ERR, "Invalid parameter count in %s(). Please specify a table name.", __function_name);
         goto out;
     }
-    else
-        zbx_snprintf(query, sizeof(query), PGSQL_GET_TABLE_CHILD_COUNT, tablename);
 
-    ret = pg_get_int(request, result, query, NULL);
+    ret = pg_get_int(request, result, PGSQL_GET_TABLE_CHILD_COUNT, param_new(tablename));
     
 out:
     zabbix_log(LOG_LEVEL_DEBUG, "End of %s()", __function_name);
@@ -403,7 +425,6 @@ int    PG_TABLE_CHILDREN_SIZE(AGENT_REQUEST *request, AGENT_RESULT *result)
     const char    *__function_name = "PG_TABLE_CHILDREN_SIZE";    // Function name for log file
         
     char          *tablename = NULL;
-    char          query[MAX_STRING_LEN];
     
     zabbix_log(LOG_LEVEL_DEBUG, "In %s()", __function_name);
     
@@ -412,10 +433,8 @@ int    PG_TABLE_CHILDREN_SIZE(AGENT_REQUEST *request, AGENT_RESULT *result)
         zabbix_log(LOG_LEVEL_ERR, "Invalid parameter count in %s(). Please specify a table name.", __function_name);
         goto out;
     }
-    else
-        zbx_snprintf(query, sizeof(query), PGSQL_GET_CHILDREN_SIZE, tablename);
 
-    ret = pg_get_int(request, result, query, NULL);
+    ret = pg_get_int(request, result, PGSQL_GET_CHILDREN_SIZE, param_new(tablename));
     
 out:
     zabbix_log(LOG_LEVEL_DEBUG, "End of %s()", __function_name);
@@ -423,9 +442,9 @@ out:
 }
 
 /*
- * Custom key pg.table.children.tuples
+ * Custom key pg.table.children.rows
  *
- * Returns the sum size in bytes of all tables that inherit from the specified table
+ * Returns the sum estimated row count of all tables that inherit from the specified table
  *
  * Parameters:
  *   0:  connection string
@@ -434,25 +453,21 @@ out:
  *
  * Returns: u
  */
-int    PG_TABLE_CHILDREN_TUPLES(AGENT_REQUEST *request, AGENT_RESULT *result)
+int    PG_TABLE_CHILDREN_ROWS(AGENT_REQUEST *request, AGENT_RESULT *result)
 {
-    int             ret = SYSINFO_RET_FAIL;                 // Request result code
-    const char          *__function_name = "PG_TABLE_CHILDREN_TUPLES";  // Function name for log file
-        
-    char                *tablename = NULL;
-    char        query[MAX_STRING_LEN];
-    
+    int         ret = SYSINFO_RET_FAIL;                         // Request result code
+    const char  *__function_name = "PG_TABLE_CHILDREN_TUPLES";  // Function name for log file    
+    char        *tablename = NULL;
+
     zabbix_log(LOG_LEVEL_DEBUG, "In %s()", __function_name);
     
     tablename = get_rparam(request, PARAM_FIRST);
-    if(NULL == tablename || '\0' == *tablename) {
+    if(strisnull(tablename)) {
         zabbix_log(LOG_LEVEL_ERR, "Invalid parameter count in %s(). Please specify a table name.", __function_name);
         goto out;
     }
-    else
-        zbx_snprintf(query, sizeof(query), PGSQL_GET_CHILDREN_ROWS, tablename);
 
-    ret = pg_get_int(request, result, query, NULL);
+    ret = pg_get_int(request, result, PGSQL_GET_CHILDREN_ROWS, param_new(tablename));
     
 out:
     zabbix_log(LOG_LEVEL_DEBUG, "End of %s()", __function_name);

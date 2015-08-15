@@ -74,6 +74,9 @@ static ZBX_METRIC keys[] =
     {"pg.db.size",                  CF_HAVEPARAMS,  PG_DB_SIZE,                     NULL},
     {"pg.table.size",               CF_HAVEPARAMS,  PG_TABLE_SIZE,                  NULL},
     {"pg.table.rows",               CF_HAVEPARAMS,  PG_TABLE_ROWS,                  NULL},
+    {"pg.table.children",           CF_HAVEPARAMS,  PG_TABLE_CHILDREN,              ",,pg_database"},
+    {"pg.table.children.size",      CF_HAVEPARAMS,  PG_TABLE_CHILDREN_SIZE,         ",,pg_database"},
+    {"pg.table.children.rows",      CF_HAVEPARAMS,  PG_TABLE_CHILDREN_ROWS,         ",,pg_database"},
     {"pg.index.size",               CF_HAVEPARAMS,  PG_INDEX_SIZE,                  NULL},
     {"pg.index.rows",               CF_HAVEPARAMS,  PG_INDEX_ROWS,                  NULL},
     {"pg.tablespace.size",          CF_HAVEPARAMS,  PG_TABLESPACE_SIZE,             ",,pg_default"},
@@ -98,11 +101,6 @@ static ZBX_METRIC keys[] =
     {"pg.db.blk_read_time",         CF_HAVEPARAMS,  PG_STAT_DATABASE,               NULL},
     {"pg.db.blk_write_time",        CF_HAVEPARAMS,  PG_STAT_DATABASE,               NULL},
     {"pg.db.stats_reset",           CF_HAVEPARAMS,  PG_STAT_DATABASE,               ",,postgres,,,"},
-    
-    // Table partition info
-    {"pg.table.children",           CF_HAVEPARAMS,  PG_TABLE_CHILDREN,              ",,pg_database"},
-    {"pg.table.children.size",      CF_HAVEPARAMS,  PG_TABLE_CHILDREN_SIZE,         ",,pg_database"},
-    {"pg.table.children.tuples",    CF_HAVEPARAMS,  PG_TABLE_CHILDREN_TUPLES,       ",,pg_database"},
     
     // Table statistics (as per pg_stat_all_tables)
     {"pg.table.seq_scan",           CF_HAVEPARAMS,  PG_STAT_ALL_TABLES,             NULL},
@@ -444,12 +442,12 @@ out:
     
     // Execute a query
     res = pg_exec(conn, query, params);
-
     if(PQresultStatus(res) != PGRES_TUPLES_OK) {
         zabbix_log(LOG_LEVEL_ERR, "Failed to execute PostgreSQL query in %s(%s) with: %s", __function_name, request->key, PQresultErrorMessage(res));
         goto out;
     }
 
+    // count rows and columns
     rows = PQntuples(res);
     columns = PQnfields(res);
     
@@ -461,7 +459,7 @@ out:
     for(i = 0; i < rows; i++) {
         zbx_json_addobject(&j, NULL);
         
-        // add each fields as a discovery field
+        // add each row field as a discovery field
         for(x = 0; x < columns; x++) {
             // set discovery key name to uppercase column name
             zbx_snprintf(buffer, sizeof(buffer), "{#%s}", PQfname(res, x));

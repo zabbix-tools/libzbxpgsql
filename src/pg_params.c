@@ -37,8 +37,8 @@ char **param_append(PGparams params, char *s)
 {
     int len = 0;
 
-    // never append nulls
-    if(NULL == s)
+    // never append nulls or empty strings
+    if(NULL == s || '\0' == *s)
         return params;
 
     // allocate new array

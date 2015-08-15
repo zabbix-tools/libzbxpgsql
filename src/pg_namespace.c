@@ -21,9 +21,10 @@
 
 #define PGSQL_DISCOVER_NAMESPACES   "\
 SELECT  \
-  n.oid as oid, \
+  n.oid AS oid, \
+  n.nspname AS schema, \
   n.nspname AS namespace, \
-  current_database() as database, \
+  current_database() AS database, \
   pg_catalog.pg_get_userbyid(n.nspowner) AS owner, \
   pg_catalog.obj_description(n.oid, 'pg_namespace') AS description \
 FROM pg_catalog.pg_namespace n \
@@ -32,7 +33,11 @@ WHERE  \
   AND n.nspname <> 'information_schema' \
 ORDER BY namespace;"
 
-#define PGSQL_GET_NS_SIZE           "SELECT sum(pg_relation_size(quote_ident(schemaname) || '.' || quote_ident(tablename)))::bigint FROM pg_tables WHERE schemaname = '%s'"
+#define PGSQL_GET_NS_SIZE           "\
+SELECT \
+  SUM(pg_relation_size(quote_ident(schemaname) || '.' || quote_ident(tablename)))::bigint \
+FROM pg_tables \
+WHERE schemaname = $1"
 
 /*
  * Custom key pg.namespace.discovery
@@ -79,10 +84,8 @@ int    PG_NAMESPACE_DISCOVERY(AGENT_REQUEST *request, AGENT_RESULT *result)
  */
 int    PG_NAMESPACE_SIZE(AGENT_REQUEST *request, AGENT_RESULT *result)
 {
-    int             ret = SYSINFO_RET_FAIL;             // Request result code
-    const char          *__function_name = "PG_NAMESPACE_SIZE"; // Function name for log file
-        
-    char        query[MAX_STRING_LEN];
+    int         ret = SYSINFO_RET_FAIL;                 // Request result code
+    const char  *__function_name = "PG_NAMESPACE_SIZE"; // Function name for log file
     char        *schema = NULL;
             
     zabbix_log(LOG_LEVEL_DEBUG, "In %s()", __function_name);
@@ -91,14 +94,12 @@ int    PG_NAMESPACE_SIZE(AGENT_REQUEST *request, AGENT_RESULT *result)
     schema = get_rparam(request, PARAM_FIRST);
     
     // Build query  
-    if(NULL == schema || '\0' == *schema) {
-    zabbix_log(LOG_LEVEL_ERR, "No schema name specified in %s()", __function_name);
-    goto out;
+    if(strisnull(schema)) {
+      zabbix_log(LOG_LEVEL_ERR, "No schema name specified in %s()", __function_name);
+      goto out;
     }
-    else
-    zbx_snprintf(query, sizeof(query), PGSQL_GET_NS_SIZE, schema);
 
-    ret = pg_get_int(request, result, query, NULL);
+    ret = pg_get_int(request, result, PGSQL_GET_NS_SIZE, param_new(schema));
 
 out:
 
