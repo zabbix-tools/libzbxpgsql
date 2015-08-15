@@ -31,11 +31,6 @@ SELECT \
     , short_desc AS description \
     , context AS context \
     , vartype AS vartype \
-    , source AS source \
-    , boot_val AS bootval \
-    , reset_val AS resetval \
-    , sourcefile AS sourcefile \
-    , sourceline AS sourceline \
 FROM pg_settings;"
 
 #define PGSQL_GET_SETTING		     "SELECT setting,vartype FROM pg_settings WHERE name=$1;"
@@ -58,12 +53,7 @@ FROM pg_settings;"
  *                        "{#CATEGORY}":"File locations|Autovacuum|etc.",
  *                        "{#DESCRIPTION}":"Sets the server's main configuration file.",
  *                        "{#CONTEXT}":"postmaster|sighup|etc.",
- *                        "{#VARTYPE}":"bool|string|integer|enum|real",
- *                        "{#SOURCE}":"default|session|override|etc.",
- *                        "{#BOOTVAL}":"default",
- *                        "{#RESETVAL}":"default",
- *                        "{#SOURCEFILE}":"/var/lib/pgsql/9.4/data/postgresql.conf",
- *                        "{#SOURCELINE}":"123"}]}
+ *                        "{#VARTYPE}":"bool|string|integer|enum|real"]}
  */
 int    PG_SETTING_DISCOVERY(AGENT_REQUEST *request, AGENT_RESULT *result)
 {
