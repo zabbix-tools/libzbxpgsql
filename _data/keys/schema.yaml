@@ -1,0 +1,45 @@
+---
+
+- key: pg.schema.discovery
+  description: >
+    Returns a JSON array of all known PostgreSQL schemata (A.K.A namespaces)
+    that are defined in the connected database
+  type: Discovery
+  macros: 
+    - macro: "{#OID}"
+      description: Namespace unique identifier
+    - macro: "{#NAMESPACE}"
+      description: Namespace name
+    - macro: "{#DATABASE}"
+      description: Parent database of the schema
+    - macro: "{#OWNER}"
+      description: Owner name
+    - macro: "{#DESCRIPTION}"
+      description: Namespace description
+  source: >
+    SELECT
+      n.oid AS oid,
+      n.nspname AS namespace,
+      current_database() AS database,
+      pg_catalog.pg_get_userbyid(n.nspowner) AS owner,
+      pg_catalog.obj_description(n.oid, 'pg_namespace') AS description
+    FROM pg_catalog.pg_namespace n
+    WHERE
+      n.nspname !~ '^pg_'
+      AND n.nspname <> 'information_schema'
+    ORDER BY namespace;
+
+
+- key: pg.schema.size
+  description: Returns the size in bytes of a PostgreSQL Namespace
+  type: Numeric (unsigned)
+  parameters:
+    - parameter: schema
+      description: The name or OID of the desired schema (required)
+  units: B
+  source: >
+
+    SELECT
+      sum(pg_relation_size(quote_ident(schemaname) || '.' || quote_ident(tablename)))::bigint
+    FROM pg_tables
+    WHERE schemaname = $1

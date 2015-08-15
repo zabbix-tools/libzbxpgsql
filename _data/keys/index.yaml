@@ -1,47 +1,49 @@
 ---
 - key: pg.index.discovery
-  description: Discover all Indexes visible to the configured user account.
-
+  description: >
+    Returns a JSON array of all known PostgreSQL indexes in the connected database
   type: Discovery
+  parameters:
+    - parameter: schema
+      description: filter by parent schema
+    - parameter: table
+      description: filter by parent table
+  example: pg.index.discovery[,my_db,public,my_table]
   macros: 
     - macro: "{#OID}"
       description: Index unique identifier
-
     - macro: "{#INDEX}"
       description: Index name
-
     - macro: "{#TABLE}`"
       description: Parent table of the index
-
     - macro: "{#DATABASE}"
       description: Parent database of the index
-
     - macro: "{#SCHEMA}"
       description: Parent namespace of the index
-
     - macro: "{#OWNER}"
       description: Owner name
-
     - macro: "{#ACCESS}"
       description: Index access method (e.g. `btree`, `hash`, `gin`, etc.)
-
   source: >
-
     SELECT
-        ic.oid
-        , ic.relname
-        , current_database()
-        , n.nspname
-        , t.relname
-        , a.rolname
-        , m.amname
+      ic.oid AS oid
+      , ic.relname AS index
+      , current_database() AS database
+      , n.nspname AS schema
+      , t.relname AS table
+      , a.rolname AS owner
+      , m.amname AS access
     FROM pg_index i
     JOIN pg_class ic ON ic.oid = i.indexrelid
     JOIN pg_namespace n ON n.oid = ic.relnamespace
-    JOIN pg_authid a ON a.oid = ic.relowner
+    JOIN pg_roles a ON a.oid = ic.relowner
     JOIN pg_class t ON t.oid = i.indrelid
-    JOIN pg_am m ON m.oid = ic.relam;
-
+    JOIN pg_am m ON m.oid = ic.relam
+    WHERE
+      n.nspname <> 'pg_catalog'
+      AND n.nspname <> 'information_schema'
+      AND n.nspname !~ '^pg_toast'
+      AND ...
 
 - key: pg.index.size
   description: Returns the size in bytes of a PostgreSQL Index

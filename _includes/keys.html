@@ -7,7 +7,7 @@
 
 
 {% for key in include.keys %}
-<h3 id="{{ key.key | slugify }}">{{ key.key }}</h3>
+<h3 id="{{ key.key | slugify }}">{{ key.key }}{% if key.require %}&nbsp;<span class="version-badge">v{{ key.require }}+{% endif %}</span></h3>
 {% if key.description %}<p>{{ key.description | markdownify }}</p>{% endif %}
 
 <!-- Key type -->
@@ -25,11 +25,16 @@
 {% endif %}
 
 <!-- Key parameters -->
-{% if key.parameters %}
 <p>
 	<em>Parameters:</em>
 </p>
-<ol start="6" class="params">
+<ol class="params">
+	<li>
+		<code>connection string</code>&nbsp;-&nbsp;libpq compatible keyword/value connection string
+	</li>
+	<li>
+		<code>connection database</code>&nbsp;-&nbsp;connection database (default: username from connection string)
+	</li>
 	{% for param in key.parameters %}
 	<li>
 		<code>{{ param.parameter }}</code>&nbsp;-&nbsp;{{ param.description  }}
@@ -45,7 +50,6 @@
 	</li>
 	{% endfor %}
 </ol>
-{% endif %}
 
 <!-- Discovery key macros -->
 {% if key.macros %}
@@ -69,7 +73,7 @@
 <!-- Key source -->
 {% if key.source %}
 <p><em>Source:</em></p>
-	{% highlight sql linenos %}
+	{% highlight sql %}
 	{{ key.source }}
 	{% endhighlight %}
 {% endif %}

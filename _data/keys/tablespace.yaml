@@ -1,26 +1,30 @@
 ---
 - key: pg.tablespace.discovery
-  description: Discover all Tablespaces visible to the configured user account.
+  description: >
+    Returns a JSON array of all known tablespaces that are configured on the
+    connected PostgreSQL server
   type: Discovery
   macros:
     - macro: "{#OID}"
       description: Tablespace unique identifier
-
     - macro: "{#TABLESPACE}"
       description: Tablespace name
-
     - macro: "{#OWNER}"
-      description: Owner name
+      description: Owner of the tablespace, usually the user who created it
+    - macro: "{#LOCATION}"
+      description: Location (directory path) of the tablespace (only on v9.2+)
+    - macro: "{#DESCRIPTION}"
+      description: Tablespace description
 
   source: >
-
     SELECT
-      t.oid
-      , t.spcname
-      , a.rolname
-    FROM pg_tablespace t
-    JOIN pg_authid a ON a.oid = t.spcowner
-
+      t.oid AS oid
+      , t.spcname AS tablespace
+      , pg_catalog.pg_get_userbyid(spcowner) AS owner
+      , pg_catalog.pg_tablespace_location(oid) AS location
+      , pg_catalog.shobj_description(oid, 'pg_tablespace') AS description
+    FROM pg_catalog.pg_tablespace t
+    ORDER BY t.spcname;
 
 - key: pg.tablespace.size
   description: Returns the size in bytes of a PostgreSQL Tablespace

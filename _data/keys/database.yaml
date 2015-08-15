@@ -1,7 +1,44 @@
 ---
 - key: pg.db.discovery
-  description: Returns a JSON array of all known PostgreSQL databases which are available for connection
+  description: >
+    Returns a JSON array of all known PostgreSQL databases which are available
+    for connection by the authenticated user
   type: Discovery
+  source: >
+    SELECT
+      d.oid AS oid,
+      d.datname AS database,
+      pg_catalog.pg_encoding_to_char(d.encoding) AS encoding,
+      d.datcollate AS lc_collate,
+      d.datctype AS lc_ctype,
+      pg_catalog.pg_get_userbyid(d.datdba) AS owner,
+      t.spcname AS tablespace,
+      pg_catalog.shobj_description(d.oid, 'pg_database') AS description
+    FROM pg_catalog.pg_database d
+        JOIN pg_catalog.pg_tablespace t ON d.dattablespace = t.oid
+    WHERE
+        d.datallowconn = 't'
+        AND d.datistemplate = 'n'
+    ORDER BY 1;
+  macros:
+    - macro: "{#OID}"
+      description: Database unique identifier
+    - macro: "{#DATABASE}"
+      description: >
+        Database name (this macro should be used as the second parameter in all
+        created item prototypes for this discovery rule)
+    - macro: "{#ENCODING}"
+      description: Character encoding for this database
+    - macro: "{#LC_COLLATE}"
+      description: LC_COLLATE for this database
+    - macro: "{#LC_CTYPE}"
+      description: LC_CTYPE for this database
+    - macro: "{#OWNER}"
+      description: Owner of the database, usually the user who created it
+    - macro: "{#TABLESPACE}"
+      description: The default tablespace for the database
+    - macro: "{#DESCRIPTION}"
+      description: Database description
 
 - key: pg.db.size
   description: Returns the size in bytes of a PostgreSQL database
@@ -52,29 +89,35 @@
 - key: pg.db.conflicts
   description: Returns the number of queries canceled due to conflicts with recovery in this database. (Conflicts occur only on standby servers; see pg_stat_database_conflicts for details.)
   type: Numeric (unsigned)
+  require: 9.1
 
 - key: pg.db.temp_files
   description: Returns the number of temporary files created by queries in this database. All temporary files are counted, regardless of why the temporary file was created (e.g., sorting or hashing), and regardless of the log_temp_files setting.
   type: Numeric (unsigned)
+  require: 9.2
 
 - key: pg.db.temp_bytes
   description: Returns the total amount of data written to temporary files by queries in this database. All temporary files are counted, regardless of why the temporary file was created, and regardless of the log_temp_files setting.
   type: Numeric (unsigned)
   units: Bytes
+  require: 9.2
 
 - key: pg.db.deadlocks
   description: Returns the number of deadlocks detected in this database
   type: Numeric (unsigned)
+  require: 9.2
 
 - key: pg.db.blk_read_time
   description: Returns the time spent reading data file blocks by backends in this database, in milliseconds
   type: Numeric (unsigned)
   units: Milliseconds
+  require: 9.2
 
 - key: pg.db.blk_write_time
   description: Returns the time spent writing data file blocks by backends in this database, in milliseconds
   type: Numeric (unsigned)
   units: Milliseconds
+  require: 9.2
 
 - key: pg.db.stats_reset
   description: Returns the time at which these statistics were last reset

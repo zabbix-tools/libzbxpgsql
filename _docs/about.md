@@ -77,5 +77,3 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 * [PostgreSQL Statistics Collector](http://www.postgresql.org/docs/9.4/static/monitoring-stats.html)
 
 * [libpq - C Library](http://www.postgresql.org/docs/9.4/static/libpq.html)
-
-* [Vagrant](https://www.vagrantup.com/)

@@ -1,36 +1,39 @@
 ---
+- key: pg.query.discovery
+  description: >
+    Execute a custom SQL query and return a discovery instance for each
+    returned row, with columns mapped to discovery macros.
+  parameters:
+    - parameter: query
+      description: The dataset SQL query to execute
+  example: pg.query.discovery[,,SELECT * from pg_database;]
+
 - key: pg.query.string
-  description: Execute a custom SQL query and return the value of the first column of the first row as a string of text.
+  description: >
+    Execute a custom SQL query and return the value of the first column of the
+    first row as a string of text.
   type: Text
   parameters:
     - parameter: query
       description: The scalar SQL query to execute
-
-  example: >
-
-    `pg.query.string[pg-server,5432,postgres,postgres,P4ssw0rd,SELECT 'Lorem ipsem dolor';]`
-
+  example: pg.query.string[,,SELECT 'Lorem ipsem dolor';]
 
 - key: pg.query.integer
-  description: Execute a custom SQL query and return the value of the first column of the first row as an unsigned integer.
+  description: > 
+    Execute a custom SQL query and return the value of the first column of the
+    first row as an unsigned integer.
   type: Numeric (unsigned)
   parameters:
     - parameter: query
       description: The scalar SQL query to execute
-
-  example: >
-
-    `pg.query.integer[pg-server,5432,postgres,postgres,P4ssw0rd,SELECT 1234;]`
-
+  example: pg.query.integer[,,SELECT 1234;]
 
 - key: pg.query.double
-  description: Execute a custom SQL query and return the value of the first column of the first row as a double precision floating point integer.
+  description: >
+    Execute a custom SQL query and return the value of the first column of the
+    first row as a double precision floating point integer.
   type: Numeric (float)
   parameters:
     - parameter: query
       description: The scalar SQL query to execute
-
-  example: >
-
-    `pg.query.double[pg-server,5432,postgres,postgres,P4ssw0rd,SELECT 12.34;]`
-
+  example: pg.query.double[,,SELECT 12.34;]

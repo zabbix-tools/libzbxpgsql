@@ -1,13 +1,17 @@
 ---
+- key: pg.modver
+  description: Returns the version string of the loaded `libzbxpgsql` module
+  type: Text
+
 - key: pg.connect
   description: >
     Monitor the availability of a PostgreSQL server. Returns 1 if the Zabbix Agent
-    can connect to the specified PostgreSQL instance.
+    can connect to a PostgreSQL database with the specified connection string.
   type: Numeric (Unsigned)
   value-map: 
     0: Failure
     1: Success
-  example: pg.connect[pg-server,5432,my-db,pg-monitor,p4ssw0rD]
+  example: pg.connect[host=pg-server port=5432 connect_timeout=10,zabbix]
 
 - key: pg.version
   description: >
@@ -15,40 +19,66 @@
   type: Text
   source: SELECT version();
 
+- key: pg.starttime
+  description: >
+    Returns the UTC timestamp that the PostgreSQL server process started
+  type: Text
+  source: SELECT pg_postmaster_start_time();
+
+- key: pg.uptime
+  description: >
+    Returns the number of seconds since the PostgreSQL server process started
+  type: Numeric (Unsigned)
+  source: SELECT EXTRACT(EPOCH FROM NOW()) - EXTRACT(EPOCH FROM pg_postmaster_start_time());
+
+- key: pg.setting.discovery
+  description: >
+    Returns a JSON array of all known settings available for monitoring
+  type: Discovery
+  macros:
+    - macro: "{#SETTING}"
+      description: Run-time configuration parameter name
+    - macro: "{#UNIT}"
+      description: Implicit unit of the parameter
+    - macro: "{#CATEGORY}"
+      description: A brief description of the parameter
+    - macro: "{#CONTEXT}"
+      description: Context required to set the parameter's value
+    - macro: "{#VARTYPE}"
+      description: Parameter type (`bool`, `enum`, `integer`, `real`, or `string`)
+  source: >
+    SELECT
+      name AS setting
+      , unit AS unit
+      , category AS category
+      , short_desc AS description
+      , context AS context
+      , vartype AS vartype
+    FROM pg_settings;
+
 - key: pg.setting
   description: >
     Returns the value of the specified run-time configuration setting. This key is
-    useful for gathering configuration information such as the PostgreSQL data
-    directory, maximum threshold, log file locations, etc.
-
-    For a definitive list of settings and their descriptions, execute:
-    {% highlight sql linenos %}
-    SELECT * FROM pg_settings;
-    {% endhighlight %}
+    useful for validating and monitoring changes to configuration items such as
+    the PostgreSQL data directory, share buffers, log file locations, etc.
 
     For more information, see [pg_setting](http://www.postgresql.org/docs/9.4/static/view-pg-settings.html).
-
   type: pg_settings.vartype
-
   parameters: 
     - parameter: setting
       description: the name of the setting to return
-
-  source: SELECT setting,vartype FROM pg_settings WHERE...
-  example: pg.setting[pg-server,,,db-monitor,,data_directory]
+  source: SELECT setting,vartype FROM pg_settings WHERE ...
+  example: pg.setting[,,data_directory]
 
 - key: pg.backends.count
   description: Returns the number of active backend processes for remote connections.
   type: Numeric (unsigned)
   parameters: 
     - parameter: database
-      description: database name or OID
+      description: database name or OID (may be different to the connected database)
 
     - parameter: user
       description: user name or OID
-
-    - parameter: application
-      description: application name
 
     - parameter: client
       description: client hostname or IP address
@@ -63,43 +93,16 @@
         - option: default
           description: no filtering based on waiting status
 
-    - parameter: state
-      description: overall state of the backend
-      options:
-        - option: active
-          description: the backend is executing a query
-
-        - option: idle
-          description: the backend is waiting for a new client command
-
-        - option: idle in transaction
-          description: the backend is in a transaction, but is not currently executing a query
-
-        - option: idle in transaction (aborted)
-          description: this state is similar to idle in transaction, except one of the statements in the transaction caused an error
-
-        - option: fastpath function call
-          description: the backend is executing a fast-path function
-
-        - option: disabled
-          description: this state is reported if track_activities is disabled in this backend
-
-    - parameter: query
-      description: the query being executed on the backend
-
-  source: SELECT COUNT(pid) FROM pg_stat_activity WHERE...
-
-  example: >
-    Count Active backends for `myapp` running as `dbuser`, connected to
-    `mydb` from `::1`)
-
-        pg.backends.count[,,,,,mydb,dbuser,myapp,::1,,active]
-
+  source: SELECT COUNT(datid) FROM pg_stat_activity WHERE...
+  example: pg.backends.count[,,mydb,dbuser,myapp,::1,,active]
 
 - key: pg.queries.longest
-  description: Returns the duration of the longest running currently active query.
+  description: >
+    Returns the duration of the longest running, currently active query in
+    seconds.
   type: Numeric (float)
   units: Seconds
+  require: 9.2
   source: >
     SELECT
       EXTRACT(EPOCH FROM NOW()) - EXTRACT(EPOCH FROM query_start) AS duration
@@ -111,56 +114,60 @@
 - key: pg.checkpoints_timed
   description: Returns the number of scheduled checkpoints that have been performed
   type: Numeric (unsigned)
-  source: SELECT checkpoints_timed FROM pg_stat_bgwriter WHERE ...
+  source: SELECT checkpoints_timed FROM pg_stat_bgwriter
 
 - key: pg.checkpoints_req
   description: Returns the number of requested checkpoints that have been performed
   type: Numeric (unsigned)
-  source: SELECT checkpoints_req FROM pg_stat_bgwriter WHERE ...
+  source: SELECT checkpoints_req FROM pg_stat_bgwriter
 
 - key: pg.checkpoint_write_time
   description: Returns the total amount of time that has been spent in the portion of checkpoint processing where files are written to disk, in milliseconds
   type: Numeric (float)
   units: Milliseconds
-  source: SELECT checkpoint_write_time FROM pg_stat_bgwriter WHERE ...
+  require: 9.2
+  source: SELECT checkpoint_write_time FROM pg_stat_bgwriter
 
 - key: pg.checkpoint_sync_time
   description: Returns the total amount of time that has been spent in the portion of checkpoint processing where files are synchronized to disk, in milliseconds
   type: Numeric (float)
   units: Milliseconds
-  source: SELECT checkpoint_sync_time FROM pg_stat_bgwriter WHERE ...
+  require: 9.2
+  source: SELECT checkpoint_sync_time FROM pg_stat_bgwriter
 
 - key: pg.buffers_checkpoint
   description: Returns the Number of buffers written during checkpoints
   type: Numeric (unsigned)
-  source: SELECT buffers_checkpoint FROM pg_stat_bgwriter WHERE ...
+  source: SELECT buffers_checkpoint FROM pg_stat_bgwriter
 
 - key: pg.buffers_clean
   description: Returns the number of buffers written by the background writer
   type: Numeric (unsigned)
-  source: SELECT buffers_clean FROM pg_stat_bgwriter WHERE ...
+  source: SELECT buffers_clean FROM pg_stat_bgwriter
 
 - key: pg.maxwritten_clean
   description: Returns the number of times the background writer stopped a cleaning scan because it had written too many buffers
   type: Numeric (unsigned)
-  source: SELECT maxwritten_clean FROM pg_stat_bgwriter WHERE ...
+  source: SELECT maxwritten_clean FROM pg_stat_bgwriter
 
 - key: pg.buffers_backend
   description: Returns the number of buffers written directly by a backend
   type: Numeric (unsigned)
-  source: SELECT buffers_backend FROM pg_stat_bgwriter WHERE ...
+  source: SELECT buffers_backend FROM pg_stat_bgwriter
 
 - key: pg.buffers_backend_fsync
   description: Returns the number of times a backend had to execute its own fsync call (normally the background writer handles those even when the backend does its own write)
   type: Numeric (unsigned)
-  source: SELECT buffers_backend_fsync FROM pg_stat_bgwriter WHERE ...
+  source: SELECT buffers_backend_fsync FROM pg_stat_bgwriter
+  require: 9.1
 
 - key: pg.buffers_alloc
   description: Returns the number of buffers allocated
   type: Numeric (unsigned)
-  source: SELECT buffers_alloc FROM pg_stat_bgwriter WHERE ...
+  source: SELECT buffers_alloc FROM pg_stat_bgwriter
 
 - key: pg.stats_reset
   description: Returns the time at which these statistics were last reset
   type: Text
-  source: SELECT stats_reset FROM pg_stat_bgwriter WHERE ...
+  source: SELECT stats_reset FROM pg_stat_bgwriter
+  require: 9.1

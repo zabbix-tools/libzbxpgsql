@@ -1,34 +1,83 @@
 ---
 - key: pg.table.discovery
-  description: Returns a JSON array of all known PostgreSQL tables in the current database
+  description: >
+    Returns a JSON array of all known PostgreSQL tables in the currently
+    connected database
   type: Discovery
+  source: >
+    SELECT
+      c.oid AS oid
+      , current_database() AS database
+      , n.nspname AS schema
+      , CASE c.reltablespace
+          WHEN 0 THEN (SELECT ds.spcname FROM pg_tablespace ds JOIN pg_database d ON d.dattablespace = ds.oid WHERE d.datname = current_database())
+          ELSE (SELECT spcname FROM pg_tablespace WHERE oid = c.reltablespace)
+          END AS tablespace
+      , c.relname AS table
+      ,t.typname AS type
+      , pg_catalog.pg_get_userbyid(c.relowner) AS owner
+      , (SELECT COUNT(inhparent) FROM pg_inherits WHERE inhrelid = c.oid) AS issubclass
+      , pg_catalog.obj_description(c.oid, 'pg_class') AS description
+    FROM pg_class c
+    JOIN pg_namespace n ON c.relnamespace = n.oid
+    JOIN pg_type t ON c.reltype = t.oid
+    WHERE
+        c.relkind='r'
+        AND n.nspname <> 'pg_catalog'
+        AND n.nspname <> 'information_schema'
+        AND n.nspname !~ '^pg_toast'
+    ORDER BY c.relname
+
   macros: 
     - macro: "{#OID}"
       description: Table unique identifier
-
-    - macro: "{#TABLE}`"
+    - macro: "{#TABLE}"
       description: Table name
-
     - macro: "{#DATABASE}"
       description: Parent database of the table
-
     - macro: "{#SCHEMA}"
-      description: Parent namespace of the table
-
+      description: Parent schema of the table
     - macro: "{#TABLESPACE}"
       description: Parent tablespace of the table
-
     - macro: "{#TYPE}"
       description: Table type
-
     - macro: "{#OWNER}"
       description: Owner name
-
-    - macro: "{#PERSISTENCE}"
-      description: Persistence of the table (`permenant`, `unlogged` or `temporary`)
-
     - macro: "{#ISSUBCLASS}"
       description: Non-zero if the table inherits from other tables
+    - macro: "{#DESCRIPTION}"
+      description: Table description
+
+- key: pg.table.children.discovery
+  description: >
+    Returns a JSON array of all known PostgreSQL tables in the currently
+    connected database which inherit from the specified parent table.
+
+    Commonly useful when table partitioning is implemented.
+  type: Discovery
+  parameters:
+    - parameter: table
+      description: Parent table name
+  source: >
+    SELECT
+      c.oid AS oid
+      , c.relname AS table
+      , n.nspname AS schema
+    FROM pg_inherits i
+    JOIN pg_class c ON i.inhrelid = c.oid
+    JOIN pg_namespace n ON c.relnamespace = n.oid
+    WHERE i.inhparent = '%s'::regclass
+
+  example: pg.table.children.discovery[,,my_table]
+  macros:
+    - macro: "{#OID}"
+      description: Child table unique identifier
+    - macro: "{#TABLE}"
+      description: Child table name
+    - macro: "{#DATABASE}"
+      description: Parent database of the child table
+    - macro: "{#SCHEMA}"
+      description: Parent schema of the child table
 
 - key: pg.table.size
   description: Returns the size in bytes of a PostgreSQL table
@@ -149,6 +198,7 @@
 - key: pg.table.vacuum_count
   description: Returns the number of times this table has been manually vacuumed (not counting VACUUM FULL)
   type: Numeric (unsigned)
+  require: 9.1
   parameters:
     - parameter: table
       description: the table to assess
@@ -156,6 +206,7 @@
 - key: pg.table.autovacuum_count
   description: Returns the number of times this table has been vacuumed by the autovacuum daemon
   type: Numeric (unsigned)
+  require: 9.1
   parameters:
     - parameter: table
       description: the table to assess
@@ -163,6 +214,7 @@
 - key: pg.table.analyze_count
   description: Returns the number of times this table has been manually analyzed
   type: Numeric (unsigned)
+  require: 9.1
   parameters:
     - parameter: table
       description: the table to assess
@@ -170,6 +222,7 @@
 - key: pg.table.autoanalyze_count
   description: Returns the number of times this table has been analyzed by the autovacuum daemon
   type: Numeric (unsigned)
+  require: 9.1
   parameters:
     - parameter: table
       description: the table to assess
