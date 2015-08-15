@@ -40,9 +40,16 @@ pg.buffers_backend[{%PGCONN},{%PGDATABASE}]
 pg.buffers_alloc[{%PGCONN},{%PGDATABASE}]
 # pg.stats_reset[{%PGCONN},{%PGDATABASE}]
 
+# tablespace discovery
+pg.tablespace.discovery[{%PGCONN},{%PGDATABASE}]
+    pg.tablespace.size[{%PGCONN},{%PGDATABASE},{#TABLESPACE}]
+
+# database general
+pg.db.size[{%PGCONN},{%PGDATABASE}]
+
 # database discovery
 pg.db.discovery[{%PGCONN},postgres]
-	pg.db.size[{%PGCONN},postgres,{#DATABASE}]
+    pg.db.size[{%PGCONN},postgres,{#DATABASE}]
     pg.db.numbackends[{%PGCONN},postgres,{#DATABASE}]
     pg.db.xact_commit[{%PGCONN},postgres,{#DATABASE}]
     pg.db.xact_rollback[{%PGCONN},postgres,{#DATABASE}]
@@ -61,11 +68,19 @@ pg.db.discovery[{%PGCONN},postgres]
     # pg.db.blk_write_time[{%PGCONN},postgres,{#DATABASE}]
     # pg.db.stats_reset[{%PGCONN},postgres,{#DATABASE}]
 
+# schema discovery
+pg.schema.discovery[{%PGCONN},postgres]
+    pg.schema.size[{%PGCONN},{#DATABASE},{#SCHEMA}]
+
 # table discovery
 pg.table.discovery[{%PGCONN},postgres]
+    pg.table.size[{%PGCONN},{#DATABASE},{#TABLE}]
+    pg.table.rows[{%PGCONN},{#DATABASE},{#TABLE}]
+
+    pg.table.children.discovery[{%PGCONN},{#DATABASE},{#TABLE}]
     pg.table.children[{%PGCONN},{#DATABASE},{#TABLE}]
     pg.table.children.size[{%PGCONN},{#DATABASE},{#TABLE}]
-    pg.table.children.tuples[{%PGCONN},{#DATABASE},{#TABLE}]
+    pg.table.children.rows[{%PGCONN},{#DATABASE},{#TABLE}]
     
     pg.table.seq_scan[{%PGCONN},{#DATABASE},{#TABLE}]
     pg.table.seq_tup_read[{%PGCONN},{#DATABASE},{#TABLE}]
@@ -124,3 +139,10 @@ pg.table.tidx_blks_hit[{%PGCONN},postgres]
 pg.index.discovery[{%PGCONN},postgres]
     pg.index.size[{%PGCONN},{#DATABASE},{#INDEX}]
     pg.index.rows[{%PGCONN},{#DATABASE},{#INDEX}]
+    
+    pg.index.idx_scan[{%PGCONN},{#DATABASE},{#INDEX}]
+    pg.index.idx_tup_read[{%PGCONN},{#DATABASE},{#INDEX}]
+    pg.index.idx_tup_fetch[{%PGCONN},{#DATABASE},{#INDEX}]
+
+    pg.index.idx_blks_read[{%PGCONN},{#DATABASE},{#INDEX}]
+    pg.index.idx_blks_hit[{%PGCONN},{#DATABASE},{#INDEX}]
