@@ -74,25 +74,101 @@ populated by a discovery rule (and then the connection string modified by
 `libzbxpgsql`).
 
 
-## Security
+## Securing the connection
 
+__WARNING:__ Do not use `superadmin` or highly privileged accounts for
+monitoring.
+
+Consider that any user on your Zabbix server can use `pg.query.*` keys to
+execute any query they wish on a PostgreSQL server (such as `DROP DATABASE`)
+if the configured connection role is not suitably restricted.
+
+Configuing a role and HBA rules for secure operation is simple, and detailed
+in the following sections.
+
+### Monitoring role
 The agent module will require read permissions to the PostgreSQL server
 performance tables (i.e. `pg_stat*`) and any databases, tables, etc. you wish
-to monitor. An account should be configured for monitoring and should not have
-write access to any PostgreSQL assets.
+to monitor. A discrete role should be created for monitoring with limited
+privileges and should not have write access to any PostgreSQL resources.
 
-All Zabbix agent traffic is transmitted unencrypted so it recommended you do
-__NOT__ transmit connection passwords as parameters. 
+To create a role named `monitoring` with the required privileges, execute the
+following:
 
+{% highlight sql %}
+CREATE ROLE monitoring WITH LOGIN NOSUPERUSER NOCREATEDB NOCREATEROLE;
+{% endhighlight %}
+
+You can then connect as the `monitoring` account by passing it in your
+connection string item parameters. For example:
+
+    pg.connect[user=monitoring,postgres]
+
+With the privileges granted above, all module key should work except
+`pg.tablespace.size[,,pg_global]` and potentially any queries you custom define
+in the `pg.query.*` keys a these may require additional `CONNECT` or `SELECT`
+privileges.
+
+### Local monitoring agent
+
+If the Zabbix agent is running on the PostgreSQL server with `libzbxpgsql`
+configured, you can take advantage of Unix sockets connections and `ident`
+authentication which identifies the Zabbix agent using the identity of the
+process as reported by the operating system
+
+If the name of the monitoring role you created does not match the identity of
+the Zabbix agent running on the PostgreSQL server, you can use a mapping to
+allow the agent to impersonate the monitoring role.
+
+First, grant the monitoring role access to connect locally by adding the
+following to the __top__ of your `pg_hba.conf`:
+
+    # TYPE  DATABASE        USER            ADDRESS                 METHOD
+    local   all             monitoring                              ident map=monitoring
+
+Allow the Zabbix agent identity (typically `zabbix` or `root`) to connect as
+the monitoring role by adding the following to your `pg_indent.conf`:
+
+    # MAPNAME       SYSTEM-USERNAME         PG-USERNAME
+    monitoring      zabbix                  monitoring
+
+Configure Zabbix to use the `monitoring` role by specifying the `user` keyword
+in the first parameter of your item keys. E.g.
+
+    pg.connect[user=monitoring,postgres]
+
+### Remote monitoring agent
+
+The module can also monitor remote PostgreSQL servers without the need to
+install the agent on those servers directly. This is useful for vendor
+appliances or if using the module loaded directly from the Zabbix server.
+
+A number of [authentication methods](http://www.postgresql.org/docs/9.4/static/auth-methods.html)
+are a available. The simplest to configure is `md5` password authentication.
+
+First, allow the monitoring role to connect by adding the following __before__
+any `host` based access rules:
+
+    # TYPE  DATABASE        USER            ADDRESS                 METHOD
+    host    all             monitoring      127.0.0.1/32            md5
+
+Be sure to replace `127.0.0.1/32` with your agent's IP address. You can also
+limit which databases may be monitored by changing the seconds column from
+`all` to a list of valid databases.
+
+All Zabbix agent traffic is transmitted unencrypted (although optional in v3+)
+so it recommended you do __NOT__ transmit connection passwords as parameters.
 Instead, use a [.pgpass](http://www.postgresql.org/docs/9.4/static/libpq-pgpass.html)
-file or allow trusted connections for the PostgreSQL monitoring account you
-created. Ideally the trusted connection should only be allowed for the agent IP
-address and is configurable in your [pg_hba.conf](http://www.postgresql.org/docs/9.4/static/auth-pg-hba-conf.html)
-file.
+file, located in the home directory of the Zabbix agent process (E.g.
+`/var/lib/zabbix/.pgpass`). To store the password for the `monitoring` role,
+appending the following to the password file:
 
-If you *must* use a password for connection authentication, also consider who
-will have visibility of the password in Zabbix, as it will appear everywhere
-the item key appears, such as trigger and event logs, host configuration, etc.
+    # hostname:port:database:username:password
+    *:*:*:monitoring:Password123
+
+*Note:* The password file should have an access mask of 0600 and can be set with
+
+    chmod 0600 .pgpass
 
 
 ## Testing

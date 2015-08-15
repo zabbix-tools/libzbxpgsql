@@ -7,7 +7,11 @@
 
 
 {% for key in include.keys %}
-<h3 id="{{ key.key | slugify }}">{{ key.key }}{% if key.require %}&nbsp;<span class="version-badge" title="Requires PostgreSQL server v{{ key.require }} or above">v{{ key.require }}+{% endif %}</span></h3>
+<h3 id="{{ key.key | slugify }}">
+	{{ key.key }}
+	{% if key.require %}&nbsp;<span class="badge badge-version" title="Requires PostgreSQL server v{{ key.require }} or above">v{{ key.require }}+</span>{% endif %}
+	{% if key.superuser %}&nbsp;<span class="badge badge-superuser" title="Requires superuser privilege">superuser</span>{% endif %}
+</h3>
 {% if key.description %}<p>{{ key.description | markdownify }}</p>{% endif %}
 
 <!-- Key type -->
