@@ -54,7 +54,7 @@ JOIN pg_namespace n ON c.relnamespace = n.oid \
 WHERE i.inhparent = $1::regclass"
 
 #define PGSQL_GET_TABLE_STAT_SUM    "\
-SELECT SUM(%s) FROM pg_stat_all_tables \
+SELECT SUM(%s::bigint) FROM pg_stat_all_tables \
 WHERE \
     schemaname <> 'pg_catalog' \
     AND schemaname <> 'information_schema' \
@@ -65,7 +65,7 @@ WHERE \
 #define PGSQL_GET_TABLE_STATIO      "SELECT %s FROM pg_statio_all_tables WHERE relname = $1"
 
 #define PGSQL_GET_TABLE_STATIO_SUM  "\
-SELECT SUM(%s) FROM pg_statio_all_tables \
+SELECT SUM(%s::bigint) FROM pg_statio_all_tables \
 WHERE \
     schemaname <> 'pg_catalog' \
     AND schemaname <> 'information_schema' \
@@ -73,12 +73,13 @@ WHERE \
 
 #define PGSQL_GET_TABLE_SIZE "\
 SELECT \
-    (CAST(relpages AS bigint) * 8192) \
+    relpages::bigint * 8192 \
 FROM pg_class \
 WHERE relkind='r' AND relname = $1"
 
 #define PGSQL_GET_TABLE_SIZE_SUM "\
-SELECT (SUM(relpages) * 8192) \
+SELECT \
+    SUM(relpages::bigint) * 8192 \
 FROM pg_class t \
 JOIN pg_namespace n ON n.oid = t.relnamespace \
 WHERE \
@@ -88,7 +89,8 @@ WHERE \
     AND n.nspname !~ '^pg_toast'"
 
 #define PGSQL_GET_TABLE_ROWS_SUM "\
-SELECT SUM(reltuples::bigint) \
+SELECT \
+    SUM(reltuples::bigint) \
 FROM pg_class t \
 JOIN pg_namespace n ON n.oid = t.relnamespace \
 WHERE \
@@ -112,14 +114,14 @@ WHERE i.inhparent = $1::regclass"
 
 #define PGSQL_GET_CHILDREN_SIZE "\
 SELECT \
-    (SUM(c.relpages::bigint) * 8192) \
+    SUM(c.relpages::bigint) * 8192 \
 FROM pg_inherits i \
 JOIN pg_class c ON inhrelid = c.oid \
 WHERE i.inhparent = $1::regclass"
 
 #define PGSQL_GET_CHILDREN_ROWS     "\
 SELECT \
-    SUM(c.reltuples) \
+    SUM(c.reltuples::bigint) \
 FROM pg_inherits i \
 JOIN pg_class c ON inhrelid = c.oid \
 WHERE i.inhparent = $1::regclass"

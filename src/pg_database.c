@@ -38,11 +38,11 @@ ORDER BY 1;"
 
 #define PGSQL_GET_DB_STAT   "SELECT %s FROM pg_stat_database WHERE datname = $1"
 
-#define PGSQL_GET_DB_STAT_SUM   "SELECT SUM(%s) FROM pg_stat_database"
+#define PGSQL_GET_DB_STAT_SUM   "SELECT SUM(%s::bigint) FROM pg_stat_database"
 
 #define PGSQL_GET_DB_SIZE   "SELECT pg_catalog.pg_database_size(d.datname) FROM pg_catalog.pg_database d WHERE d.datname = $1"
 
-#define PGSQL_GET_DB_SIZE_SUM   "SELECT SUM(pg_catalog.pg_database_size(d.datname)) FROM pg_catalog.pg_database d"
+#define PGSQL_GET_DB_SIZE_SUM   "SELECT SUM(pg_catalog.pg_database_size(d.datname)::bigint) FROM pg_catalog.pg_database d"
 
 /*
  * Custom key pg.db.discovery

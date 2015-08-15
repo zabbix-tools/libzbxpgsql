@@ -40,7 +40,7 @@ WHERE \
     AND n.nspname !~ '^pg_toast'"
 
 #define PGSQL_GET_INDEX_STATIO_SUM    "\
-SELECT SUM(%s) FROM pg_statio_all_indexes \
+SELECT SUM(%s::bigint) FROM pg_statio_all_indexes \
 WHERE \
     schemaname !~ '^pg_toast' \
     AND schemaname <> 'pg_catalog' \

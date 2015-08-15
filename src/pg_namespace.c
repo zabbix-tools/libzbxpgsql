@@ -35,7 +35,7 @@ ORDER BY namespace;"
 
 #define PGSQL_GET_NS_SIZE           "\
 SELECT \
-  SUM(pg_relation_size(quote_ident(schemaname) || '.' || quote_ident(tablename)))::bigint \
+  SUM(pg_relation_size(quote_ident(schemaname) || '.' || quote_ident(tablename))::bigint) \
 FROM pg_tables \
 WHERE schemaname = $1"
 
