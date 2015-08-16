@@ -14,8 +14,9 @@
       </a>
 
       <div class="trigger">
+        <a class="page-link" href="https://sourceforge.net/projects/libzbxpgsl/files/">Download</a>
         {% for menu in site.data.menu %}
-          <a class="page-link" href="{{ menu.link | prepend: site.baseurl }}">{{ menu.title }}</a>
+        <a class="page-link" href="{{ menu.link | prepend: site.baseurl }}">{{ menu.title }}</a>
         {% endfor %}
       </div>
     </nav>
