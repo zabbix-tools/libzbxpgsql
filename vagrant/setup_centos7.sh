@@ -3,7 +3,7 @@ BULLET="==>"
 
 ZBX_MAJ=2
 ZBX_MIN=4
-ZBX_PATCH=5
+ZBX_PATCH=6
 ZBX_REL=1
 ZBX_VER="${ZBX_MAJ}.${ZBX_MIN}.${ZBX_PATCH}-${ZBX_REL}"
 
@@ -40,7 +40,7 @@ MOTD
 # Install Zabbix, PostgreSQL and build tools
 echo -e "${BULLET} Installing Zabbix, PostgreSQL and build tools..."
 rpm -qa | grep pgdg >/dev/null || yum localinstall -y --nogpgcheck http://yum.postgresql.org/9.4/redhat/rhel-6-x86_64/pgdg-centos94-9.4-1.noarch.rpm
-rpm -qa zabbix-release >/dev/null || yum localinstall -y --nogpgcheck http://repo.zabbix.com/zabbix/${ZBX_MAJ}.${ZBX_MIN}/rhel/7/x86_64/zabbix-release-${ZBX_MAJ}.${ZBX_MIN}-1.el7.noarch.rpm
+rpm -q zabbix-release >/dev/null || yum localinstall -y --nogpgcheck http://repo.zabbix.com/zabbix/${ZBX_MAJ}.${ZBX_MIN}/rhel/7/x86_64/zabbix-release-${ZBX_MAJ}.${ZBX_MIN}-1.el7.noarch.rpm
 yum install -y --nogpgcheck \
     make \
     gcc \
@@ -63,14 +63,9 @@ rpm -q zabbix_agent_bench >/dev/null || yum localinstall -y --nogpgcheck http://
 # Configure PostgreSQL
 echo -e "${BULLET} Configuring PostgreSQL server..."
 /usr/pgsql-9.4/bin/postgresql94-setup initdb
-cat > /var/lib/pgsql/9.4/data/pg_hba.conf <<EOL
-local   all             all                                     trust
-host    all             all             127.0.0.1/32            trust
-host    all             all             ::1/128                 trust
-EOL
 systemctl enable postgresql-9.4
 systemctl start postgresql-9.4
-export PATH=\$PATH:/usr/pgsql-9.4/bin
+export PATH=$PATH:/usr/pgsql-9.4/bin
 
 # Configure phpPgAdmin
 echo -e "${BULLET} Configuring phpPgAdmin web console..."
@@ -103,13 +98,13 @@ dbname="zabbix"
 dbuser="zabbix"
 dbpasswd="zabbix"
 dbschema="public"
-psql -At -U $dbuser -c "SELECT table_name FROM information_schema.tables WHERE table_name='hosts' AND table_schema='${dbschema}'" | grep '^hosts$' > /dev/null
+sudo -u postgres psql -At -c "SELECT table_name FROM information_schema.tables WHERE table_name='hosts' AND table_schema='${dbschema}'" | grep '^hosts$' > /dev/null
 if [[ $? ]]; then
-    psql -U postgres -c "CREATE ROLE \"${dbuser}\" WITH LOGIN PASSWORD '${dbpasswd}';"
-    psql -U postgres -c "CREATE DATABASE \"${dbname}\" WITH OWNER \"${dbuser}\" TEMPLATE \"template1\";"
-    psql -U $dbuser -d $dbname -f $pgscripts/schema.sql
-    psql -U $dbuser -d $dbname -f $pgscripts/images.sql
-    psql -U $dbuser -d $dbname -f $pgscripts/data.sql
+    sudo -u postgres psql -c "CREATE ROLE \"${dbuser}\" WITH LOGIN PASSWORD '${dbpasswd}';"
+    sudo -u postgres psql -c "CREATE DATABASE \"${dbname}\" WITH OWNER \"${dbuser}\" TEMPLATE \"template1\";"
+    sudo -u zabbix psql -d $dbname -f $pgscripts/schema.sql
+    sudo -u zabbix psql -d $dbname -f $pgscripts/images.sql
+    sudo -u zabbix psql -d $dbname -f $pgscripts/data.sql
 
     chkconfig zabbix-server on
     service zabbix-server start
