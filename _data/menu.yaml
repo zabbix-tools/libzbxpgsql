@@ -1,15 +1,15 @@
 ---
-- title: About
-  link: /
-
 - title: Keys
   link: /agent-keys
 
-- title: Installation
-  link: /installation
-
 - title: Template
   link: /template
+
+- title: Download
+  link: https://sourceforge.net/projects/libzbxpgsl/files/
+
+- title: Installation
+  link: /installation
 
 - title: Release notes
   link: /release-notes

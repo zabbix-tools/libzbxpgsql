@@ -68,7 +68,7 @@ The following installation methods are available:
 ## RPM Package
 
 RPM packages are made available for simpler installation on RHEL family systems
-such as RedHat, Fedora, CentOS, Scientific Linux, etc.
+such as RedHat, Fedora, CentOS, Scientific Linux, etc. and OpenSUSE/SLES.
 
 The packages require the installation of the Zabbix SIA provided agent RPM
 package, `zabbix-agent` and installs the `libzbxpgsql` module and configuration

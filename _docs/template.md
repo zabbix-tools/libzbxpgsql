@@ -71,9 +71,7 @@ The template includes configurable macros which should be configured on all
 hosts to which the template is applied. These macros are substituted into the
 connection parameters for all PostgreSQL item keys in the template.
 
-* `{$PG_HOST}`      - PostgreSQL server (Default: `localhost`)
-* `{$PG_PORT}`      - TCP Port for connection (Default: module default)
-* `{$PG_USER}`      - User account for authentication (Default: `postgres`)
-* `{$PG_PASSWD}`    - User password for authentication (Default: module default)
-* `{$PG_DB}`        - Database to connect to (Default: module default)
+* `{$PG_CONN}` - libpq compatible connection string
+* `{$PG_DB}`   - database to connect to (appended to the connection
+                 string as per [Connecting to PostgreSQL]({{ site.baseurl }}/agent-keys/#connecting-to-postgresql)
 
