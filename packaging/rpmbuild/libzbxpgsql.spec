@@ -13,8 +13,11 @@ Source0     : %{name}-%{version}.tar.gz
 
 Buildroot   : %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
+%if "%{_vendor}" == "redhat" || "%{_vendor}" == "suse"
 BuildRequires : libtool
 BuildRequires : postgresql-devel
+%endif
+# BuildRequires don't seem to work with rpmbuild on Ubuntu...
 
 # package dependencies
 Requires    : zabbix-agent >= 2.2.0
