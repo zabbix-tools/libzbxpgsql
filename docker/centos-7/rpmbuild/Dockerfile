@@ -13,5 +13,8 @@ RUN yum install -y \
 
 RUN mkdir -p /root/rpmbuild/{SPECS,RPMS,SRPMS,SOURCES} /root/libzbxpgsql
 
+COPY make_dist.sh /make_dist.sh
+
 COPY entrypoint.sh /entrypoint.sh
+
 CMD /entrypoint.sh

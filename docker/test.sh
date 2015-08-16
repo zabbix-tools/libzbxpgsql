@@ -1,9 +1,11 @@
 #!/bin/bash
-THREADS=8
-ARGS="-threads ${THREADS} -iterations 1 -strict"
-export PGHOST=192.168.59.103
-export PGUSER="postgres"
+ARGS="-threads 8 -iterations 1 -strict"
+PGHOST=192.168.59.103
+PGUSER="postgres"
 export PGDATABASE="postgres"
+
+# ensure zabbix_agent_bench is installed
+which zabbix_agent_bench >/dev/null || exit 1
 
 # test v8.4
 PGCONN="host=${PGHOST} user=${PGUSER} port=5484" \
