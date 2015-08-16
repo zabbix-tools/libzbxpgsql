@@ -13,7 +13,7 @@ Templates and/or Hosts in Zabbix.
 Agent item keys are broken up into the following categories:
 
 * [Server item keys]({{ site.baseurl }}/agent-keys/server/) - Monitor the
-  server and its processes
+  `postmaster` server and its processes
 * [Query item keys]({{ site.baseurl }}/agent-keys/queries/) - Execute custom
   queries
 * [Tablespace item keys]({{ site.baseurl }}/agent-keys/tablespaces/) - Discover and
@@ -27,7 +27,7 @@ Agent item keys are broken up into the following categories:
 * [Index item keys]({{ site.baseurl }}/agent-keys/indexes/) - Discover and
   monitor PostgreSQL Table indexes
 
-Most agent item keys are mapped directly to a PostgreSQL
+A number of agent item keys map directly to a PostgreSQL
 [Statistics Collector view](http://www.postgresql.org/docs/9.4/static/monitoring-stats.html)
 with the documentation copied loosely from the PostgreSQL manual with updates
 for context.
@@ -39,7 +39,7 @@ The first two parameters of all agent keys in `libzbxpgsql` specify the desired
 connection string and target database as follows:
 
 1. Connection string     (default: "")
-2. Connection satabase   (default: same as connection string user name)
+2. Connection database   (default: same as connection string user name)
 
 E.g. `pg.connect[<connection_string>,<database>]`
 
@@ -50,8 +50,8 @@ E.g. `pg.setting[<connection_string>,<database>,<setting>]`
 
 The connection string must be a valid libpq [keyword/value connection string](http://www.postgresql.org/docs/9.4/static/libpq-connect.html#LIBPQ-PARAMKEYWORDS)
 (connection URIs are not supported). The `dbname` parameter should be omitted
-and instead specified as the second parameter if it the desired database name
-differs from the connection user name.
+and instead specified as the second parameter if the desired database name
+differs from the connection user name which PostgreSQL uses by default.
 
 *Note:* It may seem counter intuitive to specify the connected database
 in a separate parameter to the connection string. Behind the scenes,
@@ -80,14 +80,15 @@ __WARNING:__ Do not use `superadmin` or highly privileged accounts for
 monitoring.
 
 Consider that any user on your Zabbix server can use `pg.query.*` keys to
-execute any query they wish on a PostgreSQL server (such as `DROP DATABASE`)
-if the configured connection role is not suitably restricted.
+execute any query they wish on a monitored PostgreSQL server (such as 
+`DROP DATABASE`) if the configured connection role is not suitably restricted.
 
 Configuing a role and HBA rules for secure operation is simple, and detailed
 in the following sections.
 
 ### Monitoring role
-The agent module will require read permissions to the PostgreSQL server
+
+The agent module will require read permissions on the PostgreSQL server
 performance tables (i.e. `pg_stat*`) and any databases, tables, etc. you wish
 to monitor. A discrete role should be created for monitoring with limited
 privileges and should not have write access to any PostgreSQL resources.
@@ -102,19 +103,19 @@ CREATE ROLE monitoring WITH LOGIN NOSUPERUSER NOCREATEDB NOCREATEROLE;
 You can then connect as the `monitoring` account by passing it in your
 connection string item parameters. For example:
 
-    pg.connect[user=monitoring,postgres]
+    pg.connect[host=10.1.2.3 user=monitoring,postgres]
 
-With the privileges granted above, all module key should work except
+With the privileges granted above, all module keys should work except
 `pg.tablespace.size[,,pg_global]` and potentially any queries you custom define
-in the `pg.query.*` keys a these may require additional `CONNECT` or `SELECT`
-privileges.
+in the `pg.query.*` keys that may require additional privileges such as
+`SELECT`.
 
 ### Local monitoring agent
 
 If the Zabbix agent is running on the PostgreSQL server with `libzbxpgsql`
 configured, you can take advantage of Unix sockets connections and `ident`
-authentication which identifies the Zabbix agent using the identity of the
-process as reported by the operating system
+(or `peer` in v9.1+) authentication which identifies the Zabbix agent using the
+identity of the process as reported by the operating system
 
 If the name of the monitoring role you created does not match the identity of
 the Zabbix agent running on the PostgreSQL server, you can use a mapping to
@@ -135,26 +136,27 @@ the monitoring role by adding the following to your `pg_indent.conf`:
 Configure Zabbix to use the `monitoring` role by specifying the `user` keyword
 in the first parameter of your item keys. E.g.
 
-    pg.connect[user=monitoring,postgres]
+    pg.connect[host=localhost user=monitoring,postgres]
 
 ### Remote monitoring agent
 
 The module can also monitor remote PostgreSQL servers without the need to
-install the agent on those servers directly. This is useful for vendor
-appliances or if using the module loaded directly from the Zabbix server.
+install the agent on those servers directly. This is useful for restrictive
+vendor appliances or if using the module loaded directly from the Zabbix
+server.
 
 A number of [authentication methods](http://www.postgresql.org/docs/9.4/static/auth-methods.html)
 are a available. The simplest to configure is `md5` password authentication.
 
 First, allow the monitoring role to connect by adding the following __before__
-any `host` based access rules:
+any `host` type access rules:
 
     # TYPE  DATABASE        USER            ADDRESS                 METHOD
-    host    all             monitoring      127.0.0.1/32            md5
+    host    all             monitoring      10.0.0.0/8              md5
 
-Be sure to replace `127.0.0.1/32` with your agent's IP address. You can also
-limit which databases may be monitored by changing the seconds column from
-`all` to a list of valid databases.
+Be sure to replace `10.0.0.0/8` with your agent's IP address or range. You can
+also limit which databases may be monitored by changing the seconds column from
+`all` to a comma separated list of valid databases.
 
 All Zabbix agent traffic is transmitted unencrypted (although optional in v3+)
 so it recommended you do __NOT__ transmit connection passwords as parameters.
@@ -170,6 +172,31 @@ appending the following to the password file:
 
     chmod 0600 .pgpass
 
+## Connection pooling
+
+Monitoring your PostgreSQL server will consume additional backend connections.
+While these connections are shortlived, and typically sparse (with each item
+check spread over the configured check intervals), it is good practice to
+implement connection pooling. This will minimize memory and semaphore
+identifiers consumed by connections for the monitoring agent.
+
+Rather than duplicate the efforts of more specialized projects and complicating
+item key configuration, connection pooling has not been built directly into
+`libzbxpgsql`. Instead we recommend:
+
+ * [PgBouncer](https://pgbouncer.github.io/) or
+ * [Pgpool](http://www.pgpool.net/)
+
+Please see the 
+[PostgreSQL wiki](https://wiki.postgresql.org/wiki/Replication,_Clustering,_and_Connection_Pooling#Connection_Pooling_and_Acceleration)
+for details on pooling.
+
+*NOTE:* If availability monitoring is your primary concern, connection pooling
+introduces the potential for false alerts if the pooling daemon fails, while
+your PostgreSQL services may still be available. You can mitigate this issue by
+using a separate connection string for your availability monitoring keys (e.g.
+`pg.connect`) which connects directly to PostgreSQL, bypassing the connection
+pooling daemon.
 
 ## Testing
 
@@ -177,3 +204,7 @@ To test all available items and see their default values, run the following on
 a [correctly configured]({{ site.baseurl }}/installation/) Zabbix agent:
 
     zabbix_agentd -p | grep '^pg\.'
+
+For more granular testing, key files are provided for
+[zabbix_agent_bench](https://github.com/cavaliercoder/zabbix_agent_bench) in
+the `fixtures/` subdirectory of the `libzbxpgsql` sources.

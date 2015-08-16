@@ -5,12 +5,12 @@ menu: About
 permalink: /
 ---
 
-libzbxpgsql (*Lib-Zabbix-PostgreSQL*) provides comprehensive monitoring of
-PostgreSQL servers using a natively compiled Zabbix agent module, written in C,
-with highly configurable item keys and a complimentary Template.
+libzbxpgsql (*Lib-Zabbix-PostgreSQL*) provides detailed and granular
+monitoring of PostgreSQL servers using a native Zabbix agent module, with
+highly configurable item keys and a complimentary monitoring Template.
 
 Native Zabbix agent modules are advantageous over User Parameters and scripts
-in that no process forking, code interpreter or external dependencies are
+in that no process forking, code interpreter or complex configuration are
 required. This significantly reduces the impact of monitoring on the agent
 system, particularly when monitoring hundreds or thousands of checks.
 
@@ -21,17 +21,17 @@ system, particularly when monitoring hundreds or thousands of checks.
 * Execute custom queries specific to your applications
 * Significant performance benefit over `UserParameter` scripts
 * No `UserParameter` declarations required
-* No external dependencies (such as PostgreSQL client tools)
-* Simple installation or bundling with your agent packages
+* Requires PostgreSQL libs and no other dependencies
+* Simple installation or bundling with your custom agent packages
 * Detailed documentation
-* Comprehensive PostgreSQL monitoring Template included
+* Useful graphs and triggers
 
 ![Zabbix Screen example]({{ site.baseurl }}/assets/screen.png)
 
 ## Compatibility
 
-All monitoring keys are confirmed to work with PostgreSQL v8.4 to 9.4 except
-where otherwise noted.
+All items keys are tested and confirmed to work with PostgreSQL v8.4 to 9.4
+except where otherwise noted.
 
 The agent module is confirmed to work with Zabbix agent v2.2+ on various
 Linux based operating systems including RedHat, CentOS, openSUSE and Ubuntu.

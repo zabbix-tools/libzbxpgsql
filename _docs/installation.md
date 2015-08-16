@@ -30,9 +30,10 @@ The following installation methods are available:
 ## From source
 
 * Download and install the [libpq development headers](http://www.postgresql.org/download/)
-  (`postgresql-devel` package on RHEL family servers)
+  (`postgresql-devel` package on RHEL family servers or `libpq` on Debian family servers)
 
-* Download the latest `libzbxpgsql` source tarball from [SourceForge](https://sourceforge.net/projects/libzbxpgsl/files/sources/)
+* Download the latest `libzbxpgsql` source tarball from
+  [SourceForge](https://sourceforge.net/projects/libzbxpgsl/files/sources/)
 
 * Extract, configure and compile the sources with:
   
@@ -42,7 +43,8 @@ The following installation methods are available:
 
   The module will be installed to `/usr/local/lib/libzbxpgsql.so`
 
-* Copy or link the module into your Zabbix agent [LoadModulePath](https://www.zabbix.com/documentation/2.4/manual/appendix/config/zabbix_agentd?s[]=loadmodulepath)
+* Copy or link the module into your Zabbix agent
+  [LoadModulePath](https://www.zabbix.com/documentation/2.4/manual/appendix/config/zabbix_agentd?s[]=loadmodulepath)
   directory (typically `/usr/lib/modules` or `/usr/lib64/modules`)
 
       sudo mkdir /usr/lib64/modules
@@ -68,14 +70,17 @@ RPM packages are made available for simpler installation on RHEL family systems
 such as RedHat, Fedora, CentOS, Scientific Linux, etc.
 
 The packages require the installation of the Zabbix SIA provided agent RPM
-package, `zabbix-agent` and install the `libzbxpgsql` module and configuration
+package, `zabbix-agent` and installs the `libzbxpgsql` module and configuration
 in the default directories used by the Zabbix agent packages.
 
 See [Zabbix - Installation from packages](https://www.zabbix.com/documentation/2.4/manual/installation/install_from_packages).
 
-* Download the latest `libzbxpgsql` RPM package for your distribution from [SourceForge](https://sourceforge.net/projects/libzbxpgsl/files/rpms/)
+* Install PostgreSQL client libraries with: `yum install postgresql-libs`
 
-* Install using RPM with: `rpm -i libzbxpgsql-*.rpm`
+* Download the latest `libzbxpgsql` RPM package for your distribution from
+  [SourceForge](https://sourceforge.net/projects/libzbxpgsl/files/rpms/)
+
+* Install using `rpm` with: `rpm -i libzbxpgsql-*.rpm`
 
 * The module will be installed to:
  
@@ -106,7 +111,10 @@ in the default directories used by the Zabbix agent packages.
 
 See [Zabbix - Installation from packages](https://www.zabbix.com/documentation/2.4/manual/installation/install_from_packages).
 
-* Download the latest `libzbxpgsql` Deb package for your distribution from [SourceForge](https://sourceforge.net/projects/libzbxpgsl/files/debs/)
+* Install PostgreSQL client libraries with: `apt-get install libpq`
+
+* Download the latest `libzbxpgsql` Deb package for your distribution from
+  [SourceForge](https://sourceforge.net/projects/libzbxpgsl/files/debs/)
 
 * Install using `dpkg` with: `dpkg -i libzbxpgsql-*.deb`
 

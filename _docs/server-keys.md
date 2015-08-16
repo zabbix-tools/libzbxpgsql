@@ -4,7 +4,8 @@ title: Server keys
 permalink: /agent-keys/server/
 ---
 
-Theses items collect data representing the PostgreSQL service itself, rather
-than individual assets such as databases and tablespaces.
+The agent item keys described in this document allow you to monitor the
+PostgreSQL server processes using
+[statistics collector views](http://www.postgresql.org/docs/9.4/static/monitoring-stats.html).
 
 {% include keys.html keys=site.data.keys.server %}
