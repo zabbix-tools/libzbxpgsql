@@ -202,19 +202,16 @@ int         zbx_module_init() {
     PGconn      *conn = NULL;
     char        *param_connstring = NULL, *param_dbname = NULL;
     char        connstring[MAX_STRING_LEN], *c = NULL;
-    int         param_connstring_len = 0, param_dbname_len = 0, connstring_len = 0;;
 
     zabbix_log(LOG_LEVEL_DEBUG, "In %s()", __function_name);
     
     // get connection string from first parameter
     param_connstring = get_rparam(request, PARAM_CONN_STRING);
     param_connstring = (NULL == param_connstring) ? DEFAULT_CONN_STRING : param_connstring;
-    param_connstring_len = strlen(param_connstring);
 
     // get database name from second parameter
     param_dbname = get_rparam(request, PARAM_DBNAME);
     param_dbname = (NULL == param_dbname) ? DEFAULT_CONN_DBNAME : param_dbname;
-    param_dbname_len = strisnull(param_dbname) ? 0 : strlen(param_dbname);
 
     // create buffer to concat connection string and database name
     zbx_strlcpy(connstring, param_connstring, sizeof(connstring));
@@ -431,7 +428,7 @@ out:
     PGresult    *res = NULL;
     struct      zbx_json j;                             // JSON response for discovery rule
     int         i = 0, x = 0, columns = 0, rows = 0;
-    char        *colname = NULL, *c = NULL;
+    char        *c = NULL;
     char        buffer[MAX_STRING_LEN];
     
     zabbix_log(LOG_LEVEL_DEBUG, "In %s(%s)", __function_name, request->key);

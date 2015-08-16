@@ -390,9 +390,7 @@ int    PG_TABLE_CHILDREN(AGENT_REQUEST *request, AGENT_RESULT *result)
 {
     int         ret = SYSINFO_RET_FAIL;                 // Request result code
     const char  *__function_name = "PG_TABLE_CHILDREN"; // Function name for log file
-        
     char        *tablename = NULL;
-    char        query[MAX_STRING_LEN];
     
     zabbix_log(LOG_LEVEL_DEBUG, "In %s()", __function_name);
     
