@@ -30,7 +30,8 @@ The following installation methods are available:
 ## From source
 
 * Download and install the [libpq development headers](http://www.postgresql.org/download/)
-  (`postgresql-devel` package on RHEL family servers or `libpq` on Debian family servers)
+  (`postgresql-devel` package on RHEL family servers or `libpq-dev` on Debian
+  family servers)
 
 * Download the latest `libzbxpgsql` source tarball from
   [SourceForge](https://sourceforge.net/projects/libzbxpgsl/files/sources/)
@@ -111,7 +112,7 @@ in the default directories used by the Zabbix agent packages.
 
 See [Zabbix - Installation from packages](https://www.zabbix.com/documentation/2.4/manual/installation/install_from_packages).
 
-* Install PostgreSQL client libraries with: `apt-get install libpq`
+* Install PostgreSQL client libraries with: `apt-get install libpq5`
 
 * Download the latest `libzbxpgsql` Deb package for your distribution from
   [SourceForge](https://sourceforge.net/projects/libzbxpgsl/files/debs/)

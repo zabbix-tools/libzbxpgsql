@@ -6,6 +6,8 @@
   parameters:
     - parameter: query
       description: The dataset SQL query to execute
+    - parameter: n...
+      description: query parameters
   example: pg.query.discovery[,,SELECT * from pg_database;]
 
 - key: pg.query.string
@@ -16,7 +18,9 @@
   parameters:
     - parameter: query
       description: The scalar SQL query to execute
-  example: pg.query.string[,,SELECT 'Lorem ipsem dolor';]
+    - parameter: n...
+      description: query parameters
+  example: pg.query.string[,,"SELECT $1::text \|\| $2::text;",hello,world]
 
 - key: pg.query.integer
   description: > 
@@ -26,7 +30,9 @@
   parameters:
     - parameter: query
       description: The scalar SQL query to execute
-  example: pg.query.integer[,,SELECT 1234;]
+    - parameter: n...
+      description: query parameters
+  example: pg.query.integer[,,"SELECT $1::int;",1234]
 
 - key: pg.query.double
   description: >
@@ -36,4 +42,6 @@
   parameters:
     - parameter: query
       description: The scalar SQL query to execute
-  example: pg.query.double[,,SELECT 12.34;]
+    - parameter: n...
+      description: query parameters
+  example: pg.query.double[,,"SELECT $1::decimal;",12.34]
