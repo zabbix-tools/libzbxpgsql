@@ -48,6 +48,19 @@ make || exit 1
 docker run ${DOCKER_ARGS} ${PACKAGE}/centos-6-zabbix-2.4 || exit 1
 
 #
+# CentOS 5
+#
+echo -e "${BULLET} Building CentOS 5 RPM"
+cd "${BASE}/centos-5/rpmbuild"
+make || exit 1
+docker run ${DOCKER_ARGS} ${PACKAGE}/centos-5-rpmbuild || exit 1
+
+echo -e "${BULLET} Testing CentOS 5 RPM with Zabbix 2.2"
+cd "${BASE}/centos-5/zabbix-2.2"
+make || exit 1
+docker run ${DOCKER_ARGS} ${PACKAGE}/centos-5-zabbix-2.2 || exit 1
+
+#
 # Ubuntu 12
 #
 echo -e "${BULLET} Building Ubuntu 12.04 deb package"

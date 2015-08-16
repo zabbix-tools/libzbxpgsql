@@ -1,14 +1,20 @@
 #!/bin/bash
+# copy files to /tmp
 cd /tmp
-cp -rvf /root/libzbxpgsql/* /tmp
+cp -rvf /root/${PACKAGE}/* /tmp
 
-# get package version from configure.ac 
-VERSION=$(grep AC_INIT configure.ac | grep -Eo '\[[0-9]+\.[0-9]+\.[0-9]+\]' | grep -Eo '[0-9.]+')
 ARCH=$(uname -m)
+RPMROOT=/usr/src/redhat
 
-./autogen.sh || exit 1
-make dist || exit 1
-cp -vf libzbxpgsql-${VERSION}.tar.gz /usr/src/redhat/SOURCES/ || exit 1
-cp packaging/rpmbuild/libzbxpgsql.spec /usr/src/redhat/SPECS/ || exit 1
-rpmbuild -ba /usr/src/redhat/SPECS/libzbxpgsql.spec || exit 1
-cp -vf /usr/src/redhat/RPMS/x86_64/libzbxpgsql-*.rpm /root/libzbxpgsql/ || exit 1
+# install rpmbuild sources
+cp -vf ${PACKAGE}-${VERSION}.tar.gz ${RPMROOT}/SOURCES/ || exit 1
+cp packaging/rpmbuild/${PACKAGE}.spec ${RPMROOT}/SPECS/ || exit 1
+
+# build
+rpmbuild -ba ${RPMROOT}/SPECS/${PACKAGE}.spec || exit 1
+
+# copy out of container
+cp -vf \
+	${RPMROOT}/RPMS/${ARCH}/${PACKAGE}-${VERSION}-1.${ARCH}.rpm \
+	/root/${PACKAGE}/${PACKAGE}-${VERSION}-1.el5.${ARCH}.rpm \
+	|| exit 1
