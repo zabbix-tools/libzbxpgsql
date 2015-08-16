@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>2.0</version>
-    <date>2015-03-18T08:29:47Z</date>
+    <date>2015-08-16T14:15:54Z</date>
     <groups>
         <group>
             <name>Templates</name>
@@ -59,20 +59,20 @@
             </applications>
             <items>
                 <item>
-                    <name>Backend fsync call executions</name>
+                    <name>Backend fsync call executions/sec</name>
                     <type>7</type>
                     <snmp_community/>
                     <multiplier>0</multiplier>
                     <snmp_oid/>
-                    <key>pg.buffers_backend_fsync[{$PG_HOST},{$PG_PORT},{$PG_DB},{$PG_USER},{$PG_PASSWD}]</key>
+                    <key>pg.buffers_backend_fsync[{$PG_CONN},{$PG_DB}]</key>
                     <delay>300</delay>
-                    <history>1</history>
-                    <trends>3650</trends>
+                    <history>90</history>
+                    <trends>365</trends>
                     <status>0</status>
                     <value_type>3</value_type>
                     <allowed_hosts/>
                     <units/>
-                    <delta>0</delta>
+                    <delta>1</delta>
                     <snmpv3_contextname/>
                     <snmpv3_securityname/>
                     <snmpv3_securitylevel>0</snmpv3_securitylevel>
@@ -107,7 +107,7 @@
                     <snmp_community/>
                     <multiplier>0</multiplier>
                     <snmp_oid/>
-                    <key>pg.backends.count[{$PG_HOST},{$PG_PORT},{$PG_DB},{$PG_USER},{$PG_PASSWD}]</key>
+                    <key>pg.backends.count[{$PG_CONN},{$PG_DB}]</key>
                     <delay>300</delay>
                     <history>90</history>
                     <trends>365</trends>
@@ -145,12 +145,12 @@
                     <logtimefmt/>
                 </item>
                 <item>
-                    <name>Backends connected (active)</name>
+                    <name>Buffers allocated/sec</name>
                     <type>7</type>
                     <snmp_community/>
                     <multiplier>0</multiplier>
                     <snmp_oid/>
-                    <key>pg.backends.count[{$PG_HOST},{$PG_PORT},{$PG_DB},{$PG_USER},{$PG_PASSWD},,,,,,active]</key>
+                    <key>pg.buffers_alloc[{$PG_CONN},{$PG_DB}]</key>
                     <delay>300</delay>
                     <history>90</history>
                     <trends>365</trends>
@@ -158,308 +158,7 @@
                     <value_type>3</value_type>
                     <allowed_hosts/>
                     <units/>
-                    <delta>0</delta>
-                    <snmpv3_contextname/>
-                    <snmpv3_securityname/>
-                    <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                    <snmpv3_authprotocol>0</snmpv3_authprotocol>
-                    <snmpv3_authpassphrase/>
-                    <snmpv3_privprotocol>0</snmpv3_privprotocol>
-                    <snmpv3_privpassphrase/>
-                    <formula>1</formula>
-                    <delay_flex/>
-                    <params/>
-                    <ipmi_sensor/>
-                    <data_type>0</data_type>
-                    <authtype>0</authtype>
-                    <username/>
-                    <password/>
-                    <publickey/>
-                    <privatekey/>
-                    <port/>
-                    <description>Returns the total number of backend connections currently executing a query.</description>
-                    <inventory_link>0</inventory_link>
-                    <applications>
-                        <application>
-                            <name>PostgreSQL Backend Connections</name>
-                        </application>
-                    </applications>
-                    <valuemap/>
-                    <logtimefmt/>
-                </item>
-                <item>
-                    <name>Backends connected (fastpath function call)</name>
-                    <type>7</type>
-                    <snmp_community/>
-                    <multiplier>0</multiplier>
-                    <snmp_oid/>
-                    <key>pg.backends.count[{$PG_HOST},{$PG_PORT},{$PG_DB},{$PG_USER},{$PG_PASSWD},,,,,,fastpath function call]</key>
-                    <delay>300</delay>
-                    <history>90</history>
-                    <trends>365</trends>
-                    <status>0</status>
-                    <value_type>3</value_type>
-                    <allowed_hosts/>
-                    <units/>
-                    <delta>0</delta>
-                    <snmpv3_contextname/>
-                    <snmpv3_securityname/>
-                    <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                    <snmpv3_authprotocol>0</snmpv3_authprotocol>
-                    <snmpv3_authpassphrase/>
-                    <snmpv3_privprotocol>0</snmpv3_privprotocol>
-                    <snmpv3_privpassphrase/>
-                    <formula>1</formula>
-                    <delay_flex/>
-                    <params/>
-                    <ipmi_sensor/>
-                    <data_type>0</data_type>
-                    <authtype>0</authtype>
-                    <username/>
-                    <password/>
-                    <publickey/>
-                    <privatekey/>
-                    <port/>
-                    <description>Returns the total number of backend connections currently executing a fast-path function.</description>
-                    <inventory_link>0</inventory_link>
-                    <applications>
-                        <application>
-                            <name>PostgreSQL Backend Connections</name>
-                        </application>
-                    </applications>
-                    <valuemap/>
-                    <logtimefmt/>
-                </item>
-                <item>
-                    <name>Backends connected (idle)</name>
-                    <type>7</type>
-                    <snmp_community/>
-                    <multiplier>0</multiplier>
-                    <snmp_oid/>
-                    <key>pg.backends.count[{$PG_HOST},{$PG_PORT},{$PG_DB},{$PG_USER},{$PG_PASSWD},,,,,,idle]</key>
-                    <delay>300</delay>
-                    <history>90</history>
-                    <trends>365</trends>
-                    <status>0</status>
-                    <value_type>3</value_type>
-                    <allowed_hosts/>
-                    <units/>
-                    <delta>0</delta>
-                    <snmpv3_contextname/>
-                    <snmpv3_securityname/>
-                    <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                    <snmpv3_authprotocol>0</snmpv3_authprotocol>
-                    <snmpv3_authpassphrase/>
-                    <snmpv3_privprotocol>0</snmpv3_privprotocol>
-                    <snmpv3_privpassphrase/>
-                    <formula>1</formula>
-                    <delay_flex/>
-                    <params/>
-                    <ipmi_sensor/>
-                    <data_type>0</data_type>
-                    <authtype>0</authtype>
-                    <username/>
-                    <password/>
-                    <publickey/>
-                    <privatekey/>
-                    <port/>
-                    <description>Returns the total number of backend connections currently waiting for a new client command</description>
-                    <inventory_link>0</inventory_link>
-                    <applications>
-                        <application>
-                            <name>PostgreSQL Backend Connections</name>
-                        </application>
-                    </applications>
-                    <valuemap/>
-                    <logtimefmt/>
-                </item>
-                <item>
-                    <name>Backends connected (idle in aborted transaction)</name>
-                    <type>7</type>
-                    <snmp_community/>
-                    <multiplier>0</multiplier>
-                    <snmp_oid/>
-                    <key>pg.backends.count[{$PG_HOST},{$PG_PORT},{$PG_DB},{$PG_USER},{$PG_PASSWD},,,,,,idle in transaction (aborted)]</key>
-                    <delay>300</delay>
-                    <history>90</history>
-                    <trends>365</trends>
-                    <status>0</status>
-                    <value_type>3</value_type>
-                    <allowed_hosts/>
-                    <units/>
-                    <delta>0</delta>
-                    <snmpv3_contextname/>
-                    <snmpv3_securityname/>
-                    <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                    <snmpv3_authprotocol>0</snmpv3_authprotocol>
-                    <snmpv3_authpassphrase/>
-                    <snmpv3_privprotocol>0</snmpv3_privprotocol>
-                    <snmpv3_privpassphrase/>
-                    <formula>1</formula>
-                    <delay_flex/>
-                    <params/>
-                    <ipmi_sensor/>
-                    <data_type>0</data_type>
-                    <authtype>0</authtype>
-                    <username/>
-                    <password/>
-                    <publickey/>
-                    <privatekey/>
-                    <port/>
-                    <description>Returns the total number of backend connections currently in a state is similar to idle in transaction, except one of the statements in the transaction caused an error.</description>
-                    <inventory_link>0</inventory_link>
-                    <applications>
-                        <application>
-                            <name>PostgreSQL Backend Connections</name>
-                        </application>
-                    </applications>
-                    <valuemap/>
-                    <logtimefmt/>
-                </item>
-                <item>
-                    <name>Backends connected (idle in transaction)</name>
-                    <type>7</type>
-                    <snmp_community/>
-                    <multiplier>0</multiplier>
-                    <snmp_oid/>
-                    <key>pg.backends.count[{$PG_HOST},{$PG_PORT},{$PG_DB},{$PG_USER},{$PG_PASSWD},,,,,,idle in transaction]</key>
-                    <delay>300</delay>
-                    <history>90</history>
-                    <trends>365</trends>
-                    <status>0</status>
-                    <value_type>3</value_type>
-                    <allowed_hosts/>
-                    <units/>
-                    <delta>0</delta>
-                    <snmpv3_contextname/>
-                    <snmpv3_securityname/>
-                    <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                    <snmpv3_authprotocol>0</snmpv3_authprotocol>
-                    <snmpv3_authpassphrase/>
-                    <snmpv3_privprotocol>0</snmpv3_privprotocol>
-                    <snmpv3_privpassphrase/>
-                    <formula>1</formula>
-                    <delay_flex/>
-                    <params/>
-                    <ipmi_sensor/>
-                    <data_type>0</data_type>
-                    <authtype>0</authtype>
-                    <username/>
-                    <password/>
-                    <publickey/>
-                    <privatekey/>
-                    <port/>
-                    <description>Returns the total number of backend connections currently in a transaction, but not currently executing a query.</description>
-                    <inventory_link>0</inventory_link>
-                    <applications>
-                        <application>
-                            <name>PostgreSQL Backend Connections</name>
-                        </application>
-                    </applications>
-                    <valuemap/>
-                    <logtimefmt/>
-                </item>
-                <item>
-                    <name>Backends connected (not waiting)</name>
-                    <type>7</type>
-                    <snmp_community/>
-                    <multiplier>0</multiplier>
-                    <snmp_oid/>
-                    <key>pg.backends.count[{$PG_HOST},{$PG_PORT},{$PG_DB},{$PG_USER},{$PG_PASSWD},,,,,false]</key>
-                    <delay>300</delay>
-                    <history>90</history>
-                    <trends>365</trends>
-                    <status>0</status>
-                    <value_type>3</value_type>
-                    <allowed_hosts/>
-                    <units/>
-                    <delta>0</delta>
-                    <snmpv3_contextname/>
-                    <snmpv3_securityname/>
-                    <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                    <snmpv3_authprotocol>0</snmpv3_authprotocol>
-                    <snmpv3_authpassphrase/>
-                    <snmpv3_privprotocol>0</snmpv3_privprotocol>
-                    <snmpv3_privpassphrase/>
-                    <formula>1</formula>
-                    <delay_flex/>
-                    <params/>
-                    <ipmi_sensor/>
-                    <data_type>0</data_type>
-                    <authtype>0</authtype>
-                    <username/>
-                    <password/>
-                    <publickey/>
-                    <privatekey/>
-                    <port/>
-                    <description>Returns the total number of backend connections not currently waiting for a lock.</description>
-                    <inventory_link>0</inventory_link>
-                    <applications>
-                        <application>
-                            <name>PostgreSQL Backend Connections</name>
-                        </application>
-                    </applications>
-                    <valuemap/>
-                    <logtimefmt/>
-                </item>
-                <item>
-                    <name>Backends connected (waiting)</name>
-                    <type>7</type>
-                    <snmp_community/>
-                    <multiplier>0</multiplier>
-                    <snmp_oid/>
-                    <key>pg.backends.count[{$PG_HOST},{$PG_PORT},{$PG_DB},{$PG_USER},{$PG_PASSWD},,,,,true]</key>
-                    <delay>300</delay>
-                    <history>90</history>
-                    <trends>365</trends>
-                    <status>0</status>
-                    <value_type>3</value_type>
-                    <allowed_hosts/>
-                    <units/>
-                    <delta>0</delta>
-                    <snmpv3_contextname/>
-                    <snmpv3_securityname/>
-                    <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                    <snmpv3_authprotocol>0</snmpv3_authprotocol>
-                    <snmpv3_authpassphrase/>
-                    <snmpv3_privprotocol>0</snmpv3_privprotocol>
-                    <snmpv3_privpassphrase/>
-                    <formula>1</formula>
-                    <delay_flex/>
-                    <params/>
-                    <ipmi_sensor/>
-                    <data_type>0</data_type>
-                    <authtype>0</authtype>
-                    <username/>
-                    <password/>
-                    <publickey/>
-                    <privatekey/>
-                    <port/>
-                    <description>Returns the total number of backend connections currently waiting for a lock.</description>
-                    <inventory_link>0</inventory_link>
-                    <applications>
-                        <application>
-                            <name>PostgreSQL Backend Connections</name>
-                        </application>
-                    </applications>
-                    <valuemap/>
-                    <logtimefmt/>
-                </item>
-                <item>
-                    <name>Buffers allocated</name>
-                    <type>7</type>
-                    <snmp_community/>
-                    <multiplier>0</multiplier>
-                    <snmp_oid/>
-                    <key>pg.buffers_alloc[{$PG_HOST},{$PG_PORT},{$PG_DB},{$PG_USER},{$PG_PASSWD}]</key>
-                    <delay>300</delay>
-                    <history>1</history>
-                    <trends>3650</trends>
-                    <status>0</status>
-                    <value_type>3</value_type>
-                    <allowed_hosts/>
-                    <units/>
-                    <delta>0</delta>
+                    <delta>1</delta>
                     <snmpv3_contextname/>
                     <snmpv3_securityname/>
                     <snmpv3_securitylevel>0</snmpv3_securitylevel>
@@ -489,20 +188,20 @@
                     <logtimefmt/>
                 </item>
                 <item>
-                    <name>Buffers written by the background writer</name>
+                    <name>Buffers written by the background writer/sec</name>
                     <type>7</type>
                     <snmp_community/>
                     <multiplier>0</multiplier>
                     <snmp_oid/>
-                    <key>pg.buffers_clean[{$PG_HOST},{$PG_PORT},{$PG_DB},{$PG_USER},{$PG_PASSWD}]</key>
+                    <key>pg.buffers_clean[{$PG_CONN},{$PG_DB}]</key>
                     <delay>300</delay>
-                    <history>1</history>
-                    <trends>3650</trends>
+                    <history>90</history>
+                    <trends>365</trends>
                     <status>0</status>
                     <value_type>3</value_type>
                     <allowed_hosts/>
                     <units/>
-                    <delta>0</delta>
+                    <delta>1</delta>
                     <snmpv3_contextname/>
                     <snmpv3_securityname/>
                     <snmpv3_securitylevel>0</snmpv3_securitylevel>
@@ -532,20 +231,20 @@
                     <logtimefmt/>
                 </item>
                 <item>
-                    <name>Buffers written directly by a backend</name>
+                    <name>Buffers written directly by a backend/sec</name>
                     <type>7</type>
                     <snmp_community/>
                     <multiplier>0</multiplier>
                     <snmp_oid/>
-                    <key>pg.buffers_backend[{$PG_HOST},{$PG_PORT},{$PG_DB},{$PG_USER},{$PG_PASSWD}]</key>
+                    <key>pg.buffers_backend[{$PG_CONN},{$PG_DB}]</key>
                     <delay>300</delay>
-                    <history>1</history>
-                    <trends>3650</trends>
+                    <history>90</history>
+                    <trends>365</trends>
                     <status>0</status>
                     <value_type>3</value_type>
                     <allowed_hosts/>
                     <units/>
-                    <delta>0</delta>
+                    <delta>1</delta>
                     <snmpv3_contextname/>
                     <snmpv3_securityname/>
                     <snmpv3_securitylevel>0</snmpv3_securitylevel>
@@ -575,20 +274,20 @@
                     <logtimefmt/>
                 </item>
                 <item>
-                    <name>Buffers written during checkpoints</name>
+                    <name>Buffers written during checkpoints/sec</name>
                     <type>7</type>
                     <snmp_community/>
                     <multiplier>0</multiplier>
                     <snmp_oid/>
-                    <key>pg.buffers_checkpoint[{$PG_HOST},{$PG_PORT},{$PG_DB},{$PG_USER},{$PG_PASSWD}]</key>
+                    <key>pg.buffers_checkpoint[{$PG_CONN},{$PG_DB}]</key>
                     <delay>300</delay>
-                    <history>1</history>
-                    <trends>3650</trends>
+                    <history>90</history>
+                    <trends>365</trends>
                     <status>0</status>
                     <value_type>3</value_type>
                     <allowed_hosts/>
                     <units/>
-                    <delta>0</delta>
+                    <delta>1</delta>
                     <snmpv3_contextname/>
                     <snmpv3_securityname/>
                     <snmpv3_securitylevel>0</snmpv3_securitylevel>
@@ -623,10 +322,10 @@
                     <snmp_community/>
                     <multiplier>1</multiplier>
                     <snmp_oid/>
-                    <key>pg.checkpoint_sync_time[{$PG_HOST},{$PG_PORT},{$PG_DB},{$PG_USER},{$PG_PASSWD}]</key>
+                    <key>pg.checkpoint_sync_time[{$PG_CONN},{$PG_DB}]</key>
                     <delay>300</delay>
-                    <history>1</history>
-                    <trends>3650</trends>
+                    <history>90</history>
+                    <trends>365</trends>
                     <status>0</status>
                     <value_type>0</value_type>
                     <allowed_hosts/>
@@ -666,10 +365,10 @@
                     <snmp_community/>
                     <multiplier>1</multiplier>
                     <snmp_oid/>
-                    <key>pg.checkpoint_write_time[{$PG_HOST},{$PG_PORT},{$PG_DB},{$PG_USER},{$PG_PASSWD}]</key>
+                    <key>pg.checkpoint_write_time[{$PG_CONN},{$PG_DB}]</key>
                     <delay>300</delay>
-                    <history>1</history>
-                    <trends>3650</trends>
+                    <history>90</history>
+                    <trends>365</trends>
                     <status>0</status>
                     <value_type>0</value_type>
                     <allowed_hosts/>
@@ -709,7 +408,7 @@
                     <snmp_community/>
                     <multiplier>0</multiplier>
                     <snmp_oid/>
-                    <key>pg.queries.longest[{$PG_HOST},{$PG_PORT},{$PG_DB},{$PG_USER},{$PG_PASSWD}]</key>
+                    <key>pg.queries.longest[{$PG_CONN},{$PG_DB}]</key>
                     <delay>300</delay>
                     <history>90</history>
                     <trends>365</trends>
@@ -752,10 +451,10 @@
                     <snmp_community/>
                     <multiplier>0</multiplier>
                     <snmp_oid/>
-                    <key>pg.maxwritten_clean[{$PG_HOST},{$PG_PORT},{$PG_DB},{$PG_USER},{$PG_PASSWD}]</key>
+                    <key>pg.maxwritten_clean[{$PG_CONN},{$PG_DB}]</key>
                     <delay>300</delay>
-                    <history>1</history>
-                    <trends>3650</trends>
+                    <history>90</history>
+                    <trends>365</trends>
                     <status>0</status>
                     <value_type>3</value_type>
                     <allowed_hosts/>
@@ -795,10 +494,10 @@
                     <snmp_community/>
                     <multiplier>0</multiplier>
                     <snmp_oid/>
-                    <key>pg.connect[{$PG_HOST},{$PG_PORT},{$PG_DB},{$PG_USER},{$PG_PASSWD}]</key>
+                    <key>pg.connect[{$PG_CONN},{$PG_DB}]</key>
                     <delay>300</delay>
-                    <history>1</history>
-                    <trends>3650</trends>
+                    <history>90</history>
+                    <trends>365</trends>
                     <status>0</status>
                     <value_type>3</value_type>
                     <allowed_hosts/>
@@ -838,9 +537,9 @@
                     <snmp_community/>
                     <multiplier>0</multiplier>
                     <snmp_oid/>
-                    <key>pg.version[{$PG_HOST},{$PG_PORT},{$PG_DB},{$PG_USER},{$PG_PASSWD}]</key>
+                    <key>pg.version[{$PG_CONN},{$PG_DB}]</key>
                     <delay>300</delay>
-                    <history>1</history>
+                    <history>90</history>
                     <trends>365</trends>
                     <status>0</status>
                     <value_type>4</value_type>
@@ -881,10 +580,10 @@
                     <snmp_community/>
                     <multiplier>0</multiplier>
                     <snmp_oid/>
-                    <key>pg.checkpoints_req[{$PG_HOST},{$PG_PORT},{$PG_DB},{$PG_USER},{$PG_PASSWD}]</key>
+                    <key>pg.checkpoints_req[{$PG_CONN},{$PG_DB}]</key>
                     <delay>300</delay>
-                    <history>1</history>
-                    <trends>3650</trends>
+                    <history>90</history>
+                    <trends>365</trends>
                     <status>0</status>
                     <value_type>3</value_type>
                     <allowed_hosts/>
@@ -924,10 +623,10 @@
                     <snmp_community/>
                     <multiplier>0</multiplier>
                     <snmp_oid/>
-                    <key>pg.checkpoints_timed[{$PG_HOST},{$PG_PORT},{$PG_DB},{$PG_USER},{$PG_PASSWD}]</key>
+                    <key>pg.checkpoints_timed[{$PG_CONN},{$PG_DB}]</key>
                     <delay>300</delay>
-                    <history>1</history>
-                    <trends>3650</trends>
+                    <history>90</history>
+                    <trends>365</trends>
                     <status>0</status>
                     <value_type>3</value_type>
                     <allowed_hosts/>
@@ -967,9 +666,9 @@
                     <snmp_community/>
                     <multiplier>0</multiplier>
                     <snmp_oid/>
-                    <key>pg.stats_reset[{$PG_HOST},{$PG_PORT},{$PG_DB},{$PG_USER},{$PG_PASSWD}]</key>
+                    <key>pg.stats_reset[{$PG_CONN},{$PG_DB}]</key>
                     <delay>300</delay>
-                    <history>1</history>
+                    <history>90</history>
                     <trends>365</trends>
                     <status>0</status>
                     <value_type>4</value_type>
@@ -1011,8 +710,8 @@
                     <type>7</type>
                     <snmp_community/>
                     <snmp_oid/>
-                    <key>pg.db.discovery[{$PG_HOST},{$PG_PORT},{$PG_DB},{$PG_USER},{$PG_PASSWD}]</key>
-                    <delay>300</delay>
+                    <key>pg.db.discovery[{$PG_CONN},{$PG_DB}]</key>
+                    <delay>3600</delay>
                     <status>0</status>
                     <allowed_hosts/>
                     <snmpv3_contextname/>
@@ -1036,316 +735,15 @@
                     <description>Discover all databases available for connection</description>
                     <item_prototypes>
                         <item_prototype>
-                            <name>Backends connected (active) ({#DATABASE})</name>
-                            <type>7</type>
-                            <snmp_community/>
-                            <multiplier>0</multiplier>
-                            <snmp_oid/>
-                            <key>pg.backends.count[{$PG_HOST},{$PG_PORT},{$PG_DB},{$PG_USER},{$PG_PASSWD},{#DATABASE},,,,,active]</key>
-                            <delay>300</delay>
-                            <history>90</history>
-                            <trends>365</trends>
-                            <status>0</status>
-                            <value_type>3</value_type>
-                            <allowed_hosts/>
-                            <units/>
-                            <delta>0</delta>
-                            <snmpv3_contextname/>
-                            <snmpv3_securityname/>
-                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
-                            <snmpv3_authpassphrase/>
-                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
-                            <snmpv3_privpassphrase/>
-                            <formula>1</formula>
-                            <delay_flex/>
-                            <params/>
-                            <ipmi_sensor/>
-                            <data_type>0</data_type>
-                            <authtype>0</authtype>
-                            <username/>
-                            <password/>
-                            <publickey/>
-                            <privatekey/>
-                            <port/>
-                            <description/>
-                            <inventory_link>0</inventory_link>
-                            <applications>
-                                <application>
-                                    <name>PostgreSQL Database Backend Connections</name>
-                                </application>
-                            </applications>
-                            <valuemap/>
-                            <logtimefmt/>
-                        </item_prototype>
-                        <item_prototype>
-                            <name>Backends connected (fastpath function call) ({#DATABASE})</name>
-                            <type>7</type>
-                            <snmp_community/>
-                            <multiplier>0</multiplier>
-                            <snmp_oid/>
-                            <key>pg.backends.count[{$PG_HOST},{$PG_PORT},{$PG_DB},{$PG_USER},{$PG_PASSWD},{#DATABASE},,,,,fastpath function call]</key>
-                            <delay>300</delay>
-                            <history>90</history>
-                            <trends>365</trends>
-                            <status>0</status>
-                            <value_type>3</value_type>
-                            <allowed_hosts/>
-                            <units/>
-                            <delta>0</delta>
-                            <snmpv3_contextname/>
-                            <snmpv3_securityname/>
-                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
-                            <snmpv3_authpassphrase/>
-                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
-                            <snmpv3_privpassphrase/>
-                            <formula>1</formula>
-                            <delay_flex/>
-                            <params/>
-                            <ipmi_sensor/>
-                            <data_type>0</data_type>
-                            <authtype>0</authtype>
-                            <username/>
-                            <password/>
-                            <publickey/>
-                            <privatekey/>
-                            <port/>
-                            <description/>
-                            <inventory_link>0</inventory_link>
-                            <applications>
-                                <application>
-                                    <name>PostgreSQL Database Backend Connections</name>
-                                </application>
-                            </applications>
-                            <valuemap/>
-                            <logtimefmt/>
-                        </item_prototype>
-                        <item_prototype>
-                            <name>Backends connected (idle) ({#DATABASE})</name>
-                            <type>7</type>
-                            <snmp_community/>
-                            <multiplier>0</multiplier>
-                            <snmp_oid/>
-                            <key>pg.backends.count[{$PG_HOST},{$PG_PORT},{$PG_DB},{$PG_USER},{$PG_PASSWD},{#DATABASE},,,,,idle]</key>
-                            <delay>300</delay>
-                            <history>90</history>
-                            <trends>365</trends>
-                            <status>0</status>
-                            <value_type>3</value_type>
-                            <allowed_hosts/>
-                            <units/>
-                            <delta>0</delta>
-                            <snmpv3_contextname/>
-                            <snmpv3_securityname/>
-                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
-                            <snmpv3_authpassphrase/>
-                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
-                            <snmpv3_privpassphrase/>
-                            <formula>1</formula>
-                            <delay_flex/>
-                            <params/>
-                            <ipmi_sensor/>
-                            <data_type>0</data_type>
-                            <authtype>0</authtype>
-                            <username/>
-                            <password/>
-                            <publickey/>
-                            <privatekey/>
-                            <port/>
-                            <description/>
-                            <inventory_link>0</inventory_link>
-                            <applications>
-                                <application>
-                                    <name>PostgreSQL Database Backend Connections</name>
-                                </application>
-                            </applications>
-                            <valuemap/>
-                            <logtimefmt/>
-                        </item_prototype>
-                        <item_prototype>
-                            <name>Backends connected (idle in aborted transaction) ({#DATABASE})</name>
-                            <type>7</type>
-                            <snmp_community/>
-                            <multiplier>0</multiplier>
-                            <snmp_oid/>
-                            <key>pg.backends.count[{$PG_HOST},{$PG_PORT},{$PG_DB},{$PG_USER},{$PG_PASSWD},{#DATABASE},,,,,idle in aborted transaction]</key>
-                            <delay>300</delay>
-                            <history>90</history>
-                            <trends>365</trends>
-                            <status>0</status>
-                            <value_type>3</value_type>
-                            <allowed_hosts/>
-                            <units/>
-                            <delta>0</delta>
-                            <snmpv3_contextname/>
-                            <snmpv3_securityname/>
-                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
-                            <snmpv3_authpassphrase/>
-                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
-                            <snmpv3_privpassphrase/>
-                            <formula>1</formula>
-                            <delay_flex/>
-                            <params/>
-                            <ipmi_sensor/>
-                            <data_type>0</data_type>
-                            <authtype>0</authtype>
-                            <username/>
-                            <password/>
-                            <publickey/>
-                            <privatekey/>
-                            <port/>
-                            <description/>
-                            <inventory_link>0</inventory_link>
-                            <applications>
-                                <application>
-                                    <name>PostgreSQL Database Backend Connections</name>
-                                </application>
-                            </applications>
-                            <valuemap/>
-                            <logtimefmt/>
-                        </item_prototype>
-                        <item_prototype>
-                            <name>Backends connected (idle in transaction) ({#DATABASE})</name>
-                            <type>7</type>
-                            <snmp_community/>
-                            <multiplier>0</multiplier>
-                            <snmp_oid/>
-                            <key>pg.backends.count[{$PG_HOST},{$PG_PORT},{$PG_DB},{$PG_USER},{$PG_PASSWD},{#DATABASE},,,,,idle in transaction]</key>
-                            <delay>300</delay>
-                            <history>90</history>
-                            <trends>365</trends>
-                            <status>0</status>
-                            <value_type>3</value_type>
-                            <allowed_hosts/>
-                            <units/>
-                            <delta>0</delta>
-                            <snmpv3_contextname/>
-                            <snmpv3_securityname/>
-                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
-                            <snmpv3_authpassphrase/>
-                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
-                            <snmpv3_privpassphrase/>
-                            <formula>1</formula>
-                            <delay_flex/>
-                            <params/>
-                            <ipmi_sensor/>
-                            <data_type>0</data_type>
-                            <authtype>0</authtype>
-                            <username/>
-                            <password/>
-                            <publickey/>
-                            <privatekey/>
-                            <port/>
-                            <description/>
-                            <inventory_link>0</inventory_link>
-                            <applications>
-                                <application>
-                                    <name>PostgreSQL Database Backend Connections</name>
-                                </application>
-                            </applications>
-                            <valuemap/>
-                            <logtimefmt/>
-                        </item_prototype>
-                        <item_prototype>
-                            <name>Backends connected (not waiting) ({#DATABASE})</name>
-                            <type>7</type>
-                            <snmp_community/>
-                            <multiplier>0</multiplier>
-                            <snmp_oid/>
-                            <key>pg.backends.count[{$PG_HOST},{$PG_PORT},{$PG_DB},{$PG_USER},{$PG_PASSWD},{#DATABASE},,,,false]</key>
-                            <delay>300</delay>
-                            <history>90</history>
-                            <trends>365</trends>
-                            <status>0</status>
-                            <value_type>3</value_type>
-                            <allowed_hosts/>
-                            <units/>
-                            <delta>0</delta>
-                            <snmpv3_contextname/>
-                            <snmpv3_securityname/>
-                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
-                            <snmpv3_authpassphrase/>
-                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
-                            <snmpv3_privpassphrase/>
-                            <formula>1</formula>
-                            <delay_flex/>
-                            <params/>
-                            <ipmi_sensor/>
-                            <data_type>0</data_type>
-                            <authtype>0</authtype>
-                            <username/>
-                            <password/>
-                            <publickey/>
-                            <privatekey/>
-                            <port/>
-                            <description/>
-                            <inventory_link>0</inventory_link>
-                            <applications>
-                                <application>
-                                    <name>PostgreSQL Database Backend Connections</name>
-                                </application>
-                            </applications>
-                            <valuemap/>
-                            <logtimefmt/>
-                        </item_prototype>
-                        <item_prototype>
-                            <name>Backends connected (waiting) ({#DATABASE})</name>
-                            <type>7</type>
-                            <snmp_community/>
-                            <multiplier>0</multiplier>
-                            <snmp_oid/>
-                            <key>pg.backends.count[{$PG_HOST},{$PG_PORT},{$PG_DB},{$PG_USER},{$PG_PASSWD},{#DATABASE},,,,true]</key>
-                            <delay>300</delay>
-                            <history>90</history>
-                            <trends>365</trends>
-                            <status>0</status>
-                            <value_type>3</value_type>
-                            <allowed_hosts/>
-                            <units/>
-                            <delta>0</delta>
-                            <snmpv3_contextname/>
-                            <snmpv3_securityname/>
-                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
-                            <snmpv3_authpassphrase/>
-                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
-                            <snmpv3_privpassphrase/>
-                            <formula>1</formula>
-                            <delay_flex/>
-                            <params/>
-                            <ipmi_sensor/>
-                            <data_type>0</data_type>
-                            <authtype>0</authtype>
-                            <username/>
-                            <password/>
-                            <publickey/>
-                            <privatekey/>
-                            <port/>
-                            <description/>
-                            <inventory_link>0</inventory_link>
-                            <applications>
-                                <application>
-                                    <name>PostgreSQL Database Backend Connections</name>
-                                </application>
-                            </applications>
-                            <valuemap/>
-                            <logtimefmt/>
-                        </item_prototype>
-                        <item_prototype>
                             <name>Backends connected ({#DATABASE})</name>
                             <type>7</type>
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
-                            <key>pg.db.numbackends[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD}]</key>
+                            <key>pg.db.numbackends[{$PG_CONN},{$PG_DB},{#DATABASE}]</key>
                             <delay>300</delay>
-                            <history>1</history>
-                            <trends>3650</trends>
+                            <history>90</history>
+                            <trends>365</trends>
                             <status>0</status>
                             <value_type>3</value_type>
                             <allowed_hosts/>
@@ -1385,10 +783,10 @@
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
-                            <key>pg.db.conflicts[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD}]</key>
+                            <key>pg.db.conflicts[{$PG_CONN},{$PG_DB},{#DATABASE}]</key>
                             <delay>300</delay>
-                            <history>1</history>
-                            <trends>3650</trends>
+                            <history>90</history>
+                            <trends>365</trends>
                             <status>0</status>
                             <value_type>0</value_type>
                             <allowed_hosts/>
@@ -1428,10 +826,10 @@
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
-                            <key>pg.db.size[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD}]</key>
+                            <key>pg.db.size[{$PG_CONN},{$PG_DB},{#DATABASE}]</key>
                             <delay>300</delay>
-                            <history>1</history>
-                            <trends>3650</trends>
+                            <history>90</history>
+                            <trends>365</trends>
                             <status>0</status>
                             <value_type>3</value_type>
                             <allowed_hosts/>
@@ -1471,10 +869,10 @@
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
-                            <key>pg.db.deadlocks[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD}]</key>
+                            <key>pg.db.deadlocks[{$PG_CONN},{$PG_DB},{#DATABASE}]</key>
                             <delay>300</delay>
-                            <history>1</history>
-                            <trends>3650</trends>
+                            <history>90</history>
+                            <trends>365</trends>
                             <status>0</status>
                             <value_type>0</value_type>
                             <allowed_hosts/>
@@ -1514,10 +912,10 @@
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
-                            <key>pg.db.blks_hit[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD}]</key>
+                            <key>pg.db.blks_hit[{$PG_CONN},{$PG_DB},{#DATABASE}]</key>
                             <delay>300</delay>
-                            <history>1</history>
-                            <trends>3650</trends>
+                            <history>90</history>
+                            <trends>365</trends>
                             <status>0</status>
                             <value_type>3</value_type>
                             <allowed_hosts/>
@@ -1557,10 +955,10 @@
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
-                            <key>pg.db.blks_read[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD}]</key>
+                            <key>pg.db.blks_read[{$PG_CONN},{$PG_DB},{#DATABASE}]</key>
                             <delay>300</delay>
-                            <history>1</history>
-                            <trends>3650</trends>
+                            <history>90</history>
+                            <trends>365</trends>
                             <status>0</status>
                             <value_type>0</value_type>
                             <allowed_hosts/>
@@ -1600,7 +998,7 @@
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
-                            <key>pg.table.n_dead_tup[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD}]</key>
+                            <key>pg.table.n_dead_tup[{$PG_CONN},{#DATABASE}]</key>
                             <delay>300</delay>
                             <history>90</history>
                             <trends>365</trends>
@@ -1643,7 +1041,7 @@
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
-                            <key>pg.table.n_live_tup[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD}]</key>
+                            <key>pg.table.n_live_tup[{$PG_CONN},{#DATABASE}]</key>
                             <delay>300</delay>
                             <history>90</history>
                             <trends>365</trends>
@@ -1686,7 +1084,7 @@
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
-                            <key>pg.table.n_mod_since_analyze[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD}]</key>
+                            <key>pg.table.n_mod_since_analyze[{$PG_CONN},{#DATABASE}]</key>
                             <delay>300</delay>
                             <history>90</history>
                             <trends>365</trends>
@@ -1729,7 +1127,7 @@
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
-                            <key>pg.table.rows[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD}]</key>
+                            <key>pg.table.rows[{$PG_CONN},{#DATABASE}]</key>
                             <delay>300</delay>
                             <history>90</history>
                             <trends>365</trends>
@@ -1772,7 +1170,7 @@
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
-                            <key>pg.table.idx_scan[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD}]</key>
+                            <key>pg.table.idx_scan[{$PG_CONN},{#DATABASE}]</key>
                             <delay>300</delay>
                             <history>90</history>
                             <trends>365</trends>
@@ -1815,7 +1213,7 @@
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
-                            <key>pg.table.idx_tup_fetch[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD}]</key>
+                            <key>pg.table.idx_tup_fetch[{$PG_CONN},{#DATABASE}]</key>
                             <delay>300</delay>
                             <history>90</history>
                             <trends>365</trends>
@@ -1858,7 +1256,7 @@
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
-                            <key>pg.table.seq_tup_read[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD}]</key>
+                            <key>pg.table.seq_tup_read[{$PG_CONN},{#DATABASE}]</key>
                             <delay>300</delay>
                             <history>90</history>
                             <trends>365</trends>
@@ -1901,7 +1299,50 @@
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
-                            <key>pg.table.n_tup_del[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD}]</key>
+                            <key>pg.db.tup_deleted[{$PG_CONN},{$PG_DB},{#DATABASE}]</key>
+                            <delay>300</delay>
+                            <history>90</history>
+                            <trends>365</trends>
+                            <status>0</status>
+                            <value_type>0</value_type>
+                            <allowed_hosts/>
+                            <units/>
+                            <delta>1</delta>
+                            <snmpv3_contextname/>
+                            <snmpv3_securityname/>
+                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
+                            <snmpv3_authpassphrase/>
+                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
+                            <snmpv3_privpassphrase/>
+                            <formula>1</formula>
+                            <delay_flex/>
+                            <params/>
+                            <ipmi_sensor/>
+                            <data_type>0</data_type>
+                            <authtype>0</authtype>
+                            <username/>
+                            <password/>
+                            <publickey/>
+                            <privatekey/>
+                            <port/>
+                            <description>Number of rows deleted by queries in this database</description>
+                            <inventory_link>0</inventory_link>
+                            <applications>
+                                <application>
+                                    <name>PostgreSQL Database Performance</name>
+                                </application>
+                            </applications>
+                            <valuemap/>
+                            <logtimefmt/>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>Rows deleted/sec ({#DATABASE})</name>
+                            <type>7</type>
+                            <snmp_community/>
+                            <multiplier>0</multiplier>
+                            <snmp_oid/>
+                            <key>pg.table.n_tup_del[{$PG_CONN},{#DATABASE}]</key>
                             <delay>300</delay>
                             <history>90</history>
                             <trends>365</trends>
@@ -1939,12 +1380,55 @@
                             <logtimefmt/>
                         </item_prototype>
                         <item_prototype>
+                            <name>Rows fetched by bitmap scans/sec ({#DATABASE})</name>
+                            <type>7</type>
+                            <snmp_community/>
+                            <multiplier>0</multiplier>
+                            <snmp_oid/>
+                            <key>pg.db.tup_fetched[{$PG_CONN},{$PG_DB},{#DATABASE}]</key>
+                            <delay>300</delay>
+                            <history>90</history>
+                            <trends>365</trends>
+                            <status>0</status>
+                            <value_type>0</value_type>
+                            <allowed_hosts/>
+                            <units/>
+                            <delta>1</delta>
+                            <snmpv3_contextname/>
+                            <snmpv3_securityname/>
+                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
+                            <snmpv3_authpassphrase/>
+                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
+                            <snmpv3_privpassphrase/>
+                            <formula>1</formula>
+                            <delay_flex/>
+                            <params/>
+                            <ipmi_sensor/>
+                            <data_type>0</data_type>
+                            <authtype>0</authtype>
+                            <username/>
+                            <password/>
+                            <publickey/>
+                            <privatekey/>
+                            <port/>
+                            <description>Number of rows fetched by queries in this database</description>
+                            <inventory_link>0</inventory_link>
+                            <applications>
+                                <application>
+                                    <name>PostgreSQL Database Performance</name>
+                                </application>
+                            </applications>
+                            <valuemap/>
+                            <logtimefmt/>
+                        </item_prototype>
+                        <item_prototype>
                             <name>Rows hot updated ({#DATABASE})</name>
                             <type>7</type>
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
-                            <key>pg.table.n_tup_hot_upd[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD}]</key>
+                            <key>pg.table.n_tup_hot_upd[{$PG_CONN},{#DATABASE}]</key>
                             <delay>300</delay>
                             <history>90</history>
                             <trends>365</trends>
@@ -1987,7 +1471,7 @@
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
-                            <key>pg.table.n_tup_ins[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD}]</key>
+                            <key>pg.table.n_tup_ins[{$PG_CONN},{#DATABASE}]</key>
                             <delay>300</delay>
                             <history>90</history>
                             <trends>365</trends>
@@ -2025,12 +1509,98 @@
                             <logtimefmt/>
                         </item_prototype>
                         <item_prototype>
+                            <name>Rows inserted/sec ({#DATABASE})</name>
+                            <type>7</type>
+                            <snmp_community/>
+                            <multiplier>0</multiplier>
+                            <snmp_oid/>
+                            <key>pg.db.tup_inserted[{$PG_CONN},{$PG_DB},{#DATABASE}]</key>
+                            <delay>300</delay>
+                            <history>90</history>
+                            <trends>365</trends>
+                            <status>0</status>
+                            <value_type>0</value_type>
+                            <allowed_hosts/>
+                            <units/>
+                            <delta>1</delta>
+                            <snmpv3_contextname/>
+                            <snmpv3_securityname/>
+                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
+                            <snmpv3_authpassphrase/>
+                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
+                            <snmpv3_privpassphrase/>
+                            <formula>1</formula>
+                            <delay_flex/>
+                            <params/>
+                            <ipmi_sensor/>
+                            <data_type>0</data_type>
+                            <authtype>0</authtype>
+                            <username/>
+                            <password/>
+                            <publickey/>
+                            <privatekey/>
+                            <port/>
+                            <description>Number of rows inserted by queries in this database</description>
+                            <inventory_link>0</inventory_link>
+                            <applications>
+                                <application>
+                                    <name>PostgreSQL Database Performance</name>
+                                </application>
+                            </applications>
+                            <valuemap/>
+                            <logtimefmt/>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>Rows returned by sequential scans/sec ({#DATABASE})</name>
+                            <type>7</type>
+                            <snmp_community/>
+                            <multiplier>0</multiplier>
+                            <snmp_oid/>
+                            <key>pg.db.tup_returned[{$PG_CONN},{$PG_DB},{#DATABASE}]</key>
+                            <delay>300</delay>
+                            <history>90</history>
+                            <trends>365</trends>
+                            <status>0</status>
+                            <value_type>0</value_type>
+                            <allowed_hosts/>
+                            <units/>
+                            <delta>1</delta>
+                            <snmpv3_contextname/>
+                            <snmpv3_securityname/>
+                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
+                            <snmpv3_authpassphrase/>
+                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
+                            <snmpv3_privpassphrase/>
+                            <formula>1</formula>
+                            <delay_flex/>
+                            <params/>
+                            <ipmi_sensor/>
+                            <data_type>0</data_type>
+                            <authtype>0</authtype>
+                            <username/>
+                            <password/>
+                            <publickey/>
+                            <privatekey/>
+                            <port/>
+                            <description>Number of rows returned by queries in this database</description>
+                            <inventory_link>0</inventory_link>
+                            <applications>
+                                <application>
+                                    <name>PostgreSQL Database Performance</name>
+                                </application>
+                            </applications>
+                            <valuemap/>
+                            <logtimefmt/>
+                        </item_prototype>
+                        <item_prototype>
                             <name>Rows updated/sec ({#DATABASE})</name>
                             <type>7</type>
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
-                            <key>pg.table.n_tup_upd[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD}]</key>
+                            <key>pg.table.n_tup_upd[{$PG_CONN},{#DATABASE}]</key>
                             <delay>300</delay>
                             <history>90</history>
                             <trends>365</trends>
@@ -2068,12 +1638,55 @@
                             <logtimefmt/>
                         </item_prototype>
                         <item_prototype>
+                            <name>Rows updated/sec ({#DATABASE})</name>
+                            <type>7</type>
+                            <snmp_community/>
+                            <multiplier>0</multiplier>
+                            <snmp_oid/>
+                            <key>pg.db.tup_updated[{$PG_CONN},{$PG_DB},{#DATABASE}]</key>
+                            <delay>300</delay>
+                            <history>90</history>
+                            <trends>365</trends>
+                            <status>0</status>
+                            <value_type>0</value_type>
+                            <allowed_hosts/>
+                            <units/>
+                            <delta>1</delta>
+                            <snmpv3_contextname/>
+                            <snmpv3_securityname/>
+                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
+                            <snmpv3_authpassphrase/>
+                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
+                            <snmpv3_privpassphrase/>
+                            <formula>1</formula>
+                            <delay_flex/>
+                            <params/>
+                            <ipmi_sensor/>
+                            <data_type>0</data_type>
+                            <authtype>0</authtype>
+                            <username/>
+                            <password/>
+                            <publickey/>
+                            <privatekey/>
+                            <port/>
+                            <description>Number of rows updated by queries in this database</description>
+                            <inventory_link>0</inventory_link>
+                            <applications>
+                                <application>
+                                    <name>PostgreSQL Database Performance</name>
+                                </application>
+                            </applications>
+                            <valuemap/>
+                            <logtimefmt/>
+                        </item_prototype>
+                        <item_prototype>
                             <name>Sequential scans/sec ({#DATABASE})</name>
                             <type>7</type>
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
-                            <key>pg.table.seq_scan[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD}]</key>
+                            <key>pg.table.seq_scan[{$PG_CONN},{#DATABASE}]</key>
                             <delay>300</delay>
                             <history>90</history>
                             <trends>365</trends>
@@ -2116,9 +1729,9 @@
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
-                            <key>pg.db.stats_reset[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD}]</key>
+                            <key>pg.db.stats_reset[{$PG_CONN},{$PG_DB},{#DATABASE}]</key>
                             <delay>300</delay>
-                            <history>1</history>
+                            <history>90</history>
                             <trends>365</trends>
                             <status>0</status>
                             <value_type>4</value_type>
@@ -2159,10 +1772,10 @@
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
-                            <key>pg.db.temp_bytes[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD}]</key>
+                            <key>pg.db.temp_bytes[{$PG_CONN},{$PG_DB},{#DATABASE}]</key>
                             <delay>300</delay>
-                            <history>1</history>
-                            <trends>3650</trends>
+                            <history>90</history>
+                            <trends>365</trends>
                             <status>0</status>
                             <value_type>0</value_type>
                             <allowed_hosts/>
@@ -2202,10 +1815,10 @@
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
-                            <key>pg.db.temp_files[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD}]</key>
+                            <key>pg.db.temp_files[{$PG_CONN},{$PG_DB},{#DATABASE}]</key>
                             <delay>300</delay>
-                            <history>1</history>
-                            <trends>3650</trends>
+                            <history>90</history>
+                            <trends>365</trends>
                             <status>0</status>
                             <value_type>0</value_type>
                             <allowed_hosts/>
@@ -2245,10 +1858,10 @@
                             <snmp_community/>
                             <multiplier>1</multiplier>
                             <snmp_oid/>
-                            <key>pg.db.blk_read_time[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD}]</key>
+                            <key>pg.db.blk_read_time[{$PG_CONN},{$PG_DB},{#DATABASE}]</key>
                             <delay>300</delay>
-                            <history>1</history>
-                            <trends>3650</trends>
+                            <history>90</history>
+                            <trends>365</trends>
                             <status>0</status>
                             <value_type>0</value_type>
                             <allowed_hosts/>
@@ -2288,10 +1901,10 @@
                             <snmp_community/>
                             <multiplier>1</multiplier>
                             <snmp_oid/>
-                            <key>pg.db.blk_write_time[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD}]</key>
+                            <key>pg.db.blk_write_time[{$PG_CONN},{$PG_DB},{#DATABASE}]</key>
                             <delay>300</delay>
-                            <history>1</history>
-                            <trends>3650</trends>
+                            <history>90</history>
+                            <trends>365</trends>
                             <status>0</status>
                             <value_type>0</value_type>
                             <allowed_hosts/>
@@ -2331,10 +1944,10 @@
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
-                            <key>pg.db.xact_commit[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD}]</key>
+                            <key>pg.db.xact_commit[{$PG_CONN},{$PG_DB},{#DATABASE}]</key>
                             <delay>300</delay>
-                            <history>1</history>
-                            <trends>3650</trends>
+                            <history>90</history>
+                            <trends>365</trends>
                             <status>0</status>
                             <value_type>0</value_type>
                             <allowed_hosts/>
@@ -2374,10 +1987,10 @@
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
-                            <key>pg.db.xact_rollback[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD}]</key>
+                            <key>pg.db.xact_rollback[{$PG_CONN},{$PG_DB},{#DATABASE}]</key>
                             <delay>300</delay>
-                            <history>1</history>
-                            <trends>3650</trends>
+                            <history>90</history>
+                            <trends>365</trends>
                             <status>0</status>
                             <value_type>0</value_type>
                             <allowed_hosts/>
@@ -2411,221 +2024,6 @@
                             <valuemap/>
                             <logtimefmt/>
                         </item_prototype>
-                        <item_prototype>
-                            <name>Tuples deleted/sec ({#DATABASE})</name>
-                            <type>7</type>
-                            <snmp_community/>
-                            <multiplier>0</multiplier>
-                            <snmp_oid/>
-                            <key>pg.db.tup_deleted[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD}]</key>
-                            <delay>300</delay>
-                            <history>1</history>
-                            <trends>3650</trends>
-                            <status>0</status>
-                            <value_type>0</value_type>
-                            <allowed_hosts/>
-                            <units/>
-                            <delta>1</delta>
-                            <snmpv3_contextname/>
-                            <snmpv3_securityname/>
-                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
-                            <snmpv3_authpassphrase/>
-                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
-                            <snmpv3_privpassphrase/>
-                            <formula>1</formula>
-                            <delay_flex/>
-                            <params/>
-                            <ipmi_sensor/>
-                            <data_type>0</data_type>
-                            <authtype>0</authtype>
-                            <username/>
-                            <password/>
-                            <publickey/>
-                            <privatekey/>
-                            <port/>
-                            <description>Number of rows deleted by queries in this database</description>
-                            <inventory_link>0</inventory_link>
-                            <applications>
-                                <application>
-                                    <name>PostgreSQL Database Performance</name>
-                                </application>
-                            </applications>
-                            <valuemap/>
-                            <logtimefmt/>
-                        </item_prototype>
-                        <item_prototype>
-                            <name>Tuples fetched/sec ({#DATABASE})</name>
-                            <type>7</type>
-                            <snmp_community/>
-                            <multiplier>0</multiplier>
-                            <snmp_oid/>
-                            <key>pg.db.tup_fetched[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD}]</key>
-                            <delay>300</delay>
-                            <history>1</history>
-                            <trends>3650</trends>
-                            <status>0</status>
-                            <value_type>0</value_type>
-                            <allowed_hosts/>
-                            <units/>
-                            <delta>1</delta>
-                            <snmpv3_contextname/>
-                            <snmpv3_securityname/>
-                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
-                            <snmpv3_authpassphrase/>
-                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
-                            <snmpv3_privpassphrase/>
-                            <formula>1</formula>
-                            <delay_flex/>
-                            <params/>
-                            <ipmi_sensor/>
-                            <data_type>0</data_type>
-                            <authtype>0</authtype>
-                            <username/>
-                            <password/>
-                            <publickey/>
-                            <privatekey/>
-                            <port/>
-                            <description>Number of rows fetched by queries in this database</description>
-                            <inventory_link>0</inventory_link>
-                            <applications>
-                                <application>
-                                    <name>PostgreSQL Database Performance</name>
-                                </application>
-                            </applications>
-                            <valuemap/>
-                            <logtimefmt/>
-                        </item_prototype>
-                        <item_prototype>
-                            <name>Tuples inserted/sec ({#DATABASE})</name>
-                            <type>7</type>
-                            <snmp_community/>
-                            <multiplier>0</multiplier>
-                            <snmp_oid/>
-                            <key>pg.db.tup_inserted[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD}]</key>
-                            <delay>300</delay>
-                            <history>1</history>
-                            <trends>3650</trends>
-                            <status>0</status>
-                            <value_type>0</value_type>
-                            <allowed_hosts/>
-                            <units/>
-                            <delta>1</delta>
-                            <snmpv3_contextname/>
-                            <snmpv3_securityname/>
-                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
-                            <snmpv3_authpassphrase/>
-                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
-                            <snmpv3_privpassphrase/>
-                            <formula>1</formula>
-                            <delay_flex/>
-                            <params/>
-                            <ipmi_sensor/>
-                            <data_type>0</data_type>
-                            <authtype>0</authtype>
-                            <username/>
-                            <password/>
-                            <publickey/>
-                            <privatekey/>
-                            <port/>
-                            <description>Number of rows inserted by queries in this database</description>
-                            <inventory_link>0</inventory_link>
-                            <applications>
-                                <application>
-                                    <name>PostgreSQL Database Performance</name>
-                                </application>
-                            </applications>
-                            <valuemap/>
-                            <logtimefmt/>
-                        </item_prototype>
-                        <item_prototype>
-                            <name>Tuples returned/sec ({#DATABASE})</name>
-                            <type>7</type>
-                            <snmp_community/>
-                            <multiplier>0</multiplier>
-                            <snmp_oid/>
-                            <key>pg.db.tup_returned[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD}]</key>
-                            <delay>300</delay>
-                            <history>1</history>
-                            <trends>3650</trends>
-                            <status>0</status>
-                            <value_type>0</value_type>
-                            <allowed_hosts/>
-                            <units/>
-                            <delta>1</delta>
-                            <snmpv3_contextname/>
-                            <snmpv3_securityname/>
-                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
-                            <snmpv3_authpassphrase/>
-                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
-                            <snmpv3_privpassphrase/>
-                            <formula>1</formula>
-                            <delay_flex/>
-                            <params/>
-                            <ipmi_sensor/>
-                            <data_type>0</data_type>
-                            <authtype>0</authtype>
-                            <username/>
-                            <password/>
-                            <publickey/>
-                            <privatekey/>
-                            <port/>
-                            <description>Number of rows returned by queries in this database</description>
-                            <inventory_link>0</inventory_link>
-                            <applications>
-                                <application>
-                                    <name>PostgreSQL Database Performance</name>
-                                </application>
-                            </applications>
-                            <valuemap/>
-                            <logtimefmt/>
-                        </item_prototype>
-                        <item_prototype>
-                            <name>Tuples updated/sec ({#DATABASE})</name>
-                            <type>7</type>
-                            <snmp_community/>
-                            <multiplier>0</multiplier>
-                            <snmp_oid/>
-                            <key>pg.db.tup_updated[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD}]</key>
-                            <delay>300</delay>
-                            <history>1</history>
-                            <trends>3650</trends>
-                            <status>0</status>
-                            <value_type>0</value_type>
-                            <allowed_hosts/>
-                            <units/>
-                            <delta>1</delta>
-                            <snmpv3_contextname/>
-                            <snmpv3_securityname/>
-                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
-                            <snmpv3_authpassphrase/>
-                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
-                            <snmpv3_privpassphrase/>
-                            <formula>1</formula>
-                            <delay_flex/>
-                            <params/>
-                            <ipmi_sensor/>
-                            <data_type>0</data_type>
-                            <authtype>0</authtype>
-                            <username/>
-                            <password/>
-                            <publickey/>
-                            <privatekey/>
-                            <port/>
-                            <description>Number of rows updated by queries in this database</description>
-                            <inventory_link>0</inventory_link>
-                            <applications>
-                                <application>
-                                    <name>PostgreSQL Database Performance</name>
-                                </application>
-                            </applications>
-                            <valuemap/>
-                            <logtimefmt/>
-                        </item_prototype>
                     </item_prototypes>
                     <trigger_prototypes/>
                     <graph_prototypes>
@@ -2648,18 +2046,6 @@
                             <ymax_item_1>0</ymax_item_1>
                             <graph_items>
                                 <graph_item>
-                                    <sortorder>0</sortorder>
-                                    <drawtype>0</drawtype>
-                                    <color>00C800</color>
-                                    <yaxisside>0</yaxisside>
-                                    <calc_fnc>2</calc_fnc>
-                                    <type>0</type>
-                                    <item>
-                                        <host>Template PostgreSQL Server</host>
-                                        <key>pg.db.blks_hit[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD}]</key>
-                                    </item>
-                                </graph_item>
-                                <graph_item>
                                     <sortorder>1</sortorder>
                                     <drawtype>0</drawtype>
                                     <color>C80000</color>
@@ -2668,67 +2054,11 @@
                                     <type>0</type>
                                     <item>
                                         <host>Template PostgreSQL Server</host>
-                                        <key>pg.db.blks_read[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD}]</key>
-                                    </item>
-                                </graph_item>
-                            </graph_items>
-                        </graph_prototype>
-                        <graph_prototype>
-                            <name>PostgreSQL Database {#DATABASE} Connections</name>
-                            <width>900</width>
-                            <height>200</height>
-                            <yaxismin>0.0000</yaxismin>
-                            <yaxismax>100.0000</yaxismax>
-                            <show_work_period>1</show_work_period>
-                            <show_triggers>1</show_triggers>
-                            <type>0</type>
-                            <show_legend>1</show_legend>
-                            <show_3d>0</show_3d>
-                            <percent_left>0.0000</percent_left>
-                            <percent_right>0.0000</percent_right>
-                            <ymin_type_1>0</ymin_type_1>
-                            <ymax_type_1>0</ymax_type_1>
-                            <ymin_item_1>0</ymin_item_1>
-                            <ymax_item_1>0</ymax_item_1>
-                            <graph_items>
-                                <graph_item>
-                                    <sortorder>4</sortorder>
-                                    <drawtype>0</drawtype>
-                                    <color>C800C8</color>
-                                    <yaxisside>0</yaxisside>
-                                    <calc_fnc>2</calc_fnc>
-                                    <type>0</type>
-                                    <item>
-                                        <host>Template PostgreSQL Server</host>
-                                        <key>pg.backends.count[{$PG_HOST},{$PG_PORT},{$PG_DB},{$PG_USER},{$PG_PASSWD},{#DATABASE},,,,,idle in aborted transaction]</key>
+                                        <key>pg.db.blks_read[{$PG_CONN},{$PG_DB},{#DATABASE}]</key>
                                     </item>
                                 </graph_item>
                                 <graph_item>
-                                    <sortorder>3</sortorder>
-                                    <drawtype>0</drawtype>
-                                    <color>C8C8C8</color>
-                                    <yaxisside>0</yaxisside>
-                                    <calc_fnc>2</calc_fnc>
-                                    <type>0</type>
-                                    <item>
-                                        <host>Template PostgreSQL Server</host>
-                                        <key>pg.backends.count[{$PG_HOST},{$PG_PORT},{$PG_DB},{$PG_USER},{$PG_PASSWD},{#DATABASE},,,,,idle]</key>
-                                    </item>
-                                </graph_item>
-                                <graph_item>
-                                    <sortorder>6</sortorder>
-                                    <drawtype>0</drawtype>
-                                    <color>C80000</color>
-                                    <yaxisside>0</yaxisside>
-                                    <calc_fnc>2</calc_fnc>
-                                    <type>0</type>
-                                    <item>
-                                        <host>Template PostgreSQL Server</host>
-                                        <key>pg.backends.count[{$PG_HOST},{$PG_PORT},{$PG_DB},{$PG_USER},{$PG_PASSWD},{#DATABASE},,,,true]</key>
-                                    </item>
-                                </graph_item>
-                                <graph_item>
-                                    <sortorder>1</sortorder>
+                                    <sortorder>0</sortorder>
                                     <drawtype>0</drawtype>
                                     <color>00C800</color>
                                     <yaxisside>0</yaxisside>
@@ -2736,43 +2066,7 @@
                                     <type>0</type>
                                     <item>
                                         <host>Template PostgreSQL Server</host>
-                                        <key>pg.backends.count[{$PG_HOST},{$PG_PORT},{$PG_DB},{$PG_USER},{$PG_PASSWD},{#DATABASE},,,,,active]</key>
-                                    </item>
-                                </graph_item>
-                                <graph_item>
-                                    <sortorder>0</sortorder>
-                                    <drawtype>0</drawtype>
-                                    <color>000000</color>
-                                    <yaxisside>0</yaxisside>
-                                    <calc_fnc>2</calc_fnc>
-                                    <type>0</type>
-                                    <item>
-                                        <host>Template PostgreSQL Server</host>
-                                        <key>pg.db.numbackends[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD}]</key>
-                                    </item>
-                                </graph_item>
-                                <graph_item>
-                                    <sortorder>5</sortorder>
-                                    <drawtype>0</drawtype>
-                                    <color>C8C800</color>
-                                    <yaxisside>0</yaxisside>
-                                    <calc_fnc>2</calc_fnc>
-                                    <type>0</type>
-                                    <item>
-                                        <host>Template PostgreSQL Server</host>
-                                        <key>pg.backends.count[{$PG_HOST},{$PG_PORT},{$PG_DB},{$PG_USER},{$PG_PASSWD},{#DATABASE},,,,,idle in transaction]</key>
-                                    </item>
-                                </graph_item>
-                                <graph_item>
-                                    <sortorder>2</sortorder>
-                                    <drawtype>0</drawtype>
-                                    <color>0000C8</color>
-                                    <yaxisside>0</yaxisside>
-                                    <calc_fnc>2</calc_fnc>
-                                    <type>0</type>
-                                    <item>
-                                        <host>Template PostgreSQL Server</host>
-                                        <key>pg.backends.count[{$PG_HOST},{$PG_PORT},{$PG_DB},{$PG_USER},{$PG_PASSWD},{#DATABASE},,,,,fastpath function call]</key>
+                                        <key>pg.db.blks_hit[{$PG_CONN},{$PG_DB},{#DATABASE}]</key>
                                     </item>
                                 </graph_item>
                             </graph_items>
@@ -2796,18 +2090,6 @@
                             <ymax_item_1>0</ymax_item_1>
                             <graph_items>
                                 <graph_item>
-                                    <sortorder>0</sortorder>
-                                    <drawtype>0</drawtype>
-                                    <color>C800C8</color>
-                                    <yaxisside>0</yaxisside>
-                                    <calc_fnc>2</calc_fnc>
-                                    <type>0</type>
-                                    <item>
-                                        <host>Template PostgreSQL Server</host>
-                                        <key>pg.db.conflicts[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD}]</key>
-                                    </item>
-                                </graph_item>
-                                <graph_item>
                                     <sortorder>1</sortorder>
                                     <drawtype>0</drawtype>
                                     <color>C80000</color>
@@ -2816,7 +2098,19 @@
                                     <type>0</type>
                                     <item>
                                         <host>Template PostgreSQL Server</host>
-                                        <key>pg.db.deadlocks[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD}]</key>
+                                        <key>pg.db.deadlocks[{$PG_CONN},{$PG_DB},{#DATABASE}]</key>
+                                    </item>
+                                </graph_item>
+                                <graph_item>
+                                    <sortorder>0</sortorder>
+                                    <drawtype>0</drawtype>
+                                    <color>C800C8</color>
+                                    <yaxisside>0</yaxisside>
+                                    <calc_fnc>2</calc_fnc>
+                                    <type>0</type>
+                                    <item>
+                                        <host>Template PostgreSQL Server</host>
+                                        <key>pg.db.conflicts[{$PG_CONN},{$PG_DB},{#DATABASE}]</key>
                                     </item>
                                 </graph_item>
                             </graph_items>
@@ -2840,18 +2134,6 @@
                             <ymax_item_1>0</ymax_item_1>
                             <graph_items>
                                 <graph_item>
-                                    <sortorder>0</sortorder>
-                                    <drawtype>0</drawtype>
-                                    <color>00C800</color>
-                                    <yaxisside>0</yaxisside>
-                                    <calc_fnc>2</calc_fnc>
-                                    <type>0</type>
-                                    <item>
-                                        <host>Template PostgreSQL Server</host>
-                                        <key>pg.table.idx_tup_fetch[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD}]</key>
-                                    </item>
-                                </graph_item>
-                                <graph_item>
                                     <sortorder>1</sortorder>
                                     <drawtype>0</drawtype>
                                     <color>C80000</color>
@@ -2860,7 +2142,19 @@
                                     <type>0</type>
                                     <item>
                                         <host>Template PostgreSQL Server</host>
-                                        <key>pg.table.seq_tup_read[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD}]</key>
+                                        <key>pg.table.seq_tup_read[{$PG_CONN},{#DATABASE}]</key>
+                                    </item>
+                                </graph_item>
+                                <graph_item>
+                                    <sortorder>0</sortorder>
+                                    <drawtype>0</drawtype>
+                                    <color>00C800</color>
+                                    <yaxisside>0</yaxisside>
+                                    <calc_fnc>2</calc_fnc>
+                                    <type>0</type>
+                                    <item>
+                                        <host>Template PostgreSQL Server</host>
+                                        <key>pg.table.idx_tup_fetch[{$PG_CONN},{#DATABASE}]</key>
                                     </item>
                                 </graph_item>
                             </graph_items>
@@ -2884,18 +2178,6 @@
                             <ymax_item_1>0</ymax_item_1>
                             <graph_items>
                                 <graph_item>
-                                    <sortorder>0</sortorder>
-                                    <drawtype>0</drawtype>
-                                    <color>00C800</color>
-                                    <yaxisside>0</yaxisside>
-                                    <calc_fnc>2</calc_fnc>
-                                    <type>0</type>
-                                    <item>
-                                        <host>Template PostgreSQL Server</host>
-                                        <key>pg.db.blk_read_time[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD}]</key>
-                                    </item>
-                                </graph_item>
-                                <graph_item>
                                     <sortorder>1</sortorder>
                                     <drawtype>0</drawtype>
                                     <color>C80000</color>
@@ -2904,7 +2186,19 @@
                                     <type>0</type>
                                     <item>
                                         <host>Template PostgreSQL Server</host>
-                                        <key>pg.db.blk_write_time[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD}]</key>
+                                        <key>pg.db.blk_write_time[{$PG_CONN},{$PG_DB},{#DATABASE}]</key>
+                                    </item>
+                                </graph_item>
+                                <graph_item>
+                                    <sortorder>0</sortorder>
+                                    <drawtype>0</drawtype>
+                                    <color>00C800</color>
+                                    <yaxisside>0</yaxisside>
+                                    <calc_fnc>2</calc_fnc>
+                                    <type>0</type>
+                                    <item>
+                                        <host>Template PostgreSQL Server</host>
+                                        <key>pg.db.blk_read_time[{$PG_CONN},{$PG_DB},{#DATABASE}]</key>
                                     </item>
                                 </graph_item>
                             </graph_items>
@@ -2936,7 +2230,7 @@
                                     <type>0</type>
                                     <item>
                                         <host>Template PostgreSQL Server</host>
-                                        <key>pg.table.rows[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD}]</key>
+                                        <key>pg.table.rows[{$PG_CONN},{#DATABASE}]</key>
                                     </item>
                                 </graph_item>
                                 <graph_item>
@@ -2948,7 +2242,7 @@
                                     <type>0</type>
                                     <item>
                                         <host>Template PostgreSQL Server</host>
-                                        <key>pg.table.n_live_tup[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD}]</key>
+                                        <key>pg.table.n_live_tup[{$PG_CONN},{#DATABASE}]</key>
                                     </item>
                                 </graph_item>
                                 <graph_item>
@@ -2960,7 +2254,7 @@
                                     <type>0</type>
                                     <item>
                                         <host>Template PostgreSQL Server</host>
-                                        <key>pg.table.n_dead_tup[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD}]</key>
+                                        <key>pg.table.n_dead_tup[{$PG_CONN},{#DATABASE}]</key>
                                     </item>
                                 </graph_item>
                             </graph_items>
@@ -2992,7 +2286,7 @@
                                     <type>0</type>
                                     <item>
                                         <host>Template PostgreSQL Server</host>
-                                        <key>pg.db.size[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD}]</key>
+                                        <key>pg.db.size[{$PG_CONN},{$PG_DB},{#DATABASE}]</key>
                                     </item>
                                 </graph_item>
                             </graph_items>
@@ -3016,18 +2310,6 @@
                             <ymax_item_1>0</ymax_item_1>
                             <graph_items>
                                 <graph_item>
-                                    <sortorder>1</sortorder>
-                                    <drawtype>0</drawtype>
-                                    <color>C80000</color>
-                                    <yaxisside>0</yaxisside>
-                                    <calc_fnc>2</calc_fnc>
-                                    <type>0</type>
-                                    <item>
-                                        <host>Template PostgreSQL Server</host>
-                                        <key>pg.db.xact_rollback[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD}]</key>
-                                    </item>
-                                </graph_item>
-                                <graph_item>
                                     <sortorder>0</sortorder>
                                     <drawtype>0</drawtype>
                                     <color>00C800</color>
@@ -3036,7 +2318,19 @@
                                     <type>0</type>
                                     <item>
                                         <host>Template PostgreSQL Server</host>
-                                        <key>pg.db.xact_commit[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD}]</key>
+                                        <key>pg.db.xact_commit[{$PG_CONN},{$PG_DB},{#DATABASE}]</key>
+                                    </item>
+                                </graph_item>
+                                <graph_item>
+                                    <sortorder>1</sortorder>
+                                    <drawtype>0</drawtype>
+                                    <color>C80000</color>
+                                    <yaxisside>0</yaxisside>
+                                    <calc_fnc>2</calc_fnc>
+                                    <type>0</type>
+                                    <item>
+                                        <host>Template PostgreSQL Server</host>
+                                        <key>pg.db.xact_rollback[{$PG_CONN},{$PG_DB},{#DATABASE}]</key>
                                     </item>
                                 </graph_item>
                             </graph_items>
@@ -3060,27 +2354,15 @@
                             <ymax_item_1>0</ymax_item_1>
                             <graph_items>
                                 <graph_item>
-                                    <sortorder>2</sortorder>
+                                    <sortorder>3</sortorder>
                                     <drawtype>0</drawtype>
-                                    <color>C800C8</color>
+                                    <color>0000C8</color>
                                     <yaxisside>0</yaxisside>
                                     <calc_fnc>2</calc_fnc>
                                     <type>0</type>
                                     <item>
                                         <host>Template PostgreSQL Server</host>
-                                        <key>pg.db.tup_inserted[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD}]</key>
-                                    </item>
-                                </graph_item>
-                                <graph_item>
-                                    <sortorder>0</sortorder>
-                                    <drawtype>0</drawtype>
-                                    <color>C80000</color>
-                                    <yaxisside>0</yaxisside>
-                                    <calc_fnc>2</calc_fnc>
-                                    <type>0</type>
-                                    <item>
-                                        <host>Template PostgreSQL Server</host>
-                                        <key>pg.db.tup_deleted[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD}]</key>
+                                        <key>pg.db.tup_returned[{$PG_CONN},{$PG_DB},{#DATABASE}]</key>
                                     </item>
                                 </graph_item>
                                 <graph_item>
@@ -3092,19 +2374,7 @@
                                     <type>0</type>
                                     <item>
                                         <host>Template PostgreSQL Server</host>
-                                        <key>pg.db.tup_fetched[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD}]</key>
-                                    </item>
-                                </graph_item>
-                                <graph_item>
-                                    <sortorder>3</sortorder>
-                                    <drawtype>0</drawtype>
-                                    <color>0000C8</color>
-                                    <yaxisside>0</yaxisside>
-                                    <calc_fnc>2</calc_fnc>
-                                    <type>0</type>
-                                    <item>
-                                        <host>Template PostgreSQL Server</host>
-                                        <key>pg.db.tup_returned[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD}]</key>
+                                        <key>pg.db.tup_fetched[{$PG_CONN},{$PG_DB},{#DATABASE}]</key>
                                     </item>
                                 </graph_item>
                                 <graph_item>
@@ -3116,7 +2386,31 @@
                                     <type>0</type>
                                     <item>
                                         <host>Template PostgreSQL Server</host>
-                                        <key>pg.db.tup_updated[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD}]</key>
+                                        <key>pg.db.tup_updated[{$PG_CONN},{$PG_DB},{#DATABASE}]</key>
+                                    </item>
+                                </graph_item>
+                                <graph_item>
+                                    <sortorder>2</sortorder>
+                                    <drawtype>0</drawtype>
+                                    <color>C800C8</color>
+                                    <yaxisside>0</yaxisside>
+                                    <calc_fnc>2</calc_fnc>
+                                    <type>0</type>
+                                    <item>
+                                        <host>Template PostgreSQL Server</host>
+                                        <key>pg.db.tup_inserted[{$PG_CONN},{$PG_DB},{#DATABASE}]</key>
+                                    </item>
+                                </graph_item>
+                                <graph_item>
+                                    <sortorder>0</sortorder>
+                                    <drawtype>0</drawtype>
+                                    <color>C80000</color>
+                                    <yaxisside>0</yaxisside>
+                                    <calc_fnc>2</calc_fnc>
+                                    <type>0</type>
+                                    <item>
+                                        <host>Template PostgreSQL Server</host>
+                                        <key>pg.db.tup_deleted[{$PG_CONN},{$PG_DB},{#DATABASE}]</key>
                                     </item>
                                 </graph_item>
                             </graph_items>
@@ -3148,19 +2442,7 @@
                                     <type>0</type>
                                     <item>
                                         <host>Template PostgreSQL Server</host>
-                                        <key>pg.table.n_tup_hot_upd[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD}]</key>
-                                    </item>
-                                </graph_item>
-                                <graph_item>
-                                    <sortorder>0</sortorder>
-                                    <drawtype>0</drawtype>
-                                    <color>0000C8</color>
-                                    <yaxisside>0</yaxisside>
-                                    <calc_fnc>2</calc_fnc>
-                                    <type>0</type>
-                                    <item>
-                                        <host>Template PostgreSQL Server</host>
-                                        <key>pg.table.n_tup_ins[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD}]</key>
+                                        <key>pg.table.n_tup_hot_upd[{$PG_CONN},{#DATABASE}]</key>
                                     </item>
                                 </graph_item>
                                 <graph_item>
@@ -3172,7 +2454,7 @@
                                     <type>0</type>
                                     <item>
                                         <host>Template PostgreSQL Server</host>
-                                        <key>pg.table.n_tup_del[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD}]</key>
+                                        <key>pg.table.n_tup_del[{$PG_CONN},{#DATABASE}]</key>
                                     </item>
                                 </graph_item>
                                 <graph_item>
@@ -3184,7 +2466,19 @@
                                     <type>0</type>
                                     <item>
                                         <host>Template PostgreSQL Server</host>
-                                        <key>pg.table.n_tup_upd[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD}]</key>
+                                        <key>pg.table.n_tup_upd[{$PG_CONN},{#DATABASE}]</key>
+                                    </item>
+                                </graph_item>
+                                <graph_item>
+                                    <sortorder>0</sortorder>
+                                    <drawtype>0</drawtype>
+                                    <color>0000C8</color>
+                                    <yaxisside>0</yaxisside>
+                                    <calc_fnc>2</calc_fnc>
+                                    <type>0</type>
+                                    <item>
+                                        <host>Template PostgreSQL Server</host>
+                                        <key>pg.table.n_tup_ins[{$PG_CONN},{#DATABASE}]</key>
                                     </item>
                                 </graph_item>
                             </graph_items>
@@ -3197,8 +2491,8 @@
                     <type>7</type>
                     <snmp_community/>
                     <snmp_oid/>
-                    <key>pg.index.discovery[{$PG_HOST},{$PG_PORT},{$PG_DB},{$PG_USER},{$PG_PASSWD}]</key>
-                    <delay>300</delay>
+                    <key>pg.index.discovery[{$PG_CONN},{$PG_DB}]</key>
+                    <delay>3600</delay>
                     <status>1</status>
                     <allowed_hosts/>
                     <snmpv3_contextname/>
@@ -3227,7 +2521,7 @@
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
-                            <key>pg.index.idx_blks_read[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD},{#INDEX}]</key>
+                            <key>pg.index.idx_blks_read[{$PG_CONN},{#DATABASE},{#INDEX}]</key>
                             <delay>300</delay>
                             <history>90</history>
                             <trends>365</trends>
@@ -3270,7 +2564,7 @@
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
-                            <key>pg.index.idx_blks_hit[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD},{#INDEX}]</key>
+                            <key>pg.index.idx_blks_hit[{$PG_CONN},{#DATABASE},{#INDEX}]</key>
                             <delay>300</delay>
                             <history>90</history>
                             <trends>365</trends>
@@ -3313,7 +2607,7 @@
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
-                            <key>pg.index.idx_tup_fetch[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD},{#INDEX}]</key>
+                            <key>pg.index.idx_tup_fetch[{$PG_CONN},{#DATABASE},{#INDEX}]</key>
                             <delay>300</delay>
                             <history>90</history>
                             <trends>365</trends>
@@ -3356,7 +2650,7 @@
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
-                            <key>pg.index.idx_tup_read[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD},{#INDEX}]</key>
+                            <key>pg.index.idx_tup_read[{$PG_CONN},{#DATABASE},{#INDEX}]</key>
                             <delay>300</delay>
                             <history>90</history>
                             <trends>365</trends>
@@ -3399,7 +2693,7 @@
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
-                            <key>pg.index.rows[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD},{#INDEX}]</key>
+                            <key>pg.index.rows[{$PG_CONN},{#DATABASE},{#INDEX}]</key>
                             <delay>300</delay>
                             <history>90</history>
                             <trends>365</trends>
@@ -3442,7 +2736,7 @@
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
-                            <key>pg.index.idx_scan[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD},{#INDEX}]</key>
+                            <key>pg.index.idx_scan[{$PG_CONN},{#DATABASE},{#INDEX}]</key>
                             <delay>300</delay>
                             <history>90</history>
                             <trends>365</trends>
@@ -3485,7 +2779,7 @@
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
-                            <key>pg.index.size[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD},{#INDEX}]</key>
+                            <key>pg.index.size[{$PG_CONN},{#DATABASE},{#INDEX}]</key>
                             <delay>300</delay>
                             <history>90</history>
                             <trends>365</trends>
@@ -3552,7 +2846,7 @@
                                     <type>0</type>
                                     <item>
                                         <host>Template PostgreSQL Server</host>
-                                        <key>pg.index.idx_blks_hit[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD},{#INDEX}]</key>
+                                        <key>pg.index.idx_blks_hit[{$PG_CONN},{#DATABASE},{#INDEX}]</key>
                                     </item>
                                 </graph_item>
                                 <graph_item>
@@ -3564,7 +2858,7 @@
                                     <type>0</type>
                                     <item>
                                         <host>Template PostgreSQL Server</host>
-                                        <key>pg.index.idx_blks_read[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD},{#INDEX}]</key>
+                                        <key>pg.index.idx_blks_read[{$PG_CONN},{#DATABASE},{#INDEX}]</key>
                                     </item>
                                 </graph_item>
                             </graph_items>
@@ -3588,18 +2882,6 @@
                             <ymax_item_1>0</ymax_item_1>
                             <graph_items>
                                 <graph_item>
-                                    <sortorder>1</sortorder>
-                                    <drawtype>0</drawtype>
-                                    <color>0000C8</color>
-                                    <yaxisside>0</yaxisside>
-                                    <calc_fnc>2</calc_fnc>
-                                    <type>0</type>
-                                    <item>
-                                        <host>Template PostgreSQL Server</host>
-                                        <key>pg.index.idx_tup_read[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD},{#INDEX}]</key>
-                                    </item>
-                                </graph_item>
-                                <graph_item>
                                     <sortorder>0</sortorder>
                                     <drawtype>0</drawtype>
                                     <color>00C800</color>
@@ -3608,7 +2890,7 @@
                                     <type>0</type>
                                     <item>
                                         <host>Template PostgreSQL Server</host>
-                                        <key>pg.index.idx_tup_fetch[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD},{#INDEX}]</key>
+                                        <key>pg.index.idx_tup_fetch[{$PG_CONN},{#DATABASE},{#INDEX}]</key>
                                     </item>
                                 </graph_item>
                                 <graph_item>
@@ -3620,7 +2902,19 @@
                                     <type>0</type>
                                     <item>
                                         <host>Template PostgreSQL Server</host>
-                                        <key>pg.index.idx_scan[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD},{#INDEX}]</key>
+                                        <key>pg.index.idx_scan[{$PG_CONN},{#DATABASE},{#INDEX}]</key>
+                                    </item>
+                                </graph_item>
+                                <graph_item>
+                                    <sortorder>1</sortorder>
+                                    <drawtype>0</drawtype>
+                                    <color>0000C8</color>
+                                    <yaxisside>0</yaxisside>
+                                    <calc_fnc>2</calc_fnc>
+                                    <type>0</type>
+                                    <item>
+                                        <host>Template PostgreSQL Server</host>
+                                        <key>pg.index.idx_tup_read[{$PG_CONN},{#DATABASE},{#INDEX}]</key>
                                     </item>
                                 </graph_item>
                             </graph_items>
@@ -3652,7 +2946,7 @@
                                     <type>0</type>
                                     <item>
                                         <host>Template PostgreSQL Server</host>
-                                        <key>pg.index.rows[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD},{#INDEX}]</key>
+                                        <key>pg.index.rows[{$PG_CONN},{#DATABASE},{#INDEX}]</key>
                                     </item>
                                 </graph_item>
                             </graph_items>
@@ -3684,7 +2978,7 @@
                                     <type>0</type>
                                     <item>
                                         <host>Template PostgreSQL Server</host>
-                                        <key>pg.index.size[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD},{#INDEX}]</key>
+                                        <key>pg.index.size[{$PG_CONN},{#DATABASE},{#INDEX}]</key>
                                     </item>
                                 </graph_item>
                             </graph_items>
@@ -3697,9 +2991,9 @@
                     <type>7</type>
                     <snmp_community/>
                     <snmp_oid/>
-                    <key>pg.setting.discovery[{$PG_HOST},{$PG_PORT},{$PG_DB},{$PG_USER},{$PG_PASSWD}]</key>
-                    <delay>300</delay>
-                    <status>1</status>
+                    <key>pg.setting.discovery[{$PG_CONN},{$PG_DB}]</key>
+                    <delay>3600</delay>
+                    <status>0</status>
                     <allowed_hosts/>
                     <snmpv3_contextname/>
                     <snmpv3_securityname/>
@@ -3727,7 +3021,7 @@
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
-                            <key>pg.setting[{$PG_HOST},{$PG_PORT},{$PG_DB},{$PG_USER},{$PG_PASSWD},{#SETTING}]</key>
+                            <key>pg.setting[{$PG_CONN},{$PG_DB},{#SETTING}]</key>
                             <delay>300</delay>
                             <history>90</history>
                             <trends>365</trends>
@@ -3774,8 +3068,8 @@
                     <type>7</type>
                     <snmp_community/>
                     <snmp_oid/>
-                    <key>pg.table.discovery[{$PG_HOST},{$PG_PORT},{$PG_DB},{$PG_USER},{$PG_PASSWD}]</key>
-                    <delay>300</delay>
+                    <key>pg.table.discovery[{$PG_CONN},{$PG_DB}]</key>
+                    <delay>3600</delay>
                     <status>1</status>
                     <allowed_hosts/>
                     <snmpv3_contextname/>
@@ -3804,10 +3098,10 @@
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
-                            <key>pg.table.analyze_count[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD},{#TABLE}]</key>
+                            <key>pg.table.analyze_count[{$PG_CONN},{#DATABASE},{#TABLE}]</key>
                             <delay>300</delay>
-                            <history>1</history>
-                            <trends>3650</trends>
+                            <history>90</history>
+                            <trends>365</trends>
                             <status>0</status>
                             <value_type>3</value_type>
                             <allowed_hosts/>
@@ -3847,10 +3141,10 @@
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
-                            <key>pg.table.autoanalyze_count[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD},{#TABLE}]</key>
+                            <key>pg.table.autoanalyze_count[{$PG_CONN},{#DATABASE},{#TABLE}]</key>
                             <delay>300</delay>
-                            <history>1</history>
-                            <trends>3650</trends>
+                            <history>90</history>
+                            <trends>365</trends>
                             <status>0</status>
                             <value_type>3</value_type>
                             <allowed_hosts/>
@@ -3890,10 +3184,10 @@
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
-                            <key>pg.table.autovacuum_count[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD},{#TABLE}]</key>
+                            <key>pg.table.autovacuum_count[{$PG_CONN},{#DATABASE},{#TABLE}]</key>
                             <delay>300</delay>
-                            <history>1</history>
-                            <trends>3650</trends>
+                            <history>90</history>
+                            <trends>365</trends>
                             <status>0</status>
                             <value_type>3</value_type>
                             <allowed_hosts/>
@@ -3933,10 +3227,10 @@
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
-                            <key>pg.table.n_dead_tup[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD},{#TABLE}]</key>
+                            <key>pg.table.n_dead_tup[{$PG_CONN},{#DATABASE},{#TABLE}]</key>
                             <delay>300</delay>
-                            <history>1</history>
-                            <trends>3650</trends>
+                            <history>90</history>
+                            <trends>365</trends>
                             <status>0</status>
                             <value_type>3</value_type>
                             <allowed_hosts/>
@@ -3976,10 +3270,10 @@
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
-                            <key>pg.table.n_live_tup[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD},{#TABLE}]</key>
+                            <key>pg.table.n_live_tup[{$PG_CONN},{#DATABASE},{#TABLE}]</key>
                             <delay>300</delay>
-                            <history>1</history>
-                            <trends>3650</trends>
+                            <history>90</history>
+                            <trends>365</trends>
                             <status>0</status>
                             <value_type>3</value_type>
                             <allowed_hosts/>
@@ -4019,10 +3313,10 @@
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
-                            <key>pg.table.rows[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD},{#TABLE}]</key>
+                            <key>pg.table.rows[{$PG_CONN},{#DATABASE},{#TABLE}]</key>
                             <delay>300</delay>
-                            <history>1</history>
-                            <trends>3650</trends>
+                            <history>90</history>
+                            <trends>365</trends>
                             <status>0</status>
                             <value_type>3</value_type>
                             <allowed_hosts/>
@@ -4062,10 +3356,10 @@
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
-                            <key>pg.table.idx_scan[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD},{#TABLE}]</key>
+                            <key>pg.table.idx_scan[{$PG_CONN},{#DATABASE},{#TABLE}]</key>
                             <delay>300</delay>
-                            <history>1</history>
-                            <trends>3650</trends>
+                            <history>90</history>
+                            <trends>365</trends>
                             <status>0</status>
                             <value_type>0</value_type>
                             <allowed_hosts/>
@@ -4105,9 +3399,9 @@
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
-                            <key>pg.table.last_analyze[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD},{#TABLE}]</key>
+                            <key>pg.table.last_analyze[{$PG_CONN},{#DATABASE},{#TABLE}]</key>
                             <delay>300</delay>
-                            <history>1</history>
+                            <history>90</history>
                             <trends>365</trends>
                             <status>0</status>
                             <value_type>4</value_type>
@@ -4148,9 +3442,9 @@
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
-                            <key>pg.table.last_autoanalyze[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD},{#TABLE}]</key>
+                            <key>pg.table.last_autoanalyze[{$PG_CONN},{#DATABASE},{#TABLE}]</key>
                             <delay>300</delay>
-                            <history>1</history>
+                            <history>90</history>
                             <trends>365</trends>
                             <status>0</status>
                             <value_type>4</value_type>
@@ -4191,9 +3485,9 @@
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
-                            <key>pg.table.last_autovacuum[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD},{#TABLE}]</key>
+                            <key>pg.table.last_autovacuum[{$PG_CONN},{#DATABASE},{#TABLE}]</key>
                             <delay>300</delay>
-                            <history>1</history>
+                            <history>90</history>
                             <trends>365</trends>
                             <status>0</status>
                             <value_type>4</value_type>
@@ -4234,9 +3528,9 @@
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
-                            <key>pg.table.last_vacuum[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD},{#TABLE}]</key>
+                            <key>pg.table.last_vacuum[{$PG_CONN},{#DATABASE},{#TABLE}]</key>
                             <delay>300</delay>
-                            <history>1</history>
+                            <history>90</history>
                             <trends>365</trends>
                             <status>0</status>
                             <value_type>4</value_type>
@@ -4277,10 +3571,10 @@
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
-                            <key>pg.table.idx_tup_fetch[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD},{#TABLE}]</key>
+                            <key>pg.table.idx_tup_fetch[{$PG_CONN},{#DATABASE},{#TABLE}]</key>
                             <delay>300</delay>
-                            <history>1</history>
-                            <trends>3650</trends>
+                            <history>90</history>
+                            <trends>365</trends>
                             <status>0</status>
                             <value_type>0</value_type>
                             <allowed_hosts/>
@@ -4320,10 +3614,10 @@
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
-                            <key>pg.table.seq_tup_read[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD},{#TABLE}]</key>
+                            <key>pg.table.seq_tup_read[{$PG_CONN},{#DATABASE},{#TABLE}]</key>
                             <delay>300</delay>
-                            <history>1</history>
-                            <trends>3650</trends>
+                            <history>90</history>
+                            <trends>365</trends>
                             <status>0</status>
                             <value_type>0</value_type>
                             <allowed_hosts/>
@@ -4363,10 +3657,10 @@
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
-                            <key>pg.table.vacuum_count[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD},{#TABLE}]</key>
+                            <key>pg.table.vacuum_count[{$PG_CONN},{#DATABASE},{#TABLE}]</key>
                             <delay>300</delay>
-                            <history>1</history>
-                            <trends>3650</trends>
+                            <history>90</history>
+                            <trends>365</trends>
                             <status>0</status>
                             <value_type>3</value_type>
                             <allowed_hosts/>
@@ -4406,10 +3700,10 @@
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
-                            <key>pg.table.n_tup_del[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD},{#TABLE}]</key>
+                            <key>pg.table.n_tup_del[{$PG_CONN},{#DATABASE},{#TABLE}]</key>
                             <delay>300</delay>
-                            <history>1</history>
-                            <trends>3650</trends>
+                            <history>90</history>
+                            <trends>365</trends>
                             <status>0</status>
                             <value_type>0</value_type>
                             <allowed_hosts/>
@@ -4449,10 +3743,10 @@
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
-                            <key>pg.table.n_tup_hot_upd[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD},{#TABLE}]</key>
+                            <key>pg.table.n_tup_hot_upd[{$PG_CONN},{#DATABASE},{#TABLE}]</key>
                             <delay>300</delay>
-                            <history>1</history>
-                            <trends>3650</trends>
+                            <history>90</history>
+                            <trends>365</trends>
                             <status>0</status>
                             <value_type>0</value_type>
                             <allowed_hosts/>
@@ -4492,10 +3786,10 @@
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
-                            <key>pg.table.n_tup_ins[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD},{#TABLE}]</key>
+                            <key>pg.table.n_tup_ins[{$PG_CONN},{#DATABASE},{#TABLE}]</key>
                             <delay>300</delay>
-                            <history>1</history>
-                            <trends>3650</trends>
+                            <history>90</history>
+                            <trends>365</trends>
                             <status>0</status>
                             <value_type>0</value_type>
                             <allowed_hosts/>
@@ -4535,10 +3829,10 @@
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
-                            <key>pg.table.n_tup_upd[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD},{#TABLE}]</key>
+                            <key>pg.table.n_tup_upd[{$PG_CONN},{#DATABASE},{#TABLE}]</key>
                             <delay>300</delay>
-                            <history>1</history>
-                            <trends>3650</trends>
+                            <history>90</history>
+                            <trends>365</trends>
                             <status>0</status>
                             <value_type>0</value_type>
                             <allowed_hosts/>
@@ -4578,10 +3872,10 @@
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
-                            <key>pg.table.seq_scan[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD},{#TABLE}]</key>
+                            <key>pg.table.seq_scan[{$PG_CONN},{#DATABASE},{#TABLE}]</key>
                             <delay>300</delay>
-                            <history>1</history>
-                            <trends>3650</trends>
+                            <history>90</history>
+                            <trends>365</trends>
                             <status>0</status>
                             <value_type>0</value_type>
                             <allowed_hosts/>
@@ -4621,10 +3915,10 @@
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
-                            <key>pg.table.size[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD},{#TABLE}]</key>
+                            <key>pg.table.size[{$PG_CONN},{#DATABASE},{#TABLE}]</key>
                             <delay>300</delay>
-                            <history>1</history>
-                            <trends>3650</trends>
+                            <history>90</history>
+                            <trends>365</trends>
                             <status>0</status>
                             <value_type>3</value_type>
                             <allowed_hosts/>
@@ -4680,18 +3974,6 @@
                             <ymax_item_1>0</ymax_item_1>
                             <graph_items>
                                 <graph_item>
-                                    <sortorder>1</sortorder>
-                                    <drawtype>0</drawtype>
-                                    <color>C80000</color>
-                                    <yaxisside>0</yaxisside>
-                                    <calc_fnc>2</calc_fnc>
-                                    <type>0</type>
-                                    <item>
-                                        <host>Template PostgreSQL Server</host>
-                                        <key>pg.table.seq_tup_read[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD},{#TABLE}]</key>
-                                    </item>
-                                </graph_item>
-                                <graph_item>
                                     <sortorder>0</sortorder>
                                     <drawtype>0</drawtype>
                                     <color>00C800</color>
@@ -4700,7 +3982,19 @@
                                     <type>0</type>
                                     <item>
                                         <host>Template PostgreSQL Server</host>
-                                        <key>pg.table.idx_tup_fetch[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD},{#TABLE}]</key>
+                                        <key>pg.table.idx_tup_fetch[{$PG_CONN},{#DATABASE},{#TABLE}]</key>
+                                    </item>
+                                </graph_item>
+                                <graph_item>
+                                    <sortorder>1</sortorder>
+                                    <drawtype>0</drawtype>
+                                    <color>C80000</color>
+                                    <yaxisside>0</yaxisside>
+                                    <calc_fnc>2</calc_fnc>
+                                    <type>0</type>
+                                    <item>
+                                        <host>Template PostgreSQL Server</host>
+                                        <key>pg.table.seq_tup_read[{$PG_CONN},{#DATABASE},{#TABLE}]</key>
                                     </item>
                                 </graph_item>
                             </graph_items>
@@ -4724,6 +4018,18 @@
                             <ymax_item_1>0</ymax_item_1>
                             <graph_items>
                                 <graph_item>
+                                    <sortorder>0</sortorder>
+                                    <drawtype>0</drawtype>
+                                    <color>C80000</color>
+                                    <yaxisside>0</yaxisside>
+                                    <calc_fnc>2</calc_fnc>
+                                    <type>0</type>
+                                    <item>
+                                        <host>Template PostgreSQL Server</host>
+                                        <key>pg.table.analyze_count[{$PG_CONN},{#DATABASE},{#TABLE}]</key>
+                                    </item>
+                                </graph_item>
+                                <graph_item>
                                     <sortorder>3</sortorder>
                                     <drawtype>0</drawtype>
                                     <color>C800C8</color>
@@ -4732,7 +4038,7 @@
                                     <type>0</type>
                                     <item>
                                         <host>Template PostgreSQL Server</host>
-                                        <key>pg.table.vacuum_count[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD},{#TABLE}]</key>
+                                        <key>pg.table.vacuum_count[{$PG_CONN},{#DATABASE},{#TABLE}]</key>
                                     </item>
                                 </graph_item>
                                 <graph_item>
@@ -4744,19 +4050,7 @@
                                     <type>0</type>
                                     <item>
                                         <host>Template PostgreSQL Server</host>
-                                        <key>pg.table.autoanalyze_count[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD},{#TABLE}]</key>
-                                    </item>
-                                </graph_item>
-                                <graph_item>
-                                    <sortorder>0</sortorder>
-                                    <drawtype>0</drawtype>
-                                    <color>C80000</color>
-                                    <yaxisside>0</yaxisside>
-                                    <calc_fnc>2</calc_fnc>
-                                    <type>0</type>
-                                    <item>
-                                        <host>Template PostgreSQL Server</host>
-                                        <key>pg.table.analyze_count[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD},{#TABLE}]</key>
+                                        <key>pg.table.autoanalyze_count[{$PG_CONN},{#DATABASE},{#TABLE}]</key>
                                     </item>
                                 </graph_item>
                                 <graph_item>
@@ -4768,7 +4062,7 @@
                                     <type>0</type>
                                     <item>
                                         <host>Template PostgreSQL Server</host>
-                                        <key>pg.table.autovacuum_count[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD},{#TABLE}]</key>
+                                        <key>pg.table.autovacuum_count[{$PG_CONN},{#DATABASE},{#TABLE}]</key>
                                     </item>
                                 </graph_item>
                             </graph_items>
@@ -4792,6 +4086,18 @@
                             <ymax_item_1>0</ymax_item_1>
                             <graph_items>
                                 <graph_item>
+                                    <sortorder>1</sortorder>
+                                    <drawtype>0</drawtype>
+                                    <color>00C800</color>
+                                    <yaxisside>0</yaxisside>
+                                    <calc_fnc>2</calc_fnc>
+                                    <type>0</type>
+                                    <item>
+                                        <host>Template PostgreSQL Server</host>
+                                        <key>pg.table.n_live_tup[{$PG_CONN},{#DATABASE},{#TABLE}]</key>
+                                    </item>
+                                </graph_item>
+                                <graph_item>
                                     <sortorder>0</sortorder>
                                     <drawtype>0</drawtype>
                                     <color>C80000</color>
@@ -4800,7 +4106,7 @@
                                     <type>0</type>
                                     <item>
                                         <host>Template PostgreSQL Server</host>
-                                        <key>pg.table.n_dead_tup[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD},{#TABLE}]</key>
+                                        <key>pg.table.n_dead_tup[{$PG_CONN},{#DATABASE},{#TABLE}]</key>
                                     </item>
                                 </graph_item>
                                 <graph_item>
@@ -4812,19 +4118,7 @@
                                     <type>0</type>
                                     <item>
                                         <host>Template PostgreSQL Server</host>
-                                        <key>pg.table.rows[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD},{#TABLE}]</key>
-                                    </item>
-                                </graph_item>
-                                <graph_item>
-                                    <sortorder>1</sortorder>
-                                    <drawtype>0</drawtype>
-                                    <color>00C800</color>
-                                    <yaxisside>0</yaxisside>
-                                    <calc_fnc>2</calc_fnc>
-                                    <type>0</type>
-                                    <item>
-                                        <host>Template PostgreSQL Server</host>
-                                        <key>pg.table.n_live_tup[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD},{#TABLE}]</key>
+                                        <key>pg.table.rows[{$PG_CONN},{#DATABASE},{#TABLE}]</key>
                                     </item>
                                 </graph_item>
                             </graph_items>
@@ -4856,7 +4150,7 @@
                                     <type>0</type>
                                     <item>
                                         <host>Template PostgreSQL Server</host>
-                                        <key>pg.table.idx_scan[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD},{#TABLE}]</key>
+                                        <key>pg.table.idx_scan[{$PG_CONN},{#DATABASE},{#TABLE}]</key>
                                     </item>
                                 </graph_item>
                                 <graph_item>
@@ -4868,7 +4162,7 @@
                                     <type>0</type>
                                     <item>
                                         <host>Template PostgreSQL Server</host>
-                                        <key>pg.table.seq_scan[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD},{#TABLE}]</key>
+                                        <key>pg.table.seq_scan[{$PG_CONN},{#DATABASE},{#TABLE}]</key>
                                     </item>
                                 </graph_item>
                             </graph_items>
@@ -4900,7 +4194,7 @@
                                     <type>0</type>
                                     <item>
                                         <host>Template PostgreSQL Server</host>
-                                        <key>pg.table.size[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD},{#TABLE}]</key>
+                                        <key>pg.table.size[{$PG_CONN},{#DATABASE},{#TABLE}]</key>
                                     </item>
                                 </graph_item>
                             </graph_items>
@@ -4924,15 +4218,15 @@
                             <ymax_item_1>0</ymax_item_1>
                             <graph_items>
                                 <graph_item>
-                                    <sortorder>3</sortorder>
+                                    <sortorder>1</sortorder>
                                     <drawtype>0</drawtype>
-                                    <color>C80000</color>
+                                    <color>C800C8</color>
                                     <yaxisside>0</yaxisside>
                                     <calc_fnc>2</calc_fnc>
                                     <type>0</type>
                                     <item>
                                         <host>Template PostgreSQL Server</host>
-                                        <key>pg.table.n_tup_del[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD},{#TABLE}]</key>
+                                        <key>pg.table.n_tup_upd[{$PG_CONN},{#DATABASE},{#TABLE}]</key>
                                     </item>
                                 </graph_item>
                                 <graph_item>
@@ -4944,7 +4238,7 @@
                                     <type>0</type>
                                     <item>
                                         <host>Template PostgreSQL Server</host>
-                                        <key>pg.table.n_tup_hot_upd[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD},{#TABLE}]</key>
+                                        <key>pg.table.n_tup_hot_upd[{$PG_CONN},{#DATABASE},{#TABLE}]</key>
                                     </item>
                                 </graph_item>
                                 <graph_item>
@@ -4956,19 +4250,19 @@
                                     <type>0</type>
                                     <item>
                                         <host>Template PostgreSQL Server</host>
-                                        <key>pg.table.n_tup_ins[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD},{#TABLE}]</key>
+                                        <key>pg.table.n_tup_ins[{$PG_CONN},{#DATABASE},{#TABLE}]</key>
                                     </item>
                                 </graph_item>
                                 <graph_item>
-                                    <sortorder>1</sortorder>
+                                    <sortorder>3</sortorder>
                                     <drawtype>0</drawtype>
-                                    <color>C800C8</color>
+                                    <color>C80000</color>
                                     <yaxisside>0</yaxisside>
                                     <calc_fnc>2</calc_fnc>
                                     <type>0</type>
                                     <item>
                                         <host>Template PostgreSQL Server</host>
-                                        <key>pg.table.n_tup_upd[{$PG_HOST},{$PG_PORT},{#DATABASE},{$PG_USER},{$PG_PASSWD},{#TABLE}]</key>
+                                        <key>pg.table.n_tup_del[{$PG_CONN},{#DATABASE},{#TABLE}]</key>
                                     </item>
                                 </graph_item>
                             </graph_items>
@@ -4981,8 +4275,8 @@
                     <type>7</type>
                     <snmp_community/>
                     <snmp_oid/>
-                    <key>pg.tablespace.discovery[{$PG_HOST},{$PG_PORT},{$PG_DB},{$PG_USER},{$PG_PASSWD}]</key>
-                    <delay>300</delay>
+                    <key>pg.tablespace.discovery[{$PG_CONN},{$PG_DB}]</key>
+                    <delay>3600</delay>
                     <status>0</status>
                     <allowed_hosts/>
                     <snmpv3_contextname/>
@@ -5011,10 +4305,10 @@
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
-                            <key>pg.tablespace.size[{$PG_HOST},{$PG_PORT},{$PG_DB},{$PG_USER},{$PG_PASSWD},{#TABLESPACE}]</key>
+                            <key>pg.tablespace.size[{$PG_CONN},{$PG_DB},{#TABLESPACE}]</key>
                             <delay>300</delay>
-                            <history>1</history>
-                            <trends>3650</trends>
+                            <history>90</history>
+                            <trends>365</trends>
                             <status>0</status>
                             <value_type>3</value_type>
                             <allowed_hosts/>
@@ -5078,7 +4372,7 @@
                                     <type>0</type>
                                     <item>
                                         <host>Template PostgreSQL Server</host>
-                                        <key>pg.tablespace.size[{$PG_HOST},{$PG_PORT},{$PG_DB},{$PG_USER},{$PG_PASSWD},{#TABLESPACE}]</key>
+                                        <key>pg.tablespace.size[{$PG_CONN},{$PG_DB},{#TABLESPACE}]</key>
                                     </item>
                                 </graph_item>
                             </graph_items>
@@ -5089,23 +4383,11 @@
             </discovery_rules>
             <macros>
                 <macro>
+                    <macro>{$PG_CONN}</macro>
+                    <value>host=127.0.0.1 port=5432</value>
+                </macro>
+                <macro>
                     <macro>{$PG_DB}</macro>
-                    <value/>
-                </macro>
-                <macro>
-                    <macro>{$PG_HOST}</macro>
-                    <value>localhost</value>
-                </macro>
-                <macro>
-                    <macro>{$PG_PASSWD}</macro>
-                    <value/>
-                </macro>
-                <macro>
-                    <macro>{$PG_PORT}</macro>
-                    <value/>
-                </macro>
-                <macro>
-                    <macro>{$PG_USER}</macro>
                     <value>postgres</value>
                 </macro>
             </macros>
@@ -5141,43 +4423,7 @@
                     <type>0</type>
                     <item>
                         <host>Template PostgreSQL Server</host>
-                        <key>pg.backends.count[{$PG_HOST},{$PG_PORT},{$PG_DB},{$PG_USER},{$PG_PASSWD}]</key>
-                    </item>
-                </graph_item>
-                <graph_item>
-                    <sortorder>0</sortorder>
-                    <drawtype>0</drawtype>
-                    <color>00C800</color>
-                    <yaxisside>0</yaxisside>
-                    <calc_fnc>2</calc_fnc>
-                    <type>0</type>
-                    <item>
-                        <host>Template PostgreSQL Server</host>
-                        <key>pg.backends.count[{$PG_HOST},{$PG_PORT},{$PG_DB},{$PG_USER},{$PG_PASSWD},,,,,,active]</key>
-                    </item>
-                </graph_item>
-                <graph_item>
-                    <sortorder>1</sortorder>
-                    <drawtype>0</drawtype>
-                    <color>0000C8</color>
-                    <yaxisside>0</yaxisside>
-                    <calc_fnc>2</calc_fnc>
-                    <type>0</type>
-                    <item>
-                        <host>Template PostgreSQL Server</host>
-                        <key>pg.backends.count[{$PG_HOST},{$PG_PORT},{$PG_DB},{$PG_USER},{$PG_PASSWD},,,,,,idle]</key>
-                    </item>
-                </graph_item>
-                <graph_item>
-                    <sortorder>2</sortorder>
-                    <drawtype>0</drawtype>
-                    <color>C80000</color>
-                    <yaxisside>0</yaxisside>
-                    <calc_fnc>2</calc_fnc>
-                    <type>0</type>
-                    <item>
-                        <host>Template PostgreSQL Server</host>
-                        <key>pg.backends.count[{$PG_HOST},{$PG_PORT},{$PG_DB},{$PG_USER},{$PG_PASSWD},,,,,true]</key>
+                        <key>pg.backends.count[{$PG_CONN},{$PG_DB}]</key>
                     </item>
                 </graph_item>
             </graph_items>
@@ -5201,18 +4447,6 @@
             <ymax_item_1>0</ymax_item_1>
             <graph_items>
                 <graph_item>
-                    <sortorder>1</sortorder>
-                    <drawtype>0</drawtype>
-                    <color>C80000</color>
-                    <yaxisside>0</yaxisside>
-                    <calc_fnc>2</calc_fnc>
-                    <type>0</type>
-                    <item>
-                        <host>Template PostgreSQL Server</host>
-                        <key>pg.buffers_clean[{$PG_HOST},{$PG_PORT},{$PG_DB},{$PG_USER},{$PG_PASSWD}]</key>
-                    </item>
-                </graph_item>
-                <graph_item>
                     <sortorder>0</sortorder>
                     <drawtype>0</drawtype>
                     <color>00C800</color>
@@ -5221,7 +4455,19 @@
                     <type>0</type>
                     <item>
                         <host>Template PostgreSQL Server</host>
-                        <key>pg.buffers_alloc[{$PG_HOST},{$PG_PORT},{$PG_DB},{$PG_USER},{$PG_PASSWD}]</key>
+                        <key>pg.buffers_alloc[{$PG_CONN},{$PG_DB}]</key>
+                    </item>
+                </graph_item>
+                <graph_item>
+                    <sortorder>1</sortorder>
+                    <drawtype>0</drawtype>
+                    <color>C80000</color>
+                    <yaxisside>0</yaxisside>
+                    <calc_fnc>2</calc_fnc>
+                    <type>0</type>
+                    <item>
+                        <host>Template PostgreSQL Server</host>
+                        <key>pg.buffers_clean[{$PG_CONN},{$PG_DB}]</key>
                     </item>
                 </graph_item>
                 <graph_item>
@@ -5233,7 +4479,7 @@
                     <type>0</type>
                     <item>
                         <host>Template PostgreSQL Server</host>
-                        <key>pg.buffers_checkpoint[{$PG_HOST},{$PG_PORT},{$PG_DB},{$PG_USER},{$PG_PASSWD}]</key>
+                        <key>pg.buffers_checkpoint[{$PG_CONN},{$PG_DB}]</key>
                     </item>
                 </graph_item>
                 <graph_item>
@@ -5245,7 +4491,7 @@
                     <type>0</type>
                     <item>
                         <host>Template PostgreSQL Server</host>
-                        <key>pg.buffers_backend[{$PG_HOST},{$PG_PORT},{$PG_DB},{$PG_USER},{$PG_PASSWD}]</key>
+                        <key>pg.buffers_backend[{$PG_CONN},{$PG_DB}]</key>
                     </item>
                 </graph_item>
             </graph_items>
@@ -5269,18 +4515,6 @@
             <ymax_item_1>0</ymax_item_1>
             <graph_items>
                 <graph_item>
-                    <sortorder>0</sortorder>
-                    <drawtype>0</drawtype>
-                    <color>00C800</color>
-                    <yaxisside>0</yaxisside>
-                    <calc_fnc>2</calc_fnc>
-                    <type>0</type>
-                    <item>
-                        <host>Template PostgreSQL Server</host>
-                        <key>pg.checkpoint_sync_time[{$PG_HOST},{$PG_PORT},{$PG_DB},{$PG_USER},{$PG_PASSWD}]</key>
-                    </item>
-                </graph_item>
-                <graph_item>
                     <sortorder>1</sortorder>
                     <drawtype>0</drawtype>
                     <color>0000C8</color>
@@ -5289,7 +4523,19 @@
                     <type>0</type>
                     <item>
                         <host>Template PostgreSQL Server</host>
-                        <key>pg.checkpoint_write_time[{$PG_HOST},{$PG_PORT},{$PG_DB},{$PG_USER},{$PG_PASSWD}]</key>
+                        <key>pg.checkpoint_write_time[{$PG_CONN},{$PG_DB}]</key>
+                    </item>
+                </graph_item>
+                <graph_item>
+                    <sortorder>0</sortorder>
+                    <drawtype>0</drawtype>
+                    <color>00C800</color>
+                    <yaxisside>0</yaxisside>
+                    <calc_fnc>2</calc_fnc>
+                    <type>0</type>
+                    <item>
+                        <host>Template PostgreSQL Server</host>
+                        <key>pg.checkpoint_sync_time[{$PG_CONN},{$PG_DB}]</key>
                     </item>
                 </graph_item>
             </graph_items>
