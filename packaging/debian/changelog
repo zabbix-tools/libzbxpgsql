@@ -1,5 +1,23 @@
-libzbxpgsql (0.1.3-1) UNRELEASED; urgency=low
+libzbxpgsql (0.2.0-1) UNRELEASED; urgency=low
 
-  * Added configuration directive discovery
+  * Improved connections parameters on all item keys
 
- -- Ryan Armstrong <ryan@cavaliercoder.com>  Tue, 17 Mar 2015 02:50:00 +0000
+  * Add custom discovery rules via `pg.query.discovery`
+
+  * Fixed compatability issues with < v9.2
+
+  * Added support for OpenSUSE v13.2
+
+  * Added SQL injection prevention
+
+  * Added `pg.uptime` and `pg.starttime` keys
+
+  * Added `pg.modver` key to monitor the installed `libzbxpgsql` version
+
+  * Reduced required privileges for all keys to just `LOGIN`
+
+  * Fixed integer overflow issues on large objects
+
+  * Improved automated testing and packaging using Docker and `zabbix_agent_bench`
+  
+ -- Ryan Armstrong <ryan@cavaliercoder.com>  Tue, 17 Aug 2015 02:50:00 +0000

@@ -1,6 +1,6 @@
 Name        : libzbxpgsql
 Vendor      : cavaliercoder
-Version     : 0.1.3
+Version     : 0.2.0
 Release     : 1%{?dist}
 Summary     : PostgreSQL monitoring module for Zabbix
 
@@ -13,14 +13,18 @@ Source0     : %{name}-%{version}.tar.gz
 
 Buildroot   : %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-%if "%{_vendor}" == "redhat" || "%{_vendor}" == "suse"
 BuildRequires : libtool
 BuildRequires : postgresql-devel
-%endif
 
 # package dependencies
 Requires    : zabbix-agent >= 2.2.0
-Requires    : postgresql-libs >= 9.2.7
+
+%if "%{_vendor}" == "redhat"
+Requires    : postgresql-libs >= 8.1.23
+%endif
+%if "%{_vendor}" == "suse"
+Requires    : libpq5
+%endif
 
 %description
 libzbxpgsql is a comprehensive PostgreSQL discovery and monitoring module for the Zabbix monitoring agent written in C.
@@ -64,6 +68,18 @@ rm -rf $RPM_BUILD_ROOT
 %{_sysconfdir}/zabbix/zabbix_agentd.d/%{name}.conf
 
 %changelog
+* Sun Aug 16 2015 Ryan Armstrong <ryan@cavaliercoder.com> 0.2.0-1
+- Improved connections parameters on all item keys
+- Add custom discovery rules via `pg.query.discovery`
+- Fixed compatability issues with < v9.2
+- Added support for OpenSUSE v13.2
+- Added SQL injection prevention
+- Added `pg.uptime` and `pg.starttime` keys
+- Added `pg.modver` key to monitor the installed `libzbxpgsql` version
+- Reduced required privileges for all keys to just `LOGIN`
+- Fixed integer overflow issues on large objects
+- Improved automated testing and packaging using Docker and `zabbix_agent_bench`
+
 * Tue Mar 17 2015 Ryan Armstrong <ryan@cavaliercoder.com> 0.1.3-1
 - Added configuration directive discovery
 
