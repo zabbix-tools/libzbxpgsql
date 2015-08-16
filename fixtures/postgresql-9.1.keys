@@ -14,9 +14,9 @@ pg.uptime[{%PGCONN},{%PGDATABASE}]
 pg.setting.discovery[{%PGCONN},{%PGDATABASE}]
     pg.setting[{%PGCONN},{%PGDATABASE},{#SETTING}]
 
-pg.query.string[{%PGCONN},{%PGDATABASE},SELECT 'Lorem ipsem dolor';]
-pg.query.integer[{%PGCONN},{%PGDATABASE},SELECT 1234;]
-pg.query.double[{%PGCONN},{%PGDATABASE},SELECT 1234.0;]
+pg.query.string[{%PGCONN},{%PGDATABASE},"SELECT $1::text || $2::text;",hello,world]
+pg.query.integer[{%PGCONN},{%PGDATABASE},"SELECT $1::int;",1234]
+pg.query.double[{%PGCONN},{%PGDATABASE},"SELECT $1::decimal;",12.34]
 pg.query.discovery[{%PGCONN},{%PGDATABASE},SELECT * FROM pg_database]
 
 pg.backends.count[{%PGCONN},{%PGDATABASE}]

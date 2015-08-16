@@ -39,9 +39,9 @@ int     PG_QUERY(AGENT_REQUEST *request, AGENT_RESULT *result)
 {
     int         ret = SYSINFO_RET_FAIL;         // Request result code
     const char  *__function_name = "PG_QUERY";  // Function name for log file
-    char        *query = NULL;
-    // char        **params = NULL;
-    // int         nparams = 0, i = 0;
+    char        *query = NULL, *param = NULL;
+    int         nparams = 0, i = 0;
+    PGparams    params = NULL;
 
     zabbix_log(LOG_LEVEL_DEBUG, "In %s()", __function_name);
 
@@ -52,31 +52,27 @@ int     PG_QUERY(AGENT_REQUEST *request, AGENT_RESULT *result)
         goto out;
     }
 
-    // TODO: allocate array of additional parameters in pg.query.*
-    /*
-    if(request->nparam > 3) {
-        nparams = request->nparam - 3;
-        params = zbx_malloc(params, sizeof(params) * nparams);
+    // parse user params
+    zabbix_log(LOG_LEVEL_ERR, "Appending %i params\n", request->nparam - 3);
+    for (i = 3; i < request->nparam; i++) {
+        zabbix_log(LOG_LEVEL_ERR, "Appending val: %s\n", get_rparam(request, i));
 
-        for(i = 0; i < nparams; i++) {
-            params[i] = get_rparam(request, 3 + i);
-        }
+        params = param_append(params, get_rparam(request, i));
     }
-    */
 
     // Return the appropriate result type for this key
     // as per `pg.query.{type}`
     if(0 == strncmp(&request->key[9], "string", 5))
-        ret = pg_get_string(request, result, query, NULL);
+        ret = pg_get_string(request, result, query, params);
 
     else if(0 == strncmp(&request->key[9], "integer", 7))
-        ret = pg_get_int(request, result, query, NULL);
+        ret = pg_get_int(request, result, query, params);
 
     else if(0 == strncmp(&request->key[9], "double", 6))
-        ret = pg_get_dbl(request, result, query, NULL);
+        ret = pg_get_dbl(request, result, query, params);
 
     else if(0 == strncmp(&request->key[9], "discovery", 9))
-        ret = pg_get_discovery(request, result, query, NULL);
+        ret = pg_get_discovery(request, result, query, params);
 
     else
         zabbix_log(LOG_LEVEL_ERR, "Unsupported query return type: %s in %s()", request->key[9], __function_name);
