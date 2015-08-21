@@ -98,6 +98,10 @@ following:
 
 {% highlight sql %}
 CREATE ROLE monitoring WITH LOGIN NOSUPERUSER NOCREATEDB NOCREATEROLE;
+
+-- and for each <dbname> you wish to monitor:
+GRANT CONNECT ON DATABASE <dbname> TO monitoring;
+
 {% endhighlight %}
 
 You can then connect as the `monitoring` account by passing it in your
