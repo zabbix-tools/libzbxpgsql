@@ -25,8 +25,6 @@
  * Returns the value of the first column of the first row returned by the
  * specified SQL query.
  *
- * TODO: Allow for query parameters to be supplied as key parameters?
- *
  * Parameters:
  *   0:  connection string
  *   1:  connection database
@@ -53,10 +51,8 @@ int     PG_QUERY(AGENT_REQUEST *request, AGENT_RESULT *result)
     }
 
     // parse user params
-    zabbix_log(LOG_LEVEL_ERR, "Appending %i params\n", request->nparam - 3);
+    zabbix_log(LOG_LEVEL_DEBUG, "Appending %i params to query", request->nparam - 3);
     for (i = 3; i < request->nparam; i++) {
-        zabbix_log(LOG_LEVEL_ERR, "Appending val: %s\n", get_rparam(request, i));
-
         params = param_append(params, get_rparam(request, i));
     }
 
