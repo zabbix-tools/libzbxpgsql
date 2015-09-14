@@ -3,35 +3,10 @@
 VAGRANTFILE_API_VERSION = "2"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
-  # Primary CentOS 7.0 64 bit box
-  # vagrant up centos7 && vagrant ssh centos7
-  config.vm.define "centos7", primary: true do |rhel7|
-    rhel7.vm.box = "chef/centos-7.0"
-    rhel7.vm.provision "shell", path: "vagrant/setup_centos7.sh"
-  
-    # Forward port for phpPgAdmin
-    rhel7.vm.network "forwarded_port", guest: 80, host: 8080
-    rhel7.vm.network "forwarded_port", guest: 5432, host: 5432
-  end
+  config.vm.box = "chef/centos-7.0"
+  config.vm.provision "shell", path: "vagrant/setup_centos7.sh"
 
-  # CentOS 6.5 64 bit box
-  # vagrant up centos7 && vagrant ssh centos7
-  config.vm.define "centos6", autostart: false do |rhel6|
-    rhel6.vm.box = "chef/centos-6.5"
-    rhel6.vm.provision "shell", path: "vagrant/setup_centos6.sh"
-  end
-
-  # Ubuntu 12.04 LTS 64 bit box
-  # vagrant up precise64 && vagrant ssh precise64
-  config.vm.define "precise64", autostart: false do |p64|
-    p64.vm.box = "hashicorp/precise64"
-    p64.vm.provision "shell", path: "vagrant/setup_ubuntu12.sh"
-  end
-
-  # OpenSUSE 13.2 64 bit box
-  # vagrant up opensuse13 && vagrant ssh opensuse13
-  config.vm.define "opensuse13", autostart: false do |suse|
-    suse.vm.box = "webhippie/opensuse-13.2"
-    suse.vm.provision "shell", path: "vagrant/setup_centos7.sh"
-  end
+  # Forward port for phpPgAdmin
+  config.vm.network "forwarded_port", guest: 80, host: 9000
+  config.vm.network "forwarded_port", guest: 5432, host: 5432
 end
