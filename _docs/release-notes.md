@@ -12,7 +12,7 @@ Release: Sep 14 2015
   
   A PostgreSQL backend connection was being opened by `pg_version()` and never
   closed. This function was called by the `pg.index.rows` agent key, resulting
-  in a leaked file handle and backend connections which each call from Zabbix.
+  in a leaked file handle and backend connection with each call from Zabbix.
 
   See GitHub issue [#12](https://github.com/cavaliercoder/libzbxpgsql/issues/12)
 
