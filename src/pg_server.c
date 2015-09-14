@@ -81,11 +81,9 @@ int    PG_VERSION(AGENT_REQUEST *request, AGENT_RESULT *result)
     int             ret = SYSINFO_RET_FAIL;             // Request result code
     const char      *__function_name = "PG_VERSION";    // Function name for log file
     
-    char            *query = PGSQL_GET_VERSION;
-    
     zabbix_log(LOG_LEVEL_DEBUG, "In %s()", __function_name);
     
-    ret = pg_get_string(request, result, query, NULL);
+    ret = pg_get_string(request, result, PGSQL_GET_VERSION, NULL);
     
     zabbix_log(LOG_LEVEL_DEBUG, "End of %s()", __function_name);
     return ret;
