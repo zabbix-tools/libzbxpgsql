@@ -2,9 +2,7 @@ FROM ubuntu:precise
 
 ENV DEBIAN_FRONTEND noninteractive
 
-RUN apt-get -q update
-
-RUN apt-get -y install \
+RUN apt-get update && apt-get -y install \
 	git \
 	devscripts \
 	debhelper \

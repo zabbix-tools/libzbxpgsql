@@ -33,7 +33,8 @@ libtool
 libzbxpgsql-*/
 ltmain.sh
 m4/
-Makefile
+/Makefile
+src/**/Makefile
 missing
 stamp-h1
 zabbix-*/

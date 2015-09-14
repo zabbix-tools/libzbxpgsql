@@ -1,6 +1,6 @@
 FROM opensuse:13.2
 
-RUN zypper --non-interactive update
+# RUN zypper --non-interactive update
 
 RUN zypper --non-interactive install \
 	automake \
