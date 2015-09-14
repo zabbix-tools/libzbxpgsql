@@ -1,6 +1,6 @@
 Name        : libzbxpgsql
 Vendor      : cavaliercoder
-Version     : 0.2.0
+Version     : 0.2.1
 Release     : 1%{?dist}
 Summary     : PostgreSQL monitoring module for Zabbix
 
@@ -71,6 +71,11 @@ rm -rf $RPM_BUILD_ROOT
 %{_sysconfdir}/zabbix/zabbix_agentd.d/%{name}.conf
 
 %changelog
+* Mon Sep 14 2015 Ryan Armstrong <ryan@cavaliercoder.com> 0.2.1-1
+- Fixed connection leak in pg_version()
+- Fixed query error in pg.index.rows key
+- Removed noisy logging in pg.query.* keys
+
 * Sun Aug 16 2015 Ryan Armstrong <ryan@cavaliercoder.com> 0.2.0-1
 - Improved connections parameters on all item keys
 - Add custom discovery rules via `pg.query.discovery`

@@ -1,3 +1,9 @@
+v0.2.1 14 Sep 2015
+
+* Fixed connection leak in pg_version()
+* Fixed query error in pg.index.rows key
+* Removed noisy logging in pg.query.* keys
+
 v0.2.0 16 Aug 2015
 
 * Improved connections parameters on all item keys
