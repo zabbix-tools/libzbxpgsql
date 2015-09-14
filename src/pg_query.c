@@ -37,8 +37,8 @@ int     PG_QUERY(AGENT_REQUEST *request, AGENT_RESULT *result)
 {
     int         ret = SYSINFO_RET_FAIL;         // Request result code
     const char  *__function_name = "PG_QUERY";  // Function name for log file
-    char        *query = NULL, *param = NULL;
-    int         nparams = 0, i = 0;
+    char        *query = NULL;
+    int         i = 0;
     PGparams    params = NULL;
 
     zabbix_log(LOG_LEVEL_DEBUG, "In %s()", __function_name);
