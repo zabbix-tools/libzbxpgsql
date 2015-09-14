@@ -268,7 +268,7 @@ PGresult    *pg_exec(PGconn *conn, const char *command, PGparams params) {
         zabbix_log(LOG_LEVEL_DEBUG, "  $%i: %s", i, params[i]);
 
     // execute query with escaped parameters
-    res = PQexecParams(conn, command, nparams, NULL, params, NULL, NULL, 0);
+    res = PQexecParams(conn, command, nparams, NULL, (const char * const*) params, NULL, NULL, 0);
 
     //free up the params array which would have been alloc'ed for this request
     param_free(params);
@@ -307,7 +307,6 @@ long int pg_version(AGENT_REQUEST *request) {
 
     // convert to integer
     version = atol(PQgetvalue(res, 0, 0));
-
     zabbix_log(LOG_LEVEL_DEBUG, "PostgreSQL server version: %lu", version);
 
 out:
