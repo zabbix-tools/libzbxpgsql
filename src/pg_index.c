@@ -69,7 +69,7 @@ WHERE \
 
 #define PGSQL_GET_INDEX_ROWS_SUM   "\
 SELECT \
-    SUM(reltuples::bigint \
+    SUM(reltuples::bigint) \
 FROM pg_class \
 WHERE relkind='i'"
 
