@@ -9,6 +9,8 @@ lib_LTLIBRARIES = libzbxpgsql.la
 libzbxpgsql_la_SOURCES = \
 	libzbxpgsql.h \
 	libzbxpgsql.c \
+	pg_connect.c \
+	pg_discovery.c \
 	pg_backends.c \
 	pg_database.c \
 	pg_index.c \

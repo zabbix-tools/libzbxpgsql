@@ -155,7 +155,7 @@ int    PG_TABLE_DISCOVERY(AGENT_REQUEST *request, AGENT_RESULT *result)
     
     zabbix_log(LOG_LEVEL_DEBUG, "In %s()", __function_name);
     
-    ret = pg_get_discovery(request, result, PGSQL_DISCOVER_TABLES, NULL);
+    ret = pg_get_discovery_wide(request, result, PGSQL_DISCOVER_TABLES, NULL);
 
     zabbix_log(LOG_LEVEL_DEBUG, "End of %s()", __function_name);
     return ret;

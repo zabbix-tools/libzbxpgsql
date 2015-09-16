@@ -127,7 +127,7 @@ int    PG_INDEX_DISCOVERY(AGENT_REQUEST *request, AGENT_RESULT *result)
     }
 
     // build results
-    ret = pg_get_discovery(request, result, query, NULL);
+    ret = pg_get_discovery_wide(request, result, query, NULL);
 
     zabbix_log(LOG_LEVEL_DEBUG, "End of %s()", __function_name);
     return ret;
