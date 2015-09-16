@@ -23,7 +23,7 @@ static char *pg_get_databases(AGENT_REQUEST *request) {
         goto out;
 
     // get connectable databases
-    res = pg_exec(conn, "SELECT datname FROM pg_database WHERE pg_catalog.has_database_privilege(current_user, oid, 'CONNECT');", NULL);
+    res = pg_exec(conn, "SELECT datname FROM pg_database WHERE datallowconn = 't' AND pg_catalog.has_database_privilege(current_user, oid, 'CONNECT');", NULL);
     if(0 == PQntuples(res)) {
         zabbix_log(LOG_LEVEL_ERR, "Failed to get connectable PostgreSQL databases");
         goto out;

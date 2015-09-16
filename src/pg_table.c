@@ -134,6 +134,7 @@ WHERE i.inhparent = $1::regclass"
  * Parameters:
  *   0:  connection string
  *   1:  connection database
+ *   2:  search mode: deep (default) | shallow
  * 
  * Returns:
  * {
@@ -152,10 +153,19 @@ int    PG_TABLE_DISCOVERY(AGENT_REQUEST *request, AGENT_RESULT *result)
 {
     int         ret = SYSINFO_RET_FAIL;                     // Request result code
     const char  *__function_name = "PG_TABLE_DISCOVERY";    // Function name for log file
+    char        *param_mode = NULL;
     
     zabbix_log(LOG_LEVEL_DEBUG, "In %s()", __function_name);
     
-    ret = pg_get_discovery_wide(request, result, PGSQL_DISCOVER_TABLES, NULL);
+    param_mode = get_rparam(request, PARAM_FIRST);
+
+    if (strisnull(param_mode) || 0 == strcmp(param_mode, "deep")) {
+        ret = pg_get_discovery_wide(request, result, PGSQL_DISCOVER_TABLES, NULL);
+    } else if (0 == strcmp(param_mode, "shallow")) {
+        ret = pg_get_discovery(request, result, PGSQL_DISCOVER_TABLES, NULL);
+    } else {
+      SET_MSG_RESULT(result, zbx_dsprintf(NULL, "Invalid search mode parameter: %s", param_mode));
+    }
 
     zabbix_log(LOG_LEVEL_DEBUG, "End of %s()", __function_name);
     return ret;

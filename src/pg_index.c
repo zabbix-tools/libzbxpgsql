@@ -79,8 +79,9 @@ WHERE relkind='i'"
  * Parameters:
  *   0:  connection string
  *   1:  connection database
- *   2:  filter by schema name
- *   3:  filter by table name
+ *   2:  search mode: deep (default) | shallow
+ *   3:  filter by schema name
+ *   4:  filter by table name
  *
  * Returns all known indexes in a PostgreSQL database
  *
@@ -104,7 +105,7 @@ int    PG_INDEX_DISCOVERY(AGENT_REQUEST *request, AGENT_RESULT *result)
     char        query[MAX_STRING_LEN], buffer[MAX_STRING_LEN];
     char        *c = NULL;
 
-    char        *param_table = NULL, *param_schema = NULL;
+    char        *param_mode = NULL, *param_table = NULL, *param_schema = NULL;
     
     zabbix_log(LOG_LEVEL_DEBUG, "In %s()", __function_name);
 
@@ -113,21 +114,28 @@ int    PG_INDEX_DISCOVERY(AGENT_REQUEST *request, AGENT_RESULT *result)
     c = query;
 
     // filter by schema name
-    param_schema = get_rparam(request, PARAM_FIRST);
+    param_schema = get_rparam(request, PARAM_FIRST + 1);
     if(!strisnull(param_schema)) {
         zbx_snprintf(buffer, sizeof(buffer), " AND n.nspname = '%s'", param_schema);
         c = strcat2(c, buffer);
     }
 
     // filter by table name
-    param_table = get_rparam(request, PARAM_FIRST + 1);
+    param_table = get_rparam(request, PARAM_FIRST + 2);
     if(!strisnull(param_table)) {
         zbx_snprintf(buffer, sizeof(buffer), " AND t.relname = '%s'", param_table);
         c = strcat2(c, buffer);
     }
 
     // build results
-    ret = pg_get_discovery_wide(request, result, query, NULL);
+    param_mode = get_rparam(request, PARAM_FIRST);
+    if (strisnull(param_mode) || 0 == strcmp(param_mode, "deep")) {
+        ret = pg_get_discovery_wide(request, result, query, NULL);
+    } else if (0 == strcmp(param_mode, "shallow")) {
+        ret = pg_get_discovery(request, result, query, NULL);
+    } else {
+        SET_MSG_RESULT(result, zbx_dsprintf(NULL, "Invalid search mode parameter: %s", param_mode));
+    }
 
     zabbix_log(LOG_LEVEL_DEBUG, "End of %s()", __function_name);
     return ret;

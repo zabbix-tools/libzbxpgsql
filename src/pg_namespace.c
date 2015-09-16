@@ -47,6 +47,7 @@ WHERE schemaname = $1"
  * Parameters:
  *   0:  connection string
  *   1:  connection database
+ *   2:  search mode: deep (default) | shallow
  *
  * Returns:
  * {
@@ -61,11 +62,22 @@ int    PG_NAMESPACE_DISCOVERY(AGENT_REQUEST *request, AGENT_RESULT *result)
 {
     int         ret = SYSINFO_RET_FAIL;                         // Request result code
     const char  *__function_name = "PG_NAMESPACE_DISCOVERY";    // Function name for log file
+    char        *mode = NULL;
 
     zabbix_log(LOG_LEVEL_DEBUG, "In %s()", __function_name);
     
-    ret = pg_get_discovery_wide(request, result, PGSQL_DISCOVER_NAMESPACES, NULL);
+    mode = get_rparam(request, PARAM_FIRST);
 
+    if (strisnull(mode) || 0 == strcmp(mode, "deep")) {
+      // search all connectable databases
+      ret = pg_get_discovery_wide(request, result, PGSQL_DISCOVER_NAMESPACES, NULL);
+    } else if (0 == strcmp(mode, "shallow")) {
+      // search only connected database
+      ret = pg_get_discovery(request, result, PGSQL_DISCOVER_NAMESPACES, NULL);
+    } else {
+      SET_MSG_RESULT(result, zbx_dsprintf(NULL, "Invalid search mode parameter: %s", mode));
+    }
+    
     zabbix_log(LOG_LEVEL_DEBUG, "End of %s()", __function_name);
     return ret;
 }
