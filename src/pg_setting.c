@@ -103,7 +103,7 @@ int    PG_SETTING_DISCOVERY(AGENT_REQUEST *request, AGENT_RESULT *result)
     }
 
     // Connect to PostreSQL
-    if(NULL == (conn = pg_connect(request)))
+    if(NULL == (conn = pg_connect_request(request)))
         goto out;
 
     // Execute the query

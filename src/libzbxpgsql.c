@@ -176,6 +176,8 @@ int         zbx_module_init() {
     // Set result
     SET_STR_RESULT(result, strdup(STRVER));
     ret = SYSINFO_RET_OK;
+
+    pg_get_databases(request);
     
     zabbix_log(LOG_LEVEL_DEBUG, "End of %s", __function_name);
     return ret;
@@ -183,6 +185,46 @@ int         zbx_module_init() {
 
 /*
  * Function: pg_connect
+ *
+ * Connect to PostgreSQL server
+ *
+ * See: http://www.postgresql.org/docs/9.4/static/libpq-connect.html#LIBPQ-PQCONNECTDB
+ *
+ * Parameter [connstring]: libpq compatible connection string
+ *
+ * Returns: Valid PostgreSQL connection or NULL on error
+ */
+PGconn    *pg_connect(const char *connstring)
+ {
+    const char  *__function_name = "pg_connect";
+
+    PGconn      *conn = NULL;
+    
+    zabbix_log(LOG_LEVEL_DEBUG, "In %s()", __function_name);
+    
+    /*
+     * Breaks in ~ v8.4
+    // append application name
+    if (!strisnull(connstring))
+        c = strcat2(c, " ");
+    c = strcat(c, "application_name='" STRVER "'");
+    */
+
+    // connect
+    zabbix_log(LOG_LEVEL_DEBUG, "Connecting to PostgreSQL with: %s", connstring);
+    conn = PQconnectdb(connstring);
+    if(CONNECTION_OK != PQstatus(conn)) {
+        zabbix_log(LOG_LEVEL_ERR, "Failed to connect to PostgreSQL in %s():\n%s", __function_name, PQerrorMessage(conn));
+        PQfinish(conn);
+        conn = NULL;
+    }
+
+    zabbix_log(LOG_LEVEL_DEBUG, "End of %s()", __function_name);
+    return conn;
+}
+
+/*
+ * Function: pg_connect_request
  *
  * Parses a Zabbix agent request and returns a PostgreSQL connection.
  *
@@ -196,9 +238,9 @@ int         zbx_module_init() {
  *
  * Returns: Valid PostgreSQL connection or NULL on error
  */
- PGconn    *pg_connect(AGENT_REQUEST *request)
+ PGconn    *pg_connect_request(AGENT_REQUEST *request)
  {
-    const char  *__function_name = "pg_connect";
+    const char  *__function_name = "pg_connect_request";
     PGconn      *conn = NULL;
     char        *param_connstring = NULL, *param_dbname = NULL;
     char        connstring[MAX_STRING_LEN], *c = NULL;
@@ -225,23 +267,9 @@ int         zbx_module_init() {
         c = strcat(c, "dbname=");
         c = strcat(c, param_dbname);
     }
-
-    /*
-     * Breaks in ~ v8.4
-    // append application name
-    if (!strisnull(connstring))
-        c = strcat2(c, " ");
-    c = strcat(c, "application_name='" STRVER "'");
-    */
     
     // connect
-    zabbix_log(LOG_LEVEL_DEBUG, "Connecting to PostgreSQL with: %s", connstring);
-    conn = PQconnectdb(connstring);
-    if(CONNECTION_OK != PQstatus(conn)) {
-        zabbix_log(LOG_LEVEL_ERR, "Failed to connect to PostgreSQL in %s():\n%s", __function_name, PQerrorMessage(conn));
-        PQfinish(conn);
-        conn = NULL;
-    }
+    conn = pg_connect(connstring);
 
     zabbix_log(LOG_LEVEL_DEBUG, "End of %s()", __function_name);
     return conn;
@@ -294,7 +322,7 @@ long int pg_version(AGENT_REQUEST *request) {
     zabbix_log(LOG_LEVEL_DEBUG, "In %s", __function_name);
 
     // connect to PostgreSQL
-    conn = pg_connect(request);
+    conn = pg_connect_request(request);
     if (NULL == conn)
         goto out;
 
@@ -318,6 +346,62 @@ out:
     return version;
 }
 
+/* 
+ * Function: pg_get_databases
+ *
+ * Returns a null delimited list of database names which the connected
+ * PostgreSQL user is allowed to connect to (i.e. has been granted 'CONNECT').
+ */
+char *pg_get_databases(AGENT_REQUEST *request) {
+    const char  *__function_name = "pg_get_databases"; // Function name for log file
+
+    PGconn      *conn = NULL;
+    PGresult    *res = NULL;
+
+    char        *databases = NULL, *c = NULL;
+    int         rows = 0, i = 0, bufferlen = 0;
+
+    zabbix_log(LOG_LEVEL_DEBUG, "In %s", __function_name);
+
+    // connect to PostgreSQL
+    conn = pg_connect_request(request);
+    if (NULL == conn)
+        goto out;
+
+    // get connectable databases
+    res = pg_exec(conn, "SELECT datname FROM pg_database WHERE pg_catalog.has_database_privilege(current_user, oid, 'CONNECT');", NULL);
+    if(0 == PQntuples(res)) {
+        zabbix_log(LOG_LEVEL_ERR, "Failed to get connectable PostgreSQL databases");
+        goto out;
+    }
+
+    rows = PQntuples(res);
+
+    // iterate over each row to calculate buffer size
+    bufferlen = 1; // 1 for null terminator
+    for(i = 0; i < rows; i++) {
+        bufferlen += strlen(PQgetvalue(res, i, 0)) + 1;
+    }
+
+    // allocate databases multi-string
+    databases = zbx_malloc(databases, sizeof(char) * bufferlen);
+    memset(databases, '\0', sizeof(char) * bufferlen);
+
+    // iterate over each row and copy the results
+    c = databases;
+    for(i = 0; i < rows; i++) {
+        c = strcat2(c, PQgetvalue(res, i, 0)) + 1;
+    }
+
+out:
+    PQclear(res);
+    PQfinish(conn);
+    
+    zabbix_log(LOG_LEVEL_DEBUG, "End of %s", __function_name);
+
+    return databases;
+}
+
 /*
  * Function: pg_get_result
  *
@@ -331,7 +415,7 @@ out:
  * values in the ... parameter.
  *
  * Parameter [request]: Zabbix agent request structure.
- *          Passed to pg_connect to fetch as valid PostgreSQL
+ *          Passed to pg_connect_request to fetch as valid PostgreSQL
  *          server connection
  *
  * Parameter [result]:  Zabbix agent result structure
@@ -358,7 +442,7 @@ int    pg_get_result(AGENT_REQUEST *request, AGENT_RESULT *result, int type, con
     zabbix_log(LOG_LEVEL_DEBUG, "In %s(%s)", __function_name, request->key);
     
     // Connect to PostreSQL
-    if(NULL == (conn = pg_connect(request)))
+    if(NULL == (conn = pg_connect_request(request)))
         goto out;
     
     // Execute a query
@@ -427,13 +511,15 @@ out:
  * values in the ... parameter.
  *
  * Parameter [request]: Zabbix agent request structure.
- *          Passed to pg_connect to fetch as valid PostgreSQL
+ *          Passed to pg_connect_request to fetch as valid PostgreSQL
  *          server connection
  *
  * Parameter [result]:  Zabbix agent result structure
  *
  * Paramater [query]:   PostgreSQL query to execute. Query should column names
-            that match the desired discovery fields.
+ *           that match the desired discovery fields.
+ *
+ * Parameter [deep]:    Execute against all connectable databases
  *
  * Returns: SYSINFO_RET_OK or SYSINFO_RET_FAIL on error
  */
@@ -442,17 +528,19 @@ out:
     int         ret = SYSINFO_RET_FAIL;                 // Request result code
     const char  *__function_name = "pg_get_discovery";  // Function name for log file
     
-    PGconn      *conn = NULL;
-    PGresult    *res = NULL;
     struct      zbx_json j;                             // JSON response for discovery rule
+    
     int         i = 0, x = 0, columns = 0, rows = 0;
     char        *c = NULL;
     char        buffer[MAX_STRING_LEN];
-    
+
+    PGconn      *conn = NULL;
+    PGresult    *res = NULL;
+
     zabbix_log(LOG_LEVEL_DEBUG, "In %s(%s)", __function_name, request->key);
-    
+
     // Connect to PostreSQL
-    if(NULL == (conn = pg_connect(request)))
+    if(NULL == (conn = pg_connect_request(request)))
         goto out;
     
     // Execute a query
@@ -465,7 +553,7 @@ out:
     // count rows and columns
     rows = PQntuples(res);
     columns = PQnfields(res);
-    
+
     // Create JSON array of discovered objects
     zbx_json_init(&j, ZBX_JSON_STAT_BUF_LEN);
     zbx_json_addarray(&j, ZBX_PROTO_TAG_DATA);
@@ -486,15 +574,16 @@ out:
 
         zbx_json_close(&j);         
     }
-    
+
     // Finalize JSON response
     zbx_json_close(&j);
     SET_STR_RESULT(result, strdup(j.buffer));
     zbx_json_free(&j);
 
     ret = SYSINFO_RET_OK;
-    
+
 out:
+
     PQclear(res);
     PQfinish(conn);
 
