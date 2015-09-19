@@ -5,6 +5,8 @@
  *
  * Returns a null delimited list of database names which the connected
  * PostgreSQL user is allowed to connect to (i.e. has been granted 'CONNECT').
+ * 
+ * Returns: Multi-string E.g. "database1\0database2\0database3\0\0"
  */
 static char *pg_get_databases(AGENT_REQUEST *request) {
     const char  *__function_name = "pg_get_databases"; // Function name for log file
