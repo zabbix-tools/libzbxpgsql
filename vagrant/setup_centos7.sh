@@ -58,7 +58,7 @@ yum install -y --nogpgcheck \
     zabbix-server-pgsql \
     zabbix-web-pgsql
 
-rpm -q zabbix_agent_bench >/dev/null || yum localinstall -y --nogpgcheck http://sourceforge.net/projects/zabbixagentbench/files/rpm/zabbix_agent_bench-0.3.0-1.x86_64.rpm
+rpm -q zabbix_agent_bench >/dev/null || yum localinstall -y --nogpgcheck http://sourceforge.net/projects/zabbixagentbench/files/rpm/zabbix_agent_bench-0.4.0-1.x86_64.rpm
 
 # Configure PostgreSQL
 echo -e "${BULLET} Configuring PostgreSQL server..."
