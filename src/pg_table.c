@@ -264,6 +264,42 @@ out:
     return ret;
 }
 
+int     PG_TABLE_IDX_SCAN_PERC(AGENT_REQUEST *request, AGENT_RESULT *result)
+{
+    int         ret = SYSINFO_RET_FAIL;                         // Request result code
+    const char  *__function_name = "PG_TABLE_IDX_SCAN_PERC";    // Function name for log file
+    
+    char        *tablename = NULL;
+    
+    zabbix_log(LOG_LEVEL_DEBUG, "In %s()", __function_name);
+    
+    tablename = get_rparam(request, PARAM_FIRST);
+
+    if(strisnull(tablename)) {
+        ret = pg_get_percentage(
+            request,
+            result,
+            "pg_stat_all_tables",
+            "sum(idx_scan)",
+            "sum(seq_scan) + sum(idx_scan)",
+            NULL,
+            NULL);
+
+    } else {
+        ret = pg_get_percentage(
+            request,
+            result,
+            "pg_stat_all_tables",
+            "idx_scan",
+            "seq_scan + idx_scan",
+            "relname",
+            tablename);
+    }
+    
+    zabbix_log(LOG_LEVEL_DEBUG, "End of %s()", __function_name);
+    return ret;   
+}
+
 /*
  * Custom keys pg.table.* (for each field in pg_statio_all_tables)
  *
