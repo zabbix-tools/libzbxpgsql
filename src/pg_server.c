@@ -19,8 +19,6 @@
 
 #include "libzbxpgsql.h"
 
-#define PGSQL_GET_BGWRITER_STAT     "SELECT %s FROM pg_stat_bgwriter;"
-
 #define PGSQL_GET_VERSION           "SELECT version();"
 
 #define PGSQL_GET_STARTTIME         "SELECT pg_postmaster_start_time();"
@@ -138,48 +136,6 @@ int    PG_UPTIME(AGENT_REQUEST *request, AGENT_RESULT *result)
     zabbix_log(LOG_LEVEL_DEBUG, "In %s()", __function_name);
     
     ret = pg_get_int(request, result, query, NULL);
-    
-    zabbix_log(LOG_LEVEL_DEBUG, "End of %s()", __function_name);
-    return ret;
-}
-
-
-/*
- * Custom keys pg.* (for each field in pg_stat_bgwriter)
- *
- * Returns the requested global statistic for the PostgreSQL server
- *
- * Parameters:
- *   0:  connection string
- *   1:  connection database
- *
- * Returns: u
- */
-int    PG_STAT_BGWRITER(AGENT_REQUEST *request, AGENT_RESULT *result)
-{
-    int         ret = SYSINFO_RET_FAIL;                 // Request result code
-    const char  *__function_name = "PG_STAT_BGWRITER";  // Function name for log file
-    
-    char        *field;
-    char        query[MAX_STRING_LEN];
-    
-    zabbix_log(LOG_LEVEL_DEBUG, "In %s()", __function_name);
-    
-    // Get stat field from requested key name "pb.table.<field>"
-    field = &request->key[3];
-    
-    // Build query
-    zbx_snprintf(query, sizeof(query), PGSQL_GET_BGWRITER_STAT, field);
-    
-    // Get field value
-    if(0 == strncmp(field, "checkpoint_", 11))
-        ret = pg_get_dbl(request, result, query, NULL);
-
-    else if(0 == strncmp(field, "stats_reset", 11))
-        ret = pg_get_string(request, result, query, NULL);
-    
-    else
-        ret = pg_get_int(request, result, query, NULL);
     
     zabbix_log(LOG_LEVEL_DEBUG, "End of %s()", __function_name);
     return ret;

@@ -14,6 +14,9 @@ RPMBUILD = rpmbuild
 RPMBUILD_FLAGS = -ba
 RPMFILE = $(PACKAGE)-$(PACKAGE_VERSION)-*.$(build_cpu).rpm
 
+test:
+	cd docker && /bin/bash -l test.sh
+
 rpm:
 	sed -i 's/^Version\s*:.*/Version     : $(PACKAGE_VERSION)/' packaging/rpmbuild/$(PACKAGE).spec
 	mkdir -p $(RPMBASE)/{BUILD,RPMS,SOURCES,SPECS,SRPMS} || :
@@ -43,4 +46,4 @@ debclean:
 	rm -f $(PACKAGE)_$(PACKAGE_VERSION)-*.deb
 	rm -f $(PACKAGE)_$(PACKAGE_VERSION)-*.dsc
 
-.PHONY: rpm rpmclean deb debclean 
+.PHONY: test rpm rpmclean deb debclean 

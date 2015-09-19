@@ -12,6 +12,7 @@ libzbxpgsql_la_SOURCES = \
 	pg_connect.c \
 	pg_discovery.c \
 	pg_backends.c \
+	pg_bgwriter.c \
 	pg_database.c \
 	pg_index.c \
 	pg_namespace.c \
