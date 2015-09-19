@@ -76,6 +76,7 @@ long int    pg_version(AGENT_REQUEST *request);
 int     pg_get_result(AGENT_REQUEST *request, AGENT_RESULT *result, int type, const char *query, PGparams params);
 int     pg_get_discovery(AGENT_REQUEST *request, AGENT_RESULT *result, const char *query, PGparams params);
 int     pg_get_discovery_wide(AGENT_REQUEST *request, AGENT_RESULT *result, const char *query, PGparams params);
+int     pg_get_percentage(AGENT_REQUEST *request, AGENT_RESULT *result, char *table, char *col1, char *col2, char *colFilter, char *filter);
 
 #define pg_get_string(request, result, query, params)     pg_get_result(request, result, AR_STRING, query, params)
 #define pg_get_int(request, result, query, params)        pg_get_result(request, result, AR_UINT64, query, params)

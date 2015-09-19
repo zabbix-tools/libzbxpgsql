@@ -1,5 +1,5 @@
 #!/bin/bash
-ARGS="-threads 8 -iterations 1 -strict"
+ARGS="-threads 8 -iterations 1 -strict -debug"
 PGHOST=192.168.59.103
 PGUSER="postgres"
 export PGDATABASE="postgres"

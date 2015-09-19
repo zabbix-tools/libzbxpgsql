@@ -354,6 +354,37 @@ out:
     return ret;
 }
 
+#define PGSQL_PERCENTAGE    "\
+SELECT \
+    CASE \
+        WHEN (%s) = 0 THEN 1 \
+        ELSE (%s)::float / (%s) \
+    END \
+FROM %s"
+
+int pg_get_percentage(AGENT_REQUEST *request, AGENT_RESULT *result, char *table, char *col1, char *col2, char *colFilter, char *filter)
+{
+    int         ret = SYSINFO_RET_FAIL;                 // Request result code
+    const char  *__function_name = "pg_get_percentage"; // Function name for log file
+    
+    int         qlen = 0;
+    char        query[MAX_STRING_LEN], *c = NULL;
+
+    zabbix_log(LOG_LEVEL_DEBUG, "In %s(%s)", __function_name, request->key);
+
+    zbx_snprintf(query, sizeof(query), PGSQL_PERCENTAGE, col2, col1, col2, table);
+    if (!strisnull(colFilter)) {
+        qlen = strlen(query);
+        c = &query[qlen];
+        zbx_snprintf(c, (sizeof(query) / sizeof(char)) - qlen, " WHERE %s = $1", colFilter);
+    }
+
+    ret = pg_get_dbl(request, result, query, param_new(filter));
+
+    zabbix_log(LOG_LEVEL_DEBUG, "End of %s(%s)", __function_name, request->key);
+    return ret; 
+}
+
 /*
  * Function: is_oid
  * 
