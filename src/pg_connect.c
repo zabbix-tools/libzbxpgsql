@@ -1,11 +1,26 @@
 #include "libzbxpgsql.h"
 
+/*
+ * Function: build_connstring
+ *
+ * Allocates and returns a libpq compatible connection string. This function
+ * takes as input, a libpq compatible connection string with the `dbname` field
+ * ommitted and the desired database name as the second parameter. This enables
+ * connection strings to be built from Zabbix discovery rules where the
+ * connected database may not be known when configuring Zabbix.
+ *
+ * Returns: libpq compatible connection string. Must be freed by the caller
+ *          using zbx_free()
+ */
 char *build_connstring(const char *connstring, const char *dbname)
 {
     char    *res = NULL, *c = NULL;
     int     bufferlen = 0;
 
-    bufferlen = (NULL == connstring ? 0 : strlen(connstring)) + (NULL == dbname ? 0 : strlen(dbname)) + 9; // + ' dbname=\0'
+    bufferlen =
+        (NULL == connstring ? 0 : strlen(connstring))
+        + (NULL == dbname ? 0 : strlen(dbname))
+        + 9; // + ' dbname=\0'
    
     res = zbx_malloc(res, sizeof(char) * bufferlen);
     memset(res, 0, sizeof(char) * bufferlen);
@@ -39,7 +54,7 @@ PGconn    *pg_connect(const char *connstring)
     zabbix_log(LOG_LEVEL_DEBUG, "In %s()", __function_name);
     
     /*
-     * Breaks in ~ v8.4
+     * Breaks in < v9.0
     // append application name
     if (!strisnull(connstring))
         c = strcat2(c, " ");
@@ -80,7 +95,10 @@ PGconn    *pg_connect(const char *connstring)
     char        *connstring = NULL; 
 
     // connect using params from agent request
-    connstring = build_connstring(get_rparam(request, PARAM_CONN_STRING), get_rparam(request, PARAM_DBNAME));
+    connstring = build_connstring(
+        get_rparam(request, PARAM_CONN_STRING), 
+        get_rparam(request, PARAM_DBNAME));
+
     conn = pg_connect(connstring);
     zbx_free(connstring);
 

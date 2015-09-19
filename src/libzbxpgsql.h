@@ -46,7 +46,7 @@
 #define PARAM_DBNAME        1
 #define PARAM_FIRST         2
 
-#define DEFAULT_CONN_STRING "\0"
+#define DEFAULT_CONN_STRING ""
 #define DEFAULT_CONN_DBNAME NULL
 
 #define PG_WHERE        "WHERE"

@@ -238,12 +238,13 @@ out:
     // Finalize JSON response
     zbx_json_close(&j);
     SET_STR_RESULT(result, strdup(j.buffer));
+    zbx_json_free(&j);
 
     ret = SYSINFO_RET_OK;
 
 out:
-    zbx_json_free(&j);
     zbx_free(connstring);
+    zbx_free(databases);
 
     PQclear(res);
     PQfinish(conn);
