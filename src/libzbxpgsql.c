@@ -125,16 +125,16 @@ static ZBX_METRIC keys[] =
     // Table IO Statistics (as per pg_statio_all_tables)
     {"pg.table.heap_blks_read",     CF_HAVEPARAMS,  PG_STATIO_ALL_TABLES,           NULL},
     {"pg.table.heap_blks_hit",      CF_HAVEPARAMS,  PG_STATIO_ALL_TABLES,           NULL},
-    {"pg.table.heap_blks_ratio",    CF_HAVEPARAMS,  PG_TABLE_HEAP_BLKS_RATIO,       NULL},
+    {"pg.table.heap_blks_perc",    CF_HAVEPARAMS,  PG_TABLE_HEAP_BLKS_PERC,         NULL},
     {"pg.table.idx_blks_read",      CF_HAVEPARAMS,  PG_STATIO_ALL_TABLES,           NULL},
     {"pg.table.idx_blks_hit",       CF_HAVEPARAMS,  PG_STATIO_ALL_TABLES,           NULL},
-    {"pg.table.idx_blks_ratio",     CF_HAVEPARAMS,  PG_TABLE_IDX_BLKS_RATIO,        NULL},
+    {"pg.table.idx_blks_perc",     CF_HAVEPARAMS,  PG_TABLE_IDX_BLKS_PERC,          NULL},
     {"pg.table.toast_blks_read",    CF_HAVEPARAMS,  PG_STATIO_ALL_TABLES,           NULL},
     {"pg.table.toast_blks_hit",     CF_HAVEPARAMS,  PG_STATIO_ALL_TABLES,           NULL},
-    {"pg.table.toast_blks_ratio",   CF_HAVEPARAMS,  PG_TABLE_TOAST_BLKS_RATIO,      NULL},
+    {"pg.table.toast_blks_perc",   CF_HAVEPARAMS,  PG_TABLE_TOAST_BLKS_PERC,        NULL},
     {"pg.table.tidx_blks_read",     CF_HAVEPARAMS,  PG_STATIO_ALL_TABLES,           NULL},
     {"pg.table.tidx_blks_hit",      CF_HAVEPARAMS,  PG_STATIO_ALL_TABLES,           NULL},
-    {"pg.table.tidx_blks_ratio",    CF_HAVEPARAMS,  PG_TABLE_TIDX_BLKS_RATIO,       NULL},
+    {"pg.table.tidx_blks_perc",    CF_HAVEPARAMS,  PG_TABLE_TIDX_BLKS_PERC,         NULL},
     
     // Index statistics (as per pg_stat_all_indexes)
     {"pg.index.idx_scan",           CF_HAVEPARAMS,  PG_STAT_ALL_INDEXES,            NULL},
