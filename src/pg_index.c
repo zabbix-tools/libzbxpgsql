@@ -248,6 +248,41 @@ int    PG_STATIO_ALL_INDEXES(AGENT_REQUEST *request, AGENT_RESULT *result)
     return ret;
 }
 
+int     PG_INDEX_IDX_BLKS_PERC(AGENT_REQUEST *request, AGENT_RESULT *result)
+{
+    int         ret = SYSINFO_RET_FAIL;                         // Request result code
+    const char  *__function_name = "PG_INDEX_IDX_BLKS_PERC";    // Function name for log file
+    
+    char        *index = NULL;
+    
+    zabbix_log(LOG_LEVEL_DEBUG, "In %s()", __function_name);
+    
+    index = get_rparam(request, PARAM_FIRST);
+
+    if(strisnull(index)) {
+        ret = pg_get_percentage(
+            request,
+            result,
+            "pg_statio_all_indexes",
+            "sum(idx_blks_hit)",
+            "sum(idx_blks_hit) + sum(idx_blks_read)",
+            NULL,
+            NULL);
+
+    } else {
+        ret = pg_get_percentage(
+            request,
+            result,
+            "pg_statio_all_indexes",
+            "idx_blks_hit",
+            "idx_blks_hit + idx_blks_read",
+            "indexrelname",
+            index);
+    }
+    
+    zabbix_log(LOG_LEVEL_DEBUG, "End of %s()", __function_name);
+    return ret; 
+}
 /*
  * Custom key pg.index.size
  *

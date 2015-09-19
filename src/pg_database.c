@@ -139,6 +139,42 @@ out:
     return ret;
 }
 
+int     PG_DB_BLKS_PERC(AGENT_REQUEST *request, AGENT_RESULT *result)
+{
+    int         ret = SYSINFO_RET_FAIL;                 // Request result code
+    const char  *__function_name = "PG_DB_BLKS_PERC";   // Function name for log file
+    
+    char        *dbname = NULL;
+    
+    zabbix_log(LOG_LEVEL_DEBUG, "In %s()", __function_name);
+    
+    dbname = get_rparam(request, PARAM_FIRST);
+
+    if(strisnull(dbname)) {
+        ret = pg_get_percentage(
+            request,
+            result,
+            "pg_stat_database",
+            "sum(blks_hit)",
+            "sum(blks_hit) + sum(blks_read)",
+            NULL,
+            NULL);
+
+    } else {
+        ret = pg_get_percentage(
+            request,
+            result,
+            "pg_stat_database",
+            "blks_hit",
+            "blks_hit + blks_read",
+            "datname",
+            dbname);
+    }
+
+    zabbix_log(LOG_LEVEL_DEBUG, "End of %s()", __function_name);
+    return ret; 
+}
+
 /*
  * Custom key pg.db.size
  *

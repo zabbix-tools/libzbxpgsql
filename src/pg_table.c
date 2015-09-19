@@ -352,9 +352,24 @@ int     PG_TABLE_HEAP_BLKS_PERC(AGENT_REQUEST *request, AGENT_RESULT *result)
     tablename = get_rparam(request, PARAM_FIRST);
 
     if(strisnull(tablename)) {
-        ret = pg_get_percentage(request, result, "pg_statio_all_tables", "sum(heap_blks_hit)", "sum(heap_blks_hit) + sum(heap_blks_read)", NULL, NULL);
+        ret = pg_get_percentage(
+            request,
+            result,
+            "pg_statio_all_tables",
+            "sum(heap_blks_hit)",
+            "sum(heap_blks_hit) + sum(heap_blks_read)",
+            NULL,
+            NULL);
+
     } else {
-        ret = pg_get_percentage(request,result, "pg_statio_all_tables", "heap_blks_hit", "heap_blks_hit + heap_blks_read", "relname", tablename);
+        ret = pg_get_percentage(
+            request,
+            result,
+            "pg_statio_all_tables",
+            "heap_blks_hit",
+            "heap_blks_hit + heap_blks_read",
+            "relname",
+            tablename);
     }
 
     zabbix_log(LOG_LEVEL_DEBUG, "End of %s()", __function_name);
@@ -373,9 +388,24 @@ int     PG_TABLE_IDX_BLKS_PERC(AGENT_REQUEST *request, AGENT_RESULT *result)
     tablename = get_rparam(request, PARAM_FIRST);
 
     if(strisnull(tablename)) {
-        ret = pg_get_percentage(request, result, "pg_statio_all_tables", "sum(idx_blks_hit)", "sum(idx_blks_hit) + sum(idx_blks_read)", NULL, NULL);
+        ret = pg_get_percentage(
+            request,
+            result,
+            "pg_statio_all_tables",
+            "sum(idx_blks_hit)",
+            "sum(idx_blks_hit) + sum(idx_blks_read)",
+            NULL,
+            NULL);
+
     } else {
-        ret = pg_get_percentage(request, result, "pg_statio_all_tables", "idx_blks_hit", "idx_blks_hit + idx_blks_read", "relname", tablename);
+        ret = pg_get_percentage(
+            request,
+            result,
+            "pg_statio_all_tables",
+            "idx_blks_hit",
+            "idx_blks_hit + idx_blks_read",
+            "relname",
+            tablename);
     }
     
     zabbix_log(LOG_LEVEL_DEBUG, "End of %s()", __function_name);
