@@ -304,6 +304,98 @@ int    PG_STATIO_ALL_TABLES(AGENT_REQUEST *request, AGENT_RESULT *result)
     return ret;
 }
 
+int     PG_TABLE_HEAP_BLKS_RATIO(AGENT_REQUEST *request, AGENT_RESULT *result)
+{
+    int         ret = SYSINFO_RET_FAIL;                         // Request result code
+    const char  *__function_name = "PG_TABLE_HEAP_BLKS_RATIO";  // Function name for log file
+    
+    char        *tablename = NULL, *query = NULL;
+    
+    zabbix_log(LOG_LEVEL_DEBUG, "In %s()", __function_name);
+    
+    tablename = get_rparam(request, PARAM_FIRST);
+
+    if(strisnull(tablename)) {
+        query = "SELECT sum(heap_blks_hit)::float / (sum(heap_blks_hit) + sum(heap_blks_read)) FROM pg_statio_all_tables;";
+    } else {
+        query = "SELECT heap_blks_hit::float / (heap_blks_hit + heap_blks_read) FROM pg_statio_all_tables WHERE relname = $1;";
+    }
+
+    ret = pg_get_dbl(request, result, query, param_new(tablename));
+    
+    zabbix_log(LOG_LEVEL_DEBUG, "End of %s()", __function_name);
+    return ret; 
+}
+
+int     PG_TABLE_IDX_BLKS_RATIO(AGENT_REQUEST *request, AGENT_RESULT *result)
+{
+    int         ret = SYSINFO_RET_FAIL;                         // Request result code
+    const char  *__function_name = "PG_TABLE_IDX_BLKS_RATIO";  // Function name for log file
+    
+    char        *tablename = NULL, *query = NULL;
+    
+    zabbix_log(LOG_LEVEL_DEBUG, "In %s()", __function_name);
+    
+    tablename = get_rparam(request, PARAM_FIRST);
+
+    if(strisnull(tablename)) {
+        query = "SELECT sum(idx_blks_hit)::float / (sum(idx_blks_hit) + sum(idx_blks_read)) FROM pg_statio_all_tables;";
+    } else {
+        query = "SELECT idx_blks_hit::float / (idx_blks_hit + idx_blks_read) FROM pg_statio_all_tables WHERE relname = $1;";
+    }
+
+    ret = pg_get_dbl(request, result, query, param_new(tablename));
+    
+    zabbix_log(LOG_LEVEL_DEBUG, "End of %s()", __function_name);
+    return ret; 
+}
+
+int     PG_TABLE_TOAST_BLKS_RATIO(AGENT_REQUEST *request, AGENT_RESULT *result)
+{
+    int         ret = SYSINFO_RET_FAIL;                         // Request result code
+    const char  *__function_name = "PG_TABLE_TOAST_BLKS_RATIO";  // Function name for log file
+    
+    char        *tablename = NULL, *query = NULL;
+    
+    zabbix_log(LOG_LEVEL_DEBUG, "In %s()", __function_name);
+    
+    tablename = get_rparam(request, PARAM_FIRST);
+
+    if(strisnull(tablename)) {
+        query = "SELECT sum(toast_blks_hit)::float / (sum(toast_blks_hit) + sum(toast_blks_read)) FROM pg_statio_all_tables;";
+    } else {
+        query = "SELECT toast_blks_hit::float / (toast_blks_hit + toast_blks_read) FROM pg_statio_all_tables WHERE relname = $1;";
+    }
+
+    ret = pg_get_dbl(request, result, query, param_new(tablename));
+    
+    zabbix_log(LOG_LEVEL_DEBUG, "End of %s()", __function_name);
+    return ret; 
+}
+
+int     PG_TABLE_TIDX_BLKS_RATIO(AGENT_REQUEST *request, AGENT_RESULT *result)
+{
+    int         ret = SYSINFO_RET_FAIL;                         // Request result code
+    const char  *__function_name = "PG_TABLE_TIDX_BLKS_RATIO";  // Function name for log file
+    
+    char        *tablename = NULL, *query = NULL;
+    
+    zabbix_log(LOG_LEVEL_DEBUG, "In %s()", __function_name);
+    
+    tablename = get_rparam(request, PARAM_FIRST);
+
+    if(strisnull(tablename)) {
+        query = "SELECT sum(tidx_blks_hit)::float / (sum(tidx_blks_hit) + sum(tidx_blks_read)) FROM pg_statio_all_tables;";
+    } else {
+        query = "SELECT tidx_blks_hit::float / (tidx_blks_hit + tidx_blks_read) FROM pg_statio_all_tables WHERE relname = $1;";
+    }
+
+    ret = pg_get_dbl(request, result, query, param_new(tablename));
+    
+    zabbix_log(LOG_LEVEL_DEBUG, "End of %s()", __function_name);
+    return ret; 
+}
+
 /*
  * Custom key pg.table.size
  *
