@@ -7,6 +7,12 @@
   description: >
     Monitor the availability of a PostgreSQL server. Returns 1 if the Zabbix Agent
     can connect to a PostgreSQL database with the specified connection string.
+
+    If you are using connection pooling, the connection string specified in
+    this key should bypass your pooling agent to better reflect the
+    availability of your PostgreSQL server. All other keys can be safely
+    rerouted through a pooling agent.
+
   type: Numeric (Unsigned)
   value-map: 
     0: Failure
@@ -17,6 +23,7 @@
   description: >
     Returns the version string of the connected PostgreSQL Server
   type: Text
+  sample: PostgreSQL 9.4.4 on x86_64-unknown-linux-gnu, compiled by gcc (GCC) 4.8.3 20140911 (Red Hat 4.8.3-9), 64-bit
   source: SELECT version();
 
 - key: pg.starttime
@@ -29,11 +36,17 @@
   description: >
     Returns the number of seconds since the PostgreSQL server process started
   type: Numeric (Unsigned)
+  units: Seconds
   source: SELECT EXTRACT(EPOCH FROM NOW()) - EXTRACT(EPOCH FROM pg_postmaster_start_time());
 
 - key: pg.setting.discovery
   description: >
-    Returns a JSON array of all known settings available for monitoring
+    Returns a JSON array of all known settings available for monitoring.
+
+    This key is useful for monitoring changes to all configuration values if
+    needed. The more recommended practice however, is to manually define keys
+    in your template for settings that are important to you which may then also
+    be used in composite graphs, triggers, etc.
   type: Discovery
   macros:
     - macro: "{#SETTING}"
@@ -62,7 +75,12 @@
     useful for validating and monitoring changes to configuration items such as
     the PostgreSQL data directory, share buffers, log file locations, etc.
 
-    For more information, see [pg_setting](http://www.postgresql.org/docs/9.4/static/view-pg-settings.html).
+    The return type is determined by the PostgreSQL `vartype` of the requested
+    setting.
+
+    For more information, see
+    [pg_setting](http://www.postgresql.org/docs/9.4/static/view-pg-settings.html).
+
   type: pg_settings.vartype
   parameters: 
     - parameter: setting
@@ -112,31 +130,71 @@
     LIMIT 1
 
 - key: pg.checkpoints_timed
-  description: Returns the number of scheduled checkpoints that have been performed
+  description: >
+    Returns the number of scheduled checkpoints that have been performed
   type: Numeric (unsigned)
   source: SELECT checkpoints_timed FROM pg_stat_bgwriter
 
 - key: pg.checkpoints_req
-  description: Returns the number of requested checkpoints that have been performed
+  description: >
+    Returns the number of requested checkpoints that have been performed
   type: Numeric (unsigned)
   source: SELECT checkpoints_req FROM pg_stat_bgwriter
 
 - key: pg.checkpoint_write_time
-  description: Returns the total amount of time that has been spent in the portion of checkpoint processing where files are written to disk, in milliseconds
+  description: >
+    Returns the total amount of time that has been spent in the portion of
+    checkpoint processing where files are written to disk, in milliseconds
   type: Numeric (float)
   units: Milliseconds
   require: 9.2
   source: SELECT checkpoint_write_time FROM pg_stat_bgwriter
 
 - key: pg.checkpoint_sync_time
-  description: Returns the total amount of time that has been spent in the portion of checkpoint processing where files are synchronized to disk, in milliseconds
+  description: >
+    Returns the total amount of time that has been spent in the portion of
+    checkpoint processing where files are synchronized to disk, in milliseconds
   type: Numeric (float)
   units: Milliseconds
   require: 9.2
   source: SELECT checkpoint_sync_time FROM pg_stat_bgwriter
 
+- key: pg.checkpoint_avg_interval
+  description: >
+    Returns the average interval between each checkpoints that have occurred
+    since statistics were reset, in seconds.
+  type: Numeric (float)
+  units: Seconds
+  require: 9.2
+  source: >
+    SELECT
+      EXTRACT(EPOCH FROM (NOW() - stats_reset)) / (checkpoints_timed + checkpoints_req)
+    FROM pg_stat_bgwriter;
+
+- key: pg.checkpoint_time_perc
+  description: >
+    Returns the percentage of time spent writing or syncing checkpoints since
+    statistics were reset as a fraction of 1.
+
+    Ideally, this should return the percentage of time spent checkpointing
+    since the server started, but unfortunately statistics are not reset when
+    the server restarts. Please just note that server uptime will influence
+    the results (e.g. if the server has been down 50% since it last reset
+    statistics, it will appear it spent 50% less time writing checkpoints).
+  type: Numeric (float)
+  units: "%"
+  require: 9.2
+  parameters:
+    - parameter: action
+      description: Action to measure (`write`, `sync` or `all`)
+      default: Time spent writing or syncing checkpoints (`all`)
+  source: >
+    SELECT
+      ((checkpoint_write_time + checkpoint_sync_time) / 1000) / EXTRACT(EPOCH FROM NOW() - stats_reset)
+    FROM pg_stat_bgwriter;
+
 - key: pg.buffers_checkpoint
-  description: Returns the Number of buffers written during checkpoints
+  description: Returns the number of buffers written during checkpoints
   type: Numeric (unsigned)
   source: SELECT buffers_checkpoint FROM pg_stat_bgwriter
 
@@ -146,7 +204,9 @@
   source: SELECT buffers_clean FROM pg_stat_bgwriter
 
 - key: pg.maxwritten_clean
-  description: Returns the number of times the background writer stopped a cleaning scan because it had written too many buffers
+  description: >
+    Returns the number of times the background writer stopped a cleaning scan
+    because it had written too many buffers
   type: Numeric (unsigned)
   source: SELECT maxwritten_clean FROM pg_stat_bgwriter
 
@@ -156,7 +216,10 @@
   source: SELECT buffers_backend FROM pg_stat_bgwriter
 
 - key: pg.buffers_backend_fsync
-  description: Returns the number of times a backend had to execute its own fsync call (normally the background writer handles those even when the backend does its own write)
+  description: >
+    Returns the number of times a backend had to execute its own fsync call
+    (normally the background writer handles those even when the backend does
+    its own write)
   type: Numeric (unsigned)
   source: SELECT buffers_backend_fsync FROM pg_stat_bgwriter
   require: 9.1

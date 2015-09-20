@@ -14,15 +14,15 @@
 </h3>
 {% if key.description %}<p>{{ key.description | markdownify }}</p>{% endif %}
 
-<!-- Key type -->
 {% if key.type %}
+<!-- Key type -->
 <p>
 	<em>Type:</em>&nbsp;<code>{{ key.type }}</code>
 </p>
 {% endif %}
 
-<!-- Key units -->
 {% if key.units %}
+<!-- Key units -->
 <p>
 	<em>Units:</em>&nbsp;{{ key.units }}
 </p>
@@ -55,8 +55,8 @@
 	{% endfor %}
 </ol>
 
-<!-- Discovery key macros -->
 {% if key.macros %}
+<!-- Discovery key macros -->
 <p><em>Macros:</em></p>
 <ul class="params">
 	{% for macro in key.macros %}
@@ -67,15 +67,23 @@
 </ul>
 {% endif %}
 
-<!-- Key example usage -->
 {% if key.example %}
+<!-- Key example usage -->
 <p>
 	<em>Example:</em><p>{{ key.example | markdownify }}</p>
 </p>
 {% endif %}
 
-<!-- Key source -->
+{% if key.sample %}
+<!-- Key output sample -->
+<p><em>Sample:</em></p>
+<pre>
+{{ key.sample }}
+</pre>
+{% endif %}
+
 {% if key.source %}
+<!-- Key source -->
 <p><em>Source:</em></p>
 	{% highlight sql %}
 	{{ key.source }}

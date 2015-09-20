@@ -114,6 +114,23 @@
         database)
       default: sum for all database
 
+- key: pg.db.blks_perc
+  description: >
+    Returns the percentage of in-memory cache hits to disk reads as a fraction
+    of 1.
+
+    A high value (close to 1) indicates most reads are served from cache,
+    while a low value (close to 0) indicates most reads are served from slower
+    disk media.
+
+  type: Numeric (float)
+  parameters:
+    - parameter: database
+      description: >
+        return statistics for this database (may differ from the connected
+        database)
+      default: average for all database
+
 - key: pg.db.tup_returned
   description: Returns the number of rows returned by queries in this database
   type: Numeric (unsigned)
