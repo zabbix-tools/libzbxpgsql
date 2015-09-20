@@ -1,0 +1,23 @@
+# pg.table.discovery[{%PGCONN},{%PGDATABASE}]
+#     pg.table.heap_blks_perc[{%PGCONN},{#DATABASE},{#TABLE}]
+#     pg.table.idx_blks_perc[{%PGCONN},{#DATABASE},{#TABLE}]
+#     pg.table.toast_blks_perc[{%PGCONN},{#DATABASE},{#TABLE}]
+#     pg.table.tidx_blks_perc[{%PGCONN},{#DATABASE},{#TABLE}]
+#     pg.table.idx_scan_perc[{%PGCONN},{#DATABASE},{#TABLE}]# 
+
+# pg.table.heap_blks_perc[{%PGCONN},{%PGDATABASE}]
+# pg.table.idx_blks_perc[{%PGCONN},{%PGDATABASE}]
+# pg.table.toast_blks_perc[{%PGCONN},{%PGDATABASE}]
+# pg.table.tidx_blks_perc[{%PGCONN},{%PGDATABASE}]
+# pg.table.idx_scan_perc[{%PGCONN},{%PGDATABASE}]
+
+# pg.index.discovery[{%PGCONN},{%PGDATABASE}]
+# 	pg.index.idx_blks_perc[{%PGCONN},{#DATABASE},{#INDEX}]# 
+
+# pg.index.idx_blks_perc[{%PGCONN},{%PGDATABASE}]
+#     
+
+pg.db.discovery[{%PGCONN},{%PGDATABASE}]
+	pg.db.blks_perc[{%PGCONN},{#DATABASE},{#DATABASE}]
+
+pg.db.blks_perc[{%PGCONN},{%PGDATABASE}]

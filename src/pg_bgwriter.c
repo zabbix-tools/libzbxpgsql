@@ -67,6 +67,32 @@ int    PG_STAT_BGWRITER(AGENT_REQUEST *request, AGENT_RESULT *result)
     return ret;
 }
 
+#define PGSQL_BG_STATS_RESET_INTERVAL   "SELECT EXTRACT(EPOCH FROM NOW() - stats_reset) from pg_stat_bgwriter;"
+
+/*
+ * Custom key pg.stats_reset_interval
+ *
+ * Returns the interval in seconds since the BG writer stats were last reset.
+ *
+ * Parameters:
+ *   0:  connection string
+ *   1:  connection database
+ *
+ * Returns: i
+ */
+int     PG_BG_STATS_RESET_INTERVAL(AGENT_REQUEST *request, AGENT_RESULT *result)
+{
+    int         ret = SYSINFO_RET_FAIL;                             // Request result code
+    const char  *__function_name = "PG_BG_STATS_RESET_INTERVAL";    // Function name for log file
+    
+    zabbix_log(LOG_LEVEL_DEBUG, "In %s()", __function_name);
+    
+    ret = pg_get_int(request, result, PGSQL_BG_STATS_RESET_INTERVAL, NULL);
+    
+    zabbix_log(LOG_LEVEL_DEBUG, "End of %s()", __function_name);
+    return ret;    
+}
+
 /*
  * Custom key pg.checkpoint_avg_interval
  *

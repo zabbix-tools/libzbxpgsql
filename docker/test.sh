@@ -40,7 +40,7 @@ PGCONN="host=${PGHOST} user=${PGUSER} port=5493" \
 # test v9.4
 PGCONN="host=${PGHOST} user=${PGUSER} port=5494" \
 	zabbix_agent_bench ${ARGS} \
-	-keys ../fixtures/postgresql-9.2.keys \
+	-keys ../fixtures/postgresql-9.4.keys \
 	|| exit 1
 
 echo "SUCCESS! All test passed."

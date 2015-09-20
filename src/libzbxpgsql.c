@@ -62,6 +62,7 @@ static ZBX_METRIC keys[] =
     {"pg.buffers_backend_fsync",    CF_HAVEPARAMS,  PG_STAT_BGWRITER,               NULL},
     {"pg.buffers_alloc",            CF_HAVEPARAMS,  PG_STAT_BGWRITER,               NULL},
     {"pg.stats_reset",              CF_HAVEPARAMS,  PG_STAT_BGWRITER,               NULL},
+    {"pg.stats_reset_interval",     CF_HAVEPARAMS,  PG_BG_STATS_RESET_INTERVAL,     NULL},
     
     // Asset discovery
     {"pg.db.discovery",             CF_HAVEPARAMS,  PG_DB_DISCOVERY,                NULL},
@@ -117,6 +118,7 @@ static ZBX_METRIC keys[] =
     {"pg.table.n_tup_hot_upd",      CF_HAVEPARAMS,  PG_STAT_ALL_TABLES,             NULL},
     {"pg.table.n_live_tup",         CF_HAVEPARAMS,  PG_STAT_ALL_TABLES,             NULL},
     {"pg.table.n_dead_tup",         CF_HAVEPARAMS,  PG_STAT_ALL_TABLES,             NULL},
+    {"pg.table.n_mod_since_analyze",CF_HAVEPARAMS,  PG_STAT_ALL_TABLES,             NULL},
     {"pg.table.last_vacuum",        CF_HAVEPARAMS,  PG_STAT_ALL_TABLES,             ",,pg_database"},
     {"pg.table.last_autovacuum",    CF_HAVEPARAMS,  PG_STAT_ALL_TABLES,             ",,pg_database"},
     {"pg.table.last_analyze",       CF_HAVEPARAMS,  PG_STAT_ALL_TABLES,             ",,pg_database"},
