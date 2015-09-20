@@ -8,6 +8,8 @@ permalink: /release-notes/
 ## v1.0.0-alpha
 Release: __Unreleased__
 
+This release includes breaking changes from previous versions.
+
 - Enabled "deep" discovery of database specific assets
 
   Some assets such as namespaces, tables and indexes are only discoverable when

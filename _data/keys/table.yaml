@@ -249,6 +249,17 @@
       description: table to return statistics for
   source: SELECT n_dead_tup FROM pg_stat_all_tables WHERE relname = $1
 
+- key: pg.table.n_mod_since_analyze
+  description: >
+    Returns the estimated number of rows modified since this table was last
+    analyzed
+  type: Numeric (unsigned)
+  parameters:
+    - parameter: table
+      description: table to return statistics for
+  require: 9.4
+  source: SELECT n_mod_since_analyze FROM pg_stat_all_tables WHERE relname = $1
+
 - key: pg.table.last_vacuum
   description: Returns the last time at which this table was manually vacuumed (not counting VACUUM FULL)
   type: Text
