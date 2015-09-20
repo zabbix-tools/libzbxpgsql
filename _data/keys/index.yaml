@@ -1,7 +1,8 @@
 ---
 - key: pg.index.discovery
   description: >
-    Returns a JSON array of all known PostgreSQL indexes in the connected database
+    Returns a JSON array of all known PostgreSQL indexes for databases which
+    are accessible to the connected user.
   type: Discovery
   parameters:
     - parameter: schema

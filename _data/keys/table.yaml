@@ -1,8 +1,8 @@
 ---
 - key: pg.table.discovery
   description: >
-    Returns a JSON array of all known PostgreSQL tables in the currently
-    connected database
+    Returns a JSON array of all known PostgreSQL tables in all databses which
+    are accessible to the connected user.
   type: Discovery
   source: >
     SELECT
