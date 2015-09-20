@@ -4,6 +4,12 @@
     Returns a JSON array of all known PostgreSQL tables in all databses which
     are accessible to the connected user.
   type: Discovery
+  parameters:
+    - parameter: search mode
+      description: >
+        search all accessible databases (`deep`) or only the connected database
+        (`shallow`)
+      default: "`deep`"
   source: >
     SELECT
       c.oid AS oid

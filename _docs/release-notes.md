@@ -5,6 +5,59 @@ menu: Release notes
 permalink: /release-notes/
 ---
 
+## v1.0.0-alpha
+Release: __Unreleased__
+
+- Enabled "deep" discovery of database specific assets
+
+  Some assets such as namespaces, tables and indexes are only discoverable when
+  connected to the parent database. Discovery keys for these items have been
+  updated to determine which databases are accessible to the connected user,
+  connect to each database separately and build an amalgamated list of
+  discoverable items across all accessible databases.
+
+  The result is that a discovery rule will use multiple backend connections,
+  but will in turn return results for all accessible databases.
+
+  To disable this feature and only return discovery items for the connected
+  database, each key supports a new `search mode` parameter which can be set to
+  `shallow`.
+
+  The following keys will now discover across all accessible databases:
+
+  * `pg.schema.discovery` and `pg.namespace.discovery`
+  * `pg.table.discovery`
+  * `pg.index.discovery`
+
+- Added cache hit rate keys
+
+  To determine the effectiveness of caches on databases, tables and indexes,
+  convenience keys have been added to measure cache hits against disk hits where
+  `result = cache hits / (disk hits + cache hits)`. An effective cache or index
+  on a busy relation should return a value above 0.99.
+
+  Keys include:
+
+  * `pg.db.blks_perc`: cache hit rate for a database
+  * `pg.table.idx_scan_perc`: index hit rate of all scans on a table
+  * `pg.table.heap_blks_perc`: cache hit rate for a table's data
+  * `pg.table.idx_blks_perc`: cache hit rate for a table's indexes
+  * `pg.table.toast_blks_perc`: cache hit rate for a table's TOAST data
+  * `pg.table.tidx_blks_perc`: cache hit rate for a table's TOAST indexes
+
+- Added keys for additional checkpoint monitoring
+
+  Checkpoint writing and syncing is an important aspect of PostgreSQL
+  performance and stability. Additional keys have been added to give better
+  insight into the configuration and performance of your background checkpoint
+  writer process.
+
+  * `pg.checkpoint_avg_interval`: average interval in seconds between each
+    checkpoint since statistics were reset by the server
+
+  * `pg.checkpoint_time_perc`: percentage of time spent writing and/or syncing
+    checkpoints since statistics were reset by the server
+
 ## v0.2.1
 Release: Sep 14 2015
 
