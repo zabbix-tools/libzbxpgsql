@@ -67,7 +67,78 @@ int    PG_STAT_BGWRITER(AGENT_REQUEST *request, AGENT_RESULT *result)
     return ret;
 }
 
+/*
+ * Custom key pg.checkpoint_avg_interval
+ *
+ * Returns the average interval in seconds between all checkpoints that have
+ * run since statistics were reset.
+ *
+ * Parameters:
+ *   0:  connection string
+ *   1:  connection database
+ *
+ * Returns: d
+ */
 int     PG_BG_AVG_INTERVAL(AGENT_REQUEST *request, AGENT_RESULT *result)
 {
-	return pg_get_dbl(request, result, PGSQL_BG_AVG_INTERVAL, NULL);
+    int         ret = SYSINFO_RET_FAIL;                 // Request result code
+    const char  *__function_name = "PG_BG_AVG_INTERVAL";  // Function name for log file
+    
+    zabbix_log(LOG_LEVEL_DEBUG, "In %s()", __function_name);
+
+	ret = pg_get_dbl(request, result, PGSQL_BG_AVG_INTERVAL, NULL);
+
+    zabbix_log(LOG_LEVEL_DEBUG, "End of %s()", __function_name);
+    return ret;
+}
+
+#define PGSQL_BG_TIME_PERC      "\
+SELECT \
+    (%s / 1000) / EXTRACT(EPOCH FROM NOW() - stats_reset) \
+FROM pg_stat_bgwriter;"
+
+/*
+ * Custom key pg.checkpoint_time_perc
+ *
+ * Returns the percentage of time spent writing or syncing checkpoints since
+ * statistics were reset.
+ *
+ * Parameters:
+ *   0:  connection string
+ *   1:  connection database
+ *   2:  action: all (default) | write | sync
+ *
+ * Returns: d
+ */
+int     PG_BG_TIME_PERC(AGENT_REQUEST *request, AGENT_RESULT *result)
+{
+    int         ret = SYSINFO_RET_FAIL;                 // Request result code
+    const char  *__function_name = "PG_BG_TIME_PERC";   // Function name for log file
+
+    char        query[MAX_STRING_LEN];
+    char        *action = NULL, *field = NULL;
+    
+    zabbix_log(LOG_LEVEL_DEBUG, "In %s()", __function_name);
+
+    // parse action parameter
+    action = get_rparam(request, PARAM_FIRST);
+    if (strisnull(action) || 0 == strcmp(action, "all"))
+        field = "(checkpoint_write_time + checkpoint_sync_time)";
+    else if (0 == strcmp(action, "write"))
+        field = "checkpoint_write_time";
+    else if (0 == strcmp(action, "sync"))
+        field = "checkpoint_sync_time";
+    else {
+        SET_MSG_RESULT(result, zbx_dsprintf(NULL, "Invalid action parameter: %s", action));
+        return ret;
+    }
+
+    // build query
+    zbx_snprintf(query, sizeof(query), PGSQL_BG_TIME_PERC, field);
+
+    // get result
+    ret = pg_get_dbl(request, result, query, NULL);
+
+    zabbix_log(LOG_LEVEL_DEBUG, "End of %s()", __function_name);
+    return ret;
 }

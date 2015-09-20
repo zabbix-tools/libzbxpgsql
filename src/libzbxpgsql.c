@@ -54,6 +54,7 @@ static ZBX_METRIC keys[] =
     {"pg.checkpoint_write_time",    CF_HAVEPARAMS,  PG_STAT_BGWRITER,               NULL},
     {"pg.checkpoint_sync_time",     CF_HAVEPARAMS,  PG_STAT_BGWRITER,               NULL},
     {"pg.checkpoint_avg_interval",  CF_HAVEPARAMS,  PG_BG_AVG_INTERVAL,             NULL},
+    {"pg.checkpoint_time_perc",     CF_HAVEPARAMS,  PG_BG_TIME_PERC,                NULL},
     {"pg.buffers_checkpoint",       CF_HAVEPARAMS,  PG_STAT_BGWRITER,               NULL},
     {"pg.buffers_clean",            CF_HAVEPARAMS,  PG_STAT_BGWRITER,               NULL},
     {"pg.maxwritten_clean",         CF_HAVEPARAMS,  PG_STAT_BGWRITER,               NULL},

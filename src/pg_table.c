@@ -164,7 +164,7 @@ int    PG_TABLE_DISCOVERY(AGENT_REQUEST *request, AGENT_RESULT *result)
     } else if (0 == strcmp(param_mode, "shallow")) {
         ret = pg_get_discovery(request, result, PGSQL_DISCOVER_TABLES, NULL);
     } else {
-      SET_MSG_RESULT(result, zbx_dsprintf(NULL, "Invalid search mode parameter: %s", param_mode));
+        SET_MSG_RESULT(result, zbx_dsprintf(NULL, "Invalid search mode parameter: %s", param_mode));
     }
 
     zabbix_log(LOG_LEVEL_DEBUG, "End of %s()", __function_name);
