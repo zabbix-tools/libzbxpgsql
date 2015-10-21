@@ -235,6 +235,12 @@ out:
 
             zbx_json_close(&j);         
         }
+
+        // clean up
+        zbx_free(connstring);
+        PQclear(res);        
+        PQfinish(conn);
+        conn = NULL; // bypass 2nd PQfinish
     }
 
     // Finalize JSON response
@@ -247,9 +253,8 @@ out:
 out:
     zbx_free(connstring);
     zbx_free(databases);
-
-    PQclear(res);
-    PQfinish(conn);
+    if (NULL != conn)
+        PQfinish(conn);
 
     zabbix_log(LOG_LEVEL_DEBUG, "End of %s(%s)", __function_name, request->key);
     return ret;
