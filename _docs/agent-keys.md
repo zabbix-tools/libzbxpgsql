@@ -140,7 +140,7 @@ the monitoring role by adding the following to your `pg_indent.conf`:
 Configure Zabbix to use the `monitoring` role by specifying the `user` keyword
 in the first parameter of your item keys. E.g.
 
-    pg.connect[host=localhost user=monitoring,postgres]
+    pg.connect[user=monitoring,postgres]
 
 ### Remote monitoring agent
 
