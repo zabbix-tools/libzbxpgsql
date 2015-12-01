@@ -16,11 +16,11 @@
 .deps/
 .libs/
 .vagrant/
+/Makefile
 aclocal.m4
 ar-lib
 autom4te.cache/
 config.guess
-config.h
 config.h.in
 config.log
 config.status
@@ -28,16 +28,14 @@ config.sub
 configure
 configure.in
 depcomp
+docker/dell*
+include/config.h
 install-sh
 libtool
 libzbxpgsql-*/
 ltmain.sh
 m4/
-/Makefile
-src/**/Makefile
 missing
+src/**/Makefile
 stamp-h1
 zabbix-*/
-
-# ignore sample database
-docker/dell*

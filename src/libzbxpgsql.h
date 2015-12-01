@@ -24,13 +24,16 @@
 #include <stdarg.h>
 #include <arpa/inet.h>
 
-#include "include/sysinc.h"
-#include "include/module.h"
-#include "include/common.h"
-#include "include/log.h"
-#include "include/zbxjson.h"
-
+// PostgreSQL headers
 #include <libpq-fe.h>
+
+// Zabbix source headers
+#include "sysinc.h"
+#include "module.h"
+#include "common.h"
+#include "log.h"
+#include "zbxjson.h"
+
 
 // Version info
 #define STRVER  PACKAGE " " PACKAGE_VERSION

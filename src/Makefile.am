@@ -1,9 +1,5 @@
 GIT_VERSION = $(shell git describe --abbrev=8 --dirty --always --tags)
 
-# TODO: Move pg_config call from Makefile into configure script
-PSQL_INCLUDE = $(shell pg_config --includedir)
-PSQL_LIB = $(shell pg_config --libdir)
-
 lib_LTLIBRARIES = libzbxpgsql.la
 
 libzbxpgsql_la_SOURCES = \
@@ -24,10 +20,10 @@ libzbxpgsql_la_SOURCES = \
 	pg_tablespace.c
 
 libzbxpgsql_la_CFLAGS = \
-	-lpq \
-	-I$(PSQL_INCLUDE) \
-	-L$(PSQL_LIB) \
-	-I../.. \
+	-I../include \
+	$(POSTGRESQL_CPPFLAGS) \
+	$(POSTGRESQL_LDFLAGS) \
+	$(POSTGRESQL_LIBS) \
 	-DGIT_VERSION=\"$(GIT_VERSION)\"
 
 libzbxpgsql_la_LDFLAGS = \
