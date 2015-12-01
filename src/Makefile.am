@@ -1,9 +1,3 @@
-if HAVE_GIT
-GIT_REVISION = $(shell $(GIT) rev-parse --verify HEAD)
-GIT_DESCRIPTION = $(shell $(GIT) describe --abbrev=8 --dirty --always --tags)
-GIT_CFLAGS = -DGIT_REVISION=\"$(GIT_REVISION)\" -DGIT_DESCRIPTION=\"$(GIT_DESCRIPTION)\"
-endif
-
 lib_LTLIBRARIES = libzbxpgsql.la
 
 libzbxpgsql_la_SOURCES = \
@@ -27,8 +21,7 @@ libzbxpgsql_la_CFLAGS = \
 	-I../include \
 	$(POSTGRESQL_CPPFLAGS) \
 	$(POSTGRESQL_LDFLAGS) \
-	$(POSTGRESQL_LIBS) \
-	$(GIT_CFLAGS)
+	$(POSTGRESQL_LIBS)
 
 libzbxpgsql_la_LDFLAGS = \
 	-shared \

@@ -164,7 +164,7 @@ int         zbx_module_uninit()                     { return ZBX_MODULE_OK; }
 
 int         zbx_module_init() { 
     // log version on startup
-    zabbix_log(LOG_LEVEL_INFORMATION, "Starting agent module %s %s", PACKAGE, PACKAGE_REVISION);
+    zabbix_log(LOG_LEVEL_INFORMATION, "Starting agent module %s", PACKAGE_STRING);
     return ZBX_MODULE_OK; 
 }
 

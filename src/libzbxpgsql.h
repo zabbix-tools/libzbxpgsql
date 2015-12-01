@@ -34,13 +34,6 @@
 #include "log.h"
 #include "zbxjson.h"
 
-// Source revision
-#ifdef GIT_DESCRIPTION
-#define PACKAGE_REVISION	GIT_DESCRIPTION
-#else
-#define PACKAGE_REVISION	PACKAGE_VERSION
-#endif
-
 // Default connection settings
 #define LOCALHOST       "localhost"
 #define PSQL_PORT       "5432"
