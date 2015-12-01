@@ -11,6 +11,9 @@ AC_CONFIG_HEADERS([include/config.h])
 # check for stdlib header files
 AC_HEADER_STDC
 
+# Check for git
+AX_PROG_GIT
+
 # Checking for PostgreSQL support
 AX_LIB_POSTGRESQL("8.1")
 if test "x$found_postgresql" = "xyes"; then

@@ -164,7 +164,7 @@ int         zbx_module_uninit()                     { return ZBX_MODULE_OK; }
 
 int         zbx_module_init() { 
     // log version on startup
-    zabbix_log(LOG_LEVEL_INFORMATION, "Starting agent module %s", STRVER);
+    zabbix_log(LOG_LEVEL_INFORMATION, "Starting agent module %s %s", PACKAGE, PACKAGE_REVISION);
     return ZBX_MODULE_OK; 
 }
 
@@ -185,7 +185,7 @@ int         zbx_module_init() {
     zabbix_log(LOG_LEVEL_DEBUG, "In %s", __function_name);
     
     // Set result
-    SET_STR_RESULT(result, strdup(STRVER));
+    SET_STR_RESULT(result, strdup(PACKAGE_STRING));
     ret = SYSINFO_RET_OK;
     
     zabbix_log(LOG_LEVEL_DEBUG, "End of %s", __function_name);

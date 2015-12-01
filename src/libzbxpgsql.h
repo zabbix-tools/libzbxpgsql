@@ -34,10 +34,12 @@
 #include "log.h"
 #include "zbxjson.h"
 
-
-// Version info
-#define STRVER  PACKAGE " " PACKAGE_VERSION
-#define GITVER  PACKAGE " " GIT_VERSION
+// Source revision
+#ifdef GIT_DESCRIPTION
+#define PACKAGE_REVISION	GIT_DESCRIPTION
+#else
+#define PACKAGE_REVISION	PACKAGE_VERSION
+#endif
 
 // Default connection settings
 #define LOCALHOST       "localhost"
