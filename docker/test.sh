@@ -1,6 +1,6 @@
 #!/bin/bash
 ARGS="-threads 8 -iterations 1 -strict"
-PGHOST=192.168.59.103
+PGHOST=${DOCKER_IP}
 PGUSER="postgres"
 export PGDATABASE="postgres"
 

@@ -16,20 +16,20 @@ docker run -d -p 5494:5432 --name pg94 postgres:9.4
 sleep 10 # let the babies wake
 
 # install sample databases
-psql -U postgres -h 192.168.59.103 -p 5484 < dellstore2-normal-1.0/dellstore2-normal-1.0.sql
-psql -U postgres -h 192.168.59.103 -p 5484 -c "${PSQL_CREATE_ROLE}"
+psql -U postgres -h ${DOCKER_IP} -p 5484 < dellstore2-normal-1.0/dellstore2-normal-1.0.sql
+psql -U postgres -h ${DOCKER_IP} -p 5484 -c "${PSQL_CREATE_ROLE}"
 
-psql -U postgres -h 192.168.59.103 -p 5490 < dellstore2-normal-1.0/dellstore2-normal-1.0.sql
-psql -U postgres -h 192.168.59.103 -p 5490 -c "${PSQL_CREATE_ROLE}"
+psql -U postgres -h ${DOCKER_IP} -p 5490 < dellstore2-normal-1.0/dellstore2-normal-1.0.sql
+psql -U postgres -h ${DOCKER_IP} -p 5490 -c "${PSQL_CREATE_ROLE}"
 
-psql -U postgres -h 192.168.59.103 -p 5491 < dellstore2-normal-1.0/dellstore2-normal-1.0.sql
-psql -U postgres -h 192.168.59.103 -p 5491 -c "${PSQL_CREATE_ROLE}"
+psql -U postgres -h ${DOCKER_IP} -p 5491 < dellstore2-normal-1.0/dellstore2-normal-1.0.sql
+psql -U postgres -h ${DOCKER_IP} -p 5491 -c "${PSQL_CREATE_ROLE}"
 
-psql -U postgres -h 192.168.59.103 -p 5492 < dellstore2-normal-1.0/dellstore2-normal-1.0.sql
-psql -U postgres -h 192.168.59.103 -p 5492 -c "${PSQL_CREATE_ROLE}"
+psql -U postgres -h ${DOCKER_IP} -p 5492 < dellstore2-normal-1.0/dellstore2-normal-1.0.sql
+psql -U postgres -h ${DOCKER_IP} -p 5492 -c "${PSQL_CREATE_ROLE}"
 
-psql -U postgres -h 192.168.59.103 -p 5493 < dellstore2-normal-1.0/dellstore2-normal-1.0.sql
-psql -U postgres -h 192.168.59.103 -p 5493 -c "${PSQL_CREATE_ROLE}"
+psql -U postgres -h ${DOCKER_IP} -p 5493 < dellstore2-normal-1.0/dellstore2-normal-1.0.sql
+psql -U postgres -h ${DOCKER_IP} -p 5493 -c "${PSQL_CREATE_ROLE}"
 
-psql -U postgres -h 192.168.59.103 -p 5494 < dellstore2-normal-1.0/dellstore2-normal-1.0.sql
-psql -U postgres -h 192.168.59.103 -p 5494 -c "${PSQL_CREATE_ROLE}"
+psql -U postgres -h ${DOCKER_IP} -p 5494 < dellstore2-normal-1.0/dellstore2-normal-1.0.sql
+psql -U postgres -h ${DOCKER_IP} -p 5494 -c "${PSQL_CREATE_ROLE}"
