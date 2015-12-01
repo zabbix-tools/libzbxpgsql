@@ -19,9 +19,13 @@ BuildRequires : postgresql-devel
 %endif
 # BuildRequires don't seem to work with rpmbuild on Ubuntu...
 
-# package dependencies
-Requires    : zabbix-agent >= 2.2.0
+# Require Zabbix agent package
+#
+# Note: Doesn't working with EPEL packages
+#       See: https://github.com/cavaliercoder/libzbxpgsql/issues/18
+Requires    : zabbix-agent >= 2.2.0 
 
+# require PostgreSQL libs
 %if "%{_vendor}" == "redhat"
 Requires    : postgresql-libs >= 8.1.23
 %endif
