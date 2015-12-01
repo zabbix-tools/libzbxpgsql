@@ -6,7 +6,7 @@
 #
 #   This macro provides tests of availability of git.
 #
-#   The --with-gitoption takes one of three possible values:
+#   The --with-git option takes one of three possible values:
 #
 #   no - do not check for git
 #
@@ -49,7 +49,6 @@ AC_DEFUN([AX_PROG_GIT],
         [want_git="yes"]
     )
 
-    GIT=""
     GIT_VERSION=""
 
     dnl
@@ -57,11 +56,16 @@ AC_DEFUN([AX_PROG_GIT],
     dnl
 
     if test "$want_git" = "yes"; then
-
+        # check in $PATH if path is unspecified
         if test -z "$GIT" -o test; then
             AC_PATH_PROG([GIT], [git], [])
+
+            if test -z "$GIT"; then
+                AC_MSG_ERROR([git not found in \$PATH])
+            fi
         fi
 
+        # check file exists
         if test ! -x "$GIT"; then
             AC_MSG_ERROR([$GIT does not exist or it is not an exectuable file])
             GIT="no"
@@ -69,18 +73,11 @@ AC_DEFUN([AX_PROG_GIT],
         fi
 
         if test "$GIT" != "no"; then
-            AC_MSG_CHECKING([for git])
-
             GIT_VERSION=`$GIT --version | sed -e 's/git version//'`
 
-            #AC_DEFINE([HAVE_GIT], [1],
-            #    [Define to 1 if Git is available])
-
             found_git="yes"
-            AC_MSG_RESULT([yes])
         else
             found_git="no"
-            AC_MSG_RESULT([no])
         fi
     fi
 
