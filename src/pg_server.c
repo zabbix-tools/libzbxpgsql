@@ -88,7 +88,7 @@ int    PG_VERSION(AGENT_REQUEST *request, AGENT_RESULT *result)
 }
 
 /*
- * Custom key pg.startttime
+ * Custom key pg.starttime
  *
  * Returns the start time of the postmaster daemon. E.g.
  *  2015-08-08 08:00:17.894706+00
