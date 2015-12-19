@@ -19,18 +19,22 @@
 
 #include "libzbxpgsql.h"
 
-#define MAX_QUERY_LEN			4096
+#define MAX_QUERY_LEN           4096
 #define MAX_CLAUSE_LEN          64
 
-#define PGSQL_GET_BACKENDS		"SELECT COUNT(datid) FROM pg_stat_activity"
+#define PGSQL_GET_BACKENDS      "SELECT COUNT(datid) - 1 FROM pg_stat_activity"
 
 #define PGSQL_GET_LONGEST_QUERY "\
 SELECT \
-  EXTRACT(EPOCH FROM NOW()) - EXTRACT(EPOCH FROM query_start) AS duration \
-FROM pg_stat_activity \
-WHERE state = 'active' \
-ORDER BY duration DESC \
-LIMIT 1"
+  COALESCE( \
+	(SELECT \
+	  EXTRACT(EPOCH FROM NOW()) - EXTRACT(EPOCH FROM query_start) AS duration \
+	FROM pg_stat_activity \
+	WHERE \
+	  state = 'active' \
+	  AND pid != pg_backend_pid() \
+	ORDER BY duration DESC \
+	LIMIT 1), 0);"
 
 /*
  * Custom key pg.backends.count
@@ -49,76 +53,76 @@ LIMIT 1"
  */
  int    PG_BACKENDS_COUNT(AGENT_REQUEST *request, AGENT_RESULT *result)
  {
-    int         ret = SYSINFO_RET_FAIL;                  // Request result code
-    const char  *__function_name = "PG_BACKENDS_COUNT";  // Function name for log file
+	int         ret = SYSINFO_RET_FAIL;                  // Request result code
+	const char  *__function_name = "PG_BACKENDS_COUNT";  // Function name for log file
 	char        query[MAX_QUERY_LEN];
 	char        *p = &query[0];
 	int         i = 0;
 	char        *param = NULL;
 	char        *clause = PG_WHERE;
-    PGparams    pgparams = NULL;
-    int         pgi = 0;
-    
-    zabbix_log(LOG_LEVEL_DEBUG, "In %s()", __function_name);
+	PGparams    pgparams = NULL;
+	int         pgi = 0;
+	
+	zabbix_log(LOG_LEVEL_DEBUG, "In %s()", __function_name);
 
-    // Build the sql query
-    memset(query, 0, MAX_QUERY_LEN);
-    zbx_strlcpy(p, PGSQL_GET_BACKENDS, MAX_QUERY_LEN);
-    p += strlen(p);
+	// Build the sql query
+	memset(query, 0, MAX_QUERY_LEN);
+	zbx_strlcpy(p, PGSQL_GET_BACKENDS, MAX_QUERY_LEN);
+	p += strlen(p);
 
-    // iterate over the available parameters
-    for(i = 0; i < 4; i++) {
-    	param = get_rparam(request, PARAM_FIRST + i);
-    	if(!strisnull(param)) {
-    		switch(i) {
-    			case 0: // <database>
-                    pgparams = param_append(pgparams, param);
-    				if(is_oid(param))
-    					zbx_snprintf(p, MAX_CLAUSE_LEN, " %s datid=$%i", clause, ++pgi);
-    				else
-    					zbx_snprintf(p, MAX_CLAUSE_LEN, " %s datname=$%i", clause, ++pgi);
-    				break;
+	// iterate over the available parameters
+	for(i = 0; i < 4; i++) {
+		param = get_rparam(request, PARAM_FIRST + i);
+		if(!strisnull(param)) {
+			switch(i) {
+				case 0: // <database>
+					pgparams = param_append(pgparams, param);
+					if(is_oid(param))
+						zbx_snprintf(p, MAX_CLAUSE_LEN, " %s datid=$%i", clause, ++pgi);
+					else
+						zbx_snprintf(p, MAX_CLAUSE_LEN, " %s datname=$%i", clause, ++pgi);
+					break;
 
-    			case 1: // <user>
-                    pgparams = param_append(pgparams, param);
-    			    if(is_oid(param))
-    			    	zbx_snprintf(p, MAX_CLAUSE_LEN, " %s usesysid=$%i", clause, ++pgi);
-    				else
-    					zbx_snprintf(p, MAX_CLAUSE_LEN, " %s usename=$%i", clause, ++pgi);
-    				break;
+				case 1: // <user>
+					pgparams = param_append(pgparams, param);
+					if(is_oid(param))
+						zbx_snprintf(p, MAX_CLAUSE_LEN, " %s usesysid=$%i", clause, ++pgi);
+					else
+						zbx_snprintf(p, MAX_CLAUSE_LEN, " %s usename=$%i", clause, ++pgi);
+					break;
 
-    			case 2: // <client>
-                    pgparams = param_append(pgparams, param);
-    			    if(is_valid_ip(param))
-                    	zbx_snprintf(p, MAX_CLAUSE_LEN, " %s client_addr = $%i::inet", clause, ++pgi);
-    				else
-                        // requires v9.1+
-    					zbx_snprintf(p, MAX_CLAUSE_LEN, " %s client_hostname=$%i", clause, ++pgi);
-    				break;
+				case 2: // <client>
+					pgparams = param_append(pgparams, param);
+					if(is_valid_ip(param))
+						zbx_snprintf(p, MAX_CLAUSE_LEN, " %s client_addr = $%i::inet", clause, ++pgi);
+					else
+						// requires v9.1+
+						zbx_snprintf(p, MAX_CLAUSE_LEN, " %s client_hostname=$%i", clause, ++pgi);
+					break;
 
-    			case 3: // <waiting>
-    				if(0 == strncmp("true", param, 4)) {
-                        zbx_snprintf(p, MAX_CLAUSE_LEN, " %s waiting=TRUE", clause);
-                    } else if(0 == strncmp("false", param, 5)) {
-                        zbx_snprintf(p, MAX_CLAUSE_LEN, " %s waiting=FALSE", clause);
-                    } else {
-                        zabbix_log(LOG_LEVEL_ERR, "Unsupported 'Waiting' parameter: %s in %s()", param, __function_name);
-                        goto out;
-                    }
-                    
-    				break;
-    		}
+				case 3: // <waiting>
+					if(0 == strncmp("true", param, 4)) {
+						zbx_snprintf(p, MAX_CLAUSE_LEN, " %s waiting=TRUE", clause);
+					} else if(0 == strncmp("false", param, 5)) {
+						zbx_snprintf(p, MAX_CLAUSE_LEN, " %s waiting=FALSE", clause);
+					} else {
+						zabbix_log(LOG_LEVEL_ERR, "Unsupported 'Waiting' parameter: %s in %s()", param, __function_name);
+						goto out;
+					}
+					
+					break;
+			}
 
-    		p += strlen(p);
-    		clause = PG_AND;
-    	}
-    }
+			p += strlen(p);
+			clause = PG_AND;
+		}
+	}
 
-    ret = pg_get_int(request, result, query, pgparams);
+	ret = pg_get_int(request, result, query, pgparams);
 
 out:  
-    zabbix_log(LOG_LEVEL_DEBUG, "End of %s()", __function_name);
-    return ret;
+	zabbix_log(LOG_LEVEL_DEBUG, "End of %s()", __function_name);
+	return ret;
 }
 
 /*
@@ -138,13 +142,13 @@ out:
  */
 int    PG_QUERIES_LONGEST(AGENT_REQUEST *request, AGENT_RESULT *result)
 {
-    int         ret = SYSINFO_RET_FAIL;                     // Request result code
-    const char  *__function_name = "PG_QUERIES_LONGEST";    // Function name for log file
-    
-    zabbix_log(LOG_LEVEL_DEBUG, "In %s()", __function_name);
-    
-    ret = pg_get_dbl(request, result, PGSQL_GET_LONGEST_QUERY, NULL);
-    
-    zabbix_log(LOG_LEVEL_DEBUG, "End of %s()", __function_name);
-    return ret;
+	int         ret = SYSINFO_RET_FAIL;                     // Request result code
+	const char  *__function_name = "PG_QUERIES_LONGEST";    // Function name for log file
+	
+	zabbix_log(LOG_LEVEL_DEBUG, "In %s()", __function_name);
+	
+	ret = pg_get_dbl(request, result, PGSQL_GET_LONGEST_QUERY, NULL);
+	
+	zabbix_log(LOG_LEVEL_DEBUG, "End of %s()", __function_name);
+	return ret;
 }
