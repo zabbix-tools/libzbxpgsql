@@ -215,7 +215,7 @@ PGresult    *pg_exec(PGconn *conn, const char *command, PGparams params) {
     // execute query with escaped parameters
     res = PQexecParams(conn, command, nparams, NULL, (const char * const*) params, NULL, NULL, 0);
 
-    //free up the params array which would have been alloc'ed for this request
+    // free up the params array which would have been alloc'ed for this request
     param_free(params);
 
     return res;

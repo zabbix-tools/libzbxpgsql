@@ -89,13 +89,13 @@ static int build_activity_clause(const AGENT_REQUEST *request, char *buf, PGpara
                         zbx_snprintf(buf, MAX_CLAUSE_LEN, " %s client_hostname = $%i", clause, ++pgi);
                     break;
 
-                case 3: // <waiting>
+                case 3: // <waiting>                
                     if(0 == strncmp("true\0", param, 5)) {
                         zbx_snprintf(buf, MAX_CLAUSE_LEN, " %s waiting = TRUE", clause);
                     } else if(0 == strncmp("false\0", param, 6)) {
                         zbx_snprintf(buf, MAX_CLAUSE_LEN, " %s waiting = FALSE", clause);
                     } else {
-                        zabbix_log(LOG_LEVEL_ERR, "Unsupported parameter value: \"%s\" in %s()", param, __function_name);
+                        zabbix_log(LOG_LEVEL_ERR, "Unsupported parameter value: \"%s\" in %s", param, request->key);
                         return 0;
                     }
 
@@ -132,22 +132,24 @@ static int build_activity_clause(const AGENT_REQUEST *request, char *buf, PGpara
 
     char        query[MAX_QUERY_LEN];
     char        clause[MAX_CLAUSE_LEN];
-    PGparams    params = NULL;
+    PGparams    params = NULL; // freed later in pg_exec
     
     zabbix_log(LOG_LEVEL_DEBUG, "In %s()", __function_name);
 
     // build the filter clause
+    memset(clause, 0, sizeof(clause));
     if (0 == build_activity_clause(request, clause, &params, 1))
         goto out;
 
     // build the full sql query
-    memset(query, 0, MAX_QUERY_LEN);
+    memset(query, 0, sizeof(query));
     zbx_snprintf(query, MAX_QUERY_LEN, PGSQL_GET_BACKENDS, clause);
 
     // get results
     ret = pg_get_int(request, result, query, params);
 
-out:  
+out:
+    
     zabbix_log(LOG_LEVEL_DEBUG, "End of %s()", __function_name);
     return ret;
 }
@@ -178,11 +180,12 @@ int    PG_QUERIES_LONGEST(AGENT_REQUEST *request, AGENT_RESULT *result)
     
     char        query[MAX_QUERY_LEN];
     char        clause[MAX_CLAUSE_LEN];
-    PGparams    params = NULL;
+    PGparams    params = NULL; // freed later in pg_exec
 
     zabbix_log(LOG_LEVEL_DEBUG, "In %s()", __function_name);
 
     // build the filter clause
+    memset(clause, 0, sizeof(clause));
     if (0 == build_activity_clause(request, clause, &params, 1))
         goto out;
 
@@ -193,6 +196,7 @@ int    PG_QUERIES_LONGEST(AGENT_REQUEST *request, AGENT_RESULT *result)
     ret = pg_get_dbl(request, result, query, params);
     
 out:
+
     zabbix_log(LOG_LEVEL_DEBUG, "End of %s()", __function_name);
     return ret;
 }
