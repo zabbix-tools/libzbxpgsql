@@ -23,7 +23,10 @@
 
 #define PGSQL_BG_AVG_INTERVAL	"\
 SELECT \
-	EXTRACT(EPOCH FROM (NOW() - stats_reset)) / (checkpoints_timed + checkpoints_req) \
+    CASE checkpoints_timed + checkpoints_req \
+        WHEN 0 THEN 0 \
+        ELSE EXTRACT(EPOCH FROM (NOW() - stats_reset)) / (checkpoints_timed + checkpoints_req) \
+    END \
 FROM pg_stat_bgwriter;"
 
 /*

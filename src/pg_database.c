@@ -20,7 +20,7 @@
 #include "libzbxpgsql.h"
 
 #define PGSQL_DISCOVER_DBS  "\
-SELECT  \
+SELECT \
     d.oid as oid, \
     d.datname as database, \
     pg_catalog.pg_encoding_to_char(d.encoding) as encoding, \
