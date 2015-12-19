@@ -3,7 +3,7 @@ BULLET="==>"
 
 ZBX_MAJ=2
 ZBX_MIN=2
-ZBX_PATCH=10
+ZBX_PATCH=11
 ZBX_REL=1
 ZBX_VER="${ZBX_MAJ}.${ZBX_MIN}.${ZBX_PATCH}-${ZBX_REL}"
 
@@ -30,14 +30,14 @@ Print all key tests with:
 All project sources are mapped in /vagrant
 
 Manage PostgreSQL server from:
-    http://localhost:8080/phpPgAdmin (postgres:postgres)
+    http://localhost:9000/phpPgAdmin (postgres:postgres)
 
 Manage Zabbix server from:
-    http://localhost:8080/zabbix (Admin:zabbix)
+    http://localhost:9000/zabbix (Admin:zabbix)
 
 MOTD
 
-# Install Zabbix, PostgreSQL and build tools
+# Install packages
 echo -e "${BULLET} Installing Zabbix, PostgreSQL and build tools..."
 rpm -qa | grep pgdg >/dev/null || yum localinstall -y --nogpgcheck http://yum.postgresql.org/9.4/redhat/rhel-6-x86_64/pgdg-centos94-9.4-1.noarch.rpm
 rpm -q zabbix-release >/dev/null || yum localinstall -y --nogpgcheck http://repo.zabbix.com/zabbix/${ZBX_MAJ}.${ZBX_MIN}/rhel/7/x86_64/zabbix-release-${ZBX_MAJ}.${ZBX_MIN}-1.el7.noarch.rpm
@@ -49,6 +49,8 @@ yum install -y --nogpgcheck \
     autoconf \
     rpm-build \
     git \
+    vim-enhanced \
+    augeas \
     postgresql-devel \
     postgresql94-server \
     postgresql94-devel \
@@ -62,10 +64,20 @@ rpm -q zabbix_agent_bench >/dev/null || yum localinstall -y --nogpgcheck http://
 
 # Configure PostgreSQL
 echo -e "${BULLET} Configuring PostgreSQL server..."
-/usr/pgsql-9.4/bin/postgresql94-setup initdb
+export PATH=$PATH:/usr/pgsql-9.4/bin
+postgresql94-setup initdb
+cat >/var/lib/pgsql/9.4/data/pg_hba.conf <<EOL
+# TYPE  DATABASE        USER            ADDRESS                 METHOD
+local   all             all                                     peer
+host    all             all             127.0.0.1/32            md5
+host    all             all             ::1/128                 md5
+
+EOL
 systemctl enable postgresql-9.4
 systemctl start postgresql-9.4
-export PATH=$PATH:/usr/pgsql-9.4/bin
+
+# set password
+sudo -u postgres psql -c "ALTER USER postgres WITH PASSWORD 'postgres';"
 
 # Configure phpPgAdmin
 echo -e "${BULLET} Configuring phpPgAdmin web console..."
@@ -89,15 +101,16 @@ sed -i \
     -e "s/\$conf\['servers'\]\[0\]\['host'\] = .*/\$conf\['servers'\]\[0\]\['host'\] = 'localhost';/" \
     -e "s/\$conf\['owned_only'\] = .*/\$conf\['owned_only'\] = false;/" \
     /etc/phpPgAdmin/config.inc.php
-systemctl enable httpd
-systemctl start httpd
 
-# Configure Zabbix server
-pgscripts=/usr/share/doc/zabbix-server-pgsql-${ZBX_MAJ}.${ZBX_MIN}.${ZBX_PATCH}/create
+#
+# Create Zabbix database
+#
 dbname="zabbix"
 dbuser="zabbix"
 dbpasswd="zabbix"
 dbschema="public"
+pgscripts=/usr/share/doc/zabbix-server-pgsql-${ZBX_MAJ}.${ZBX_MIN}.${ZBX_PATCH}/create
+
 sudo -u postgres psql -At -c "SELECT table_name FROM information_schema.tables WHERE table_name='hosts' AND table_schema='${dbschema}'" | grep '^hosts$' > /dev/null
 if [[ $? ]]; then
     sudo -u postgres psql -c "CREATE ROLE \"${dbuser}\" WITH LOGIN PASSWORD '${dbpasswd}';"
@@ -105,12 +118,52 @@ if [[ $? ]]; then
     sudo -u zabbix psql -d $dbname -f $pgscripts/schema.sql
     sudo -u zabbix psql -d $dbname -f $pgscripts/images.sql
     sudo -u zabbix psql -d $dbname -f $pgscripts/data.sql
-
-    chkconfig zabbix-server on
-    service zabbix-server start
 fi
 
+#
+# Configure Zabbix server
+#
+augtool -s set /files/etc/zabbix/zabbix_server.conf/DBName ${dbname}
+augtool -s set /files/etc/zabbix/zabbix_server.conf/DBUser ${dbuser}
+echo "DBPassword=${dbpasswd}" >> /etc/zabbix/zabbix_server.conf
+
+systemctl enable zabbix-server
+systemctl start zabbix-server
+
+#
+# Configure web server
+#
+cat > /etc/zabbix/web/zabbix.conf.php <<EOL
+<?php
+// Zabbix GUI configuration file
+global \$DB;
+
+\$DB['TYPE']     = 'POSTGRESQL';
+\$DB['SERVER']   = 'localhost';
+\$DB['PORT']     = '0';
+\$DB['DATABASE'] = '${dbname}';
+\$DB['USER']     = '${dbuser}';
+\$DB['PASSWORD'] = '${dbpasswd}';
+
+// SCHEMA is relevant only for IBM_DB2 database
+\$DB['SCHEMA'] = '';
+
+\$ZBX_SERVER      = 'localhost';
+\$ZBX_SERVER_PORT = '10051';
+\$ZBX_SERVER_NAME = '';
+
+\$IMAGE_FORMAT_DEFAULT = IMAGE_FORMAT_PNG;
+?>
+
+EOL
+
+augtool -s set /files/etc/php.ini/Date/date.timezone UTC
+systemctl enable httpd
+systemctl start httpd
+
+#
 # Build module
+#
 echo -e "${BULLET} Building the libzbxpgsql agent module..."
 libtoolize >/dev/null
 aclocal >/dev/null
@@ -127,4 +180,14 @@ echo "LoadModule=libzbxpgsql.so" > /etc/zabbix/zabbix_agentd.d/libzbxpgsql.conf
 [[ -d /usr/lib64/modules ]] || mkdir /usr/lib64/modules
 [[ -L /usr/lib64/modules/libzbxpgsql.so ]] || ln -s /vagrant/src/.libs/libzbxpgsql.so /usr/lib64/modules/libzbxpgsql.so
 
+#
+# Configure Zabbix agent
+#
+systemctl enable zabbix-agent
+systemctl start zabbix-agent
+
+#
+# Message done
+#
+cat /etc/motd
 echo -e "${BULLET} All done."
