@@ -68,16 +68,27 @@ export PATH=$PATH:/usr/pgsql-9.4/bin
 postgresql94-setup initdb
 cat >/var/lib/pgsql/9.4/data/pg_hba.conf <<EOL
 # TYPE  DATABASE        USER            ADDRESS                 METHOD
+local   all             monitoring                              peer map=monitoring
 local   all             all                                     peer
 host    all             all             127.0.0.1/32            md5
 host    all             all             ::1/128                 md5
 
 EOL
+cat >/var/lib/pgsql/9.4/data/pg_ident.conf <<EOL
+# MAPNAME       SYSTEM-USERNAME         PG-USERNAME
+monitoring      zabbix                  monitoring
+
+EOL
+
 systemctl enable postgresql-9.4
 systemctl start postgresql-9.4
 
-# set password
-sudo -u postgres psql -c "ALTER USER postgres WITH PASSWORD 'postgres';"
+# set password and monitoring account
+sudo -u postgres psql \
+    -c "ALTER USER postgres WITH PASSWORD 'postgres';"
+
+sudo -u postgres psql \
+    -c "CREATE ROLE \"monitoring\" WITH LOGIN NOSUPERUSER NOCREATEDB NOCREATEROLE PASSWORD 'monitoring';"
 
 # Configure phpPgAdmin
 echo -e "${BULLET} Configuring phpPgAdmin web console..."
@@ -118,6 +129,8 @@ if [[ $? ]]; then
     sudo -u zabbix psql -d $dbname -f $pgscripts/schema.sql
     sudo -u zabbix psql -d $dbname -f $pgscripts/images.sql
     sudo -u zabbix psql -d $dbname -f $pgscripts/data.sql
+
+    sudo -u postgres psql -c "GRANT CONNECT ON DATABASE \"${dbname}\" TO monitoring;"
 fi
 
 #
