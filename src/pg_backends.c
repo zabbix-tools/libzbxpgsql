@@ -22,7 +22,7 @@
 #define MAX_QUERY_LEN           4096
 #define MAX_CLAUSE_LEN          4096
 
-#define PGSQL_GET_BACKENDS      "SELECT COUNT(datid) FROM pg_stat_activity WHERE pid != pg_backend_pid()%s;"
+#define PGSQL_GET_BACKENDS      "SELECT COUNT(datid) FROM pg_stat_activity WHERE %s != pg_backend_pid()%s;"
 
 #define PGSQL_GET_LONGEST_QUERY "\
 SELECT \
@@ -32,7 +32,7 @@ SELECT \
     FROM pg_stat_activity \
     WHERE \
       state = 'active' \
-      AND pid != pg_backend_pid() %s\
+      AND %s != pg_backend_pid() %s\
     ORDER BY duration DESC \
     LIMIT 1), 0);"
 
@@ -58,6 +58,8 @@ static int build_activity_clause(const AGENT_REQUEST *request, char *buf, PGpara
     char        *param = NULL;
     char        *clause = (0 < has_clause ? PG_AND : PG_WHERE);
     int         pgi = 0;
+    
+    zabbix_log(LOG_LEVEL_DEBUG, "In %s()", __function_name);
 
     // iterate over the available parameters
     for(i = 0; i < 4; i++) {
@@ -107,6 +109,8 @@ static int build_activity_clause(const AGENT_REQUEST *request, char *buf, PGpara
         }
     }
 
+    zabbix_log(LOG_LEVEL_DEBUG, "End of %s()", __function_name);
+
     return 1;
 }
 
@@ -132,9 +136,14 @@ static int build_activity_clause(const AGENT_REQUEST *request, char *buf, PGpara
 
     char        query[MAX_QUERY_LEN];
     char        clause[MAX_CLAUSE_LEN];
+    char        *pid = "pid";
     PGparams    params = NULL; // freed later in pg_exec
     
     zabbix_log(LOG_LEVEL_DEBUG, "In %s()", __function_name);
+
+    // pid column is named 'procpid' in < v9.2
+    if (pg_version(request) < 90200)
+        pid = "procpid";
 
     // build the filter clause
     memset(clause, 0, sizeof(clause));
@@ -143,13 +152,12 @@ static int build_activity_clause(const AGENT_REQUEST *request, char *buf, PGpara
 
     // build the full sql query
     memset(query, 0, sizeof(query));
-    zbx_snprintf(query, MAX_QUERY_LEN, PGSQL_GET_BACKENDS, clause);
+    zbx_snprintf(query, MAX_QUERY_LEN, PGSQL_GET_BACKENDS, pid, clause);
 
     // get results
     ret = pg_get_int(request, result, query, params);
 
 out:
-    
     zabbix_log(LOG_LEVEL_DEBUG, "End of %s()", __function_name);
     return ret;
 }
@@ -180,9 +188,14 @@ int    PG_QUERIES_LONGEST(AGENT_REQUEST *request, AGENT_RESULT *result)
     
     char        query[MAX_QUERY_LEN];
     char        clause[MAX_CLAUSE_LEN];
+    char        *pid = "pid";
     PGparams    params = NULL; // freed later in pg_exec
 
     zabbix_log(LOG_LEVEL_DEBUG, "In %s()", __function_name);
+
+    // pid column is named 'procpid' in < v9.2
+    if (pg_version(request) < 90200)
+        pid = "procpid";
 
     // build the filter clause
     memset(clause, 0, sizeof(clause));
@@ -191,7 +204,7 @@ int    PG_QUERIES_LONGEST(AGENT_REQUEST *request, AGENT_RESULT *result)
 
     // build the full sql query
     memset(query, 0, MAX_QUERY_LEN);
-    zbx_snprintf(query, MAX_QUERY_LEN, PGSQL_GET_LONGEST_QUERY, clause);
+    zbx_snprintf(query, MAX_QUERY_LEN, PGSQL_GET_LONGEST_QUERY, pid, clause);
     
     ret = pg_get_dbl(request, result, query, params);
     

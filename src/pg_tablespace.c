@@ -54,7 +54,9 @@ ORDER BY t.spcname;"
  *                {
  *                        "{#OID}":"12345",
  *                        "{#TABLESPACE}":"MyTableSpace",
- *                        "{#OWNER}":"postgres"}]}
+ *                        "{#OWNER}":"postgres",
+ *                        "{#LOCATION}":"/var/lib/pgsql/9.4/data",
+ *                        "{#DESCRIPTION}":"Default tablespace"}]}
  */
 int    PG_TABLESPACE_DISCOVERY(AGENT_REQUEST *request, AGENT_RESULT *result)
 {
@@ -64,6 +66,7 @@ int    PG_TABLESPACE_DISCOVERY(AGENT_REQUEST *request, AGENT_RESULT *result)
     zabbix_log(LOG_LEVEL_DEBUG, "In %s()", __function_name);
     
     if (pg_version(request) >= 90200)
+        // tablespace location introduced in v9.2
         ret = pg_get_discovery(request, result, PGSQL_DISCOVER_TABLESPACES_92, NULL);
     else
         ret = pg_get_discovery(request, result, PGSQL_DISCOVER_TABLESPACES, NULL);

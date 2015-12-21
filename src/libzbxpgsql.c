@@ -227,6 +227,8 @@ PGresult    *pg_exec(PGconn *conn, const char *command, PGparams params) {
  * Returns a comparable version number (e.g 80200 or 90400) for the connected
  * PostgreSQL server version.
  *
+ * TODO: prevent pg_version() from creating an extra backend connection.
+ *
  * Returns: int
  */
 long int pg_version(AGENT_REQUEST *request) {
