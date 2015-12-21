@@ -27,6 +27,11 @@ pg.backends.count[{%PGCONN},{%PGDATABASE},,,,true]
 pg.backends.count[{%PGCONN},{%PGDATABASE},postgres,postgres,192.168.59.3,false]
 
 pg.queries.longest[{%PGCONN},{%PGDATABASE}]
+pg.queries.longest[{%PGCONN},{%PGDATABASE},{%PGDATABASE}]
+pg.queries.longest[{%PGCONN},{%PGDATABASE},,{%PGDATABASE}]
+pg.queries.longest[{%PGCONN},{%PGDATABASE},,,192.168.59.3]
+pg.queries.longest[{%PGCONN},{%PGDATABASE},,,,true]
+pg.queries.longest[{%PGCONN},{%PGDATABASE},{%PGDATABASE},{%PGDATABASE},192.168.59.3,false]
 
 pg.checkpoints_timed[{%PGCONN},{%PGDATABASE}]
 pg.checkpoints_req[{%PGCONN},{%PGDATABASE}]

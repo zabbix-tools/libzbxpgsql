@@ -24,7 +24,7 @@
 
 #define PGSQL_GET_BACKENDS      "SELECT COUNT(datid) FROM pg_stat_activity WHERE %s != pg_backend_pid()%s;"
 
-#define PGSQL_GET_LONGEST_QUERY "\
+#define PGSQL_GET_LONGEST_QUERY_92 "\
 SELECT \
   COALESCE( \
     (SELECT \
@@ -32,10 +32,23 @@ SELECT \
     FROM pg_stat_activity \
     WHERE \
       state = 'active' \
-      AND %s != pg_backend_pid() %s\
+      AND pid != pg_backend_pid() %s\
     ORDER BY duration DESC \
     LIMIT 1), 0);"
 
+#define PGSQL_GET_LONGEST_QUERY     "\
+SELECT \
+  COALESCE( \
+    (SELECT \
+      EXTRACT(EPOCH FROM NOW()) - EXTRACT(EPOCH FROM query_start) AS duration \
+    FROM pg_stat_activity \
+    WHERE \
+      current_query NOT IN ('', '<IDLE>', '<insufficient privilege>') \
+      AND procpid != pg_backend_pid() %s\
+    ORDER BY duration DESC \
+    LIMIT 1), 0);"
+
+//  select * from pg_stat_activity WHERE current_query NOT IN (''::text, '<IDLE>'::text, '<insufficient privilege>'::text);
 /*
  * build_activity_clause takes agent request parameters for an item key which
  * targets the pg_stat_actity table and creates an SQL clause to filter
@@ -188,14 +201,9 @@ int    PG_QUERIES_LONGEST(AGENT_REQUEST *request, AGENT_RESULT *result)
     
     char        query[MAX_QUERY_LEN];
     char        clause[MAX_CLAUSE_LEN];
-    char        *pid = "pid";
     PGparams    params = NULL; // freed later in pg_exec
 
     zabbix_log(LOG_LEVEL_DEBUG, "In %s()", __function_name);
-
-    // pid column is named 'procpid' in < v9.2
-    if (pg_version(request) < 90200)
-        pid = "procpid";
 
     // build the filter clause
     memset(clause, 0, sizeof(clause));
@@ -204,7 +212,11 @@ int    PG_QUERIES_LONGEST(AGENT_REQUEST *request, AGENT_RESULT *result)
 
     // build the full sql query
     memset(query, 0, MAX_QUERY_LEN);
-    zbx_snprintf(query, MAX_QUERY_LEN, PGSQL_GET_LONGEST_QUERY, pid, clause);
+
+    if (pg_version(request) < 90200)
+        zbx_snprintf(query, MAX_QUERY_LEN, PGSQL_GET_LONGEST_QUERY, clause);
+    else
+        zbx_snprintf(query, MAX_QUERY_LEN, PGSQL_GET_LONGEST_QUERY_92, clause);
     
     ret = pg_get_dbl(request, result, query, params);
     

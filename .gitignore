@@ -28,6 +28,7 @@ config.sub
 configure
 configure.in
 depcomp
+docker/*.sql
 docker/dell*
 include/config.h
 install-sh
