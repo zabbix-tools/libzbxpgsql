@@ -6,7 +6,7 @@ AC_PROG_LIBTOOL # seem to need this on CentOS 5 (libtool v1.5)
 LT_INIT
 AC_PROG_CC
 AC_CONFIG_MACRO_DIR([m4])
-AC_CONFIG_HEADERS([include/config.h])
+AC_CONFIG_HEADERS([config.h])
 
 # check for stdlib header files
 AC_HEADER_STDC
@@ -19,6 +19,12 @@ if test "x$found_postgresql" = "xyes"; then
 	fi
 else
 	AC_MSG_ERROR([PostgreSQL library not found])
+fi
+
+# Checking for Zabbix headers
+AX_LIB_ZABBIX
+if test ! "x$found_zabbix" = "xyes"; then
+	AC_MSG_ERROR([Zabbix headers not found])
 fi
 
 # output

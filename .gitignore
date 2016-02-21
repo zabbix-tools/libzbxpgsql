@@ -30,7 +30,7 @@ configure.in
 depcomp
 docker/*.sql
 docker/dell*
-include/config.h
+config.h
 install-sh
 libtool
 libzbxpgsql-*/

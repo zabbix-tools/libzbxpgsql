@@ -18,10 +18,11 @@ libzbxpgsql_la_SOURCES = \
 	pg_tablespace.c
 
 libzbxpgsql_la_CFLAGS = \
-	-I../include \
+	$(ZABBIX_CPPFLAGS) \
 	$(POSTGRESQL_CPPFLAGS) \
 	$(POSTGRESQL_LDFLAGS) \
 	$(POSTGRESQL_LIBS)
+
 
 libzbxpgsql_la_LDFLAGS = \
 	-shared \
