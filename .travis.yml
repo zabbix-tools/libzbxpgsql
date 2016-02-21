@@ -18,7 +18,6 @@ before_script: ./autogen.sh
 script: 
   - "curl -sL -o /tmp/zabbix-3.0.0.tar.gz http://sourceforge.net/projects/zabbix/files/ZABBIX%20Latest%20Stable/3.0.0/zabbix-3.0.0.tar.gz"
   - "tar -xzC /tmp -f /tmp/zabbix-3.0.0.tar.gz"
-  - "ls -la /tmp"
-  - "./configure --with-zabbix=/tmp/zabbix-3.0.0 && make"
+  - "./configure --with-zabbix=/tmp/zabbix-3.0.0/include && make"
   - make rpm
   - make deb
