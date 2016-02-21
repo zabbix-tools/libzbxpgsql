@@ -28,11 +28,11 @@
 #include <libpq-fe.h>
 
 // Zabbix source headers
-#include "sysinc.h"
-#include "module.h"
-#include "common.h"
-#include "log.h"
-#include "zbxjson.h"
+#include <sysinc.h>
+#include <module.h>
+#include <common.h>
+#include <log.h>
+#include <zbxjson.h>
 
 // Default connection settings
 #define LOCALHOST       "localhost"
