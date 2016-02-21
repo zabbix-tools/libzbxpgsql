@@ -1,9 +1,9 @@
 #!/bin/bash
 BULLET="==>"
 
-ZBX_MAJ=2
-ZBX_MIN=2
-ZBX_PATCH=11
+ZBX_MAJ=3
+ZBX_MIN=0
+ZBX_PATCH=0
 ZBX_REL=1
 ZBX_VER="${ZBX_MAJ}.${ZBX_MIN}.${ZBX_PATCH}-${ZBX_REL}"
 
@@ -120,15 +120,22 @@ dbname="zabbix"
 dbuser="zabbix"
 dbpasswd="zabbix"
 dbschema="public"
-pgscripts=/usr/share/doc/zabbix-server-pgsql-${ZBX_MAJ}.${ZBX_MIN}.${ZBX_PATCH}/create
+pgscripts=/usr/share/doc/zabbix-server-pgsql-${ZBX_MAJ}.${ZBX_MIN}.${ZBX_PATCH}
 
 sudo -u postgres psql -At -c "SELECT table_name FROM information_schema.tables WHERE table_name='hosts' AND table_schema='${dbschema}'" | grep '^hosts$' > /dev/null
 if [[ $? ]]; then
     sudo -u postgres psql -c "CREATE ROLE \"${dbuser}\" WITH LOGIN PASSWORD '${dbpasswd}';"
     sudo -u postgres psql -c "CREATE DATABASE \"${dbname}\" WITH OWNER \"${dbuser}\" TEMPLATE \"template1\";"
-    sudo -u zabbix psql -d $dbname -f $pgscripts/schema.sql
-    sudo -u zabbix psql -d $dbname -f $pgscripts/images.sql
-    sudo -u zabbix psql -d $dbname -f $pgscripts/data.sql
+
+    if [[ -d "${pgscripts}/create" ]]; then
+        sudo -u zabbix psql -d $dbname -f $pgscripts/schema.sql
+        sudo -u zabbix psql -d $dbname -f $pgscripts/images.sql
+        sudo -u zabbix psql -d $dbname -f $pgscripts/data.sql
+    fi
+
+    if [[ -f "${pgscripts}/create.sql.gz" ]]; then
+        zcat $pgscripts/create.sql.gz | sudo -u zabbix psql -d $dbname
+    fi
 
     sudo -u postgres psql -c "GRANT CONNECT ON DATABASE \"${dbname}\" TO monitoring;"
 fi
@@ -192,6 +199,11 @@ echo "LoadModule=libzbxpgsql.so" > /etc/zabbix/zabbix_agentd.d/libzbxpgsql.conf
 # Install add link to agent modules for built libzbxpgsql module
 [[ -d /usr/lib64/modules ]] || mkdir /usr/lib64/modules
 [[ -L /usr/lib64/modules/libzbxpgsql.so ]] || ln -s /vagrant/src/.libs/libzbxpgsql.so /usr/lib64/modules/libzbxpgsql.so
+
+# for v3+
+mkdir -p /usr/lib64/zabbix/modules
+[[ -L /usr/lib64/zabbix/modules/libzbxpgsql.so ]] || ln -s /vagrant/src/.libs/libzbxpgsql.so /usr/lib64/zabbix/modules/libzbxpgsql.so
+
 
 #
 # Configure Zabbix agent
