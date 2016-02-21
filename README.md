@@ -21,12 +21,13 @@ indexes, etc.
 To compile the agent module the following items are required:
 
 * GNU build tools (`make`, `gcc`, `autoconf`, `automake`, `libtool`, `m4`, etc.)
+* [Zabbix sources](http://www.zabbix.com/download.php)
 * [libpq development headers](http://www.postgresql.org/download/)
 
 If you are building from sources cloned from GitHub, you first need to
 regenerate the build scripts using `./autogen.sh`. Otherwise:
 
-    ./configure
+    ./configure --with-zabbix=/usr/src/zabbix/include
     make
     make install
 
@@ -40,7 +41,7 @@ To build the RPM package on a RHEL6+ family system with `rpm-build` installed:
 ## License
 
 libzbxpgsql - A PostgreSQL monitoring module for Zabbix
-Copyright (C) 2015 - Ryan Armstrong <ryan@cavaliercoder.com>
+Copyright (C) 2016 - Ryan Armstrong <ryan@cavaliercoder.com>
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
