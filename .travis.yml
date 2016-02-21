@@ -16,6 +16,8 @@ before_script: ./autogen.sh
 
 # Default is "./configure && make && make test", but no tests yet
 script: 
-  - "./configure && make"
+  - "curl -sL -o /usr/src/zabbix-3.0.0.tar.gz http://sourceforge.net/projects/zabbix/files/ZABBIX%20Latest%20Stable/3.0.0/zabbix-3.0.0.tar.gz"
+  - "tar -xzC /usr/src -f /usr/src/zabbix-3.0.0.tar.gz"
+  - "./configure --with-zabbix=/usr/src/zabbix-3.0.0 && make"
   - make rpm
   - make deb
