@@ -46,34 +46,50 @@ fi
 
 # Install packages
 echo -e "${BULLET} Installing Zabbix, PostgreSQL and build tools..."
-rpm -qa | grep pgdg >/dev/null || yum localinstall -y --nogpgcheck http://yum.postgresql.org/9.4/redhat/rhel-6-x86_64/pgdg-centos94-9.4-1.noarch.rpm
-rpm -q zabbix-release >/dev/null || yum localinstall -y --nogpgcheck http://repo.zabbix.com/zabbix/${ZBX_MAJ}.${ZBX_MIN}/rhel/7/x86_64/zabbix-release-${ZBX_MAJ}.${ZBX_MIN}-1.el7.noarch.rpm
+rpm -qa | grep pgdg >/dev/null || yum localinstall -y --nogpgcheck \
+    https://download.postgresql.org/pub/repos/yum/9.5/redhat/rhel-7-x86_64/pgdg-centos95-9.5-2.noarch.rpm
+
+rpm -q zabbix-release >/dev/null || yum localinstall -y --nogpgcheck \
+    http://repo.zabbix.com/zabbix/${ZBX_MAJ}.${ZBX_MIN}/rhel/7/x86_64/zabbix-release-${ZBX_MAJ}.${ZBX_MIN}-1.el7.noarch.rpm
+
 yum install -y --nogpgcheck \
-    make \
-    gcc \
-    libtool \
-    automake \
-    autoconf \
-    rpm-build \
-    git \
-    vim-enhanced \
     augeas \
-    postgresql-devel \
-    postgresql94-server \
-    postgresql94-devel \
+    autoconf \
+    automake \
+    gcc \
+    git \
+    libtool \
+    make \
     phpPgAdmin \
+    postgresql-devel \
+    postgresql95-devel \
+    postgresql95-server \
+    rpm-build \
+    vim-enhanced \
     zabbix-agent-${ZBX_VER} \
     zabbix-get-${ZBX_VER} \
     zabbix-server-pgsql-${ZBX_VER} \
     zabbix-web-pgsql-${ZBX_VER}
 
-rpm -q zabbix_agent_bench >/dev/null || yum localinstall -y --nogpgcheck http://sourceforge.net/projects/zabbixagentbench/files/rpm/zabbix_agent_bench-0.4.0-1.x86_64.rpm
+rpm -q zabbix_agent_bench >/dev/null || yum localinstall -y --nogpgcheck \
+    http://sourceforge.net/projects/zabbixagentbench/files/rpm/zabbix_agent_bench-0.4.0-1.x86_64.rpm
+
+# Configure Zabbix home directory
+if [[ ! -d /var/lib/zabbix ]]; then
+    mkdir \
+        --mode=0700 \
+        --parents \
+        --context=unconfined_u:object_r:user_home_dir_t:s0 \
+        --verbose \
+        /var/lib/zabbix 
+    chown -v zabbix:zabbix /var/lib/zabbix
+fi
 
 # Configure PostgreSQL
 echo -e "${BULLET} Configuring PostgreSQL server..."
-export PATH=$PATH:/usr/pgsql-9.4/bin
-postgresql94-setup initdb
-cat >/var/lib/pgsql/9.4/data/pg_hba.conf <<EOL
+export PATH=$PATH:/usr/pgsql-9.5/bin
+postgresql95-setup initdb
+cat >/var/lib/pgsql/9.5/data/pg_hba.conf <<EOL
 # TYPE  DATABASE        USER            ADDRESS                 METHOD
 local   all             monitoring                              peer map=monitoring
 local   all             all                                     peer
@@ -81,14 +97,14 @@ host    all             all             127.0.0.1/32            md5
 host    all             all             ::1/128                 md5
 
 EOL
-cat >/var/lib/pgsql/9.4/data/pg_ident.conf <<EOL
+cat >/var/lib/pgsql/9.5/data/pg_ident.conf <<EOL
 # MAPNAME       SYSTEM-USERNAME         PG-USERNAME
 monitoring      zabbix                  monitoring
 
 EOL
 
-systemctl enable postgresql-9.4
-systemctl start postgresql-9.4
+systemctl enable postgresql-9.5
+systemctl start postgresql-9.5
 
 # set password and monitoring account
 sudo -u postgres psql \
@@ -96,6 +112,15 @@ sudo -u postgres psql \
 
 sudo -u postgres psql \
     -c "CREATE ROLE \"monitoring\" WITH LOGIN NOSUPERUSER NOCREATEDB NOCREATEROLE PASSWORD 'monitoring';"
+
+cat > /var/lib/zabbix/.pgpass <<EOL
+# see: http://www.postgresql.org/docs/9.5/static/libpq-pgpass.html
+# hostname:port:database:username:password
+*:*:*:monitoring:monitoring
+
+EOL
+chmod -v 0600 /var/lib/zabbix/.pgpass
+chown -v zabbix:zabbix /var/lib/zabbix/.pgpass
 
 # Configure phpPgAdmin
 echo -e "${BULLET} Configuring phpPgAdmin web console..."
