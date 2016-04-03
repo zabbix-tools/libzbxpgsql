@@ -3,9 +3,9 @@ BULLET="==>"
 
 ZBX_MAJ=3
 ZBX_MIN=0
-ZBX_PATCH=0
+ZBX_PATCH=1
 ZBX_REL=1
-ZBX_VER="${ZBX_MAJ}.${ZBX_MIN}.${ZBX_PATCH}-${ZBX_REL}"
+ZBX_VER="${ZBX_MAJ}.${ZBX_MIN}.${ZBX_PATCH}"
 
 cd /vagrant
 
@@ -37,6 +37,13 @@ Manage Zabbix server from:
 
 MOTD
 
+# Fix issue where wrong package versions are cached in vagrant-cachier
+if [[ ! -f "/var/cache/yum/x86_64/7/zabbix/packages/zabbix-server-${ZBX_VER}-${ZBX_REL}.el7.x86_64.rpm" ]]; then
+    echo -e "${BULLET} Clearing invalid package cache..."
+    rm -rvf /var/cache/yum/x86_64/7/zabbix
+    rm -rvf /var/cache/yum/x86_64/7/zabbix-non-supported
+fi
+
 # Install packages
 echo -e "${BULLET} Installing Zabbix, PostgreSQL and build tools..."
 rpm -qa | grep pgdg >/dev/null || yum localinstall -y --nogpgcheck http://yum.postgresql.org/9.4/redhat/rhel-6-x86_64/pgdg-centos94-9.4-1.noarch.rpm
@@ -55,10 +62,10 @@ yum install -y --nogpgcheck \
     postgresql94-server \
     postgresql94-devel \
     phpPgAdmin \
-    zabbix-agent \
-    zabbix-get \
-    zabbix-server-pgsql \
-    zabbix-web-pgsql
+    zabbix-agent-${ZBX_VER} \
+    zabbix-get-${ZBX_VER} \
+    zabbix-server-pgsql-${ZBX_VER} \
+    zabbix-web-pgsql-${ZBX_VER}
 
 rpm -q zabbix_agent_bench >/dev/null || yum localinstall -y --nogpgcheck http://sourceforge.net/projects/zabbixagentbench/files/rpm/zabbix_agent_bench-0.4.0-1.x86_64.rpm
 
