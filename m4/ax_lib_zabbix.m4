@@ -20,6 +20,7 @@
 #   This macro calls:
 #
 #     AC_SUBST(ZABBIX_CPPFLAGS)
+#     AC_SUBST(ZABBIX_HEADERS)
 #
 #   And sets:
 #
@@ -64,7 +65,7 @@ AC_DEFUN([AX_LIB_ZABBIX],
     dnl
 
     if test "$want_zabbix" = "yes"; then        
-        AC_MSG_CHECKING([for Zabbix headers])
+        AC_MSG_CHECKING([for Zabbix header files])
 
         if test ! -f "$ZABBIX_HEADERS/module.h"; then
             found_zabbix="no"
@@ -85,4 +86,5 @@ AC_DEFUN([AX_LIB_ZABBIX],
     fi
 
     AC_SUBST([ZABBIX_CPPFLAGS])
+    AC_SUBST([ZABBIX_HEADERS])
 ])
