@@ -1,6 +1,6 @@
 /*
 ** Zabbix
-** Copyright (C) 2001-2014 Zabbix SIA
+** Copyright (C) 2001-2016 Zabbix SIA
 **
 ** This program is free software; you can redistribute it and/or modify
 ** it under the terms of the GNU General Public License as published by
@@ -52,6 +52,10 @@
 
 #ifdef HAVE_IPHLPAPI_H
 #	include <Iphlpapi.h>
+#endif
+
+#ifdef HAVE_NETIOAPI_H
+#	include <Netioapi.h>
 #endif
 
 #ifdef HAVE_WINDOWS_H
@@ -159,10 +163,6 @@
 
 #ifdef HAVE_KSTAT_H
 #	include <kstat.h>
-#endif
-
-#ifdef HAVE_LDAP
-#	include <ldap.h>
 #endif
 
 #ifdef HAVE_WINLDAP_H
@@ -328,10 +328,6 @@
 #	include <unistd.h>
 #endif
 
-#ifdef HAVE_LBER_H
-#	include <lber.h>
-#endif
-
 #ifdef HAVE_SYS_IPC_H
 #	include <sys/ipc.h>
 #endif
@@ -385,34 +381,15 @@
 #	if 0x071004 >= LIBCURL_VERSION_NUM	/* version 7.16.4 */
 #		define CURLOPT_KEYPASSWD	CURLOPT_SSLKEYPASSWD
 #	endif
+#	if 0x071400 <= LIBCURL_VERSION_NUM	/* version 7.20.0 */
+#		define HAVE_SMTP_AUTHENTICATION	1
+#	endif
 #	define ZBX_CURLOPT_MAXREDIRS	10L
-#endif
-
-/* Net-SNMP is used */
-#ifdef HAVE_NETSNMP
-#	define SNMP_NO_DEBUGGING		/* disabling debugging messages from Net-SNMP library */
-#	include <net-snmp/net-snmp-config.h>
-#	include <net-snmp/net-snmp-includes.h>
-#endif
-
-/* LIBXML2 is used */
-#ifdef HAVE_LIBXML2
-#	include <libxml/parser.h>
-#	include <libxml/tree.h>
-#	include <libxml/xpath.h>
 #endif
 
 /* Required for advanced sigaction */
 #ifdef HAVE_SYS_UCONTEXT_H
 #	include <sys/ucontext.h>
-#endif
-
-#ifdef HAVE_ICONV
-#	include <iconv.h>
-#endif
-
-#ifdef HAVE_SSH2
-#	include <libssh2.h>
 #endif
 
 #ifdef HAVE_IO_H
@@ -429,6 +406,11 @@
 
 #ifdef HAVE_DLFCN_H
 #	include <dlfcn.h>
+#endif
+
+#ifdef HAVE_ZONE_H
+#	include <zone.h>
+#	include <utmpx.h>
 #endif
 
 #endif

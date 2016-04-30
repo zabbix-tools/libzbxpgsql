@@ -10,6 +10,6 @@ DH_VERBOSE = 1
 
 override_dh_auto_install:
 		dh_auto_install
-		mkdir -p $(TMP)/usr/lib/modules
-		mv -v $(TMP)/usr/lib/$(DEB_BUILD_GNU_TYPE)/$(PACKAGE).so $(TMP)/usr/lib/modules/$(PACKAGE).so
+		mkdir -p $(TMP)/usr/lib/zabbix/modules
+		mv -v $(TMP)/usr/lib/$(DEB_BUILD_GNU_TYPE)/$(PACKAGE).so $(TMP)/usr/lib/zabbix/modules/$(PACKAGE).so
 		rm -rfv $(TMP)/usr/lib/$(DEB_BUILD_GNU_TYPE)

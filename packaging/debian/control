@@ -7,7 +7,7 @@ Build-Depends: debhelper (>= 9)
 
 Package: libzbxpgsql
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, zabbix-agent (>= 2.2.0)
+Depends: ${shlibs:Depends}, ${misc:Depends}, zabbix-agent (>= 3.0.0)
 Description: PostgreSQL monitoring module for Zabbix
  This package provides comprehensive monitoring of PostgreSQL servers using a
  natively compiled Zabbix agent module, written in C, with highly configurable

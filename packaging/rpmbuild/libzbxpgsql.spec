@@ -20,7 +20,7 @@ BuildRequires : postgresql-devel
 # BuildRequires don't seem to work with rpmbuild on Ubuntu...
 
 # package dependencies
-Requires    : zabbix-agent >= 2.2.0
+Requires    : zabbix-agent >= 3.0.0
 
 %if "%{_vendor}" == "redhat"
 Requires    : postgresql-libs >= 8.1.23
@@ -55,8 +55,9 @@ rm -rf $RPM_BUILD_ROOT
 make DESTDIR=$RPM_BUILD_ROOT install
 
 # Move lib into .../modules/
-install -dm 755 $RPM_BUILD_ROOT%{_libdir}/modules
-mv $RPM_BUILD_ROOT%{_libdir}/%{name}.so $RPM_BUILD_ROOT%{_libdir}/modules/%{name}.so
+install -dm 755 $RPM_BUILD_ROOT%{_libdir}/zabbix
+install -dm 755 $RPM_BUILD_ROOT%{_libdir}/zabbix/modules
+mv $RPM_BUILD_ROOT%{_libdir}/%{name}.so $RPM_BUILD_ROOT%{_libdir}/zabbix/modules/%{name}.so
 
 # Create agent config file
 install -dm 755 $RPM_BUILD_ROOT%{_sysconfdir}/zabbix/zabbix_agentd.d
@@ -67,7 +68,7 @@ echo "LoadModule=libzbxpgsql.so" > $RPM_BUILD_ROOT%{_sysconfdir}/zabbix/zabbix_a
 rm -rf $RPM_BUILD_ROOT
 
 %files
-%{_libdir}/modules/libzbxpgsql.so
+%{_libdir}/zabbix/modules/libzbxpgsql.so
 %{_sysconfdir}/zabbix/zabbix_agentd.d/%{name}.conf
 
 %changelog

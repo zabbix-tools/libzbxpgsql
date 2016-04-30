@@ -5,6 +5,7 @@ cp -rvf /root/libzbxpgsql/* /tmp
 
 # make tarball
 ./autogen.sh || exit 1
+./configure || exit 1
 make dist || exit 1
 
 # copy out of container
