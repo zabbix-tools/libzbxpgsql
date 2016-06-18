@@ -44,7 +44,8 @@ int    PG_CONNECT(AGENT_REQUEST *request, AGENT_RESULT *result)
     
     zabbix_log(LOG_LEVEL_DEBUG, "In %s()", __function_name);
     
-    conn = pg_connect_request(request);
+    // connect without setting an error message on failure
+    conn = pg_connect_request(request, NULL);
             
     if(NULL != conn && CONNECTION_OK == PQstatus(conn)) {
         SET_UI64_RESULT(result, 1);

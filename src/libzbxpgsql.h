@@ -65,11 +65,12 @@
 typedef char** PGparams;
 
 // Local helper functions
+int         set_err_result(AGENT_RESULT *result, const char *format, ...);
 char        *build_connstring(const char *connstring, const char *dbname);
-PGconn      *pg_connect(const char *connstring);
-PGconn      *pg_connect_request(AGENT_REQUEST *request);
+PGconn      *pg_connect(const char *connstring, AGENT_RESULT *result);
+PGconn      *pg_connect_request(AGENT_REQUEST *request, AGENT_RESULT *result);
 PGresult    *pg_exec(PGconn *conn, const char *command, PGparams params);
-long int    pg_version(AGENT_REQUEST *request);
+long int    pg_version(AGENT_REQUEST *request, AGENT_RESULT *result);
 
 int     pg_get_result(AGENT_REQUEST *request, AGENT_RESULT *result, int type, const char *query, PGparams params);
 int     pg_get_discovery(AGENT_REQUEST *request, AGENT_RESULT *result, const char *query, PGparams params);

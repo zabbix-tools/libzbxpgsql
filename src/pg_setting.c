@@ -98,18 +98,18 @@ int    PG_SETTING_DISCOVERY(AGENT_REQUEST *request, AGENT_RESULT *result)
     // parse parameters
     setting = get_rparam(request, PARAM_FIRST);
     if(NULL == setting || '\0' == *setting) {
-        zabbix_log(LOG_LEVEL_ERR, "No setting name specified in %s()", __function_name);
+        set_err_result(result, "No setting name specified");
         goto out;
     }
 
     // Connect to PostreSQL
-    if(NULL == (conn = pg_connect_request(request)))
+    if(NULL == (conn = pg_connect_request(request, result)))
         goto out;
 
     // Execute the query
     res = pg_exec(conn, PGSQL_GET_SETTING, param_new(setting));
     if(PQresultStatus(res) != PGRES_TUPLES_OK) {
-        zabbix_log(LOG_LEVEL_ERR, "Failed to execute PostgreSQL query in %s() with: %s", __function_name, PQresultErrorMessage(res));
+        set_err_result(result, "PostgreSQL query error: %s", PQresultErrorMessage(res));
         goto out;
     }
     

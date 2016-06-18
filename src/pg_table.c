@@ -164,7 +164,7 @@ int    PG_TABLE_DISCOVERY(AGENT_REQUEST *request, AGENT_RESULT *result)
     } else if (0 == strcmp(param_mode, "shallow")) {
         ret = pg_get_discovery(request, result, PGSQL_DISCOVER_TABLES, NULL);
     } else {
-        SET_MSG_RESULT(result, zbx_dsprintf(NULL, "Invalid search mode parameter: %s", param_mode));
+        set_err_result(result, "Invalid search mode parameter: %s", param_mode);
     }
 
     zabbix_log(LOG_LEVEL_DEBUG, "End of %s()", __function_name);
@@ -200,7 +200,7 @@ int    PG_TABLE_CHILDREN_DISCOVERY(AGENT_REQUEST *request, AGENT_RESULT *result)
     // Parse parameters
     tablename = get_rparam(request, PARAM_FIRST);
     if(NULL == tablename || '\0' == *tablename) {
-        zabbix_log(LOG_LEVEL_ERR, "No table name specified in %s()", __function_name);
+        set_err_result(result, "No table name specified");
         goto out;
     }
     
@@ -249,7 +249,7 @@ int    PG_STAT_ALL_TABLES(AGENT_REQUEST *request, AGENT_RESULT *result)
     if(0 == strncmp(field, "last_", 5)) {
         if(strisnull(tablename)) {
             // Can't do SUMs on text fields!
-            zabbix_log(LOG_LEVEL_ERR, "No table name specified, in %s(%s)", __function_name, field);
+            set_err_result(result, "No table name specified");
             goto out;
         }
     
@@ -586,7 +586,7 @@ int    PG_TABLE_CHILDREN(AGENT_REQUEST *request, AGENT_RESULT *result)
     
     tablename = get_rparam(request, PARAM_FIRST);
     if(strisnull(tablename)) {
-        zabbix_log(LOG_LEVEL_ERR, "Invalid parameter count in %s(). Please specify a table name.", __function_name);
+        set_err_result(result, "Invalid parameter count. Please specify a table name.");
         goto out;
     }
 
@@ -620,7 +620,7 @@ int    PG_TABLE_CHILDREN_SIZE(AGENT_REQUEST *request, AGENT_RESULT *result)
     
     tablename = get_rparam(request, PARAM_FIRST);
     if(NULL == tablename || '\0' == *tablename) {
-        zabbix_log(LOG_LEVEL_ERR, "Invalid parameter count in %s(). Please specify a table name.", __function_name);
+        set_err_result(result, "Invalid parameter count. Please specify a table name.");
         goto out;
     }
 
@@ -653,7 +653,7 @@ int    PG_TABLE_CHILDREN_ROWS(AGENT_REQUEST *request, AGENT_RESULT *result)
     
     tablename = get_rparam(request, PARAM_FIRST);
     if(strisnull(tablename)) {
-        zabbix_log(LOG_LEVEL_ERR, "Invalid parameter count in %s(). Please specify a table name.", __function_name);
+        set_err_result(result, "Invalid parameter count. Please specify a table name.");
         goto out;
     }
 

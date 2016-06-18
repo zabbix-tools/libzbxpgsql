@@ -41,11 +41,13 @@ char *build_connstring(const char *connstring, const char *dbname)
  *
  * See: http://www.postgresql.org/docs/9.4/static/libpq-connect.html#LIBPQ-PQCONNECTDB
  *
- * Parameter [connstring]: libpq compatible connection string
+ * Parameter [connstring]:  libpq compatible connection string
+ *
+ * Parameter [result]:      result structure to send errors to the server
  *
  * Returns: Valid PostgreSQL connection or NULL on error
  */
-PGconn    *pg_connect(const char *connstring)
+PGconn    *pg_connect(const char *connstring, AGENT_RESULT *result)
  {
     const char  *__function_name = "pg_connect";
 
@@ -65,7 +67,7 @@ PGconn    *pg_connect(const char *connstring)
     zabbix_log(LOG_LEVEL_DEBUG, "Connecting to PostgreSQL with: %s", connstring);
     conn = PQconnectdb(connstring);
     if(CONNECTION_OK != PQstatus(conn)) {
-        zabbix_log(LOG_LEVEL_ERR, "Failed to connect to PostgreSQL in %s():\n%s", __function_name, PQerrorMessage(conn));
+        set_err_result(result, PQerrorMessage(conn));
         PQfinish(conn);
         conn = NULL;
     }
@@ -81,15 +83,17 @@ PGconn    *pg_connect(const char *connstring)
  *
  * See: http://www.postgresql.org/docs/9.4/static/libpq-connect.html#LIBPQ-PQCONNECTDB
  *
- * Parameter [request]: Zabbix agent request structure.
+ * Parameter [request]:     Zabbix agent request structure.
  *          The following parameters may be set:
  *
  *          0: connection string (default: DEFAULT_CONN_STRING)
  *          1: connection database (default: DEFAULT_CONN_DBNAME)
  *
+ * Parameter [result]:      result structure to send errors to the server
+ *
  * Returns: Valid PostgreSQL connection or NULL on error
  */
- PGconn    *pg_connect_request(AGENT_REQUEST *request)
+ PGconn    *pg_connect_request(AGENT_REQUEST *request, AGENT_RESULT *result)
  {
     PGconn      *conn = NULL;
     char        *connstring = NULL; 
@@ -99,7 +103,7 @@ PGconn    *pg_connect(const char *connstring)
         get_rparam(request, PARAM_CONN_STRING), 
         get_rparam(request, PARAM_DBNAME));
 
-    conn = pg_connect(connstring);
+    conn = pg_connect(connstring, result);
     zbx_free(connstring);
 
     return conn;

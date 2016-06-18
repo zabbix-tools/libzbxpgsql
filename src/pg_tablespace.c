@@ -63,13 +63,19 @@ int    PG_TABLESPACE_DISCOVERY(AGENT_REQUEST *request, AGENT_RESULT *result)
     int         ret = SYSINFO_RET_FAIL;                         // Request result code
     const char  *__function_name = "PG_TABLESPACE_DISCOVERY";   // Function name for log file
     
+    int         version = 0;
+
     zabbix_log(LOG_LEVEL_DEBUG, "In %s()", __function_name);
     
-    if (pg_version(request) >= 90200)
+    if (0 == (version = pg_version(request, result)))
+      goto out;
+    else if (version >= 90200)
         // tablespace location introduced in v9.2
         ret = pg_get_discovery(request, result, PGSQL_DISCOVER_TABLESPACES_92, NULL);
     else
         ret = pg_get_discovery(request, result, PGSQL_DISCOVER_TABLESPACES, NULL);
+
+out:
 
     zabbix_log(LOG_LEVEL_DEBUG, "End of %s()", __function_name);
     return ret;
@@ -97,7 +103,7 @@ int    PG_TABLESPACE_SIZE(AGENT_REQUEST *request, AGENT_RESULT *result)
     // Build query
     tablespace = get_rparam(request, PARAM_FIRST);
     if(strisnull(tablespace)) {
-        zabbix_log(LOG_LEVEL_ERR, "No tablespace specified in %s()", __function_name);
+        set_err_result(result, "No tablespace specified");
         goto out;
     }
     

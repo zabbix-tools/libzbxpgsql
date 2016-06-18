@@ -159,7 +159,7 @@ FROM pg_stat_bgwriter;";
     else if (0 == strcmp(action, "sync"))
         field = "checkpoint_sync_time";
     else {
-        SET_MSG_RESULT(result, zbx_dsprintf(NULL, "Invalid action parameter: %s", action));
+        set_err_result(result, "Invalid action parameter: %s", action);
         return ret;
     }
 

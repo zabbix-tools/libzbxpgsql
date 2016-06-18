@@ -4,6 +4,7 @@ __WARNING:__ This version breaks template compatability with previous versions.
 
 * Added support for Zabbix v3
 * Added multi-database support for discovering schema, tables and indexes
+* Added error messages to failed requests
 * Monitoring connections are no longer counted when monitoring backend
   connection counts
 * Added `--with-postgresql` switch to source configuration script
@@ -19,6 +20,8 @@ __WARNING:__ This version breaks template compatability with previous versions.
   that have been modified since the last table analyze
 * Fixed misreporting in `pg.queries.longest`
 * Added support for `pg.queries.longest` in PostgreSQL versions prior to 9.2
+* Fixed build dependencies on Debian (thanks darkweaver87)
+
 
 v0.2.1 14 Sep 2015
 

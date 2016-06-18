@@ -8,7 +8,7 @@
  * 
  * Returns: Multi-string E.g. "database1\0database2\0database3\0\0"
  */
-static char *pg_get_databases(AGENT_REQUEST *request) {
+static char *pg_get_databases(AGENT_REQUEST *request, AGENT_RESULT *result) {
     const char  *__function_name = "pg_get_databases"; // Function name for log file
 
     PGconn      *conn = NULL;
@@ -20,14 +20,14 @@ static char *pg_get_databases(AGENT_REQUEST *request) {
     zabbix_log(LOG_LEVEL_DEBUG, "In %s", __function_name);
 
     // connect to PostgreSQL
-    conn = pg_connect_request(request);
+    conn = pg_connect_request(request, result);
     if (NULL == conn)
         goto out;
 
     // get connectable databases
     res = pg_exec(conn, "SELECT datname FROM pg_database WHERE datallowconn = 't' AND pg_catalog.has_database_privilege(current_user, oid, 'CONNECT');", NULL);
     if(0 == PQntuples(res)) {
-        zabbix_log(LOG_LEVEL_ERR, "Failed to get connectable PostgreSQL databases");
+        set_err_result(result, "Failed to enumerate connectable PostgreSQL databases");
         goto out;
     }
 
@@ -98,13 +98,13 @@ out:
     zabbix_log(LOG_LEVEL_DEBUG, "In %s(%s)", __function_name, request->key);
 
     // Connect to PostreSQL
-    if(NULL == (conn = pg_connect_request(request)))
+    if(NULL == (conn = pg_connect_request(request, result)))
         goto out;
     
     // Execute a query
     res = pg_exec(conn, query, params);
     if(PQresultStatus(res) != PGRES_TUPLES_OK) {
-        zabbix_log(LOG_LEVEL_ERR, "Failed to execute PostgreSQL query in %s(%s) with: %s", __function_name, request->key, PQresultErrorMessage(res));
+        set_err_result(result, "PostgreSQL query error: %s", PQresultErrorMessage(res));
         goto out;
     }
 
@@ -190,7 +190,7 @@ out:
     zabbix_log(LOG_LEVEL_DEBUG, "In %s(%s)", __function_name, request->key);
 
     // get a list of databases
-    databases = pg_get_databases(request);
+    databases = pg_get_databases(request, result);
     if (NULL == databases)
         goto out;
 
@@ -205,13 +205,13 @@ out:
         connstring = build_connstring(get_rparam(request, PARAM_CONN_STRING), db);
 
         // Connect to PostreSQL
-        if(NULL == (conn = pg_connect(connstring)))
+        if(NULL == (conn = pg_connect(connstring, result)))
             goto out;
         
         // Execute a query
         res = pg_exec(conn, query, params);
         if(PQresultStatus(res) != PGRES_TUPLES_OK) {
-            zabbix_log(LOG_LEVEL_ERR, "Failed to execute PostgreSQL query in %s(%s) with: %s", __function_name, request->key, PQresultErrorMessage(res));
+            set_err_result(result, "PostgreSQL query error: %s", PQresultErrorMessage(res));
             goto out;
         }
 

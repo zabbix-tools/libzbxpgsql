@@ -169,6 +169,28 @@ int         zbx_module_init() {
 }
 
 /*
+ * Log an error to the agent log file and set the result message sent back to
+ * the server.
+ */
+int set_err_result(AGENT_RESULT *result, const char *format, ...)
+{
+    va_list args;
+    char    msg[MAX_STRING_LEN];
+
+    // parse message string
+    va_start (args, format);
+    zbx_vsnprintf((char*)&msg, sizeof(msg), format, args);
+
+    // log message
+    zabbix_log(LOG_LEVEL_ERR, "PostgreSQL: %s", msg);
+
+    if (NULL != result)
+        SET_MSG_RESULT(result, strdup(msg));
+
+    return SYSINFO_RET_FAIL;
+}
+
+/*
  * Custom key: pg.modver
  *
  * Returns the version string of the libzbxpgsql module.
@@ -231,7 +253,7 @@ PGresult    *pg_exec(PGconn *conn, const char *command, PGparams params) {
  *
  * Returns: int
  */
-long int pg_version(AGENT_REQUEST *request) {
+long int pg_version(AGENT_REQUEST *request, AGENT_RESULT *result) {
     const char  *__function_name = "pg_version"; // Function name for log file
 
     PGconn      *conn = NULL;
@@ -241,7 +263,7 @@ long int pg_version(AGENT_REQUEST *request) {
     zabbix_log(LOG_LEVEL_DEBUG, "In %s", __function_name);
 
     // connect to PostgreSQL
-    conn = pg_connect_request(request);
+    conn = pg_connect_request(request, result);
     if (NULL == conn)
         goto out;
 
@@ -305,14 +327,14 @@ int    pg_get_result(AGENT_REQUEST *request, AGENT_RESULT *result, int type, con
     zabbix_log(LOG_LEVEL_DEBUG, "In %s(%s)", __function_name, request->key);
     
     // Connect to PostreSQL
-    if(NULL == (conn = pg_connect_request(request)))
+    if(NULL == (conn = pg_connect_request(request, result)))
         goto out;
     
     // Execute a query
     res = pg_exec(conn, query, params);
 
     if(PQresultStatus(res) != PGRES_TUPLES_OK) {
-        zabbix_log(LOG_LEVEL_ERR, "Failed to execute PostgreSQL query in %s(%s) with: %s", __function_name, request->key, PQresultErrorMessage(res));
+        set_err_result(result, "Failed to execute PostgreSQL query in %s(%s) with: %s", __function_name, request->key, PQresultErrorMessage(res));
         goto out;
     }
     
@@ -349,7 +371,7 @@ int    pg_get_result(AGENT_REQUEST *request, AGENT_RESULT *result, int type, con
 
         default:
             // unknown result type
-            zabbix_log(LOG_LEVEL_ERR, "Unsupported result type: 0x%0X in %s", type, __function_name);
+            set_err_result(result, "Unsupported result type: 0x%0X in %s", type, __function_name);
             goto out;
     }
 

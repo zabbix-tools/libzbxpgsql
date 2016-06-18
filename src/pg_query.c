@@ -46,7 +46,7 @@ int     PG_QUERY(AGENT_REQUEST *request, AGENT_RESULT *result)
     // Get the user SQL query parameter
     query = get_rparam(request, PARAM_FIRST);
     if(NULL == query || '\0' == *query) {
-        zabbix_log(LOG_LEVEL_ERR, "No query specified in %s()", __function_name);
+        set_err_result(result, "No query specified");
         goto out;
     }
 
@@ -71,7 +71,7 @@ int     PG_QUERY(AGENT_REQUEST *request, AGENT_RESULT *result)
         ret = pg_get_discovery(request, result, query, params);
 
     else
-        zabbix_log(LOG_LEVEL_ERR, "Unsupported query return type: %s in %s()", request->key[9], __function_name);
+        set_err_result(result, "Unsupported query type: %s", request->key[9]);
 
 out:
     zabbix_log(LOG_LEVEL_DEBUG, "End of %s()", __function_name);

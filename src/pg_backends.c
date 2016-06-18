@@ -64,7 +64,7 @@ SELECT \
  *
  * Returns non-zero on success.
  */
-static int build_activity_clause(const AGENT_REQUEST *request, char *buf, PGparams *params, int has_clause) {
+static int build_activity_clause(const AGENT_REQUEST *request, AGENT_RESULT *result, char *buf, PGparams *params, int has_clause) {
     const char  *__function_name = "build_activity_clause";  // Function name for log file
 
     int         i = 0;
@@ -110,7 +110,7 @@ static int build_activity_clause(const AGENT_REQUEST *request, char *buf, PGpara
                     } else if(0 == strncmp("false\0", param, 6)) {
                         zbx_snprintf(buf, MAX_CLAUSE_LEN, " %s waiting = FALSE", clause);
                     } else {
-                        zabbix_log(LOG_LEVEL_ERR, "Unsupported parameter value: \"%s\" in %s", param, request->key);
+                        set_err_result(result, "Unsupported parameter value: \"%s\" in %s", param, request->key);
                         return 0;
                     }
 
@@ -150,17 +150,20 @@ static int build_activity_clause(const AGENT_REQUEST *request, char *buf, PGpara
     char        query[MAX_QUERY_LEN];
     char        clause[MAX_CLAUSE_LEN];
     char        *pid = "pid";
+    int         version = 0;
     PGparams    params = NULL; // freed later in pg_exec
     
     zabbix_log(LOG_LEVEL_DEBUG, "In %s()", __function_name);
 
     // pid column is named 'procpid' in < v9.2
-    if (pg_version(request) < 90200)
+    if (0 == (version = pg_version(request, result)))
+        goto out;
+    else if (version < 90200)
         pid = "procpid";
 
     // build the filter clause
     memset(clause, 0, sizeof(clause));
-    if (0 == build_activity_clause(request, clause, &params, 1))
+    if (0 == build_activity_clause(request, result, clause, &params, 1))
         goto out;
 
     // build the full sql query
@@ -202,18 +205,21 @@ int    PG_QUERIES_LONGEST(AGENT_REQUEST *request, AGENT_RESULT *result)
     char        query[MAX_QUERY_LEN];
     char        clause[MAX_CLAUSE_LEN];
     PGparams    params = NULL; // freed later in pg_exec
+    int         version = 0;
 
     zabbix_log(LOG_LEVEL_DEBUG, "In %s()", __function_name);
 
     // build the filter clause
     memset(clause, 0, sizeof(clause));
-    if (0 == build_activity_clause(request, clause, &params, 1))
+    if (0 == build_activity_clause(request, result, clause, &params, 1))
         goto out;
 
     // build the full sql query
     memset(query, 0, MAX_QUERY_LEN);
 
-    if (pg_version(request) < 90200)
+    if (0 == (version = pg_version(request, result)))
+        goto out;
+    else if (version < 90200)
         zbx_snprintf(query, MAX_QUERY_LEN, PGSQL_GET_LONGEST_QUERY, clause);
     else
         zbx_snprintf(query, MAX_QUERY_LEN, PGSQL_GET_LONGEST_QUERY_92, clause);

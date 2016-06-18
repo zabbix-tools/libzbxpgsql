@@ -134,7 +134,7 @@ int    PG_INDEX_DISCOVERY(AGENT_REQUEST *request, AGENT_RESULT *result)
     } else if (0 == strcmp(param_mode, "shallow")) {
         ret = pg_get_discovery(request, result, query, NULL);
     } else {
-        SET_MSG_RESULT(result, zbx_dsprintf(NULL, "Invalid search mode parameter: %s", param_mode));
+        set_err_result(result, "Invalid search mode parameter: %s", param_mode);
     }
 
     zabbix_log(LOG_LEVEL_DEBUG, "End of %s()", __function_name);
@@ -180,18 +180,18 @@ int    PG_STAT_ALL_INDEXES(AGENT_REQUEST *request, AGENT_RESULT *result)
         zbx_snprintf(query, sizeof(query),  "SELECT %s FROM pg_stat_all_indexes WHERE indexrelname = $1", field);
 
     // Connect to PostreSQL
-    if(NULL == (conn = pg_connect_request(request)))
+    if(NULL == (conn = pg_connect_request(request, result)))
         goto out;
     
     // Execute a query
     res = pg_exec(conn, query, param_new(index));
     if(PQresultStatus(res) != PGRES_TUPLES_OK) {
-        zabbix_log(LOG_LEVEL_ERR, "Failed to execute PostgreSQL query in %s() with: %s", __function_name, PQresultErrorMessage(res));
+        set_err_result(result, "PostgreSQL query error: %s", PQresultErrorMessage(res));
         goto out;
     }
     
     if(0 == PQntuples(res)) {
-        zabbix_log(LOG_LEVEL_ERR, "No results returned for query \"%s\" in %s()", query, __function_name);
+        set_err_result(result, "No results returned for query: %s", query);
         goto out;
     }
     

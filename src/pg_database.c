@@ -121,7 +121,7 @@ int    PG_STAT_DATABASE(AGENT_REQUEST *request, AGENT_RESULT *result)
         // stats_reset is a string
         if(strisnull(datname)) {
             // Can't do SUMs on text fields!
-            zabbix_log(LOG_LEVEL_ERR, "No database specified, in %s", __function_name);
+            set_err_result(result, "No database specified");
             goto out;
         }
 

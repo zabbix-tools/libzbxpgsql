@@ -75,7 +75,7 @@ int    PG_NAMESPACE_DISCOVERY(AGENT_REQUEST *request, AGENT_RESULT *result)
       // search only connected database
       ret = pg_get_discovery(request, result, PGSQL_DISCOVER_NAMESPACES, NULL);
     } else {
-      SET_MSG_RESULT(result, zbx_dsprintf(NULL, "Invalid search mode parameter: %s", mode));
+      set_err_result(result, "Invalid search mode parameter: %s", mode);
     }
     
     zabbix_log(LOG_LEVEL_DEBUG, "End of %s()", __function_name);
@@ -107,7 +107,7 @@ int    PG_NAMESPACE_SIZE(AGENT_REQUEST *request, AGENT_RESULT *result)
     
     // Build query  
     if(strisnull(schema)) {
-      zabbix_log(LOG_LEVEL_ERR, "No schema name specified in %s()", __function_name);
+      set_err_result(result, "No schema name specified");
       goto out;
     }
 
