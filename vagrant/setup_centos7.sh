@@ -1,5 +1,5 @@
 #!/bin/bash
-BULLET="==>"
+BULLET="<><><>"
 
 ZBX_MAJ=3
 ZBX_MIN=0
@@ -76,6 +76,7 @@ rpm -q zabbix_agent_bench >/dev/null || yum localinstall -y --nogpgcheck \
 
 # Configure Zabbix home directory
 if [[ ! -d /var/lib/zabbix ]]; then
+    echo -e "${BULLET} Configuring Zabbix home directory..."
     mkdir \
         --mode=0700 \
         --parents \
@@ -84,6 +85,15 @@ if [[ ! -d /var/lib/zabbix ]]; then
         /var/lib/zabbix 
     chown -v zabbix:zabbix /var/lib/zabbix
 fi
+
+cat > /var/lib/zabbix/.pgpass <<EOL
+# see: http://www.postgresql.org/docs/9.5/static/libpq-pgpass.html
+# hostname:port:database:username:password
+*:*:*:monitoring:monitoring
+
+EOL
+chmod -v 0600 /var/lib/zabbix/.pgpass
+chown -v zabbix:zabbix /var/lib/zabbix/.pgpass
 
 # Configure PostgreSQL
 echo -e "${BULLET} Configuring PostgreSQL server..."
@@ -103,24 +113,18 @@ monitoring      zabbix                  monitoring
 
 EOL
 
+echo -e "${BULLET} Starting PostgreSQL server..."
 systemctl enable postgresql-9.5
 systemctl start postgresql-9.5
 
 # set password and monitoring account
+echo -e "${BULLET} Configuring PostgreSQL server roles..."
 sudo -u postgres psql \
     -c "ALTER USER postgres WITH PASSWORD 'postgres';"
 
 sudo -u postgres psql \
     -c "CREATE ROLE \"monitoring\" WITH LOGIN NOSUPERUSER NOCREATEDB NOCREATEROLE PASSWORD 'monitoring';"
 
-cat > /var/lib/zabbix/.pgpass <<EOL
-# see: http://www.postgresql.org/docs/9.5/static/libpq-pgpass.html
-# hostname:port:database:username:password
-*:*:*:monitoring:monitoring
-
-EOL
-chmod -v 0600 /var/lib/zabbix/.pgpass
-chown -v zabbix:zabbix /var/lib/zabbix/.pgpass
 
 # Configure phpPgAdmin
 echo -e "${BULLET} Configuring phpPgAdmin web console..."
@@ -148,6 +152,7 @@ sed -i \
 #
 # Create Zabbix database
 #
+echo -e "${BULLET} Installing Zabbix database..."
 dbname="zabbix"
 dbuser="zabbix"
 dbpasswd="zabbix"
@@ -160,13 +165,13 @@ if [[ $? ]]; then
     sudo -u postgres psql -c "CREATE DATABASE \"${dbname}\" WITH OWNER \"${dbuser}\" TEMPLATE \"template1\";"
 
     if [[ -d "${pgscripts}/create" ]]; then
-        sudo -u zabbix psql -d $dbname -f $pgscripts/schema.sql
-        sudo -u zabbix psql -d $dbname -f $pgscripts/images.sql
-        sudo -u zabbix psql -d $dbname -f $pgscripts/data.sql
+        sudo -u zabbix psql -d $dbname -f $pgscripts/schema.sql >/root/db.schema.log
+        sudo -u zabbix psql -d $dbname -f $pgscripts/images.sql >/root/db.images.log
+        sudo -u zabbix psql -d $dbname -f $pgscripts/data.sql >/root/db.data.log
     fi
 
     if [[ -f "${pgscripts}/create.sql.gz" ]]; then
-        zcat $pgscripts/create.sql.gz | sudo -u zabbix psql -d $dbname
+        zcat $pgscripts/create.sql.gz | sudo -u zabbix psql -d $dbname >/root/db.create.log
     fi
 
     sudo -u postgres psql -c "GRANT CONNECT ON DATABASE \"${dbname}\" TO monitoring;"
@@ -175,16 +180,19 @@ fi
 #
 # Configure Zabbix server
 #
+echo -e "${BULLET} Configuring Zabbix server..."
 augtool -s set /files/etc/zabbix/zabbix_server.conf/DBName ${dbname}
 augtool -s set /files/etc/zabbix/zabbix_server.conf/DBUser ${dbuser}
 echo "DBPassword=${dbpasswd}" >> /etc/zabbix/zabbix_server.conf
 
+echo -e "${BULLET} Starting Zabbix server..."
 systemctl enable zabbix-server
 systemctl start zabbix-server
 
 #
 # Configure web server
 #
+echo -e "${BULLET} Configuring Zabbix web console..."
 cat > /etc/zabbix/web/zabbix.conf.php <<EOL
 <?php
 // Zabbix GUI configuration file
@@ -210,19 +218,31 @@ global \$DB;
 EOL
 
 augtool -s set /files/etc/php.ini/Date/date.timezone UTC
+
+echo -e "${BULLET} Starting Zabbix web console..."
 systemctl enable httpd
 systemctl start httpd
+
+#
+# Install Zabbix sources
+#
+if [[ ! -f "/vagrant/zabbix-${ZBX_VER}.tar.gz" ]]; then
+    echo -e "${BULLET} Installing Zabbix sources..."
+    curl -sL -o /vagrant/zabbix-${ZBX_VER}.tar.gz \
+        "http://sourceforge.net/projects/zabbix/files/ZABBIX%20Latest%20Stable/${ZBX_VER}/zabbix-${ZBX_VER}.tar.gz"
+fi
+
+if [[ ! -d "/usr/src/zabbix-${ZBX_VER}" ]]; then
+    tar -xzC /usr/src -f /vagrant/zabbix-${ZBX_VER}.tar.gz
+fi
 
 #
 # Build module
 #
 echo -e "${BULLET} Building the libzbxpgsql agent module..."
-libtoolize >/dev/null
-aclocal >/dev/null
-autoheader >/dev/null
-automake --add-missing >/dev/null
-autoreconf >/dev/null
-./configure >/dev/null && make >/dev/null
+./autogen.sh >/dev/null&& \
+    ./configure --with-zabbix=/usr/src/zabbix-${ZBX_VER} >/dev/null && \
+    make >/dev/null
 
 # Install Zabbix Agent module
 echo -e "${BULLET} Installing libzbxpgsql..."
@@ -240,11 +260,11 @@ mkdir -p /usr/lib64/zabbix/modules
 #
 # Configure Zabbix agent
 #
+echo -e "${BULLET} Starting Zabbix agent..."
 systemctl enable zabbix-agent
 systemctl start zabbix-agent
 
 #
 # Message done
 #
-cat /etc/motd
 echo -e "${BULLET} All done."
