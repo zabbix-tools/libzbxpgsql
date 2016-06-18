@@ -19,16 +19,6 @@
 
 #include "libzbxpgsql.h"
 
-#define PGSQL_GET_BGWRITER_STAT     "SELECT %s FROM pg_stat_bgwriter;"
-
-#define PGSQL_BG_AVG_INTERVAL	"\
-SELECT \
-    CASE checkpoints_timed + checkpoints_req \
-        WHEN 0 THEN 0 \
-        ELSE EXTRACT(EPOCH FROM (NOW() - stats_reset)) / (checkpoints_timed + checkpoints_req) \
-    END \
-FROM pg_stat_bgwriter;"
-
 /*
  * Custom keys pg.* (for each field in pg_stat_bgwriter)
  *
@@ -44,6 +34,8 @@ int    PG_STAT_BGWRITER(AGENT_REQUEST *request, AGENT_RESULT *result)
 {
     int         ret = SYSINFO_RET_FAIL;                 // Request result code
     const char  *__function_name = "PG_STAT_BGWRITER";  // Function name for log file
+
+    const char  *pgsql_bgwriter_stat = "SELECT %s FROM pg_stat_bgwriter;";
     
     char        *field;
     char        query[MAX_STRING_LEN];
@@ -54,7 +46,7 @@ int    PG_STAT_BGWRITER(AGENT_REQUEST *request, AGENT_RESULT *result)
     field = &request->key[3];
     
     // Build query
-    zbx_snprintf(query, sizeof(query), PGSQL_GET_BGWRITER_STAT, field);
+    zbx_snprintf(query, sizeof(query), pgsql_bgwriter_stat, field);
     
     // Get field value
     if(0 == strncmp(field, "checkpoint_", 11))
@@ -69,8 +61,6 @@ int    PG_STAT_BGWRITER(AGENT_REQUEST *request, AGENT_RESULT *result)
     zabbix_log(LOG_LEVEL_DEBUG, "End of %s()", __function_name);
     return ret;
 }
-
-#define PGSQL_BG_STATS_RESET_INTERVAL   "SELECT EXTRACT(EPOCH FROM NOW() - stats_reset) from pg_stat_bgwriter;"
 
 /*
  * Custom key pg.stats_reset_interval
@@ -87,10 +77,13 @@ int     PG_BG_STATS_RESET_INTERVAL(AGENT_REQUEST *request, AGENT_RESULT *result)
 {
     int         ret = SYSINFO_RET_FAIL;                             // Request result code
     const char  *__function_name = "PG_BG_STATS_RESET_INTERVAL";    // Function name for log file
+
+    const char  *pgsql_stats_reset_interval = 
+        "SELECT EXTRACT(EPOCH FROM NOW() - stats_reset) from pg_stat_bgwriter;";
     
     zabbix_log(LOG_LEVEL_DEBUG, "In %s()", __function_name);
     
-    ret = pg_get_int(request, result, PGSQL_BG_STATS_RESET_INTERVAL, NULL);
+    ret = pg_get_int(request, result, pgsql_stats_reset_interval, NULL);
     
     zabbix_log(LOG_LEVEL_DEBUG, "End of %s()", __function_name);
     return ret;    
@@ -113,18 +106,21 @@ int     PG_BG_AVG_INTERVAL(AGENT_REQUEST *request, AGENT_RESULT *result)
     int         ret = SYSINFO_RET_FAIL;                 // Request result code
     const char  *__function_name = "PG_BG_AVG_INTERVAL";  // Function name for log file
     
+    const char  *pgsql_bg_avg_interval = "\
+SELECT \
+    CASE checkpoints_timed + checkpoints_req \
+        WHEN 0 THEN 0 \
+        ELSE EXTRACT(EPOCH FROM (NOW() - stats_reset)) / (checkpoints_timed + checkpoints_req) \
+    END \
+FROM pg_stat_bgwriter;";
+
     zabbix_log(LOG_LEVEL_DEBUG, "In %s()", __function_name);
 
-	ret = pg_get_dbl(request, result, PGSQL_BG_AVG_INTERVAL, NULL);
+	ret = pg_get_dbl(request, result, pgsql_bg_avg_interval, NULL);
 
     zabbix_log(LOG_LEVEL_DEBUG, "End of %s()", __function_name);
     return ret;
 }
-
-#define PGSQL_BG_TIME_PERC      "\
-SELECT \
-    (%s / 1000) / EXTRACT(EPOCH FROM NOW() - stats_reset) \
-FROM pg_stat_bgwriter;"
 
 /*
  * Custom key pg.checkpoint_time_perc
@@ -143,6 +139,11 @@ int     PG_BG_TIME_PERC(AGENT_REQUEST *request, AGENT_RESULT *result)
 {
     int         ret = SYSINFO_RET_FAIL;                 // Request result code
     const char  *__function_name = "PG_BG_TIME_PERC";   // Function name for log file
+
+    const char  *pgsql_bg_time_perc = "\
+SELECT \
+    (%s / 1000) / EXTRACT(EPOCH FROM NOW() - stats_reset) \
+FROM pg_stat_bgwriter;";
 
     char        query[MAX_STRING_LEN];
     char        *action = NULL, *field = NULL;
@@ -163,7 +164,7 @@ int     PG_BG_TIME_PERC(AGENT_REQUEST *request, AGENT_RESULT *result)
     }
 
     // build query
-    zbx_snprintf(query, sizeof(query), PGSQL_BG_TIME_PERC, field);
+    zbx_snprintf(query, sizeof(query), pgsql_bg_time_perc, field);
 
     // get result
     ret = pg_get_dbl(request, result, query, NULL);
