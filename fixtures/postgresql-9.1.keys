@@ -56,10 +56,12 @@ pg.tablespace.discovery[{%PGCONN},{%PGDATABASE}]
 # database general
 pg.db.blks_perc[{%PGCONN},{%PGDATABASE}]
 pg.db.size[{%PGCONN},{%PGDATABASE}]
+pg.db.xid_age[{%PGCONN},{%PGDATABASE}]
 
 # database discovery
 pg.db.discovery[{%PGCONN},{%PGDATABASE}]
     pg.db.size[{%PGCONN},{%PGDATABASE},{#DATABASE}]
+    pg.db.xid_age[{%PGCONN},{%PGDATABASE},{#DATABASE}]
     pg.db.numbackends[{%PGCONN},{%PGDATABASE},{#DATABASE}]
     pg.db.xact_commit[{%PGCONN},{%PGDATABASE},{#DATABASE}]
     pg.db.xact_rollback[{%PGCONN},{%PGDATABASE},{#DATABASE}]

@@ -213,3 +213,48 @@ int    PG_DB_SIZE(AGENT_REQUEST *request, AGENT_RESULT *result)
     zabbix_log(LOG_LEVEL_DEBUG, "End of %s()", __function_name);
     return ret;
 }
+
+/*
+ * Custom key pg.db.xid_age
+ *
+ * Returns the age (in transaction count) of the current transaction ID for the
+ * given database. If no database is given, the oldest transaction ID is returned.
+ *
+ * See:
+ * https://www.postgresql.org/docs/9.5/static/routine-vacuuming.html#VACUUM-FOR-WRAPAROUND
+ * https://github.com/postgres/postgres/blob/master/src/backend/access/transam/varsup.c#L267
+ *
+ * Parameters:
+ *   0:  connection string
+ *   1:  connection database
+ *   2:  filter by database name (default: max value for all databases)
+ *
+ * Returns: f
+ */
+int    PG_DB_XID_AGE(AGENT_REQUEST *request, AGENT_RESULT *result)
+{
+    int         ret = SYSINFO_RET_FAIL;
+    const char  *__function_name = "PG_DB_XID_AGE";
+    
+    char        *datname = NULL;
+    char        *query = NULL;
+    PGparams    params = NULL; // freed later in pg_exec
+
+    zabbix_log(LOG_LEVEL_DEBUG, "In %s()", __function_name);
+
+    datname = get_rparam(request, PARAM_FIRST);
+    if (strisnull(datname)) {
+        query = "SELECT MAX(AGE(datfrozenxid)) FROM pg_database;";
+        datname = NULL; // ensure datname is NULL, not '\0'
+    } else {
+        query = "SELECT AGE(datfrozenxid) FROM pg_database WHERE datname = $1;";
+    }
+
+    ret = pg_get_int(request, result, query, param_new(datname));
+    
+out:
+
+    zabbix_log(LOG_LEVEL_DEBUG, "End of %s()", __function_name);
+    return ret;
+}   
+

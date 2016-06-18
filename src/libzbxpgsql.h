@@ -122,6 +122,7 @@ int     PG_INDEX_DISCOVERY(AGENT_REQUEST *request, AGENT_RESULT *result);
 int     PG_STAT_DATABASE(AGENT_REQUEST *request, AGENT_RESULT *result);
 int     PG_DB_BLKS_PERC(AGENT_REQUEST *request, AGENT_RESULT *result);
 int     PG_DB_SIZE(AGENT_REQUEST *request, AGENT_RESULT *result);
+int     PG_DB_XID_AGE(AGENT_REQUEST *request, AGENT_RESULT *result);
 
 int     PG_TABLESPACE_SIZE(AGENT_REQUEST *request, AGENT_RESULT *result);
 

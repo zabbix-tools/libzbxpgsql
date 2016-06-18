@@ -105,6 +105,7 @@ static ZBX_METRIC keys[] =
     {"pg.db.blk_read_time",         CF_HAVEPARAMS,  PG_STAT_DATABASE,               NULL},
     {"pg.db.blk_write_time",        CF_HAVEPARAMS,  PG_STAT_DATABASE,               NULL},
     {"pg.db.stats_reset",           CF_HAVEPARAMS,  PG_STAT_DATABASE,               ",,postgres,,,"},
+    {"pg.db.xid_age",               CF_HAVEPARAMS,  PG_DB_XID_AGE,                  NULL},
     
     // Table statistics (as per pg_stat_all_tables)
     {"pg.table.seq_scan",           CF_HAVEPARAMS,  PG_STAT_ALL_TABLES,             NULL},
