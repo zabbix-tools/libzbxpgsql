@@ -3,7 +3,7 @@ Maintainer: Ryan Armstrong <ryan@cavaliercoder.com>
 Section: misc
 Priority: optional
 Standards-Version: 3.9.3
-Build-Depends: debhelper (>= 9)
+Build-Depends: debhelper (>= 9), libpq-dev
 
 Package: libzbxpgsql
 Architecture: any

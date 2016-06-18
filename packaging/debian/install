@@ -1,1 +1,1 @@
-debian/libzbxpgsql.conf /etc/zabbix/zabbix_agentd.d
+debian/libzbxpgsql.conf etc/zabbix/zabbix_agentd.conf.d
