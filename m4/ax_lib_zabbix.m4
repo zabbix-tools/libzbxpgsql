@@ -68,11 +68,16 @@ AC_DEFUN([AX_LIB_ZABBIX],
         AC_MSG_CHECKING([for Zabbix header files])
 
         if test ! -f "$ZABBIX_HEADERS/module.h"; then
-            found_zabbix="no"
-            AC_MSG_RESULT([no])
+            dnl test in .../include
+            if test -f "$ZABBIX_HEADERS/include/module.h"; then
+                ZABBIX_HEADERS="$ZABBIX_HEADERS/include"
+            else
+                found_zabbix="no"
+                AC_MSG_RESULT([no])
 
-            AC_MSG_ERROR([$ZABBIX_HEADERS/module.h does not exist])
-            ZABBIX_HEADERS="no"
+                AC_MSG_ERROR([$ZABBIX_HEADERS/module.h does not exist])
+                ZABBIX_HEADERS="no"
+            fi
         fi
 
         if test "$ZABBIX_HEADERS" != "no"; then
