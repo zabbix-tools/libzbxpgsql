@@ -1,14 +1,11 @@
 v1.0.0 TBC
 
-__WARNING:__ This version breaks template compatability with previous versions.
-
 * Added support for Zabbix v3
 * Added multi-database support for discovering schema, tables and indexes
 * Added error messages to failed requests
 * Monitoring connections are no longer counted when monitoring backend
   connection counts
-* Added `--with-postgresql` switch to source configuration script
-* Added `--with-zabbix` switch to source configuration script
+* Added `pg.db.xid_age` to monitor the allocation of Transaction IDs
 * Added `pg.table.*_perc` keys to measure cache hit ratios for tables
 * Added `pg.checkpoint_avg_interval` to return average interval between
   checkpoint operations in seconds
@@ -18,10 +15,11 @@ __WARNING:__ This version breaks template compatability with previous versions.
   stats were reset
 * Added `pg.table.n_mod_since_analyze` to return the estimated number of rows
   that have been modified since the last table analyze
-* Fixed misreporting in `pg.queries.longest`
 * Added support for `pg.queries.longest` in PostgreSQL versions prior to 9.2
+* Added `--with-postgresql` switch to source configuration script
+* Added `--with-zabbix` switch to source configuration script
+* Fixed misreporting in `pg.queries.longest` when no queries were in progress
 * Fixed build dependencies on Debian (thanks darkweaver87)
-
 
 v0.2.1 14 Sep 2015
 

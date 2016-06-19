@@ -47,7 +47,7 @@ static ZBX_METRIC keys[] =
     // Client connection statistics
     {"pg.backends.count",           CF_HAVEPARAMS,  PG_BACKENDS_COUNT,              NULL},
     {"pg.queries.longest",          CF_HAVEPARAMS,  PG_QUERIES_LONGEST,             NULL},
-
+    
     // Server statistics (as per pg_stat_bgwriter)
     {"pg.checkpoints_timed",        CF_HAVEPARAMS,  PG_STAT_BGWRITER,               NULL},
     {"pg.checkpoints_req",          CF_HAVEPARAMS,  PG_STAT_BGWRITER,               NULL},
@@ -244,22 +244,37 @@ PGresult    *pg_exec(PGconn *conn, const char *command, PGparams params) {
     return res;
 }
 
-/* 
- * Function: pg_version
+/*
+ * Function: pg_scalar
  *
- * Returns a comparable version number (e.g 80200 or 90400) for the connected
- * PostgreSQL server version.
+ * Executes a PostgreSQL Query using connection details from a Zabbix agent
+ * request structure and fills the given buffer with the value of the first
+ * column of the first row returned. The connection is closed before returning.
  *
- * TODO: prevent pg_version() from creating an extra backend connection.
+ * Parameter [request]: Zabbix agent request structure.
+ *          Passed to pg_connect_request to fetch a valid PostgreSQL server
+ *          connection
  *
- * Returns: int
+ * Parameter [result]:  Zabbix agent result structure used to set any errors
+ *          that may occur.
+ *
+ * Parameter [query]:   PostgreSQL query to execute. Query should return a
+ *          single scalar string value.
+ *
+ * Parameter [params]:  Query parameters
+ *
+ * Parameter [buffer]:  Buffer to the filled with the query response
+ *
+ * Parameter [bufferlen]:   Size in bytes of the buffer to fill
+ *
+ * Returns: SYSINFO_RET_OK or SYSINFO_RET_FAIL on error
  */
-long int pg_version(AGENT_REQUEST *request, AGENT_RESULT *result) {
-    const char  *__function_name = "pg_version"; // Function name for log file
+int pg_scalar(AGENT_REQUEST *request, AGENT_RESULT *result, const char *query, PGparams params, char *buffer, size_t bufferlen) {
+    const char  *__function_name = "pg_scalar";
 
     PGconn      *conn = NULL;
     PGresult    *res = NULL;
-    long int    version = 0;
+    int         ret = SYSINFO_RET_FAIL;
 
     zabbix_log(LOG_LEVEL_DEBUG, "In %s", __function_name);
 
@@ -268,21 +283,61 @@ long int pg_version(AGENT_REQUEST *request, AGENT_RESULT *result) {
     if (NULL == conn)
         goto out;
 
-    // get server version
-    res = pg_exec(conn, "SELECT setting FROM pg_settings WHERE name='server_version_num'", NULL);
+    // execute scalar query
+    res = pg_exec(conn, query, params);
+    if(PQresultStatus(res) != PGRES_TUPLES_OK) {
+        set_err_result(result, "PostgreSQL error for query \"%s\": %s", query, PQresultErrorMessage(res));
+        goto out;
+    }
+    
     if(0 == PQntuples(res)) {
-        zabbix_log(LOG_LEVEL_ERR, "Failed to get PostgreSQL server version");
+        set_err_result(result, "No results returned for query \"%s\"", query);
         goto out;
     }
 
-    // convert to integer
-    version = atol(PQgetvalue(res, 0, 0));
-    zabbix_log(LOG_LEVEL_DEBUG, "PostgreSQL server version: %lu", version);
+    // copy result to buffer
+    zbx_strlcpy(buffer, PQgetvalue(res, 0, 0), bufferlen);
+    ret = SYSINFO_RET_OK;
 
 out:
     PQclear(res);
     PQfinish(conn);
     
+    zabbix_log(LOG_LEVEL_DEBUG, "End of %s", __function_name);
+
+    return ret;
+}
+
+/* 
+ * Function: pg_version
+ *
+ * Returns a comparable version number (e.g 80200 or 90400) for the connected
+ * PostgreSQL server version.
+ *
+ * Returns: int
+ */
+long int pg_version(AGENT_REQUEST *request, AGENT_RESULT *result) {
+    const char  *__function_name = "pg_version"; // Function name for log file
+
+    char        buffer[MAX_STRING_LEN];
+    long int    version = 0;
+
+    zabbix_log(LOG_LEVEL_DEBUG, "In %s", __function_name);
+
+    // execute query
+    if (SYSINFO_RET_OK == pg_scalar(
+        request, 
+        result, 
+        "SELECT setting FROM pg_settings WHERE name='server_version_num'",
+        NULL,
+        &buffer[0],
+        sizeof(buffer)
+    )) {
+        // convert to integer
+        version = atol(buffer);
+        zabbix_log(LOG_LEVEL_DEBUG, "PostgreSQL server version: %lu", version);
+    }
+
     zabbix_log(LOG_LEVEL_DEBUG, "End of %s", __function_name);
 
     return version;
@@ -301,8 +356,8 @@ out:
  * values in the ... parameter.
  *
  * Parameter [request]: Zabbix agent request structure.
- *          Passed to pg_connect_request to fetch as valid PostgreSQL
- *          server connection
+ *          Passed to pg_connect_request to fetch a valid PostgreSQL server
+ *          connection
  *
  * Parameter [result]:  Zabbix agent result structure
  *
@@ -321,31 +376,13 @@ int    pg_get_result(AGENT_REQUEST *request, AGENT_RESULT *result, int type, con
     int         ret = SYSINFO_RET_FAIL;             // Request result code
     const char  *__function_name = "pg_get_result"; // Function name for log file
     
-    PGconn      *conn = NULL;
-    PGresult    *res = NULL;
-    char        *value = NULL;
-    
+    char        value[MAX_STRING_LEN];
+
     zabbix_log(LOG_LEVEL_DEBUG, "In %s(%s)", __function_name, request->key);
     
-    // Connect to PostreSQL
-    if(NULL == (conn = pg_connect_request(request, result)))
+    // execute scalar query
+    if(SYSINFO_RET_FAIL == pg_scalar(request, result, query, params, &value[0], sizeof(value)))
         goto out;
-    
-    // Execute a query
-    res = pg_exec(conn, query, params);
-
-    if(PQresultStatus(res) != PGRES_TUPLES_OK) {
-        set_err_result(result, "Failed to execute PostgreSQL query in %s(%s) with: %s", __function_name, request->key, PQresultErrorMessage(res));
-        goto out;
-    }
-    
-    if(0 == PQntuples(res)) {
-        zabbix_log(LOG_LEVEL_DEBUG, "No results returned for query \"%s\" in %s(%s)", query, __function_name, request->key);
-        goto out;
-    }
-    
-    // get scalar value (freed later by PQclear)
-    value = PQgetvalue(res, 0, 0);
 
     // Set result
     switch(type) {
@@ -379,8 +416,6 @@ int    pg_get_result(AGENT_REQUEST *request, AGENT_RESULT *result, int type, con
     ret = SYSINFO_RET_OK;
     
 out:
-    PQclear(res);
-    PQfinish(conn);
     
     zabbix_log(LOG_LEVEL_DEBUG, "End of %s(%s)", __function_name, request->key);
     return ret;
