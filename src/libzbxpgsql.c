@@ -170,28 +170,6 @@ int         zbx_module_init() {
 }
 
 /*
- * Log an error to the agent log file and set the result message sent back to
- * the server.
- */
-int set_err_result(AGENT_RESULT *result, const char *format, ...)
-{
-    va_list args;
-    char    msg[MAX_STRING_LEN];
-
-    // parse message string
-    va_start (args, format);
-    zbx_vsnprintf((char*)&msg, sizeof(msg), format, args);
-
-    // log message
-    zabbix_log(LOG_LEVEL_ERR, "PostgreSQL: %s", msg);
-
-    if (NULL != result)
-        SET_MSG_RESULT(result, strdup(msg));
-
-    return SYSINFO_RET_FAIL;
-}
-
-/*
  * Custom key: pg.modver
  *
  * Returns the version string of the libzbxpgsql module.
@@ -308,41 +286,6 @@ out:
     return ret;
 }
 
-/* 
- * Function: pg_version
- *
- * Returns a comparable version number (e.g 80200 or 90400) for the connected
- * PostgreSQL server version.
- *
- * Returns: int
- */
-long int pg_version(AGENT_REQUEST *request, AGENT_RESULT *result) {
-    const char  *__function_name = "pg_version"; // Function name for log file
-
-    char        buffer[MAX_STRING_LEN];
-    long int    version = 0;
-
-    zabbix_log(LOG_LEVEL_DEBUG, "In %s", __function_name);
-
-    // execute query
-    if (SYSINFO_RET_OK == pg_scalar(
-        request, 
-        result, 
-        "SELECT setting FROM pg_settings WHERE name='server_version_num'",
-        NULL,
-        &buffer[0],
-        sizeof(buffer)
-    )) {
-        // convert to integer
-        version = atol(buffer);
-        zabbix_log(LOG_LEVEL_DEBUG, "PostgreSQL server version: %lu", version);
-    }
-
-    zabbix_log(LOG_LEVEL_DEBUG, "End of %s", __function_name);
-
-    return version;
-}
-
 /*
  * Function: pg_get_result
  *
@@ -421,14 +364,35 @@ out:
     return ret;
 }
 
-#define PGSQL_PERCENTAGE    "\
-SELECT \
-    CASE \
-        WHEN (%s) = 0 THEN 1 \
-        ELSE (%s)::float / (%s) \
-    END \
-FROM %s"
-
+/*
+ * Function: pg_get_percentage
+ *
+ * Executes a PostgreSQL query on the given table using connection details from
+ * a Zabbix agent request structure and calculates the quotient the given
+ * columns.
+ *
+ * Parameter [request]: Zabbix agent request structure.
+ *          Passed to pg_connect_request to fetch a valid PostgreSQL server
+ *          connection
+ *
+ * Parameter [result]:  Zabbix agent result structure in which the quotient will
+ *          will be set or an error message on failure
+ *
+ * Parameter [table]:   The PostgreSQL table to query
+ *
+ * Parameter [col1]:    The column containing the dividend to be divided
+ *
+ * Parameter [col2]:    The column containing the divisor
+ *
+ * Parameter [colFilter]:   The column to filter by if desired
+ *
+ * Parameter [filter]:  Value to filter by (`where [colFilter] = [filter]`)
+ *
+ * Parameter [type]:    Result type to set. May be one of AR_STRING, AR_UINT64
+ *          or AR_DOUBLE.
+ *
+ * Returns: SYSINFO_RET_OK or SYSINFO_RET_FAIL on error
+ */
 int pg_get_percentage(AGENT_REQUEST *request, AGENT_RESULT *result, char *table, char *col1, char *col2, char *colFilter, char *filter)
 {
     int         ret = SYSINFO_RET_FAIL;                 // Request result code
@@ -439,7 +403,16 @@ int pg_get_percentage(AGENT_REQUEST *request, AGENT_RESULT *result, char *table,
 
     zabbix_log(LOG_LEVEL_DEBUG, "In %s(%s)", __function_name, request->key);
 
-    zbx_snprintf(query, sizeof(query), PGSQL_PERCENTAGE, col2, col1, col2, table);
+    zbx_snprintf(
+        query,
+        sizeof(query),
+        "SELECT CASE WHEN (%s) = 0 THEN 1 ELSE (%s)::float / (%s) END FROM %s",
+        col2,
+        col1,
+        col2,
+        table
+    );
+
     if (!strisnull(colFilter)) {
         qlen = strlen(query);
         c = &query[qlen];
@@ -450,6 +423,63 @@ int pg_get_percentage(AGENT_REQUEST *request, AGENT_RESULT *result, char *table,
 
     zabbix_log(LOG_LEVEL_DEBUG, "End of %s(%s)", __function_name, request->key);
     return ret; 
+}
+
+/* 
+ * Function: pg_version
+ *
+ * Returns a comparable version number (e.g 80200 or 90400) for the connected
+ * PostgreSQL server version.
+ *
+ * Returns: int
+ */
+long int pg_version(AGENT_REQUEST *request, AGENT_RESULT *result) {
+    const char  *__function_name = "pg_version"; // Function name for log file
+
+    char        buffer[MAX_STRING_LEN];
+    long int    version = 0;
+
+    zabbix_log(LOG_LEVEL_DEBUG, "In %s", __function_name);
+
+    // execute query
+    if (SYSINFO_RET_OK == pg_scalar(
+        request, 
+        result, 
+        "SELECT setting FROM pg_settings WHERE name='server_version_num'",
+        NULL,
+        &buffer[0],
+        sizeof(buffer)
+    )) {
+        // convert to integer
+        version = atol(buffer);
+        zabbix_log(LOG_LEVEL_DEBUG, "PostgreSQL server version: %lu", version);
+    }
+
+    zabbix_log(LOG_LEVEL_DEBUG, "End of %s", __function_name);
+
+    return version;
+}
+
+/*
+ * Log an error to the agent log file and set the result message sent back to
+ * the server.
+ */
+int set_err_result(AGENT_RESULT *result, const char *format, ...)
+{
+    va_list args;
+    char    msg[MAX_STRING_LEN];
+
+    // parse message string
+    va_start (args, format);
+    zbx_vsnprintf((char*)&msg, sizeof(msg), format, args);
+
+    // log message
+    zabbix_log(LOG_LEVEL_ERR, "PostgreSQL: %s", msg);
+
+    if (NULL != result)
+        SET_MSG_RESULT(result, strdup(msg));
+
+    return SYSINFO_RET_FAIL;
 }
 
 /*
