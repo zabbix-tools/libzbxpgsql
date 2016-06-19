@@ -33,6 +33,7 @@
 #include <common.h>
 #include <log.h>
 #include <zbxjson.h>
+#include <version.h>
 
 // Default connection settings
 #define LOCALHOST       "localhost"

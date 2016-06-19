@@ -182,11 +182,21 @@ int         zbx_module_init() {
  {
     int         ret = SYSINFO_RET_FAIL;         // Request result code
     const char  *__function_name = "MODVER";    // Function name for log file
+
+    char        buffer[MAX_STRING_LEN];
     
     zabbix_log(LOG_LEVEL_DEBUG, "In %s", __function_name);
+
+    zbx_snprintf(
+        buffer,
+        sizeof(buffer),
+        "%s, compiled for Zabbix %s",
+        PACKAGE_STRING,
+        ZABBIX_VERSION
+    );
     
     // Set result
-    SET_STR_RESULT(result, strdup(PACKAGE_STRING));
+    SET_STR_RESULT(result, strdup(buffer));
     ret = SYSINFO_RET_OK;
     
     zabbix_log(LOG_LEVEL_DEBUG, "End of %s", __function_name);
