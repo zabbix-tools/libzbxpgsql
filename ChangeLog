@@ -20,6 +20,7 @@ v1.0.0 TBC
 * Added `--with-zabbix` switch to source configuration script
 * Fixed misreporting in `pg.queries.longest` when no queries were in progress
 * Fixed build dependencies on Debian (thanks darkweaver87)
+* Moved build scripts to a new repository (cavaliercoder/libzbxpgsql-build)
 
 v0.2.1 14 Sep 2015
 
