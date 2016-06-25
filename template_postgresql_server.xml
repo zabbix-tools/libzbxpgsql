@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>3.0</version>
-    <date>2016-06-25T13:09:05Z</date>
+    <date>2016-06-25T13:14:22Z</date>
     <groups>
         <group>
             <name>Templates</name>
@@ -5643,12 +5643,8 @@ Description: {#DESCRIPTION}</description>
             </discovery_rules>
             <macros>
                 <macro>
-                    <macro>{$PG_PXACT_WARN}</macro>
-                    <value>80</value>
-                </macro>
-                <macro>
-                    <macro>{$PG_PXACT_CRIT}</macro>
-                    <value>90</value>
+                    <macro>{$PG_BACKENDS_CRIT}</macro>
+                    <value>5</value>
                 </macro>
                 <macro>
                     <macro>{$PG_CONN}</macro>
@@ -5657,6 +5653,14 @@ Description: {#DESCRIPTION}</description>
                 <macro>
                     <macro>{$PG_DB}</macro>
                     <value>postgres</value>
+                </macro>
+                <macro>
+                    <macro>{$PG_PXACT_CRIT}</macro>
+                    <value>90</value>
+                </macro>
+                <macro>
+                    <macro>{$PG_PXACT_WARN}</macro>
+                    <value>80</value>
                 </macro>
                 <macro>
                     <macro>{$PG_XID_CRIT}</macro>
@@ -5683,14 +5687,14 @@ Description: {#DESCRIPTION}</description>
             <dependencies/>
         </trigger>
         <trigger>
-            <expression>{Template PostgreSQL Server:pg.prepared_xacts_ratio[{$PG_CONN},{$PG_DB}].last()}&gt;{$PG_PXACT_CRIT}</expression>
-            <name>PostgreSQL Prepared transactions are exhausted on {HOST.NAME}</name>
-            <url>https://www.postgresql.org/docs/current/static/runtime-config-resource.html#GUC-MAX-PREPARED-TRANSACTIONS</url>
+            <expression>{Template PostgreSQL Server:pg.prepared_xacts_ratio[{$PG_CONN},{$PG_DB}].last()}&lt;{$PG_BACKENDS_CRIT}</expression>
+            <name>PostgreSQL Backend connections are exhausted on {HOST.NAME}</name>
+            <url>https://www.postgresql.org/docs/current/static/runtime-config-connection.html#GUC-MAX-CONNECTIONS</url>
             <status>0</status>
             <priority>4</priority>
-            <description>{$PG_XACT_CRIT}% of the maximum configured prepared transactions are in use.&#13;
+            <description>Less than {$PG_BACKENDS_CRIT} backends connections are available.&#13;
 &#13;
-Investigate the issue immediately and consider increasing max_prepared_transactions.</description>
+Investigate the issue immediately and consider increasing max_connections.</description>
             <type>0</type>
             <dependencies/>
         </trigger>

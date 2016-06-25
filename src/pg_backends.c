@@ -144,8 +144,8 @@ static int build_activity_clause(const AGENT_REQUEST *request, AGENT_RESULT *res
  */
  int    PG_BACKENDS_COUNT(AGENT_REQUEST *request, AGENT_RESULT *result)
  {
-    int         ret = SYSINFO_RET_FAIL;                  // Request result code
-    const char  *__function_name = "PG_BACKENDS_COUNT";  // Function name for log file
+    int         ret = SYSINFO_RET_FAIL;
+    const char  *__function_name = "PG_BACKENDS_COUNT";
 
     char        query[MAX_QUERY_LEN];
     char        clause[MAX_CLAUSE_LEN];
@@ -254,7 +254,7 @@ out:
         result,
         "\
 SELECT \
-  current_setting('max_connections')::integer - COUNT(datid) + 1 \
+  current_setting('max_connections')::integer - COUNT(datid) \
 FROM pg_stat_activity;",
         NULL
     );
