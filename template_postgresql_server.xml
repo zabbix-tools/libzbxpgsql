@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>3.0</version>
-    <date>2016-06-18T09:39:26Z</date>
+    <date>2016-06-25T09:07:38Z</date>
     <groups>
         <group>
             <name>Templates</name>
@@ -52,6 +52,9 @@
                     <name>PostgreSQL MVCC</name>
                 </application>
                 <application>
+                    <name>PostgreSQL Prepared Transactions</name>
+                </application>
+                <application>
                     <name>PostgreSQL Server</name>
                 </application>
                 <application>
@@ -63,14 +66,14 @@
             </applications>
             <items>
                 <item>
-                    <name>Backends connected (Total)</name>
+                    <name>PostgreSQL Backends connected (Total)</name>
                     <type>7</type>
                     <snmp_community/>
                     <multiplier>0</multiplier>
                     <snmp_oid/>
                     <key>pg.backends.count[{$PG_CONN},{$PG_DB}]</key>
-                    <delay>300</delay>
-                    <history>90</history>
+                    <delay>60</delay>
+                    <history>7</history>
                     <trends>365</trends>
                     <status>0</status>
                     <value_type>3</value_type>
@@ -114,14 +117,14 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                     <logtimefmt/>
                 </item>
                 <item>
-                    <name>Buffers allocated/sec</name>
+                    <name>PostgreSQL Buffers allocated/sec</name>
                     <type>7</type>
                     <snmp_community/>
                     <multiplier>0</multiplier>
                     <snmp_oid/>
                     <key>pg.buffers_alloc[{$PG_CONN},{$PG_DB}]</key>
-                    <delay>300</delay>
-                    <history>90</history>
+                    <delay>60</delay>
+                    <history>7</history>
                     <trends>365</trends>
                     <status>0</status>
                     <value_type>3</value_type>
@@ -157,14 +160,14 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                     <logtimefmt/>
                 </item>
                 <item>
-                    <name>Buffers written directly by a backend/sec</name>
+                    <name>PostgreSQL Buffers written directly by a backend/sec</name>
                     <type>7</type>
                     <snmp_community/>
                     <multiplier>0</multiplier>
                     <snmp_oid/>
                     <key>pg.buffers_backend[{$PG_CONN},{$PG_DB}]</key>
-                    <delay>300</delay>
-                    <history>90</history>
+                    <delay>60</delay>
+                    <history>7</history>
                     <trends>365</trends>
                     <status>0</status>
                     <value_type>3</value_type>
@@ -200,14 +203,14 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                     <logtimefmt/>
                 </item>
                 <item>
-                    <name>Backend fsync call executions/sec</name>
+                    <name>PostgreSQL Backend fsync call executions/sec</name>
                     <type>7</type>
                     <snmp_community/>
                     <multiplier>0</multiplier>
                     <snmp_oid/>
                     <key>pg.buffers_backend_fsync[{$PG_CONN},{$PG_DB}]</key>
-                    <delay>300</delay>
-                    <history>90</history>
+                    <delay>60</delay>
+                    <history>7</history>
                     <trends>365</trends>
                     <status>0</status>
                     <value_type>3</value_type>
@@ -243,14 +246,14 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                     <logtimefmt/>
                 </item>
                 <item>
-                    <name>Buffers written during checkpoints/sec</name>
+                    <name>PostgreSQL Buffers written during checkpoints/sec</name>
                     <type>7</type>
                     <snmp_community/>
                     <multiplier>0</multiplier>
                     <snmp_oid/>
                     <key>pg.buffers_checkpoint[{$PG_CONN},{$PG_DB}]</key>
-                    <delay>300</delay>
-                    <history>90</history>
+                    <delay>60</delay>
+                    <history>7</history>
                     <trends>365</trends>
                     <status>0</status>
                     <value_type>3</value_type>
@@ -286,14 +289,14 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                     <logtimefmt/>
                 </item>
                 <item>
-                    <name>Buffers written by the background writer/sec</name>
+                    <name>PostgreSQL Buffers written by the background writer/sec</name>
                     <type>7</type>
                     <snmp_community/>
                     <multiplier>0</multiplier>
                     <snmp_oid/>
                     <key>pg.buffers_clean[{$PG_CONN},{$PG_DB}]</key>
-                    <delay>300</delay>
-                    <history>90</history>
+                    <delay>60</delay>
+                    <history>7</history>
                     <trends>365</trends>
                     <status>0</status>
                     <value_type>3</value_type>
@@ -329,14 +332,14 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                     <logtimefmt/>
                 </item>
                 <item>
-                    <name>Requested checkpoints performed</name>
+                    <name>PostgreSQL Checkpoints performed on request</name>
                     <type>7</type>
                     <snmp_community/>
                     <multiplier>0</multiplier>
                     <snmp_oid/>
                     <key>pg.checkpoints_req[{$PG_CONN},{$PG_DB}]</key>
-                    <delay>300</delay>
-                    <history>90</history>
+                    <delay>60</delay>
+                    <history>7</history>
                     <trends>365</trends>
                     <status>0</status>
                     <value_type>3</value_type>
@@ -372,14 +375,14 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                     <logtimefmt/>
                 </item>
                 <item>
-                    <name>Scheduled checkpoints performed</name>
+                    <name>PostgreSQL Checkpoints performed on schedule</name>
                     <type>7</type>
                     <snmp_community/>
                     <multiplier>0</multiplier>
                     <snmp_oid/>
                     <key>pg.checkpoints_timed[{$PG_CONN},{$PG_DB}]</key>
-                    <delay>300</delay>
-                    <history>90</history>
+                    <delay>60</delay>
+                    <history>7</history>
                     <trends>365</trends>
                     <status>0</status>
                     <value_type>3</value_type>
@@ -415,14 +418,14 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                     <logtimefmt/>
                 </item>
                 <item>
-                    <name>Average interval between checkpoints</name>
+                    <name>PostgreSQL Average interval between checkpoints</name>
                     <type>7</type>
                     <snmp_community/>
                     <multiplier>0</multiplier>
                     <snmp_oid/>
                     <key>pg.checkpoint_avg_interval[{$PG_CONN},{$PG_DB}]</key>
-                    <delay>300</delay>
-                    <history>90</history>
+                    <delay>60</delay>
+                    <history>7</history>
                     <trends>365</trends>
                     <status>0</status>
                     <value_type>0</value_type>
@@ -460,14 +463,14 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                     <logtimefmt/>
                 </item>
                 <item>
-                    <name>Checkpoint sync time</name>
+                    <name>PostgreSQL Checkpoint sync time</name>
                     <type>7</type>
                     <snmp_community/>
                     <multiplier>1</multiplier>
                     <snmp_oid/>
                     <key>pg.checkpoint_sync_time[{$PG_CONN},{$PG_DB}]</key>
-                    <delay>300</delay>
-                    <history>90</history>
+                    <delay>60</delay>
+                    <history>7</history>
                     <trends>365</trends>
                     <status>0</status>
                     <value_type>0</value_type>
@@ -503,14 +506,14 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                     <logtimefmt/>
                 </item>
                 <item>
-                    <name>Time spent writing and syncing checkpoints</name>
+                    <name>PostgreSQL Checkpoint time</name>
                     <type>7</type>
                     <snmp_community/>
                     <multiplier>1</multiplier>
                     <snmp_oid/>
                     <key>pg.checkpoint_time_perc[{$PG_CONN},{$PG_DB}]</key>
-                    <delay>300</delay>
-                    <history>90</history>
+                    <delay>60</delay>
+                    <history>7</history>
                     <trends>365</trends>
                     <status>0</status>
                     <value_type>0</value_type>
@@ -548,14 +551,14 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                     <logtimefmt/>
                 </item>
                 <item>
-                    <name>Checkpoint write time</name>
+                    <name>PostgreSQL Checkpoint write time</name>
                     <type>7</type>
                     <snmp_community/>
                     <multiplier>1</multiplier>
                     <snmp_oid/>
                     <key>pg.checkpoint_write_time[{$PG_CONN},{$PG_DB}]</key>
-                    <delay>300</delay>
-                    <history>90</history>
+                    <delay>60</delay>
+                    <history>7</history>
                     <trends>365</trends>
                     <status>0</status>
                     <value_type>0</value_type>
@@ -597,8 +600,8 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                     <multiplier>0</multiplier>
                     <snmp_oid/>
                     <key>pg.connect[{$PG_CONN},{$PG_DB}]</key>
-                    <delay>300</delay>
-                    <history>90</history>
+                    <delay>60</delay>
+                    <history>7</history>
                     <trends>365</trends>
                     <status>0</status>
                     <value_type>3</value_type>
@@ -639,19 +642,19 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                     <logtimefmt/>
                 </item>
                 <item>
-                    <name>Oldest Transaction ID</name>
+                    <name>PostgreSQL Database transaction ID age (oldest)</name>
                     <type>7</type>
                     <snmp_community/>
                     <multiplier>0</multiplier>
                     <snmp_oid/>
                     <key>pg.db.xid_age[{$PG_CONN},{$PG_DB}]</key>
-                    <delay>300</delay>
-                    <history>90</history>
+                    <delay>60</delay>
+                    <history>7</history>
                     <trends>365</trends>
                     <status>0</status>
                     <value_type>3</value_type>
                     <allowed_hosts/>
-                    <units/>
+                    <units>/ 2M</units>
                     <delta>0</delta>
                     <snmpv3_contextname/>
                     <snmpv3_securityname/>
@@ -684,14 +687,14 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                     <logtimefmt/>
                 </item>
                 <item>
-                    <name>Number of times the background writer stopped a cleaning scan because it had written too many buffers</name>
+                    <name>PostgreSQL Background writer stops</name>
                     <type>7</type>
                     <snmp_community/>
                     <multiplier>0</multiplier>
                     <snmp_oid/>
                     <key>pg.maxwritten_clean[{$PG_CONN},{$PG_DB}]</key>
-                    <delay>300</delay>
-                    <history>90</history>
+                    <delay>60</delay>
+                    <history>7</history>
                     <trends>365</trends>
                     <status>0</status>
                     <value_type>3</value_type>
@@ -733,8 +736,8 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                     <multiplier>0</multiplier>
                     <snmp_oid/>
                     <key>pg.modver</key>
-                    <delay>300</delay>
-                    <history>90</history>
+                    <delay>60</delay>
+                    <history>7</history>
                     <trends>0</trends>
                     <status>0</status>
                     <value_type>4</value_type>
@@ -774,14 +777,104 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                     <logtimefmt/>
                 </item>
                 <item>
-                    <name>Longest running query</name>
+                    <name>PostgreSQL Prepared transaction count</name>
+                    <type>7</type>
+                    <snmp_community/>
+                    <multiplier>0</multiplier>
+                    <snmp_oid/>
+                    <key>pg.prepared_xacts_count[{$PG_CONN},{$PG_DB}]</key>
+                    <delay>60</delay>
+                    <history>7</history>
+                    <trends>365</trends>
+                    <status>0</status>
+                    <value_type>3</value_type>
+                    <allowed_hosts/>
+                    <units/>
+                    <delta>0</delta>
+                    <snmpv3_contextname/>
+                    <snmpv3_securityname/>
+                    <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                    <snmpv3_authprotocol>0</snmpv3_authprotocol>
+                    <snmpv3_authpassphrase/>
+                    <snmpv3_privprotocol>0</snmpv3_privprotocol>
+                    <snmpv3_privpassphrase/>
+                    <formula>1</formula>
+                    <delay_flex/>
+                    <params/>
+                    <ipmi_sensor/>
+                    <data_type>0</data_type>
+                    <authtype>0</authtype>
+                    <username/>
+                    <password/>
+                    <publickey/>
+                    <privatekey/>
+                    <port/>
+                    <description>Returns the number of transactions that are currently prepared for two phase commit.&#13;
+&#13;
+Requires libzbxpgsql v1.0.0 or above.</description>
+                    <inventory_link>0</inventory_link>
+                    <applications>
+                        <application>
+                            <name>PostgreSQL Prepared Transactions</name>
+                        </application>
+                    </applications>
+                    <valuemap/>
+                    <logtimefmt/>
+                </item>
+                <item>
+                    <name>PostgreSQL Prepared transaction used %</name>
+                    <type>7</type>
+                    <snmp_community/>
+                    <multiplier>1</multiplier>
+                    <snmp_oid/>
+                    <key>pg.prepared_xacts_ratio[{$PG_CONN},{$PG_DB}]</key>
+                    <delay>60</delay>
+                    <history>7</history>
+                    <trends>365</trends>
+                    <status>0</status>
+                    <value_type>0</value_type>
+                    <allowed_hosts/>
+                    <units>%</units>
+                    <delta>0</delta>
+                    <snmpv3_contextname/>
+                    <snmpv3_securityname/>
+                    <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                    <snmpv3_authprotocol>0</snmpv3_authprotocol>
+                    <snmpv3_authpassphrase/>
+                    <snmpv3_privprotocol>0</snmpv3_privprotocol>
+                    <snmpv3_privpassphrase/>
+                    <formula>100</formula>
+                    <delay_flex/>
+                    <params/>
+                    <ipmi_sensor/>
+                    <data_type>0</data_type>
+                    <authtype>0</authtype>
+                    <username/>
+                    <password/>
+                    <publickey/>
+                    <privatekey/>
+                    <port/>
+                    <description>Returns the number of transactions that are currently prepared for two phase commit as a percentage of the maximum available prepared transactions.&#13;
+&#13;
+Requires libzbxpgsql v1.0.0 or above.</description>
+                    <inventory_link>0</inventory_link>
+                    <applications>
+                        <application>
+                            <name>PostgreSQL Prepared Transactions</name>
+                        </application>
+                    </applications>
+                    <valuemap/>
+                    <logtimefmt/>
+                </item>
+                <item>
+                    <name>PostgreSQL Longest running query</name>
                     <type>7</type>
                     <snmp_community/>
                     <multiplier>0</multiplier>
                     <snmp_oid/>
                     <key>pg.queries.longest[{$PG_CONN},{$PG_DB}]</key>
-                    <delay>300</delay>
-                    <history>90</history>
+                    <delay>60</delay>
+                    <history>7</history>
                     <trends>365</trends>
                     <status>0</status>
                     <value_type>0</value_type>
@@ -825,8 +918,8 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                     <multiplier>0</multiplier>
                     <snmp_oid/>
                     <key>pg.starttime[{$PG_CONN},{$PG_DB}]</key>
-                    <delay>300</delay>
-                    <history>90</history>
+                    <delay>60</delay>
+                    <history>7</history>
                     <trends>0</trends>
                     <status>0</status>
                     <value_type>4</value_type>
@@ -866,14 +959,14 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                     <logtimefmt/>
                 </item>
                 <item>
-                    <name>Statistics last reset</name>
+                    <name>PostgreSQL Background writer statistics last reset</name>
                     <type>7</type>
                     <snmp_community/>
                     <multiplier>0</multiplier>
                     <snmp_oid/>
                     <key>pg.stats_reset[{$PG_CONN},{$PG_DB}]</key>
-                    <delay>300</delay>
-                    <history>90</history>
+                    <delay>60</delay>
+                    <history>7</history>
                     <trends>0</trends>
                     <status>0</status>
                     <value_type>4</value_type>
@@ -898,7 +991,7 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                     <publickey/>
                     <privatekey/>
                     <port/>
-                    <description>Time at which these statistics were last reset</description>
+                    <description>Time at which the background writer statistics were last reset</description>
                     <inventory_link>0</inventory_link>
                     <applications>
                         <application>
@@ -915,8 +1008,8 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                     <multiplier>0</multiplier>
                     <snmp_oid/>
                     <key>pg.uptime[{$PG_CONN},{$PG_DB}]</key>
-                    <delay>300</delay>
-                    <history>90</history>
+                    <delay>60</delay>
+                    <history>7</history>
                     <trends>365</trends>
                     <status>0</status>
                     <value_type>3</value_type>
@@ -962,8 +1055,8 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                     <multiplier>0</multiplier>
                     <snmp_oid/>
                     <key>pg.version[{$PG_CONN},{$PG_DB}]</key>
-                    <delay>300</delay>
-                    <history>90</history>
+                    <delay>60</delay>
+                    <history>7</history>
                     <trends>0</trends>
                     <status>0</status>
                     <value_type>4</value_type>
@@ -1034,14 +1127,14 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                     <description>Discover all databases available for connection</description>
                     <item_prototypes>
                         <item_prototype>
-                            <name>Disk Blocks Hits/sec ({#DATABASE})</name>
+                            <name>PostgreSQL Database disk block hits/sec on {#PATH}</name>
                             <type>7</type>
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
                             <key>pg.db.blks_hit[{$PG_CONN},{$PG_DB},{#DATABASE}]</key>
-                            <delay>300</delay>
-                            <history>90</history>
+                            <delay>60</delay>
+                            <history>7</history>
                             <trends>365</trends>
                             <status>0</status>
                             <value_type>3</value_type>
@@ -1078,14 +1171,14 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                             <application_prototypes/>
                         </item_prototype>
                         <item_prototype>
-                            <name>Disk Blocks Read/sec ({#DATABASE})</name>
+                            <name>PostgreSQL Database disk blocks read/sec on {#PATH}</name>
                             <type>7</type>
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
                             <key>pg.db.blks_read[{$PG_CONN},{$PG_DB},{#DATABASE}]</key>
-                            <delay>300</delay>
-                            <history>90</history>
+                            <delay>60</delay>
+                            <history>7</history>
                             <trends>365</trends>
                             <status>0</status>
                             <value_type>0</value_type>
@@ -1122,14 +1215,14 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                             <application_prototypes/>
                         </item_prototype>
                         <item_prototype>
-                            <name>Time spent reading data ({#DATABASE})</name>
+                            <name>PostgreSQL Database time spent reading data on {#PATH}</name>
                             <type>7</type>
                             <snmp_community/>
                             <multiplier>1</multiplier>
                             <snmp_oid/>
                             <key>pg.db.blk_read_time[{$PG_CONN},{$PG_DB},{#DATABASE}]</key>
-                            <delay>300</delay>
-                            <history>90</history>
+                            <delay>60</delay>
+                            <history>7</history>
                             <trends>365</trends>
                             <status>0</status>
                             <value_type>0</value_type>
@@ -1166,14 +1259,14 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                             <application_prototypes/>
                         </item_prototype>
                         <item_prototype>
-                            <name>Time spent writing data ({#DATABASE})</name>
+                            <name>PostgreSQL Database time spent writing data on {#PATH}</name>
                             <type>7</type>
                             <snmp_community/>
                             <multiplier>1</multiplier>
                             <snmp_oid/>
                             <key>pg.db.blk_write_time[{$PG_CONN},{$PG_DB},{#DATABASE}]</key>
-                            <delay>300</delay>
-                            <history>90</history>
+                            <delay>60</delay>
+                            <history>7</history>
                             <trends>365</trends>
                             <status>0</status>
                             <value_type>0</value_type>
@@ -1210,14 +1303,14 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                             <application_prototypes/>
                         </item_prototype>
                         <item_prototype>
-                            <name>Conflicts/sec ({#DATABASE})</name>
+                            <name>PostgreSQL Database conflicts/sec on {#PATH}</name>
                             <type>7</type>
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
                             <key>pg.db.conflicts[{$PG_CONN},{$PG_DB},{#DATABASE}]</key>
-                            <delay>300</delay>
-                            <history>90</history>
+                            <delay>60</delay>
+                            <history>7</history>
                             <trends>365</trends>
                             <status>0</status>
                             <value_type>0</value_type>
@@ -1254,14 +1347,14 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                             <application_prototypes/>
                         </item_prototype>
                         <item_prototype>
-                            <name>Deadlocks/sec ({#DATABASE})</name>
+                            <name>PostgreSQL Database deadlocks/sec on {#PATH}</name>
                             <type>7</type>
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
                             <key>pg.db.deadlocks[{$PG_CONN},{$PG_DB},{#DATABASE}]</key>
-                            <delay>300</delay>
-                            <history>90</history>
+                            <delay>60</delay>
+                            <history>7</history>
                             <trends>365</trends>
                             <status>0</status>
                             <value_type>0</value_type>
@@ -1298,14 +1391,14 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                             <application_prototypes/>
                         </item_prototype>
                         <item_prototype>
-                            <name>Backends connected ({#DATABASE})</name>
+                            <name>PostgreSQL Database backends connected on {#PATH}</name>
                             <type>7</type>
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
                             <key>pg.db.numbackends[{$PG_CONN},{$PG_DB},{#DATABASE}]</key>
-                            <delay>300</delay>
-                            <history>90</history>
+                            <delay>60</delay>
+                            <history>7</history>
                             <trends>365</trends>
                             <status>0</status>
                             <value_type>3</value_type>
@@ -1342,14 +1435,14 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                             <application_prototypes/>
                         </item_prototype>
                         <item_prototype>
-                            <name>Database size ({#DATABASE})</name>
+                            <name>PostgreSQL Database disk size on {#PATH}</name>
                             <type>7</type>
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
                             <key>pg.db.size[{$PG_CONN},{$PG_DB},{#DATABASE}]</key>
-                            <delay>300</delay>
-                            <history>90</history>
+                            <delay>60</delay>
+                            <history>7</history>
                             <trends>365</trends>
                             <status>0</status>
                             <value_type>3</value_type>
@@ -1386,14 +1479,14 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                             <application_prototypes/>
                         </item_prototype>
                         <item_prototype>
-                            <name>Statistics last reset ({#DATABASE})</name>
+                            <name>PostgreSQL Database statistics last reset on {#PATH}</name>
                             <type>7</type>
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
                             <key>pg.db.stats_reset[{$PG_CONN},{$PG_DB},{#DATABASE}]</key>
-                            <delay>300</delay>
-                            <history>90</history>
+                            <delay>60</delay>
+                            <history>7</history>
                             <trends>0</trends>
                             <status>0</status>
                             <value_type>4</value_type>
@@ -1430,14 +1523,14 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                             <application_prototypes/>
                         </item_prototype>
                         <item_prototype>
-                            <name>Temp data write/sec ({#DATABASE})</name>
+                            <name>PostgreSQL Database temp data write/sec on {#PATH}</name>
                             <type>7</type>
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
                             <key>pg.db.temp_bytes[{$PG_CONN},{$PG_DB},{#DATABASE}]</key>
-                            <delay>300</delay>
-                            <history>90</history>
+                            <delay>60</delay>
+                            <history>7</history>
                             <trends>365</trends>
                             <status>0</status>
                             <value_type>0</value_type>
@@ -1474,14 +1567,14 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                             <application_prototypes/>
                         </item_prototype>
                         <item_prototype>
-                            <name>Temp files created/sec ({#DATABASE})</name>
+                            <name>PostgreSQL Database temp files created/sec on {#PATH}</name>
                             <type>7</type>
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
                             <key>pg.db.temp_files[{$PG_CONN},{$PG_DB},{#DATABASE}]</key>
-                            <delay>300</delay>
-                            <history>90</history>
+                            <delay>60</delay>
+                            <history>7</history>
                             <trends>365</trends>
                             <status>0</status>
                             <value_type>0</value_type>
@@ -1518,14 +1611,14 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                             <application_prototypes/>
                         </item_prototype>
                         <item_prototype>
-                            <name>Rows deleted/sec ({#DATABASE})</name>
+                            <name>PostgreSQL Database rows deleted/sec on {#PATH}</name>
                             <type>7</type>
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
                             <key>pg.db.tup_deleted[{$PG_CONN},{$PG_DB},{#DATABASE}]</key>
-                            <delay>300</delay>
-                            <history>90</history>
+                            <delay>60</delay>
+                            <history>7</history>
                             <trends>365</trends>
                             <status>0</status>
                             <value_type>0</value_type>
@@ -1562,14 +1655,14 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                             <application_prototypes/>
                         </item_prototype>
                         <item_prototype>
-                            <name>Rows fetched by bitmap scans/sec ({#DATABASE})</name>
+                            <name>PostgreSQL Database rows fetched by bitmap scans/sec on {#PATH}</name>
                             <type>7</type>
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
                             <key>pg.db.tup_fetched[{$PG_CONN},{$PG_DB},{#DATABASE}]</key>
-                            <delay>300</delay>
-                            <history>90</history>
+                            <delay>60</delay>
+                            <history>7</history>
                             <trends>365</trends>
                             <status>0</status>
                             <value_type>0</value_type>
@@ -1606,14 +1699,14 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                             <application_prototypes/>
                         </item_prototype>
                         <item_prototype>
-                            <name>Rows inserted/sec ({#DATABASE})</name>
+                            <name>PostgreSQL Database rows inserted/sec on {#PATH}</name>
                             <type>7</type>
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
                             <key>pg.db.tup_inserted[{$PG_CONN},{$PG_DB},{#DATABASE}]</key>
-                            <delay>300</delay>
-                            <history>90</history>
+                            <delay>60</delay>
+                            <history>7</history>
                             <trends>365</trends>
                             <status>0</status>
                             <value_type>0</value_type>
@@ -1650,14 +1743,14 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                             <application_prototypes/>
                         </item_prototype>
                         <item_prototype>
-                            <name>Rows returned by sequential scans/sec ({#DATABASE})</name>
+                            <name>PostgreSQL Database rows returned by sequential scans/sec on {#PATH}</name>
                             <type>7</type>
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
                             <key>pg.db.tup_returned[{$PG_CONN},{$PG_DB},{#DATABASE}]</key>
-                            <delay>300</delay>
-                            <history>90</history>
+                            <delay>60</delay>
+                            <history>7</history>
                             <trends>365</trends>
                             <status>0</status>
                             <value_type>0</value_type>
@@ -1694,14 +1787,14 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                             <application_prototypes/>
                         </item_prototype>
                         <item_prototype>
-                            <name>Rows updated/sec ({#DATABASE})</name>
+                            <name>PostgreSQL Database rows updated/sec on {#PATH}</name>
                             <type>7</type>
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
                             <key>pg.db.tup_updated[{$PG_CONN},{$PG_DB},{#DATABASE}]</key>
-                            <delay>300</delay>
-                            <history>90</history>
+                            <delay>60</delay>
+                            <history>7</history>
                             <trends>365</trends>
                             <status>0</status>
                             <value_type>0</value_type>
@@ -1738,14 +1831,14 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                             <application_prototypes/>
                         </item_prototype>
                         <item_prototype>
-                            <name>Transactions Committed/sec ({#DATABASE})</name>
+                            <name>PostgreSQL Database transactions committed/sec on {#PATH}</name>
                             <type>7</type>
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
                             <key>pg.db.xact_commit[{$PG_CONN},{$PG_DB},{#DATABASE}]</key>
-                            <delay>300</delay>
-                            <history>90</history>
+                            <delay>60</delay>
+                            <history>7</history>
                             <trends>365</trends>
                             <status>0</status>
                             <value_type>0</value_type>
@@ -1782,14 +1875,14 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                             <application_prototypes/>
                         </item_prototype>
                         <item_prototype>
-                            <name>Transactions Rolled Back/sec ({#DATABASE})</name>
+                            <name>PostgreSQL Database transactions rolled back/sec on {#PATH}</name>
                             <type>7</type>
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
                             <key>pg.db.xact_rollback[{$PG_CONN},{$PG_DB},{#DATABASE}]</key>
-                            <delay>300</delay>
-                            <history>90</history>
+                            <delay>60</delay>
+                            <history>7</history>
                             <trends>365</trends>
                             <status>0</status>
                             <value_type>0</value_type>
@@ -1826,19 +1919,19 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                             <application_prototypes/>
                         </item_prototype>
                         <item_prototype>
-                            <name>Transaction ID age ({#DATABASE})</name>
+                            <name>PostgreSQL Database transaction ID age on {#PATH}</name>
                             <type>7</type>
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
                             <key>pg.db.xid_age[{$PG_CONN},{$PG_DB},{#DATABASE}]</key>
-                            <delay>300</delay>
-                            <history>90</history>
+                            <delay>60</delay>
+                            <history>7</history>
                             <trends>365</trends>
                             <status>0</status>
                             <value_type>3</value_type>
                             <allowed_hosts/>
-                            <units/>
+                            <units>/ 2M</units>
                             <delta>0</delta>
                             <snmpv3_contextname/>
                             <snmpv3_securityname/>
@@ -1872,14 +1965,60 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                             <application_prototypes/>
                         </item_prototype>
                         <item_prototype>
-                            <name>Longest running query ({#DATABASE})</name>
+                            <name>PostgreSQL Database transactions prepared on {#PATH}</name>
+                            <type>7</type>
+                            <snmp_community/>
+                            <multiplier>0</multiplier>
+                            <snmp_oid/>
+                            <key>pg.prepared_xacts_count[{$PG_CONN},{$PG_DB},{#DATABASE}]</key>
+                            <delay>60</delay>
+                            <history>7</history>
+                            <trends>365</trends>
+                            <status>0</status>
+                            <value_type>3</value_type>
+                            <allowed_hosts/>
+                            <units/>
+                            <delta>0</delta>
+                            <snmpv3_contextname/>
+                            <snmpv3_securityname/>
+                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
+                            <snmpv3_authpassphrase/>
+                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
+                            <snmpv3_privpassphrase/>
+                            <formula>1</formula>
+                            <delay_flex/>
+                            <params/>
+                            <ipmi_sensor/>
+                            <data_type>0</data_type>
+                            <authtype>0</authtype>
+                            <username/>
+                            <password/>
+                            <publickey/>
+                            <privatekey/>
+                            <port/>
+                            <description>Returns the number of transactions that are currently prepared for two phase commit on this database.&#13;
+&#13;
+Requires libzbxpgsql v1.0.0 or above.</description>
+                            <inventory_link>0</inventory_link>
+                            <applications>
+                                <application>
+                                    <name>PostgreSQL Prepared Transactions</name>
+                                </application>
+                            </applications>
+                            <valuemap/>
+                            <logtimefmt/>
+                            <application_prototypes/>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>PostgreSQL Database longest running query on {#PATH}</name>
                             <type>7</type>
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
                             <key>pg.queries.longest[{$PG_CONN},{$PG_DB},{#DATABASE}]</key>
-                            <delay>300</delay>
-                            <history>90</history>
+                            <delay>60</delay>
+                            <history>7</history>
                             <trends>365</trends>
                             <status>0</status>
                             <value_type>0</value_type>
@@ -1918,14 +2057,14 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                             <application_prototypes/>
                         </item_prototype>
                         <item_prototype>
-                            <name>Index scans/sec ({#DATABASE})</name>
+                            <name>PostgreSQL Database index scans/sec on {#PATH}</name>
                             <type>7</type>
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
                             <key>pg.table.idx_scan[{$PG_CONN},{#DATABASE}]</key>
-                            <delay>300</delay>
-                            <history>90</history>
+                            <delay>60</delay>
+                            <history>7</history>
                             <trends>365</trends>
                             <status>0</status>
                             <value_type>3</value_type>
@@ -1962,14 +2101,14 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                             <application_prototypes/>
                         </item_prototype>
                         <item_prototype>
-                            <name>Live rows fetched by indexes/sec ({#DATABASE})</name>
+                            <name>PostgreSQL Database live rows fetched by indexes/sec on {#PATH}</name>
                             <type>7</type>
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
                             <key>pg.table.idx_tup_fetch[{$PG_CONN},{#DATABASE}]</key>
-                            <delay>300</delay>
-                            <history>90</history>
+                            <delay>60</delay>
+                            <history>7</history>
                             <trends>365</trends>
                             <status>0</status>
                             <value_type>3</value_type>
@@ -2006,14 +2145,14 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                             <application_prototypes/>
                         </item_prototype>
                         <item_prototype>
-                            <name>Estimated dead rows ({#DATABASE})</name>
+                            <name>PostgreSQL Database estimated dead rows on {#PATH}</name>
                             <type>7</type>
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
                             <key>pg.table.n_dead_tup[{$PG_CONN},{#DATABASE}]</key>
-                            <delay>300</delay>
-                            <history>90</history>
+                            <delay>60</delay>
+                            <history>7</history>
                             <trends>365</trends>
                             <status>0</status>
                             <value_type>3</value_type>
@@ -2050,14 +2189,14 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                             <application_prototypes/>
                         </item_prototype>
                         <item_prototype>
-                            <name>Estimated live rows ({#DATABASE})</name>
+                            <name>PostgreSQL Database estimated live rows on {#PATH}</name>
                             <type>7</type>
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
                             <key>pg.table.n_live_tup[{$PG_CONN},{#DATABASE}]</key>
-                            <delay>300</delay>
-                            <history>90</history>
+                            <delay>60</delay>
+                            <history>7</history>
                             <trends>365</trends>
                             <status>0</status>
                             <value_type>3</value_type>
@@ -2094,16 +2233,16 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                             <application_prototypes/>
                         </item_prototype>
                         <item_prototype>
-                            <name>Estimated modified rows since analyze ({#DATABASE})</name>
+                            <name>PostgreSQL Database estimated modified rows since analyze on {#PATH}</name>
                             <type>7</type>
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
                             <key>pg.table.n_mod_since_analyze[{$PG_CONN},{#DATABASE}]</key>
-                            <delay>300</delay>
-                            <history>90</history>
+                            <delay>60</delay>
+                            <history>7</history>
                             <trends>365</trends>
-                            <status>1</status>
+                            <status>0</status>
                             <value_type>3</value_type>
                             <allowed_hosts/>
                             <units/>
@@ -2138,14 +2277,14 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                             <application_prototypes/>
                         </item_prototype>
                         <item_prototype>
-                            <name>Rows deleted/sec ({#DATABASE})</name>
+                            <name>PostgreSQL Database rows deleted/sec on {#PATH}</name>
                             <type>7</type>
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
                             <key>pg.table.n_tup_del[{$PG_CONN},{#DATABASE}]</key>
-                            <delay>300</delay>
-                            <history>90</history>
+                            <delay>60</delay>
+                            <history>7</history>
                             <trends>365</trends>
                             <status>0</status>
                             <value_type>3</value_type>
@@ -2182,14 +2321,14 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                             <application_prototypes/>
                         </item_prototype>
                         <item_prototype>
-                            <name>Rows hot updated ({#DATABASE})</name>
+                            <name>PostgreSQL Database rows hot updated on {#PATH}</name>
                             <type>7</type>
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
                             <key>pg.table.n_tup_hot_upd[{$PG_CONN},{#DATABASE}]</key>
-                            <delay>300</delay>
-                            <history>90</history>
+                            <delay>60</delay>
+                            <history>7</history>
                             <trends>365</trends>
                             <status>0</status>
                             <value_type>3</value_type>
@@ -2226,14 +2365,14 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                             <application_prototypes/>
                         </item_prototype>
                         <item_prototype>
-                            <name>Rows inserted/sec ({#DATABASE})</name>
+                            <name>PostgreSQL Database rows inserted/sec on {#PATH}</name>
                             <type>7</type>
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
                             <key>pg.table.n_tup_ins[{$PG_CONN},{#DATABASE}]</key>
-                            <delay>300</delay>
-                            <history>90</history>
+                            <delay>60</delay>
+                            <history>7</history>
                             <trends>365</trends>
                             <status>0</status>
                             <value_type>3</value_type>
@@ -2270,14 +2409,14 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                             <application_prototypes/>
                         </item_prototype>
                         <item_prototype>
-                            <name>Rows updated/sec ({#DATABASE})</name>
+                            <name>PostgreSQL Database rows updated/sec on {#PATH}</name>
                             <type>7</type>
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
                             <key>pg.table.n_tup_upd[{$PG_CONN},{#DATABASE}]</key>
-                            <delay>300</delay>
-                            <history>90</history>
+                            <delay>60</delay>
+                            <history>7</history>
                             <trends>365</trends>
                             <status>0</status>
                             <value_type>3</value_type>
@@ -2314,14 +2453,14 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                             <application_prototypes/>
                         </item_prototype>
                         <item_prototype>
-                            <name>Estimated row count({#DATABASE})</name>
+                            <name>PostgreSQL Database estimated row count on {#PATH}</name>
                             <type>7</type>
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
                             <key>pg.table.rows[{$PG_CONN},{#DATABASE}]</key>
-                            <delay>300</delay>
-                            <history>90</history>
+                            <delay>60</delay>
+                            <history>7</history>
                             <trends>365</trends>
                             <status>0</status>
                             <value_type>3</value_type>
@@ -2358,14 +2497,14 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                             <application_prototypes/>
                         </item_prototype>
                         <item_prototype>
-                            <name>Sequential scans/sec ({#DATABASE})</name>
+                            <name>PostgreSQL Database sequential scans/sec on {#PATH}</name>
                             <type>7</type>
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
                             <key>pg.table.seq_scan[{$PG_CONN},{#DATABASE}]</key>
-                            <delay>300</delay>
-                            <history>90</history>
+                            <delay>60</delay>
+                            <history>7</history>
                             <trends>365</trends>
                             <status>0</status>
                             <value_type>3</value_type>
@@ -2402,14 +2541,14 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                             <application_prototypes/>
                         </item_prototype>
                         <item_prototype>
-                            <name>Live rows fetched by scans/sec ({#DATABASE})</name>
+                            <name>PostgreSQL Database live rows fetched by scans/sec on {#PATH}</name>
                             <type>7</type>
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
                             <key>pg.table.seq_tup_read[{$PG_CONN},{#DATABASE}]</key>
-                            <delay>300</delay>
-                            <history>90</history>
+                            <delay>60</delay>
+                            <history>7</history>
                             <trends>365</trends>
                             <status>0</status>
                             <value_type>3</value_type>
@@ -2449,7 +2588,7 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                     <trigger_prototypes/>
                     <graph_prototypes>
                         <graph_prototype>
-                            <name>PostgreSQL Database {#DATABASE} Blocks/sec</name>
+                            <name>PostgreSQL Database blocks/sec on {#DATABASE}</name>
                             <width>900</width>
                             <height>200</height>
                             <yaxismin>0.0000</yaxismin>
@@ -2461,14 +2600,14 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                             <show_3d>0</show_3d>
                             <percent_left>0.0000</percent_left>
                             <percent_right>0.0000</percent_right>
-                            <ymin_type_1>0</ymin_type_1>
+                            <ymin_type_1>1</ymin_type_1>
                             <ymax_type_1>0</ymax_type_1>
                             <ymin_item_1>0</ymin_item_1>
                             <ymax_item_1>0</ymax_item_1>
                             <graph_items>
                                 <graph_item>
                                     <sortorder>0</sortorder>
-                                    <drawtype>0</drawtype>
+                                    <drawtype>5</drawtype>
                                     <color>00C800</color>
                                     <yaxisside>0</yaxisside>
                                     <calc_fnc>2</calc_fnc>
@@ -2480,7 +2619,7 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                                 </graph_item>
                                 <graph_item>
                                     <sortorder>1</sortorder>
-                                    <drawtype>0</drawtype>
+                                    <drawtype>5</drawtype>
                                     <color>C80000</color>
                                     <yaxisside>0</yaxisside>
                                     <calc_fnc>2</calc_fnc>
@@ -2493,7 +2632,7 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                             </graph_items>
                         </graph_prototype>
                         <graph_prototype>
-                            <name>PostgreSQL Database {#DATABASE} Errors/sec</name>
+                            <name>PostgreSQL Database blocks/sec on {#PATH}</name>
                             <width>900</width>
                             <height>200</height>
                             <yaxismin>0.0000</yaxismin>
@@ -2505,83 +2644,39 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                             <show_3d>0</show_3d>
                             <percent_left>0.0000</percent_left>
                             <percent_right>0.0000</percent_right>
-                            <ymin_type_1>0</ymin_type_1>
+                            <ymin_type_1>1</ymin_type_1>
                             <ymax_type_1>0</ymax_type_1>
                             <ymin_item_1>0</ymin_item_1>
                             <ymax_item_1>0</ymax_item_1>
                             <graph_items>
                                 <graph_item>
                                     <sortorder>0</sortorder>
-                                    <drawtype>0</drawtype>
-                                    <color>C800C8</color>
-                                    <yaxisside>0</yaxisside>
-                                    <calc_fnc>2</calc_fnc>
-                                    <type>0</type>
-                                    <item>
-                                        <host>Template PostgreSQL Server</host>
-                                        <key>pg.db.conflicts[{$PG_CONN},{$PG_DB},{#DATABASE}]</key>
-                                    </item>
-                                </graph_item>
-                                <graph_item>
-                                    <sortorder>1</sortorder>
-                                    <drawtype>0</drawtype>
-                                    <color>C80000</color>
-                                    <yaxisside>0</yaxisside>
-                                    <calc_fnc>2</calc_fnc>
-                                    <type>0</type>
-                                    <item>
-                                        <host>Template PostgreSQL Server</host>
-                                        <key>pg.db.deadlocks[{$PG_CONN},{$PG_DB},{#DATABASE}]</key>
-                                    </item>
-                                </graph_item>
-                            </graph_items>
-                        </graph_prototype>
-                        <graph_prototype>
-                            <name>PostgreSQL Database {#DATABASE} Index performance</name>
-                            <width>900</width>
-                            <height>200</height>
-                            <yaxismin>0.0000</yaxismin>
-                            <yaxismax>100.0000</yaxismax>
-                            <show_work_period>1</show_work_period>
-                            <show_triggers>1</show_triggers>
-                            <type>0</type>
-                            <show_legend>1</show_legend>
-                            <show_3d>0</show_3d>
-                            <percent_left>0.0000</percent_left>
-                            <percent_right>0.0000</percent_right>
-                            <ymin_type_1>0</ymin_type_1>
-                            <ymax_type_1>0</ymax_type_1>
-                            <ymin_item_1>0</ymin_item_1>
-                            <ymax_item_1>0</ymax_item_1>
-                            <graph_items>
-                                <graph_item>
-                                    <sortorder>0</sortorder>
-                                    <drawtype>0</drawtype>
+                                    <drawtype>5</drawtype>
                                     <color>00C800</color>
                                     <yaxisside>0</yaxisside>
                                     <calc_fnc>2</calc_fnc>
                                     <type>0</type>
                                     <item>
                                         <host>Template PostgreSQL Server</host>
-                                        <key>pg.table.idx_tup_fetch[{$PG_CONN},{#DATABASE}]</key>
+                                        <key>pg.db.blks_hit[{$PG_CONN},{$PG_DB},{#DATABASE}]</key>
                                     </item>
                                 </graph_item>
                                 <graph_item>
                                     <sortorder>1</sortorder>
-                                    <drawtype>0</drawtype>
+                                    <drawtype>5</drawtype>
                                     <color>C80000</color>
                                     <yaxisside>0</yaxisside>
                                     <calc_fnc>2</calc_fnc>
                                     <type>0</type>
                                     <item>
                                         <host>Template PostgreSQL Server</host>
-                                        <key>pg.table.seq_tup_read[{$PG_CONN},{#DATABASE}]</key>
+                                        <key>pg.db.blks_read[{$PG_CONN},{$PG_DB},{#DATABASE}]</key>
                                     </item>
                                 </graph_item>
                             </graph_items>
                         </graph_prototype>
                         <graph_prototype>
-                            <name>PostgreSQL Database {#DATABASE} IO</name>
+                            <name>PostgreSQL Database disk size on {#DATABASE}</name>
                             <width>900</width>
                             <height>200</height>
                             <yaxismin>0.0000</yaxismin>
@@ -2593,114 +2688,14 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                             <show_3d>0</show_3d>
                             <percent_left>0.0000</percent_left>
                             <percent_right>0.0000</percent_right>
-                            <ymin_type_1>0</ymin_type_1>
+                            <ymin_type_1>1</ymin_type_1>
                             <ymax_type_1>0</ymax_type_1>
                             <ymin_item_1>0</ymin_item_1>
                             <ymax_item_1>0</ymax_item_1>
                             <graph_items>
                                 <graph_item>
                                     <sortorder>0</sortorder>
-                                    <drawtype>0</drawtype>
-                                    <color>00C800</color>
-                                    <yaxisside>0</yaxisside>
-                                    <calc_fnc>2</calc_fnc>
-                                    <type>0</type>
-                                    <item>
-                                        <host>Template PostgreSQL Server</host>
-                                        <key>pg.db.blk_read_time[{$PG_CONN},{$PG_DB},{#DATABASE}]</key>
-                                    </item>
-                                </graph_item>
-                                <graph_item>
-                                    <sortorder>1</sortorder>
-                                    <drawtype>0</drawtype>
-                                    <color>C80000</color>
-                                    <yaxisside>0</yaxisside>
-                                    <calc_fnc>2</calc_fnc>
-                                    <type>0</type>
-                                    <item>
-                                        <host>Template PostgreSQL Server</host>
-                                        <key>pg.db.blk_write_time[{$PG_CONN},{$PG_DB},{#DATABASE}]</key>
-                                    </item>
-                                </graph_item>
-                            </graph_items>
-                        </graph_prototype>
-                        <graph_prototype>
-                            <name>PostgreSQL Database {#DATABASE} Row count</name>
-                            <width>900</width>
-                            <height>200</height>
-                            <yaxismin>0.0000</yaxismin>
-                            <yaxismax>100.0000</yaxismax>
-                            <show_work_period>1</show_work_period>
-                            <show_triggers>1</show_triggers>
-                            <type>0</type>
-                            <show_legend>1</show_legend>
-                            <show_3d>0</show_3d>
-                            <percent_left>0.0000</percent_left>
-                            <percent_right>0.0000</percent_right>
-                            <ymin_type_1>0</ymin_type_1>
-                            <ymax_type_1>0</ymax_type_1>
-                            <ymin_item_1>0</ymin_item_1>
-                            <ymax_item_1>0</ymax_item_1>
-                            <graph_items>
-                                <graph_item>
-                                    <sortorder>0</sortorder>
-                                    <drawtype>0</drawtype>
-                                    <color>C80000</color>
-                                    <yaxisside>0</yaxisside>
-                                    <calc_fnc>2</calc_fnc>
-                                    <type>0</type>
-                                    <item>
-                                        <host>Template PostgreSQL Server</host>
-                                        <key>pg.table.n_dead_tup[{$PG_CONN},{#DATABASE}]</key>
-                                    </item>
-                                </graph_item>
-                                <graph_item>
-                                    <sortorder>1</sortorder>
-                                    <drawtype>0</drawtype>
-                                    <color>00C800</color>
-                                    <yaxisside>0</yaxisside>
-                                    <calc_fnc>2</calc_fnc>
-                                    <type>0</type>
-                                    <item>
-                                        <host>Template PostgreSQL Server</host>
-                                        <key>pg.table.n_live_tup[{$PG_CONN},{#DATABASE}]</key>
-                                    </item>
-                                </graph_item>
-                                <graph_item>
-                                    <sortorder>2</sortorder>
-                                    <drawtype>0</drawtype>
-                                    <color>0000C8</color>
-                                    <yaxisside>0</yaxisside>
-                                    <calc_fnc>2</calc_fnc>
-                                    <type>0</type>
-                                    <item>
-                                        <host>Template PostgreSQL Server</host>
-                                        <key>pg.table.rows[{$PG_CONN},{#DATABASE}]</key>
-                                    </item>
-                                </graph_item>
-                            </graph_items>
-                        </graph_prototype>
-                        <graph_prototype>
-                            <name>PostgreSQL Database {#DATABASE} Size</name>
-                            <width>900</width>
-                            <height>200</height>
-                            <yaxismin>0.0000</yaxismin>
-                            <yaxismax>100.0000</yaxismax>
-                            <show_work_period>1</show_work_period>
-                            <show_triggers>1</show_triggers>
-                            <type>0</type>
-                            <show_legend>1</show_legend>
-                            <show_3d>0</show_3d>
-                            <percent_left>0.0000</percent_left>
-                            <percent_right>0.0000</percent_right>
-                            <ymin_type_1>0</ymin_type_1>
-                            <ymax_type_1>0</ymax_type_1>
-                            <ymin_item_1>0</ymin_item_1>
-                            <ymax_item_1>0</ymax_item_1>
-                            <graph_items>
-                                <graph_item>
-                                    <sortorder>0</sortorder>
-                                    <drawtype>0</drawtype>
+                                    <drawtype>5</drawtype>
                                     <color>00C800</color>
                                     <yaxisside>0</yaxisside>
                                     <calc_fnc>2</calc_fnc>
@@ -2713,7 +2708,7 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                             </graph_items>
                         </graph_prototype>
                         <graph_prototype>
-                            <name>PostgreSQL Database {#DATABASE} Transactions/sec</name>
+                            <name>PostgreSQL Database disk size on {#PATH}</name>
                             <width>900</width>
                             <height>200</height>
                             <yaxismin>0.0000</yaxismin>
@@ -2725,39 +2720,27 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                             <show_3d>0</show_3d>
                             <percent_left>0.0000</percent_left>
                             <percent_right>0.0000</percent_right>
-                            <ymin_type_1>0</ymin_type_1>
+                            <ymin_type_1>1</ymin_type_1>
                             <ymax_type_1>0</ymax_type_1>
                             <ymin_item_1>0</ymin_item_1>
                             <ymax_item_1>0</ymax_item_1>
                             <graph_items>
                                 <graph_item>
                                     <sortorder>0</sortorder>
-                                    <drawtype>0</drawtype>
+                                    <drawtype>5</drawtype>
                                     <color>00C800</color>
                                     <yaxisside>0</yaxisside>
                                     <calc_fnc>2</calc_fnc>
                                     <type>0</type>
                                     <item>
                                         <host>Template PostgreSQL Server</host>
-                                        <key>pg.db.xact_commit[{$PG_CONN},{$PG_DB},{#DATABASE}]</key>
-                                    </item>
-                                </graph_item>
-                                <graph_item>
-                                    <sortorder>1</sortorder>
-                                    <drawtype>0</drawtype>
-                                    <color>C80000</color>
-                                    <yaxisside>0</yaxisside>
-                                    <calc_fnc>2</calc_fnc>
-                                    <type>0</type>
-                                    <item>
-                                        <host>Template PostgreSQL Server</host>
-                                        <key>pg.db.xact_rollback[{$PG_CONN},{$PG_DB},{#DATABASE}]</key>
+                                        <key>pg.db.size[{$PG_CONN},{$PG_DB},{#DATABASE}]</key>
                                     </item>
                                 </graph_item>
                             </graph_items>
                         </graph_prototype>
                         <graph_prototype>
-                            <name>PostgreSQL Database {#DATABASE} Tuples/sec</name>
+                            <name>PostgreSQL Database errors/sec on {#DATABASE}</name>
                             <width>900</width>
                             <height>200</height>
                             <yaxismin>0.0000</yaxismin>
@@ -2769,14 +2752,390 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                             <show_3d>0</show_3d>
                             <percent_left>0.0000</percent_left>
                             <percent_right>0.0000</percent_right>
-                            <ymin_type_1>0</ymin_type_1>
+                            <ymin_type_1>1</ymin_type_1>
                             <ymax_type_1>0</ymax_type_1>
                             <ymin_item_1>0</ymin_item_1>
                             <ymax_item_1>0</ymax_item_1>
                             <graph_items>
                                 <graph_item>
                                     <sortorder>0</sortorder>
-                                    <drawtype>0</drawtype>
+                                    <drawtype>5</drawtype>
+                                    <color>C800C8</color>
+                                    <yaxisside>0</yaxisside>
+                                    <calc_fnc>2</calc_fnc>
+                                    <type>0</type>
+                                    <item>
+                                        <host>Template PostgreSQL Server</host>
+                                        <key>pg.db.conflicts[{$PG_CONN},{$PG_DB},{#DATABASE}]</key>
+                                    </item>
+                                </graph_item>
+                                <graph_item>
+                                    <sortorder>1</sortorder>
+                                    <drawtype>5</drawtype>
+                                    <color>C80000</color>
+                                    <yaxisside>0</yaxisside>
+                                    <calc_fnc>2</calc_fnc>
+                                    <type>0</type>
+                                    <item>
+                                        <host>Template PostgreSQL Server</host>
+                                        <key>pg.db.deadlocks[{$PG_CONN},{$PG_DB},{#DATABASE}]</key>
+                                    </item>
+                                </graph_item>
+                            </graph_items>
+                        </graph_prototype>
+                        <graph_prototype>
+                            <name>PostgreSQL Database errors/sec on {#PATH}</name>
+                            <width>900</width>
+                            <height>200</height>
+                            <yaxismin>0.0000</yaxismin>
+                            <yaxismax>100.0000</yaxismax>
+                            <show_work_period>1</show_work_period>
+                            <show_triggers>1</show_triggers>
+                            <type>0</type>
+                            <show_legend>1</show_legend>
+                            <show_3d>0</show_3d>
+                            <percent_left>0.0000</percent_left>
+                            <percent_right>0.0000</percent_right>
+                            <ymin_type_1>1</ymin_type_1>
+                            <ymax_type_1>0</ymax_type_1>
+                            <ymin_item_1>0</ymin_item_1>
+                            <ymax_item_1>0</ymax_item_1>
+                            <graph_items>
+                                <graph_item>
+                                    <sortorder>0</sortorder>
+                                    <drawtype>5</drawtype>
+                                    <color>C800C8</color>
+                                    <yaxisside>0</yaxisside>
+                                    <calc_fnc>2</calc_fnc>
+                                    <type>0</type>
+                                    <item>
+                                        <host>Template PostgreSQL Server</host>
+                                        <key>pg.db.conflicts[{$PG_CONN},{$PG_DB},{#DATABASE}]</key>
+                                    </item>
+                                </graph_item>
+                                <graph_item>
+                                    <sortorder>1</sortorder>
+                                    <drawtype>5</drawtype>
+                                    <color>C80000</color>
+                                    <yaxisside>0</yaxisside>
+                                    <calc_fnc>2</calc_fnc>
+                                    <type>0</type>
+                                    <item>
+                                        <host>Template PostgreSQL Server</host>
+                                        <key>pg.db.deadlocks[{$PG_CONN},{$PG_DB},{#DATABASE}]</key>
+                                    </item>
+                                </graph_item>
+                            </graph_items>
+                        </graph_prototype>
+                        <graph_prototype>
+                            <name>PostgreSQL Database index utilization on {#DATABASE}</name>
+                            <width>900</width>
+                            <height>200</height>
+                            <yaxismin>0.0000</yaxismin>
+                            <yaxismax>100.0000</yaxismax>
+                            <show_work_period>1</show_work_period>
+                            <show_triggers>1</show_triggers>
+                            <type>0</type>
+                            <show_legend>1</show_legend>
+                            <show_3d>0</show_3d>
+                            <percent_left>0.0000</percent_left>
+                            <percent_right>0.0000</percent_right>
+                            <ymin_type_1>1</ymin_type_1>
+                            <ymax_type_1>0</ymax_type_1>
+                            <ymin_item_1>0</ymin_item_1>
+                            <ymax_item_1>0</ymax_item_1>
+                            <graph_items>
+                                <graph_item>
+                                    <sortorder>0</sortorder>
+                                    <drawtype>5</drawtype>
+                                    <color>00C800</color>
+                                    <yaxisside>0</yaxisside>
+                                    <calc_fnc>2</calc_fnc>
+                                    <type>0</type>
+                                    <item>
+                                        <host>Template PostgreSQL Server</host>
+                                        <key>pg.table.idx_tup_fetch[{$PG_CONN},{#DATABASE}]</key>
+                                    </item>
+                                </graph_item>
+                                <graph_item>
+                                    <sortorder>1</sortorder>
+                                    <drawtype>5</drawtype>
+                                    <color>C80000</color>
+                                    <yaxisside>0</yaxisside>
+                                    <calc_fnc>2</calc_fnc>
+                                    <type>0</type>
+                                    <item>
+                                        <host>Template PostgreSQL Server</host>
+                                        <key>pg.table.seq_tup_read[{$PG_CONN},{#DATABASE}]</key>
+                                    </item>
+                                </graph_item>
+                            </graph_items>
+                        </graph_prototype>
+                        <graph_prototype>
+                            <name>PostgreSQL Database index utilization on {#PATH}</name>
+                            <width>900</width>
+                            <height>200</height>
+                            <yaxismin>0.0000</yaxismin>
+                            <yaxismax>100.0000</yaxismax>
+                            <show_work_period>1</show_work_period>
+                            <show_triggers>1</show_triggers>
+                            <type>0</type>
+                            <show_legend>1</show_legend>
+                            <show_3d>0</show_3d>
+                            <percent_left>0.0000</percent_left>
+                            <percent_right>0.0000</percent_right>
+                            <ymin_type_1>1</ymin_type_1>
+                            <ymax_type_1>0</ymax_type_1>
+                            <ymin_item_1>0</ymin_item_1>
+                            <ymax_item_1>0</ymax_item_1>
+                            <graph_items>
+                                <graph_item>
+                                    <sortorder>0</sortorder>
+                                    <drawtype>5</drawtype>
+                                    <color>00C800</color>
+                                    <yaxisside>0</yaxisside>
+                                    <calc_fnc>2</calc_fnc>
+                                    <type>0</type>
+                                    <item>
+                                        <host>Template PostgreSQL Server</host>
+                                        <key>pg.table.idx_tup_fetch[{$PG_CONN},{#DATABASE}]</key>
+                                    </item>
+                                </graph_item>
+                                <graph_item>
+                                    <sortorder>1</sortorder>
+                                    <drawtype>5</drawtype>
+                                    <color>C80000</color>
+                                    <yaxisside>0</yaxisside>
+                                    <calc_fnc>2</calc_fnc>
+                                    <type>0</type>
+                                    <item>
+                                        <host>Template PostgreSQL Server</host>
+                                        <key>pg.table.seq_tup_read[{$PG_CONN},{#DATABASE}]</key>
+                                    </item>
+                                </graph_item>
+                            </graph_items>
+                        </graph_prototype>
+                        <graph_prototype>
+                            <name>PostgreSQL Database IO time on {#DATABASE}</name>
+                            <width>900</width>
+                            <height>200</height>
+                            <yaxismin>0.0000</yaxismin>
+                            <yaxismax>100.0000</yaxismax>
+                            <show_work_period>1</show_work_period>
+                            <show_triggers>1</show_triggers>
+                            <type>0</type>
+                            <show_legend>1</show_legend>
+                            <show_3d>0</show_3d>
+                            <percent_left>0.0000</percent_left>
+                            <percent_right>0.0000</percent_right>
+                            <ymin_type_1>1</ymin_type_1>
+                            <ymax_type_1>0</ymax_type_1>
+                            <ymin_item_1>0</ymin_item_1>
+                            <ymax_item_1>0</ymax_item_1>
+                            <graph_items>
+                                <graph_item>
+                                    <sortorder>0</sortorder>
+                                    <drawtype>5</drawtype>
+                                    <color>00C800</color>
+                                    <yaxisside>0</yaxisside>
+                                    <calc_fnc>2</calc_fnc>
+                                    <type>0</type>
+                                    <item>
+                                        <host>Template PostgreSQL Server</host>
+                                        <key>pg.db.blk_read_time[{$PG_CONN},{$PG_DB},{#DATABASE}]</key>
+                                    </item>
+                                </graph_item>
+                                <graph_item>
+                                    <sortorder>1</sortorder>
+                                    <drawtype>5</drawtype>
+                                    <color>C80000</color>
+                                    <yaxisside>0</yaxisside>
+                                    <calc_fnc>2</calc_fnc>
+                                    <type>0</type>
+                                    <item>
+                                        <host>Template PostgreSQL Server</host>
+                                        <key>pg.db.blk_write_time[{$PG_CONN},{$PG_DB},{#DATABASE}]</key>
+                                    </item>
+                                </graph_item>
+                            </graph_items>
+                        </graph_prototype>
+                        <graph_prototype>
+                            <name>PostgreSQL Database IO time on {#PATH}</name>
+                            <width>900</width>
+                            <height>200</height>
+                            <yaxismin>0.0000</yaxismin>
+                            <yaxismax>100.0000</yaxismax>
+                            <show_work_period>1</show_work_period>
+                            <show_triggers>1</show_triggers>
+                            <type>0</type>
+                            <show_legend>1</show_legend>
+                            <show_3d>0</show_3d>
+                            <percent_left>0.0000</percent_left>
+                            <percent_right>0.0000</percent_right>
+                            <ymin_type_1>1</ymin_type_1>
+                            <ymax_type_1>0</ymax_type_1>
+                            <ymin_item_1>0</ymin_item_1>
+                            <ymax_item_1>0</ymax_item_1>
+                            <graph_items>
+                                <graph_item>
+                                    <sortorder>0</sortorder>
+                                    <drawtype>5</drawtype>
+                                    <color>00C800</color>
+                                    <yaxisside>0</yaxisside>
+                                    <calc_fnc>2</calc_fnc>
+                                    <type>0</type>
+                                    <item>
+                                        <host>Template PostgreSQL Server</host>
+                                        <key>pg.db.blk_read_time[{$PG_CONN},{$PG_DB},{#DATABASE}]</key>
+                                    </item>
+                                </graph_item>
+                                <graph_item>
+                                    <sortorder>1</sortorder>
+                                    <drawtype>5</drawtype>
+                                    <color>C80000</color>
+                                    <yaxisside>0</yaxisside>
+                                    <calc_fnc>2</calc_fnc>
+                                    <type>0</type>
+                                    <item>
+                                        <host>Template PostgreSQL Server</host>
+                                        <key>pg.db.blk_write_time[{$PG_CONN},{$PG_DB},{#DATABASE}]</key>
+                                    </item>
+                                </graph_item>
+                            </graph_items>
+                        </graph_prototype>
+                        <graph_prototype>
+                            <name>PostgreSQL Database row count on {#DATABASE}</name>
+                            <width>900</width>
+                            <height>200</height>
+                            <yaxismin>0.0000</yaxismin>
+                            <yaxismax>100.0000</yaxismax>
+                            <show_work_period>1</show_work_period>
+                            <show_triggers>1</show_triggers>
+                            <type>0</type>
+                            <show_legend>1</show_legend>
+                            <show_3d>0</show_3d>
+                            <percent_left>0.0000</percent_left>
+                            <percent_right>0.0000</percent_right>
+                            <ymin_type_1>1</ymin_type_1>
+                            <ymax_type_1>0</ymax_type_1>
+                            <ymin_item_1>0</ymin_item_1>
+                            <ymax_item_1>0</ymax_item_1>
+                            <graph_items>
+                                <graph_item>
+                                    <sortorder>0</sortorder>
+                                    <drawtype>5</drawtype>
+                                    <color>C80000</color>
+                                    <yaxisside>0</yaxisside>
+                                    <calc_fnc>2</calc_fnc>
+                                    <type>0</type>
+                                    <item>
+                                        <host>Template PostgreSQL Server</host>
+                                        <key>pg.table.n_dead_tup[{$PG_CONN},{#DATABASE}]</key>
+                                    </item>
+                                </graph_item>
+                                <graph_item>
+                                    <sortorder>1</sortorder>
+                                    <drawtype>5</drawtype>
+                                    <color>00C800</color>
+                                    <yaxisside>0</yaxisside>
+                                    <calc_fnc>2</calc_fnc>
+                                    <type>0</type>
+                                    <item>
+                                        <host>Template PostgreSQL Server</host>
+                                        <key>pg.table.n_live_tup[{$PG_CONN},{#DATABASE}]</key>
+                                    </item>
+                                </graph_item>
+                                <graph_item>
+                                    <sortorder>2</sortorder>
+                                    <drawtype>5</drawtype>
+                                    <color>0000C8</color>
+                                    <yaxisside>0</yaxisside>
+                                    <calc_fnc>2</calc_fnc>
+                                    <type>0</type>
+                                    <item>
+                                        <host>Template PostgreSQL Server</host>
+                                        <key>pg.table.rows[{$PG_CONN},{#DATABASE}]</key>
+                                    </item>
+                                </graph_item>
+                            </graph_items>
+                        </graph_prototype>
+                        <graph_prototype>
+                            <name>PostgreSQL Database row count on {#PATH}</name>
+                            <width>900</width>
+                            <height>200</height>
+                            <yaxismin>0.0000</yaxismin>
+                            <yaxismax>100.0000</yaxismax>
+                            <show_work_period>1</show_work_period>
+                            <show_triggers>1</show_triggers>
+                            <type>0</type>
+                            <show_legend>1</show_legend>
+                            <show_3d>0</show_3d>
+                            <percent_left>0.0000</percent_left>
+                            <percent_right>0.0000</percent_right>
+                            <ymin_type_1>1</ymin_type_1>
+                            <ymax_type_1>0</ymax_type_1>
+                            <ymin_item_1>0</ymin_item_1>
+                            <ymax_item_1>0</ymax_item_1>
+                            <graph_items>
+                                <graph_item>
+                                    <sortorder>0</sortorder>
+                                    <drawtype>5</drawtype>
+                                    <color>C80000</color>
+                                    <yaxisside>0</yaxisside>
+                                    <calc_fnc>2</calc_fnc>
+                                    <type>0</type>
+                                    <item>
+                                        <host>Template PostgreSQL Server</host>
+                                        <key>pg.table.n_dead_tup[{$PG_CONN},{#DATABASE}]</key>
+                                    </item>
+                                </graph_item>
+                                <graph_item>
+                                    <sortorder>1</sortorder>
+                                    <drawtype>5</drawtype>
+                                    <color>00C800</color>
+                                    <yaxisside>0</yaxisside>
+                                    <calc_fnc>2</calc_fnc>
+                                    <type>0</type>
+                                    <item>
+                                        <host>Template PostgreSQL Server</host>
+                                        <key>pg.table.n_live_tup[{$PG_CONN},{#DATABASE}]</key>
+                                    </item>
+                                </graph_item>
+                                <graph_item>
+                                    <sortorder>2</sortorder>
+                                    <drawtype>5</drawtype>
+                                    <color>0000C8</color>
+                                    <yaxisside>0</yaxisside>
+                                    <calc_fnc>2</calc_fnc>
+                                    <type>0</type>
+                                    <item>
+                                        <host>Template PostgreSQL Server</host>
+                                        <key>pg.table.rows[{$PG_CONN},{#DATABASE}]</key>
+                                    </item>
+                                </graph_item>
+                            </graph_items>
+                        </graph_prototype>
+                        <graph_prototype>
+                            <name>PostgreSQL Database row IO on {#DATABASE}</name>
+                            <width>900</width>
+                            <height>200</height>
+                            <yaxismin>0.0000</yaxismin>
+                            <yaxismax>100.0000</yaxismax>
+                            <show_work_period>1</show_work_period>
+                            <show_triggers>1</show_triggers>
+                            <type>0</type>
+                            <show_legend>1</show_legend>
+                            <show_3d>0</show_3d>
+                            <percent_left>0.0000</percent_left>
+                            <percent_right>0.0000</percent_right>
+                            <ymin_type_1>1</ymin_type_1>
+                            <ymax_type_1>0</ymax_type_1>
+                            <ymin_item_1>0</ymin_item_1>
+                            <ymax_item_1>0</ymax_item_1>
+                            <graph_items>
+                                <graph_item>
+                                    <sortorder>0</sortorder>
+                                    <drawtype>5</drawtype>
                                     <color>C80000</color>
                                     <yaxisside>0</yaxisside>
                                     <calc_fnc>2</calc_fnc>
@@ -2788,7 +3147,7 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                                 </graph_item>
                                 <graph_item>
                                     <sortorder>1</sortorder>
-                                    <drawtype>0</drawtype>
+                                    <drawtype>5</drawtype>
                                     <color>00C800</color>
                                     <yaxisside>0</yaxisside>
                                     <calc_fnc>2</calc_fnc>
@@ -2800,7 +3159,7 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                                 </graph_item>
                                 <graph_item>
                                     <sortorder>2</sortorder>
-                                    <drawtype>0</drawtype>
+                                    <drawtype>5</drawtype>
                                     <color>C800C8</color>
                                     <yaxisside>0</yaxisside>
                                     <calc_fnc>2</calc_fnc>
@@ -2812,7 +3171,7 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                                 </graph_item>
                                 <graph_item>
                                     <sortorder>3</sortorder>
-                                    <drawtype>0</drawtype>
+                                    <drawtype>5</drawtype>
                                     <color>0000C8</color>
                                     <yaxisside>0</yaxisside>
                                     <calc_fnc>2</calc_fnc>
@@ -2824,7 +3183,7 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                                 </graph_item>
                                 <graph_item>
                                     <sortorder>4</sortorder>
-                                    <drawtype>0</drawtype>
+                                    <drawtype>5</drawtype>
                                     <color>C8C800</color>
                                     <yaxisside>0</yaxisside>
                                     <calc_fnc>2</calc_fnc>
@@ -2837,7 +3196,7 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                             </graph_items>
                         </graph_prototype>
                         <graph_prototype>
-                            <name>PostgreSQL Database {#DATABASE} Writes/sec</name>
+                            <name>PostgreSQL Database row IO on {#PATH}</name>
                             <width>900</width>
                             <height>200</height>
                             <yaxismin>0.0000</yaxismin>
@@ -2849,14 +3208,94 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                             <show_3d>0</show_3d>
                             <percent_left>0.0000</percent_left>
                             <percent_right>0.0000</percent_right>
-                            <ymin_type_1>0</ymin_type_1>
+                            <ymin_type_1>1</ymin_type_1>
                             <ymax_type_1>0</ymax_type_1>
                             <ymin_item_1>0</ymin_item_1>
                             <ymax_item_1>0</ymax_item_1>
                             <graph_items>
                                 <graph_item>
                                     <sortorder>0</sortorder>
-                                    <drawtype>0</drawtype>
+                                    <drawtype>5</drawtype>
+                                    <color>C80000</color>
+                                    <yaxisside>0</yaxisside>
+                                    <calc_fnc>2</calc_fnc>
+                                    <type>0</type>
+                                    <item>
+                                        <host>Template PostgreSQL Server</host>
+                                        <key>pg.db.tup_deleted[{$PG_CONN},{$PG_DB},{#DATABASE}]</key>
+                                    </item>
+                                </graph_item>
+                                <graph_item>
+                                    <sortorder>1</sortorder>
+                                    <drawtype>5</drawtype>
+                                    <color>00C800</color>
+                                    <yaxisside>0</yaxisside>
+                                    <calc_fnc>2</calc_fnc>
+                                    <type>0</type>
+                                    <item>
+                                        <host>Template PostgreSQL Server</host>
+                                        <key>pg.db.tup_fetched[{$PG_CONN},{$PG_DB},{#DATABASE}]</key>
+                                    </item>
+                                </graph_item>
+                                <graph_item>
+                                    <sortorder>2</sortorder>
+                                    <drawtype>5</drawtype>
+                                    <color>C800C8</color>
+                                    <yaxisside>0</yaxisside>
+                                    <calc_fnc>2</calc_fnc>
+                                    <type>0</type>
+                                    <item>
+                                        <host>Template PostgreSQL Server</host>
+                                        <key>pg.db.tup_inserted[{$PG_CONN},{$PG_DB},{#DATABASE}]</key>
+                                    </item>
+                                </graph_item>
+                                <graph_item>
+                                    <sortorder>3</sortorder>
+                                    <drawtype>5</drawtype>
+                                    <color>0000C8</color>
+                                    <yaxisside>0</yaxisside>
+                                    <calc_fnc>2</calc_fnc>
+                                    <type>0</type>
+                                    <item>
+                                        <host>Template PostgreSQL Server</host>
+                                        <key>pg.db.tup_returned[{$PG_CONN},{$PG_DB},{#DATABASE}]</key>
+                                    </item>
+                                </graph_item>
+                                <graph_item>
+                                    <sortorder>4</sortorder>
+                                    <drawtype>5</drawtype>
+                                    <color>C8C800</color>
+                                    <yaxisside>0</yaxisside>
+                                    <calc_fnc>2</calc_fnc>
+                                    <type>0</type>
+                                    <item>
+                                        <host>Template PostgreSQL Server</host>
+                                        <key>pg.db.tup_updated[{$PG_CONN},{$PG_DB},{#DATABASE}]</key>
+                                    </item>
+                                </graph_item>
+                            </graph_items>
+                        </graph_prototype>
+                        <graph_prototype>
+                            <name>PostgreSQL Database row writes/sec on {#DATABASE}</name>
+                            <width>900</width>
+                            <height>200</height>
+                            <yaxismin>0.0000</yaxismin>
+                            <yaxismax>100.0000</yaxismax>
+                            <show_work_period>1</show_work_period>
+                            <show_triggers>1</show_triggers>
+                            <type>0</type>
+                            <show_legend>1</show_legend>
+                            <show_3d>0</show_3d>
+                            <percent_left>0.0000</percent_left>
+                            <percent_right>0.0000</percent_right>
+                            <ymin_type_1>1</ymin_type_1>
+                            <ymax_type_1>0</ymax_type_1>
+                            <ymin_item_1>0</ymin_item_1>
+                            <ymax_item_1>0</ymax_item_1>
+                            <graph_items>
+                                <graph_item>
+                                    <sortorder>0</sortorder>
+                                    <drawtype>5</drawtype>
                                     <color>0000C8</color>
                                     <yaxisside>0</yaxisside>
                                     <calc_fnc>2</calc_fnc>
@@ -2868,7 +3307,7 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                                 </graph_item>
                                 <graph_item>
                                     <sortorder>1</sortorder>
-                                    <drawtype>0</drawtype>
+                                    <drawtype>5</drawtype>
                                     <color>C800C8</color>
                                     <yaxisside>0</yaxisside>
                                     <calc_fnc>2</calc_fnc>
@@ -2880,7 +3319,7 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                                 </graph_item>
                                 <graph_item>
                                     <sortorder>2</sortorder>
-                                    <drawtype>0</drawtype>
+                                    <drawtype>5</drawtype>
                                     <color>00C800</color>
                                     <yaxisside>0</yaxisside>
                                     <calc_fnc>2</calc_fnc>
@@ -2892,7 +3331,7 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                                 </graph_item>
                                 <graph_item>
                                     <sortorder>3</sortorder>
-                                    <drawtype>0</drawtype>
+                                    <drawtype>5</drawtype>
                                     <color>C80000</color>
                                     <yaxisside>0</yaxisside>
                                     <calc_fnc>2</calc_fnc>
@@ -2900,6 +3339,162 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                                     <item>
                                         <host>Template PostgreSQL Server</host>
                                         <key>pg.table.n_tup_del[{$PG_CONN},{#DATABASE}]</key>
+                                    </item>
+                                </graph_item>
+                            </graph_items>
+                        </graph_prototype>
+                        <graph_prototype>
+                            <name>PostgreSQL Database row writes/sec on {#PATH}</name>
+                            <width>900</width>
+                            <height>200</height>
+                            <yaxismin>0.0000</yaxismin>
+                            <yaxismax>100.0000</yaxismax>
+                            <show_work_period>1</show_work_period>
+                            <show_triggers>1</show_triggers>
+                            <type>0</type>
+                            <show_legend>1</show_legend>
+                            <show_3d>0</show_3d>
+                            <percent_left>0.0000</percent_left>
+                            <percent_right>0.0000</percent_right>
+                            <ymin_type_1>1</ymin_type_1>
+                            <ymax_type_1>0</ymax_type_1>
+                            <ymin_item_1>0</ymin_item_1>
+                            <ymax_item_1>0</ymax_item_1>
+                            <graph_items>
+                                <graph_item>
+                                    <sortorder>0</sortorder>
+                                    <drawtype>5</drawtype>
+                                    <color>0000C8</color>
+                                    <yaxisside>0</yaxisside>
+                                    <calc_fnc>2</calc_fnc>
+                                    <type>0</type>
+                                    <item>
+                                        <host>Template PostgreSQL Server</host>
+                                        <key>pg.table.n_tup_ins[{$PG_CONN},{#DATABASE}]</key>
+                                    </item>
+                                </graph_item>
+                                <graph_item>
+                                    <sortorder>1</sortorder>
+                                    <drawtype>5</drawtype>
+                                    <color>C800C8</color>
+                                    <yaxisside>0</yaxisside>
+                                    <calc_fnc>2</calc_fnc>
+                                    <type>0</type>
+                                    <item>
+                                        <host>Template PostgreSQL Server</host>
+                                        <key>pg.table.n_tup_upd[{$PG_CONN},{#DATABASE}]</key>
+                                    </item>
+                                </graph_item>
+                                <graph_item>
+                                    <sortorder>2</sortorder>
+                                    <drawtype>5</drawtype>
+                                    <color>00C800</color>
+                                    <yaxisside>0</yaxisside>
+                                    <calc_fnc>2</calc_fnc>
+                                    <type>0</type>
+                                    <item>
+                                        <host>Template PostgreSQL Server</host>
+                                        <key>pg.table.n_tup_hot_upd[{$PG_CONN},{#DATABASE}]</key>
+                                    </item>
+                                </graph_item>
+                                <graph_item>
+                                    <sortorder>3</sortorder>
+                                    <drawtype>5</drawtype>
+                                    <color>C80000</color>
+                                    <yaxisside>0</yaxisside>
+                                    <calc_fnc>2</calc_fnc>
+                                    <type>0</type>
+                                    <item>
+                                        <host>Template PostgreSQL Server</host>
+                                        <key>pg.table.n_tup_del[{$PG_CONN},{#DATABASE}]</key>
+                                    </item>
+                                </graph_item>
+                            </graph_items>
+                        </graph_prototype>
+                        <graph_prototype>
+                            <name>PostgreSQL Database transactions/sec on {#DATABASE}</name>
+                            <width>900</width>
+                            <height>200</height>
+                            <yaxismin>0.0000</yaxismin>
+                            <yaxismax>100.0000</yaxismax>
+                            <show_work_period>1</show_work_period>
+                            <show_triggers>1</show_triggers>
+                            <type>0</type>
+                            <show_legend>1</show_legend>
+                            <show_3d>0</show_3d>
+                            <percent_left>0.0000</percent_left>
+                            <percent_right>0.0000</percent_right>
+                            <ymin_type_1>1</ymin_type_1>
+                            <ymax_type_1>0</ymax_type_1>
+                            <ymin_item_1>0</ymin_item_1>
+                            <ymax_item_1>0</ymax_item_1>
+                            <graph_items>
+                                <graph_item>
+                                    <sortorder>0</sortorder>
+                                    <drawtype>5</drawtype>
+                                    <color>00C800</color>
+                                    <yaxisside>0</yaxisside>
+                                    <calc_fnc>2</calc_fnc>
+                                    <type>0</type>
+                                    <item>
+                                        <host>Template PostgreSQL Server</host>
+                                        <key>pg.db.xact_commit[{$PG_CONN},{$PG_DB},{#DATABASE}]</key>
+                                    </item>
+                                </graph_item>
+                                <graph_item>
+                                    <sortorder>1</sortorder>
+                                    <drawtype>5</drawtype>
+                                    <color>C80000</color>
+                                    <yaxisside>0</yaxisside>
+                                    <calc_fnc>2</calc_fnc>
+                                    <type>0</type>
+                                    <item>
+                                        <host>Template PostgreSQL Server</host>
+                                        <key>pg.db.xact_rollback[{$PG_CONN},{$PG_DB},{#DATABASE}]</key>
+                                    </item>
+                                </graph_item>
+                            </graph_items>
+                        </graph_prototype>
+                        <graph_prototype>
+                            <name>PostgreSQL Database transactions/sec on {#PATH}</name>
+                            <width>900</width>
+                            <height>200</height>
+                            <yaxismin>0.0000</yaxismin>
+                            <yaxismax>100.0000</yaxismax>
+                            <show_work_period>1</show_work_period>
+                            <show_triggers>1</show_triggers>
+                            <type>0</type>
+                            <show_legend>1</show_legend>
+                            <show_3d>0</show_3d>
+                            <percent_left>0.0000</percent_left>
+                            <percent_right>0.0000</percent_right>
+                            <ymin_type_1>1</ymin_type_1>
+                            <ymax_type_1>0</ymax_type_1>
+                            <ymin_item_1>0</ymin_item_1>
+                            <ymax_item_1>0</ymax_item_1>
+                            <graph_items>
+                                <graph_item>
+                                    <sortorder>0</sortorder>
+                                    <drawtype>5</drawtype>
+                                    <color>00C800</color>
+                                    <yaxisside>0</yaxisside>
+                                    <calc_fnc>2</calc_fnc>
+                                    <type>0</type>
+                                    <item>
+                                        <host>Template PostgreSQL Server</host>
+                                        <key>pg.db.xact_commit[{$PG_CONN},{$PG_DB},{#DATABASE}]</key>
+                                    </item>
+                                </graph_item>
+                                <graph_item>
+                                    <sortorder>1</sortorder>
+                                    <drawtype>5</drawtype>
+                                    <color>C80000</color>
+                                    <yaxisside>0</yaxisside>
+                                    <calc_fnc>2</calc_fnc>
+                                    <type>0</type>
+                                    <item>
+                                        <host>Template PostgreSQL Server</host>
+                                        <key>pg.db.xact_rollback[{$PG_CONN},{$PG_DB},{#DATABASE}]</key>
                                     </item>
                                 </graph_item>
                             </graph_items>
@@ -2914,7 +3509,7 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                     <snmp_oid/>
                     <key>pg.index.discovery[{$PG_CONN},{$PG_DB}]</key>
                     <delay>3600</delay>
-                    <status>1</status>
+                    <status>0</status>
                     <allowed_hosts/>
                     <snmpv3_contextname/>
                     <snmpv3_securityname/>
@@ -2941,14 +3536,14 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                     <description>Discover all indexes available to the connected user</description>
                     <item_prototypes>
                         <item_prototype>
-                            <name>Index buffer hits/sec ({#DATABASE}.{#TABLE}.{#INDEX})</name>
+                            <name>PostgreSQL Index buffer hits/sec on {#PATH}</name>
                             <type>7</type>
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
                             <key>pg.index.idx_blks_hit[{$PG_CONN},{#DATABASE},{#INDEX}]</key>
-                            <delay>300</delay>
-                            <history>90</history>
+                            <delay>60</delay>
+                            <history>7</history>
                             <trends>365</trends>
                             <status>0</status>
                             <value_type>3</value_type>
@@ -2985,14 +3580,14 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                             <application_prototypes/>
                         </item_prototype>
                         <item_prototype>
-                            <name>Index blocks read/sec ({#DATABASE}.{#TABLE}.{#INDEX})</name>
+                            <name>PostgreSQL Index blocks read/sec on {#PATH}</name>
                             <type>7</type>
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
                             <key>pg.index.idx_blks_read[{$PG_CONN},{#DATABASE},{#INDEX}]</key>
-                            <delay>300</delay>
-                            <history>90</history>
+                            <delay>60</delay>
+                            <history>7</history>
                             <trends>365</trends>
                             <status>0</status>
                             <value_type>3</value_type>
@@ -3029,14 +3624,14 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                             <application_prototypes/>
                         </item_prototype>
                         <item_prototype>
-                            <name>Index scans/sec ({#DATABASE}.{#TABLE}.{#INDEX})</name>
+                            <name>PostgreSQL Index scans/sec on {#PATH}</name>
                             <type>7</type>
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
                             <key>pg.index.idx_scan[{$PG_CONN},{#DATABASE},{#INDEX}]</key>
-                            <delay>300</delay>
-                            <history>90</history>
+                            <delay>60</delay>
+                            <history>7</history>
                             <trends>365</trends>
                             <status>0</status>
                             <value_type>3</value_type>
@@ -3073,14 +3668,14 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                             <application_prototypes/>
                         </item_prototype>
                         <item_prototype>
-                            <name>Index entries fetched/sec ({#DATABASE}.{#TABLE}.{#INDEX})</name>
+                            <name>PostgreSQL Index fetched/sec on {#PATH}</name>
                             <type>7</type>
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
                             <key>pg.index.idx_tup_fetch[{$PG_CONN},{#DATABASE},{#INDEX}]</key>
-                            <delay>300</delay>
-                            <history>90</history>
+                            <delay>60</delay>
+                            <history>7</history>
                             <trends>365</trends>
                             <status>0</status>
                             <value_type>3</value_type>
@@ -3117,14 +3712,14 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                             <application_prototypes/>
                         </item_prototype>
                         <item_prototype>
-                            <name>Index entries returned/sec ({#DATABASE}.{#TABLE}.{#INDEX})</name>
+                            <name>PostgreSQL Index entries returned/sec on {#PATH}</name>
                             <type>7</type>
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
                             <key>pg.index.idx_tup_read[{$PG_CONN},{#DATABASE},{#INDEX}]</key>
-                            <delay>300</delay>
-                            <history>90</history>
+                            <delay>60</delay>
+                            <history>7</history>
                             <trends>365</trends>
                             <status>0</status>
                             <value_type>3</value_type>
@@ -3161,14 +3756,14 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                             <application_prototypes/>
                         </item_prototype>
                         <item_prototype>
-                            <name>Index row count ({#DATABASE}.{#TABLE}.{#INDEX})</name>
+                            <name>PostgreSQL Index row count on {#PATH}</name>
                             <type>7</type>
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
                             <key>pg.index.rows[{$PG_CONN},{#DATABASE},{#INDEX}]</key>
-                            <delay>300</delay>
-                            <history>90</history>
+                            <delay>60</delay>
+                            <history>7</history>
                             <trends>365</trends>
                             <status>0</status>
                             <value_type>3</value_type>
@@ -3205,14 +3800,14 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                             <application_prototypes/>
                         </item_prototype>
                         <item_prototype>
-                            <name>Index size ({#DATABASE}.{#TABLE}.{#INDEX})</name>
+                            <name>PostgreSQL Index size on {#PATH}</name>
                             <type>7</type>
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
                             <key>pg.index.size[{$PG_CONN},{#DATABASE},{#INDEX}]</key>
-                            <delay>300</delay>
-                            <history>90</history>
+                            <delay>60</delay>
+                            <history>7</history>
                             <trends>365</trends>
                             <status>0</status>
                             <value_type>3</value_type>
@@ -3252,7 +3847,7 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                     <trigger_prototypes/>
                     <graph_prototypes>
                         <graph_prototype>
-                            <name>PostgreSQL Index {#DATABASE}.{#TABLE}.{#INDEX} Blocks/sec</name>
+                            <name>PostgreSQL Index blocks/sec on {#PATH}</name>
                             <width>900</width>
                             <height>200</height>
                             <yaxismin>0.0000</yaxismin>
@@ -3264,14 +3859,14 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                             <show_3d>0</show_3d>
                             <percent_left>0.0000</percent_left>
                             <percent_right>0.0000</percent_right>
-                            <ymin_type_1>0</ymin_type_1>
+                            <ymin_type_1>1</ymin_type_1>
                             <ymax_type_1>0</ymax_type_1>
                             <ymin_item_1>0</ymin_item_1>
                             <ymax_item_1>0</ymax_item_1>
                             <graph_items>
                                 <graph_item>
                                     <sortorder>0</sortorder>
-                                    <drawtype>0</drawtype>
+                                    <drawtype>5</drawtype>
                                     <color>C80000</color>
                                     <yaxisside>0</yaxisside>
                                     <calc_fnc>2</calc_fnc>
@@ -3283,7 +3878,7 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                                 </graph_item>
                                 <graph_item>
                                     <sortorder>1</sortorder>
-                                    <drawtype>0</drawtype>
+                                    <drawtype>5</drawtype>
                                     <color>00C800</color>
                                     <yaxisside>0</yaxisside>
                                     <calc_fnc>2</calc_fnc>
@@ -3296,7 +3891,7 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                             </graph_items>
                         </graph_prototype>
                         <graph_prototype>
-                            <name>PostgreSQL Index {#DATABASE}.{#TABLE}.{#INDEX} Reads/sec</name>
+                            <name>PostgreSQL Index disk size on {#PATH}</name>
                             <width>900</width>
                             <height>200</height>
                             <yaxismin>0.0000</yaxismin>
@@ -3308,14 +3903,46 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                             <show_3d>0</show_3d>
                             <percent_left>0.0000</percent_left>
                             <percent_right>0.0000</percent_right>
-                            <ymin_type_1>0</ymin_type_1>
+                            <ymin_type_1>1</ymin_type_1>
                             <ymax_type_1>0</ymax_type_1>
                             <ymin_item_1>0</ymin_item_1>
                             <ymax_item_1>0</ymax_item_1>
                             <graph_items>
                                 <graph_item>
                                     <sortorder>0</sortorder>
-                                    <drawtype>0</drawtype>
+                                    <drawtype>5</drawtype>
+                                    <color>00C800</color>
+                                    <yaxisside>0</yaxisside>
+                                    <calc_fnc>2</calc_fnc>
+                                    <type>0</type>
+                                    <item>
+                                        <host>Template PostgreSQL Server</host>
+                                        <key>pg.index.size[{$PG_CONN},{#DATABASE},{#INDEX}]</key>
+                                    </item>
+                                </graph_item>
+                            </graph_items>
+                        </graph_prototype>
+                        <graph_prototype>
+                            <name>PostgreSQL Index reads/sec on {#PATH}</name>
+                            <width>900</width>
+                            <height>200</height>
+                            <yaxismin>0.0000</yaxismin>
+                            <yaxismax>100.0000</yaxismax>
+                            <show_work_period>1</show_work_period>
+                            <show_triggers>1</show_triggers>
+                            <type>0</type>
+                            <show_legend>1</show_legend>
+                            <show_3d>0</show_3d>
+                            <percent_left>0.0000</percent_left>
+                            <percent_right>0.0000</percent_right>
+                            <ymin_type_1>1</ymin_type_1>
+                            <ymax_type_1>0</ymax_type_1>
+                            <ymin_item_1>0</ymin_item_1>
+                            <ymax_item_1>0</ymax_item_1>
+                            <graph_items>
+                                <graph_item>
+                                    <sortorder>0</sortorder>
+                                    <drawtype>5</drawtype>
                                     <color>00C800</color>
                                     <yaxisside>0</yaxisside>
                                     <calc_fnc>2</calc_fnc>
@@ -3327,7 +3954,7 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                                 </graph_item>
                                 <graph_item>
                                     <sortorder>1</sortorder>
-                                    <drawtype>0</drawtype>
+                                    <drawtype>5</drawtype>
                                     <color>0000C8</color>
                                     <yaxisside>0</yaxisside>
                                     <calc_fnc>2</calc_fnc>
@@ -3339,7 +3966,7 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                                 </graph_item>
                                 <graph_item>
                                     <sortorder>2</sortorder>
-                                    <drawtype>0</drawtype>
+                                    <drawtype>5</drawtype>
                                     <color>C80000</color>
                                     <yaxisside>0</yaxisside>
                                     <calc_fnc>2</calc_fnc>
@@ -3352,7 +3979,7 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                             </graph_items>
                         </graph_prototype>
                         <graph_prototype>
-                            <name>PostgreSQL Index {#DATABASE}.{#TABLE}.{#INDEX} Row count</name>
+                            <name>PostgreSQL Index row count on {#PATH}</name>
                             <width>900</width>
                             <height>200</height>
                             <yaxismin>0.0000</yaxismin>
@@ -3364,14 +3991,14 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                             <show_3d>0</show_3d>
                             <percent_left>0.0000</percent_left>
                             <percent_right>0.0000</percent_right>
-                            <ymin_type_1>0</ymin_type_1>
+                            <ymin_type_1>1</ymin_type_1>
                             <ymax_type_1>0</ymax_type_1>
                             <ymin_item_1>0</ymin_item_1>
                             <ymax_item_1>0</ymax_item_1>
                             <graph_items>
                                 <graph_item>
                                     <sortorder>0</sortorder>
-                                    <drawtype>0</drawtype>
+                                    <drawtype>5</drawtype>
                                     <color>00C800</color>
                                     <yaxisside>0</yaxisside>
                                     <calc_fnc>2</calc_fnc>
@@ -3379,38 +4006,6 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                                     <item>
                                         <host>Template PostgreSQL Server</host>
                                         <key>pg.index.rows[{$PG_CONN},{#DATABASE},{#INDEX}]</key>
-                                    </item>
-                                </graph_item>
-                            </graph_items>
-                        </graph_prototype>
-                        <graph_prototype>
-                            <name>PostgreSQL Index {#DATABASE}.{#TABLE}.{#INDEX} Size</name>
-                            <width>900</width>
-                            <height>200</height>
-                            <yaxismin>0.0000</yaxismin>
-                            <yaxismax>100.0000</yaxismax>
-                            <show_work_period>1</show_work_period>
-                            <show_triggers>1</show_triggers>
-                            <type>0</type>
-                            <show_legend>1</show_legend>
-                            <show_3d>0</show_3d>
-                            <percent_left>0.0000</percent_left>
-                            <percent_right>0.0000</percent_right>
-                            <ymin_type_1>0</ymin_type_1>
-                            <ymax_type_1>0</ymax_type_1>
-                            <ymin_item_1>0</ymin_item_1>
-                            <ymax_item_1>0</ymax_item_1>
-                            <graph_items>
-                                <graph_item>
-                                    <sortorder>0</sortorder>
-                                    <drawtype>0</drawtype>
-                                    <color>00C800</color>
-                                    <yaxisside>0</yaxisside>
-                                    <calc_fnc>2</calc_fnc>
-                                    <type>0</type>
-                                    <item>
-                                        <host>Template PostgreSQL Server</host>
-                                        <key>pg.index.size[{$PG_CONN},{#DATABASE},{#INDEX}]</key>
                                     </item>
                                 </graph_item>
                             </graph_items>
@@ -3425,7 +4020,7 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                     <snmp_oid/>
                     <key>pg.setting.discovery[{$PG_CONN},{$PG_DB}]</key>
                     <delay>3600</delay>
-                    <status>0</status>
+                    <status>1</status>
                     <allowed_hosts/>
                     <snmpv3_contextname/>
                     <snmpv3_securityname/>
@@ -3456,14 +4051,14 @@ Accepts only the default connection parameters.&#13;
 Requires libzbxpgsql v1.0.0 or above.</description>
                     <item_prototypes>
                         <item_prototype>
-                            <name>Setting: {#SETTING}</name>
+                            <name>PostgreSQL Setting: {#SETTING}</name>
                             <type>7</type>
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
                             <key>pg.setting[{$PG_CONN},{$PG_DB},{#SETTING}]</key>
-                            <delay>300</delay>
-                            <history>90</history>
+                            <delay>60</delay>
+                            <history>7</history>
                             <trends>0</trends>
                             <status>0</status>
                             <value_type>4</value_type>
@@ -3506,8 +4101,8 @@ Description: {#DESCRIPTION}</description>
                     <trigger_prototypes>
                         <trigger_prototype>
                             <expression>{Template PostgreSQL Server:pg.setting[{$PG_CONN},{$PG_DB},{#SETTING}].diff(0)}&gt;0</expression>
-                            <name>Setting: {#SETTING} has changed</name>
-                            <url/>
+                            <name>PostgreSQL Setting: {#SETTING} has changed</name>
+                            <url>https://www.postgresql.org/docs/current/static/runtime-config.html</url>
                             <status>0</status>
                             <priority>1</priority>
                             <description/>
@@ -3525,7 +4120,7 @@ Description: {#DESCRIPTION}</description>
                     <snmp_oid/>
                     <key>pg.table.discovery[{$PG_CONN},{$PG_DB}]</key>
                     <delay>3600</delay>
-                    <status>1</status>
+                    <status>0</status>
                     <allowed_hosts/>
                     <snmpv3_contextname/>
                     <snmpv3_securityname/>
@@ -3552,14 +4147,14 @@ Description: {#DESCRIPTION}</description>
                     <description>Discovery PostgreSQL Tables available to the connected user</description>
                     <item_prototypes>
                         <item_prototype>
-                            <name>Analyze count ({#DATABASE}.{#TABLE})</name>
+                            <name>PostgreSQL Table analyze count on {#PATH}</name>
                             <type>7</type>
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
                             <key>pg.table.analyze_count[{$PG_CONN},{#DATABASE},{#TABLE}]</key>
-                            <delay>300</delay>
-                            <history>90</history>
+                            <delay>60</delay>
+                            <history>7</history>
                             <trends>365</trends>
                             <status>0</status>
                             <value_type>3</value_type>
@@ -3596,14 +4191,14 @@ Description: {#DESCRIPTION}</description>
                             <application_prototypes/>
                         </item_prototype>
                         <item_prototype>
-                            <name>Autoanalyze count ({#DATABASE}.{#TABLE})</name>
+                            <name>PostgreSQL Table autoanalyze count on {#PATH}</name>
                             <type>7</type>
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
                             <key>pg.table.autoanalyze_count[{$PG_CONN},{#DATABASE},{#TABLE}]</key>
-                            <delay>300</delay>
-                            <history>90</history>
+                            <delay>60</delay>
+                            <history>7</history>
                             <trends>365</trends>
                             <status>0</status>
                             <value_type>3</value_type>
@@ -3640,14 +4235,14 @@ Description: {#DESCRIPTION}</description>
                             <application_prototypes/>
                         </item_prototype>
                         <item_prototype>
-                            <name>Autovacuum count ({#DATABASE}.{#TABLE})</name>
+                            <name>PostgreSQL Table autovacuum count on {#PATH}</name>
                             <type>7</type>
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
                             <key>pg.table.autovacuum_count[{$PG_CONN},{#DATABASE},{#TABLE}]</key>
-                            <delay>300</delay>
-                            <history>90</history>
+                            <delay>60</delay>
+                            <history>7</history>
                             <trends>365</trends>
                             <status>0</status>
                             <value_type>3</value_type>
@@ -3684,14 +4279,14 @@ Description: {#DESCRIPTION}</description>
                             <application_prototypes/>
                         </item_prototype>
                         <item_prototype>
-                            <name>Index scans/sec ({#DATABASE}.{#TABLE})</name>
+                            <name>PostgreSQL Table index scans/sec on {#PATH}</name>
                             <type>7</type>
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
                             <key>pg.table.idx_scan[{$PG_CONN},{#DATABASE},{#TABLE}]</key>
-                            <delay>300</delay>
-                            <history>90</history>
+                            <delay>60</delay>
+                            <history>7</history>
                             <trends>365</trends>
                             <status>0</status>
                             <value_type>0</value_type>
@@ -3728,14 +4323,14 @@ Description: {#DESCRIPTION}</description>
                             <application_prototypes/>
                         </item_prototype>
                         <item_prototype>
-                            <name>Live rows fetched by indexes/sec ({#DATABASE}.{#TABLE})</name>
+                            <name>PostgreSQL Table live rows fetched by indexes/sec on {#PATH}</name>
                             <type>7</type>
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
                             <key>pg.table.idx_tup_fetch[{$PG_CONN},{#DATABASE},{#TABLE}]</key>
-                            <delay>300</delay>
-                            <history>90</history>
+                            <delay>60</delay>
+                            <history>7</history>
                             <trends>365</trends>
                             <status>0</status>
                             <value_type>0</value_type>
@@ -3772,14 +4367,14 @@ Description: {#DESCRIPTION}</description>
                             <application_prototypes/>
                         </item_prototype>
                         <item_prototype>
-                            <name>Last analyze ({#DATABASE}.{#TABLE})</name>
+                            <name>PostgreSQL Table last analyze on {#PATH}</name>
                             <type>7</type>
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
                             <key>pg.table.last_analyze[{$PG_CONN},{#DATABASE},{#TABLE}]</key>
-                            <delay>300</delay>
-                            <history>90</history>
+                            <delay>60</delay>
+                            <history>7</history>
                             <trends>0</trends>
                             <status>0</status>
                             <value_type>4</value_type>
@@ -3816,14 +4411,14 @@ Description: {#DESCRIPTION}</description>
                             <application_prototypes/>
                         </item_prototype>
                         <item_prototype>
-                            <name>Last auto-analyze ({#DATABASE}.{#TABLE})</name>
+                            <name>PostgreSQL Table last auto-analyze on {#PATH}</name>
                             <type>7</type>
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
                             <key>pg.table.last_autoanalyze[{$PG_CONN},{#DATABASE},{#TABLE}]</key>
-                            <delay>300</delay>
-                            <history>90</history>
+                            <delay>60</delay>
+                            <history>7</history>
                             <trends>0</trends>
                             <status>0</status>
                             <value_type>4</value_type>
@@ -3860,14 +4455,14 @@ Description: {#DESCRIPTION}</description>
                             <application_prototypes/>
                         </item_prototype>
                         <item_prototype>
-                            <name>Last auto-vacuum ({#DATABASE}.{#TABLE})</name>
+                            <name>PostgreSQL Table last auto-vacuum on {#PATH}</name>
                             <type>7</type>
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
                             <key>pg.table.last_autovacuum[{$PG_CONN},{#DATABASE},{#TABLE}]</key>
-                            <delay>300</delay>
-                            <history>90</history>
+                            <delay>60</delay>
+                            <history>7</history>
                             <trends>0</trends>
                             <status>0</status>
                             <value_type>4</value_type>
@@ -3904,14 +4499,14 @@ Description: {#DESCRIPTION}</description>
                             <application_prototypes/>
                         </item_prototype>
                         <item_prototype>
-                            <name>Last manual vacuum ({#DATABASE}.{#TABLE})</name>
+                            <name>PostgreSQL Table last manual vacuum on {#PATH}</name>
                             <type>7</type>
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
                             <key>pg.table.last_vacuum[{$PG_CONN},{#DATABASE},{#TABLE}]</key>
-                            <delay>300</delay>
-                            <history>90</history>
+                            <delay>60</delay>
+                            <history>7</history>
                             <trends>0</trends>
                             <status>0</status>
                             <value_type>4</value_type>
@@ -3948,14 +4543,14 @@ Description: {#DESCRIPTION}</description>
                             <application_prototypes/>
                         </item_prototype>
                         <item_prototype>
-                            <name>Estimated dead rows ({#DATABASE}.{#TABLE})</name>
+                            <name>PostgreSQL Table estimated dead rows on {#PATH}</name>
                             <type>7</type>
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
                             <key>pg.table.n_dead_tup[{$PG_CONN},{#DATABASE},{#TABLE}]</key>
-                            <delay>300</delay>
-                            <history>90</history>
+                            <delay>60</delay>
+                            <history>7</history>
                             <trends>365</trends>
                             <status>0</status>
                             <value_type>3</value_type>
@@ -3992,14 +4587,14 @@ Description: {#DESCRIPTION}</description>
                             <application_prototypes/>
                         </item_prototype>
                         <item_prototype>
-                            <name>Estimated live rows ({#DATABASE}.{#TABLE})</name>
+                            <name>PostgreSQL Table estimated live rows on {#PATH}</name>
                             <type>7</type>
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
                             <key>pg.table.n_live_tup[{$PG_CONN},{#DATABASE},{#TABLE}]</key>
-                            <delay>300</delay>
-                            <history>90</history>
+                            <delay>60</delay>
+                            <history>7</history>
                             <trends>365</trends>
                             <status>0</status>
                             <value_type>3</value_type>
@@ -4036,14 +4631,14 @@ Description: {#DESCRIPTION}</description>
                             <application_prototypes/>
                         </item_prototype>
                         <item_prototype>
-                            <name>Rows deleted/sec ({#DATABASE}.{#TABLE})</name>
+                            <name>PostgreSQL Table rows deleted/sec on {#PATH}</name>
                             <type>7</type>
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
                             <key>pg.table.n_tup_del[{$PG_CONN},{#DATABASE},{#TABLE}]</key>
-                            <delay>300</delay>
-                            <history>90</history>
+                            <delay>60</delay>
+                            <history>7</history>
                             <trends>365</trends>
                             <status>0</status>
                             <value_type>0</value_type>
@@ -4080,14 +4675,14 @@ Description: {#DESCRIPTION}</description>
                             <application_prototypes/>
                         </item_prototype>
                         <item_prototype>
-                            <name>Rows hot updated ({#DATABASE}.{#TABLE})</name>
+                            <name>PostgreSQL Table rows hot updated on {#PATH}</name>
                             <type>7</type>
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
                             <key>pg.table.n_tup_hot_upd[{$PG_CONN},{#DATABASE},{#TABLE}]</key>
-                            <delay>300</delay>
-                            <history>90</history>
+                            <delay>60</delay>
+                            <history>7</history>
                             <trends>365</trends>
                             <status>0</status>
                             <value_type>0</value_type>
@@ -4124,14 +4719,14 @@ Description: {#DESCRIPTION}</description>
                             <application_prototypes/>
                         </item_prototype>
                         <item_prototype>
-                            <name>Rows inserted/sec ({#DATABASE}.{#TABLE})</name>
+                            <name>PostgreSQL Table rows inserted/sec on {#PATH}</name>
                             <type>7</type>
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
                             <key>pg.table.n_tup_ins[{$PG_CONN},{#DATABASE},{#TABLE}]</key>
-                            <delay>300</delay>
-                            <history>90</history>
+                            <delay>60</delay>
+                            <history>7</history>
                             <trends>365</trends>
                             <status>0</status>
                             <value_type>0</value_type>
@@ -4168,14 +4763,14 @@ Description: {#DESCRIPTION}</description>
                             <application_prototypes/>
                         </item_prototype>
                         <item_prototype>
-                            <name>Rows updated/sec ({#DATABASE}.{#TABLE})</name>
+                            <name>PostgreSQL Table rows updated/sec on {#PATH}</name>
                             <type>7</type>
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
                             <key>pg.table.n_tup_upd[{$PG_CONN},{#DATABASE},{#TABLE}]</key>
-                            <delay>300</delay>
-                            <history>90</history>
+                            <delay>60</delay>
+                            <history>7</history>
                             <trends>365</trends>
                             <status>0</status>
                             <value_type>0</value_type>
@@ -4212,14 +4807,14 @@ Description: {#DESCRIPTION}</description>
                             <application_prototypes/>
                         </item_prototype>
                         <item_prototype>
-                            <name>Estimated row count({#DATABASE}.{#TABLE})</name>
+                            <name>PostgreSQL Table estimated row count on {#PATH}</name>
                             <type>7</type>
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
                             <key>pg.table.rows[{$PG_CONN},{#DATABASE},{#TABLE}]</key>
-                            <delay>300</delay>
-                            <history>90</history>
+                            <delay>60</delay>
+                            <history>7</history>
                             <trends>365</trends>
                             <status>0</status>
                             <value_type>3</value_type>
@@ -4256,14 +4851,14 @@ Description: {#DESCRIPTION}</description>
                             <application_prototypes/>
                         </item_prototype>
                         <item_prototype>
-                            <name>Sequential scans/sec ({#DATABASE}.{#TABLE})</name>
+                            <name>PostgreSQL Table sequential scans/sec on {#PATH}</name>
                             <type>7</type>
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
                             <key>pg.table.seq_scan[{$PG_CONN},{#DATABASE},{#TABLE}]</key>
-                            <delay>300</delay>
-                            <history>90</history>
+                            <delay>60</delay>
+                            <history>7</history>
                             <trends>365</trends>
                             <status>0</status>
                             <value_type>0</value_type>
@@ -4300,14 +4895,14 @@ Description: {#DESCRIPTION}</description>
                             <application_prototypes/>
                         </item_prototype>
                         <item_prototype>
-                            <name>Live rows fetched by scans/sec ({#DATABASE}.{#TABLE})</name>
+                            <name>PostgreSQL Table live rows fetched by scans/sec on {#PATH}</name>
                             <type>7</type>
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
                             <key>pg.table.seq_tup_read[{$PG_CONN},{#DATABASE},{#TABLE}]</key>
-                            <delay>300</delay>
-                            <history>90</history>
+                            <delay>60</delay>
+                            <history>7</history>
                             <trends>365</trends>
                             <status>0</status>
                             <value_type>0</value_type>
@@ -4344,14 +4939,14 @@ Description: {#DESCRIPTION}</description>
                             <application_prototypes/>
                         </item_prototype>
                         <item_prototype>
-                            <name>Table size ({#DATABASE}.{#TABLE})</name>
+                            <name>PostgreSQL Table disk size on {#PATH}</name>
                             <type>7</type>
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
                             <key>pg.table.size[{$PG_CONN},{#DATABASE},{#TABLE}]</key>
-                            <delay>300</delay>
-                            <history>90</history>
+                            <delay>60</delay>
+                            <history>7</history>
                             <trends>365</trends>
                             <status>0</status>
                             <value_type>3</value_type>
@@ -4388,14 +4983,14 @@ Description: {#DESCRIPTION}</description>
                             <application_prototypes/>
                         </item_prototype>
                         <item_prototype>
-                            <name>Manual vacuum count ({#DATABASE}.{#TABLE})</name>
+                            <name>PostgreSQL Table manual vacuum count on {#PATH}</name>
                             <type>7</type>
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
                             <key>pg.table.vacuum_count[{$PG_CONN},{#DATABASE},{#TABLE}]</key>
-                            <delay>300</delay>
-                            <history>90</history>
+                            <delay>60</delay>
+                            <history>7</history>
                             <trends>365</trends>
                             <status>0</status>
                             <value_type>3</value_type>
@@ -4435,7 +5030,7 @@ Description: {#DESCRIPTION}</description>
                     <trigger_prototypes/>
                     <graph_prototypes>
                         <graph_prototype>
-                            <name>PostgreSQL Table {#DATABASE}.{#TABLE} Fetches/sec</name>
+                            <name>PostgreSQL Disk size on table {#PATH}</name>
                             <width>900</width>
                             <height>200</height>
                             <yaxismin>0.0000</yaxismin>
@@ -4447,226 +5042,14 @@ Description: {#DESCRIPTION}</description>
                             <show_3d>0</show_3d>
                             <percent_left>0.0000</percent_left>
                             <percent_right>0.0000</percent_right>
-                            <ymin_type_1>0</ymin_type_1>
+                            <ymin_type_1>1</ymin_type_1>
                             <ymax_type_1>0</ymax_type_1>
                             <ymin_item_1>0</ymin_item_1>
                             <ymax_item_1>0</ymax_item_1>
                             <graph_items>
                                 <graph_item>
                                     <sortorder>0</sortorder>
-                                    <drawtype>0</drawtype>
-                                    <color>00C800</color>
-                                    <yaxisside>0</yaxisside>
-                                    <calc_fnc>2</calc_fnc>
-                                    <type>0</type>
-                                    <item>
-                                        <host>Template PostgreSQL Server</host>
-                                        <key>pg.table.idx_tup_fetch[{$PG_CONN},{#DATABASE},{#TABLE}]</key>
-                                    </item>
-                                </graph_item>
-                                <graph_item>
-                                    <sortorder>1</sortorder>
-                                    <drawtype>0</drawtype>
-                                    <color>C80000</color>
-                                    <yaxisside>0</yaxisside>
-                                    <calc_fnc>2</calc_fnc>
-                                    <type>0</type>
-                                    <item>
-                                        <host>Template PostgreSQL Server</host>
-                                        <key>pg.table.seq_tup_read[{$PG_CONN},{#DATABASE},{#TABLE}]</key>
-                                    </item>
-                                </graph_item>
-                            </graph_items>
-                        </graph_prototype>
-                        <graph_prototype>
-                            <name>PostgreSQL Table {#DATABASE}.{#TABLE} Maintenance</name>
-                            <width>900</width>
-                            <height>200</height>
-                            <yaxismin>0.0000</yaxismin>
-                            <yaxismax>100.0000</yaxismax>
-                            <show_work_period>1</show_work_period>
-                            <show_triggers>1</show_triggers>
-                            <type>0</type>
-                            <show_legend>1</show_legend>
-                            <show_3d>0</show_3d>
-                            <percent_left>0.0000</percent_left>
-                            <percent_right>0.0000</percent_right>
-                            <ymin_type_1>0</ymin_type_1>
-                            <ymax_type_1>0</ymax_type_1>
-                            <ymin_item_1>0</ymin_item_1>
-                            <ymax_item_1>0</ymax_item_1>
-                            <graph_items>
-                                <graph_item>
-                                    <sortorder>0</sortorder>
-                                    <drawtype>0</drawtype>
-                                    <color>C80000</color>
-                                    <yaxisside>0</yaxisside>
-                                    <calc_fnc>2</calc_fnc>
-                                    <type>0</type>
-                                    <item>
-                                        <host>Template PostgreSQL Server</host>
-                                        <key>pg.table.analyze_count[{$PG_CONN},{#DATABASE},{#TABLE}]</key>
-                                    </item>
-                                </graph_item>
-                                <graph_item>
-                                    <sortorder>1</sortorder>
-                                    <drawtype>0</drawtype>
-                                    <color>00C800</color>
-                                    <yaxisside>0</yaxisside>
-                                    <calc_fnc>2</calc_fnc>
-                                    <type>0</type>
-                                    <item>
-                                        <host>Template PostgreSQL Server</host>
-                                        <key>pg.table.autoanalyze_count[{$PG_CONN},{#DATABASE},{#TABLE}]</key>
-                                    </item>
-                                </graph_item>
-                                <graph_item>
-                                    <sortorder>2</sortorder>
-                                    <drawtype>0</drawtype>
-                                    <color>0000C8</color>
-                                    <yaxisside>0</yaxisside>
-                                    <calc_fnc>2</calc_fnc>
-                                    <type>0</type>
-                                    <item>
-                                        <host>Template PostgreSQL Server</host>
-                                        <key>pg.table.autovacuum_count[{$PG_CONN},{#DATABASE},{#TABLE}]</key>
-                                    </item>
-                                </graph_item>
-                                <graph_item>
-                                    <sortorder>3</sortorder>
-                                    <drawtype>0</drawtype>
-                                    <color>C800C8</color>
-                                    <yaxisside>0</yaxisside>
-                                    <calc_fnc>2</calc_fnc>
-                                    <type>0</type>
-                                    <item>
-                                        <host>Template PostgreSQL Server</host>
-                                        <key>pg.table.vacuum_count[{$PG_CONN},{#DATABASE},{#TABLE}]</key>
-                                    </item>
-                                </graph_item>
-                            </graph_items>
-                        </graph_prototype>
-                        <graph_prototype>
-                            <name>PostgreSQL Table {#DATABASE}.{#TABLE} Row count</name>
-                            <width>900</width>
-                            <height>200</height>
-                            <yaxismin>0.0000</yaxismin>
-                            <yaxismax>100.0000</yaxismax>
-                            <show_work_period>1</show_work_period>
-                            <show_triggers>1</show_triggers>
-                            <type>0</type>
-                            <show_legend>1</show_legend>
-                            <show_3d>0</show_3d>
-                            <percent_left>0.0000</percent_left>
-                            <percent_right>0.0000</percent_right>
-                            <ymin_type_1>0</ymin_type_1>
-                            <ymax_type_1>0</ymax_type_1>
-                            <ymin_item_1>0</ymin_item_1>
-                            <ymax_item_1>0</ymax_item_1>
-                            <graph_items>
-                                <graph_item>
-                                    <sortorder>0</sortorder>
-                                    <drawtype>0</drawtype>
-                                    <color>C80000</color>
-                                    <yaxisside>0</yaxisside>
-                                    <calc_fnc>2</calc_fnc>
-                                    <type>0</type>
-                                    <item>
-                                        <host>Template PostgreSQL Server</host>
-                                        <key>pg.table.n_dead_tup[{$PG_CONN},{#DATABASE},{#TABLE}]</key>
-                                    </item>
-                                </graph_item>
-                                <graph_item>
-                                    <sortorder>1</sortorder>
-                                    <drawtype>0</drawtype>
-                                    <color>00C800</color>
-                                    <yaxisside>0</yaxisside>
-                                    <calc_fnc>2</calc_fnc>
-                                    <type>0</type>
-                                    <item>
-                                        <host>Template PostgreSQL Server</host>
-                                        <key>pg.table.n_live_tup[{$PG_CONN},{#DATABASE},{#TABLE}]</key>
-                                    </item>
-                                </graph_item>
-                                <graph_item>
-                                    <sortorder>2</sortorder>
-                                    <drawtype>0</drawtype>
-                                    <color>0000C8</color>
-                                    <yaxisside>0</yaxisside>
-                                    <calc_fnc>2</calc_fnc>
-                                    <type>0</type>
-                                    <item>
-                                        <host>Template PostgreSQL Server</host>
-                                        <key>pg.table.rows[{$PG_CONN},{#DATABASE},{#TABLE}]</key>
-                                    </item>
-                                </graph_item>
-                            </graph_items>
-                        </graph_prototype>
-                        <graph_prototype>
-                            <name>PostgreSQL Table {#DATABASE}.{#TABLE} Scans/sec</name>
-                            <width>900</width>
-                            <height>200</height>
-                            <yaxismin>0.0000</yaxismin>
-                            <yaxismax>100.0000</yaxismax>
-                            <show_work_period>1</show_work_period>
-                            <show_triggers>1</show_triggers>
-                            <type>0</type>
-                            <show_legend>1</show_legend>
-                            <show_3d>0</show_3d>
-                            <percent_left>0.0000</percent_left>
-                            <percent_right>0.0000</percent_right>
-                            <ymin_type_1>0</ymin_type_1>
-                            <ymax_type_1>0</ymax_type_1>
-                            <ymin_item_1>0</ymin_item_1>
-                            <ymax_item_1>0</ymax_item_1>
-                            <graph_items>
-                                <graph_item>
-                                    <sortorder>0</sortorder>
-                                    <drawtype>0</drawtype>
-                                    <color>00C800</color>
-                                    <yaxisside>0</yaxisside>
-                                    <calc_fnc>2</calc_fnc>
-                                    <type>0</type>
-                                    <item>
-                                        <host>Template PostgreSQL Server</host>
-                                        <key>pg.table.idx_scan[{$PG_CONN},{#DATABASE},{#TABLE}]</key>
-                                    </item>
-                                </graph_item>
-                                <graph_item>
-                                    <sortorder>1</sortorder>
-                                    <drawtype>0</drawtype>
-                                    <color>C80000</color>
-                                    <yaxisside>0</yaxisside>
-                                    <calc_fnc>2</calc_fnc>
-                                    <type>0</type>
-                                    <item>
-                                        <host>Template PostgreSQL Server</host>
-                                        <key>pg.table.seq_scan[{$PG_CONN},{#DATABASE},{#TABLE}]</key>
-                                    </item>
-                                </graph_item>
-                            </graph_items>
-                        </graph_prototype>
-                        <graph_prototype>
-                            <name>PostgreSQL Table {#DATABASE}.{#TABLE} Size</name>
-                            <width>900</width>
-                            <height>200</height>
-                            <yaxismin>0.0000</yaxismin>
-                            <yaxismax>100.0000</yaxismax>
-                            <show_work_period>1</show_work_period>
-                            <show_triggers>1</show_triggers>
-                            <type>0</type>
-                            <show_legend>1</show_legend>
-                            <show_3d>0</show_3d>
-                            <percent_left>0.0000</percent_left>
-                            <percent_right>0.0000</percent_right>
-                            <ymin_type_1>0</ymin_type_1>
-                            <ymax_type_1>0</ymax_type_1>
-                            <ymin_item_1>0</ymin_item_1>
-                            <ymax_item_1>0</ymax_item_1>
-                            <graph_items>
-                                <graph_item>
-                                    <sortorder>0</sortorder>
-                                    <drawtype>0</drawtype>
+                                    <drawtype>5</drawtype>
                                     <color>00C800</color>
                                     <yaxisside>0</yaxisside>
                                     <calc_fnc>2</calc_fnc>
@@ -4679,7 +5062,7 @@ Description: {#DESCRIPTION}</description>
                             </graph_items>
                         </graph_prototype>
                         <graph_prototype>
-                            <name>PostgreSQL Table {#DATABASE}.{#TABLE} Writes/sec</name>
+                            <name>PostgreSQL Fetches/sec on table {#PATH}</name>
                             <width>900</width>
                             <height>200</height>
                             <yaxismin>0.0000</yaxismin>
@@ -4691,14 +5074,226 @@ Description: {#DESCRIPTION}</description>
                             <show_3d>0</show_3d>
                             <percent_left>0.0000</percent_left>
                             <percent_right>0.0000</percent_right>
-                            <ymin_type_1>0</ymin_type_1>
+                            <ymin_type_1>1</ymin_type_1>
                             <ymax_type_1>0</ymax_type_1>
                             <ymin_item_1>0</ymin_item_1>
                             <ymax_item_1>0</ymax_item_1>
                             <graph_items>
                                 <graph_item>
                                     <sortorder>0</sortorder>
-                                    <drawtype>0</drawtype>
+                                    <drawtype>5</drawtype>
+                                    <color>00C800</color>
+                                    <yaxisside>0</yaxisside>
+                                    <calc_fnc>2</calc_fnc>
+                                    <type>0</type>
+                                    <item>
+                                        <host>Template PostgreSQL Server</host>
+                                        <key>pg.table.idx_tup_fetch[{$PG_CONN},{#DATABASE},{#TABLE}]</key>
+                                    </item>
+                                </graph_item>
+                                <graph_item>
+                                    <sortorder>1</sortorder>
+                                    <drawtype>5</drawtype>
+                                    <color>C80000</color>
+                                    <yaxisside>0</yaxisside>
+                                    <calc_fnc>2</calc_fnc>
+                                    <type>0</type>
+                                    <item>
+                                        <host>Template PostgreSQL Server</host>
+                                        <key>pg.table.seq_tup_read[{$PG_CONN},{#DATABASE},{#TABLE}]</key>
+                                    </item>
+                                </graph_item>
+                            </graph_items>
+                        </graph_prototype>
+                        <graph_prototype>
+                            <name>PostgreSQL Maintenance on table {#PATH}</name>
+                            <width>900</width>
+                            <height>200</height>
+                            <yaxismin>0.0000</yaxismin>
+                            <yaxismax>100.0000</yaxismax>
+                            <show_work_period>1</show_work_period>
+                            <show_triggers>1</show_triggers>
+                            <type>0</type>
+                            <show_legend>1</show_legend>
+                            <show_3d>0</show_3d>
+                            <percent_left>0.0000</percent_left>
+                            <percent_right>0.0000</percent_right>
+                            <ymin_type_1>1</ymin_type_1>
+                            <ymax_type_1>0</ymax_type_1>
+                            <ymin_item_1>0</ymin_item_1>
+                            <ymax_item_1>0</ymax_item_1>
+                            <graph_items>
+                                <graph_item>
+                                    <sortorder>0</sortorder>
+                                    <drawtype>5</drawtype>
+                                    <color>C80000</color>
+                                    <yaxisside>0</yaxisside>
+                                    <calc_fnc>2</calc_fnc>
+                                    <type>0</type>
+                                    <item>
+                                        <host>Template PostgreSQL Server</host>
+                                        <key>pg.table.analyze_count[{$PG_CONN},{#DATABASE},{#TABLE}]</key>
+                                    </item>
+                                </graph_item>
+                                <graph_item>
+                                    <sortorder>1</sortorder>
+                                    <drawtype>5</drawtype>
+                                    <color>00C800</color>
+                                    <yaxisside>0</yaxisside>
+                                    <calc_fnc>2</calc_fnc>
+                                    <type>0</type>
+                                    <item>
+                                        <host>Template PostgreSQL Server</host>
+                                        <key>pg.table.autoanalyze_count[{$PG_CONN},{#DATABASE},{#TABLE}]</key>
+                                    </item>
+                                </graph_item>
+                                <graph_item>
+                                    <sortorder>2</sortorder>
+                                    <drawtype>5</drawtype>
+                                    <color>0000C8</color>
+                                    <yaxisside>0</yaxisside>
+                                    <calc_fnc>2</calc_fnc>
+                                    <type>0</type>
+                                    <item>
+                                        <host>Template PostgreSQL Server</host>
+                                        <key>pg.table.autovacuum_count[{$PG_CONN},{#DATABASE},{#TABLE}]</key>
+                                    </item>
+                                </graph_item>
+                                <graph_item>
+                                    <sortorder>3</sortorder>
+                                    <drawtype>5</drawtype>
+                                    <color>C800C8</color>
+                                    <yaxisside>0</yaxisside>
+                                    <calc_fnc>2</calc_fnc>
+                                    <type>0</type>
+                                    <item>
+                                        <host>Template PostgreSQL Server</host>
+                                        <key>pg.table.vacuum_count[{$PG_CONN},{#DATABASE},{#TABLE}]</key>
+                                    </item>
+                                </graph_item>
+                            </graph_items>
+                        </graph_prototype>
+                        <graph_prototype>
+                            <name>PostgreSQL Row count on table {#PATH}</name>
+                            <width>900</width>
+                            <height>200</height>
+                            <yaxismin>0.0000</yaxismin>
+                            <yaxismax>100.0000</yaxismax>
+                            <show_work_period>1</show_work_period>
+                            <show_triggers>1</show_triggers>
+                            <type>0</type>
+                            <show_legend>1</show_legend>
+                            <show_3d>0</show_3d>
+                            <percent_left>0.0000</percent_left>
+                            <percent_right>0.0000</percent_right>
+                            <ymin_type_1>1</ymin_type_1>
+                            <ymax_type_1>0</ymax_type_1>
+                            <ymin_item_1>0</ymin_item_1>
+                            <ymax_item_1>0</ymax_item_1>
+                            <graph_items>
+                                <graph_item>
+                                    <sortorder>0</sortorder>
+                                    <drawtype>5</drawtype>
+                                    <color>C80000</color>
+                                    <yaxisside>0</yaxisside>
+                                    <calc_fnc>2</calc_fnc>
+                                    <type>0</type>
+                                    <item>
+                                        <host>Template PostgreSQL Server</host>
+                                        <key>pg.table.n_dead_tup[{$PG_CONN},{#DATABASE},{#TABLE}]</key>
+                                    </item>
+                                </graph_item>
+                                <graph_item>
+                                    <sortorder>1</sortorder>
+                                    <drawtype>5</drawtype>
+                                    <color>00C800</color>
+                                    <yaxisside>0</yaxisside>
+                                    <calc_fnc>2</calc_fnc>
+                                    <type>0</type>
+                                    <item>
+                                        <host>Template PostgreSQL Server</host>
+                                        <key>pg.table.n_live_tup[{$PG_CONN},{#DATABASE},{#TABLE}]</key>
+                                    </item>
+                                </graph_item>
+                                <graph_item>
+                                    <sortorder>2</sortorder>
+                                    <drawtype>5</drawtype>
+                                    <color>0000C8</color>
+                                    <yaxisside>0</yaxisside>
+                                    <calc_fnc>2</calc_fnc>
+                                    <type>0</type>
+                                    <item>
+                                        <host>Template PostgreSQL Server</host>
+                                        <key>pg.table.rows[{$PG_CONN},{#DATABASE},{#TABLE}]</key>
+                                    </item>
+                                </graph_item>
+                            </graph_items>
+                        </graph_prototype>
+                        <graph_prototype>
+                            <name>PostgreSQL Scans/sec on table {#PATH}</name>
+                            <width>900</width>
+                            <height>200</height>
+                            <yaxismin>0.0000</yaxismin>
+                            <yaxismax>100.0000</yaxismax>
+                            <show_work_period>1</show_work_period>
+                            <show_triggers>1</show_triggers>
+                            <type>0</type>
+                            <show_legend>1</show_legend>
+                            <show_3d>0</show_3d>
+                            <percent_left>0.0000</percent_left>
+                            <percent_right>0.0000</percent_right>
+                            <ymin_type_1>1</ymin_type_1>
+                            <ymax_type_1>0</ymax_type_1>
+                            <ymin_item_1>0</ymin_item_1>
+                            <ymax_item_1>0</ymax_item_1>
+                            <graph_items>
+                                <graph_item>
+                                    <sortorder>0</sortorder>
+                                    <drawtype>5</drawtype>
+                                    <color>00C800</color>
+                                    <yaxisside>0</yaxisside>
+                                    <calc_fnc>2</calc_fnc>
+                                    <type>0</type>
+                                    <item>
+                                        <host>Template PostgreSQL Server</host>
+                                        <key>pg.table.idx_scan[{$PG_CONN},{#DATABASE},{#TABLE}]</key>
+                                    </item>
+                                </graph_item>
+                                <graph_item>
+                                    <sortorder>1</sortorder>
+                                    <drawtype>5</drawtype>
+                                    <color>C80000</color>
+                                    <yaxisside>0</yaxisside>
+                                    <calc_fnc>2</calc_fnc>
+                                    <type>0</type>
+                                    <item>
+                                        <host>Template PostgreSQL Server</host>
+                                        <key>pg.table.seq_scan[{$PG_CONN},{#DATABASE},{#TABLE}]</key>
+                                    </item>
+                                </graph_item>
+                            </graph_items>
+                        </graph_prototype>
+                        <graph_prototype>
+                            <name>PostgreSQL Writes/sec on table {#PATH}</name>
+                            <width>900</width>
+                            <height>200</height>
+                            <yaxismin>0.0000</yaxismin>
+                            <yaxismax>100.0000</yaxismax>
+                            <show_work_period>1</show_work_period>
+                            <show_triggers>1</show_triggers>
+                            <type>0</type>
+                            <show_legend>1</show_legend>
+                            <show_3d>0</show_3d>
+                            <percent_left>0.0000</percent_left>
+                            <percent_right>0.0000</percent_right>
+                            <ymin_type_1>1</ymin_type_1>
+                            <ymax_type_1>0</ymax_type_1>
+                            <ymin_item_1>0</ymin_item_1>
+                            <ymax_item_1>0</ymax_item_1>
+                            <graph_items>
+                                <graph_item>
+                                    <sortorder>0</sortorder>
+                                    <drawtype>5</drawtype>
                                     <color>0000C8</color>
                                     <yaxisside>0</yaxisside>
                                     <calc_fnc>2</calc_fnc>
@@ -4710,7 +5305,7 @@ Description: {#DESCRIPTION}</description>
                                 </graph_item>
                                 <graph_item>
                                     <sortorder>1</sortorder>
-                                    <drawtype>0</drawtype>
+                                    <drawtype>5</drawtype>
                                     <color>C800C8</color>
                                     <yaxisside>0</yaxisside>
                                     <calc_fnc>2</calc_fnc>
@@ -4722,7 +5317,7 @@ Description: {#DESCRIPTION}</description>
                                 </graph_item>
                                 <graph_item>
                                     <sortorder>2</sortorder>
-                                    <drawtype>0</drawtype>
+                                    <drawtype>5</drawtype>
                                     <color>00C800</color>
                                     <yaxisside>0</yaxisside>
                                     <calc_fnc>2</calc_fnc>
@@ -4734,7 +5329,7 @@ Description: {#DESCRIPTION}</description>
                                 </graph_item>
                                 <graph_item>
                                     <sortorder>3</sortorder>
-                                    <drawtype>0</drawtype>
+                                    <drawtype>5</drawtype>
                                     <color>C80000</color>
                                     <yaxisside>0</yaxisside>
                                     <calc_fnc>2</calc_fnc>
@@ -4783,14 +5378,14 @@ Description: {#DESCRIPTION}</description>
                     <description/>
                     <item_prototypes>
                         <item_prototype>
-                            <name>Tablespace size ({#TABLESPACE})</name>
+                            <name>PostgreSQL Tablespace disk size on ({#TABLESPACE})</name>
                             <type>7</type>
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
                             <key>pg.tablespace.size[{$PG_CONN},{$PG_DB},{#TABLESPACE}]</key>
-                            <delay>300</delay>
-                            <history>90</history>
+                            <delay>60</delay>
+                            <history>7</history>
                             <trends>365</trends>
                             <status>0</status>
                             <value_type>3</value_type>
@@ -4830,7 +5425,7 @@ Description: {#DESCRIPTION}</description>
                     <trigger_prototypes/>
                     <graph_prototypes>
                         <graph_prototype>
-                            <name>PostgreSQL Tablespace {#TABLESPACE} size</name>
+                            <name>PostgreSQL Disk size on {#TABLESPACE}</name>
                             <width>900</width>
                             <height>200</height>
                             <yaxismin>0.0000</yaxismin>
@@ -4842,14 +5437,14 @@ Description: {#DESCRIPTION}</description>
                             <show_3d>0</show_3d>
                             <percent_left>0.0000</percent_left>
                             <percent_right>0.0000</percent_right>
-                            <ymin_type_1>0</ymin_type_1>
+                            <ymin_type_1>1</ymin_type_1>
                             <ymax_type_1>0</ymax_type_1>
                             <ymin_item_1>0</ymin_item_1>
                             <ymax_item_1>0</ymax_item_1>
                             <graph_items>
                                 <graph_item>
                                     <sortorder>0</sortorder>
-                                    <drawtype>0</drawtype>
+                                    <drawtype>5</drawtype>
                                     <color>00C800</color>
                                     <yaxisside>0</yaxisside>
                                     <calc_fnc>2</calc_fnc>
@@ -4867,12 +5462,12 @@ Description: {#DESCRIPTION}</description>
             </discovery_rules>
             <macros>
                 <macro>
-                    <macro>{$PG_XID_CRIT}</macro>
-                    <value>2146483648</value>
+                    <macro>{$PG_PXACT_WARN}</macro>
+                    <value>80</value>
                 </macro>
                 <macro>
-                    <macro>{$PG_XID_WARN}</macro>
-                    <value>2137483648</value>
+                    <macro>{$PG_PXACT_CRIT}</macro>
+                    <value>90</value>
                 </macro>
                 <macro>
                     <macro>{$PG_CONN}</macro>
@@ -4882,12 +5477,54 @@ Description: {#DESCRIPTION}</description>
                     <macro>{$PG_DB}</macro>
                     <value>postgres</value>
                 </macro>
+                <macro>
+                    <macro>{$PG_XID_CRIT}</macro>
+                    <value>2146483648</value>
+                </macro>
+                <macro>
+                    <macro>{$PG_XID_WARN}</macro>
+                    <value>2137483648</value>
+                </macro>
             </macros>
             <templates/>
             <screens/>
         </template>
     </templates>
     <triggers>
+        <trigger>
+            <expression>{Template PostgreSQL Server:pg.modver.diff(0)}&gt;0</expression>
+            <name>PostgreSQL Agent module version was changed on {HOST.NAME}</name>
+            <url/>
+            <status>0</status>
+            <priority>1</priority>
+            <description/>
+            <type>0</type>
+            <dependencies/>
+        </trigger>
+        <trigger>
+            <expression>{Template PostgreSQL Server:pg.prepared_xacts_ratio[{$PG_CONN},{$PG_DB}].last()}&gt;{$PG_PXACT_CRIT}</expression>
+            <name>PostgreSQL Prepared transactions are exhausted on {HOST.NAME}</name>
+            <url>https://www.postgresql.org/docs/current/static/runtime-config-resource.html#GUC-MAX-PREPARED-TRANSACTIONS</url>
+            <status>0</status>
+            <priority>4</priority>
+            <description>{$PG_XACT_CRIT}% of the maximum configured prepared transactions are in use.&#13;
+&#13;
+Investigate the issue immediately and consider increasing max_prepared_transactions.</description>
+            <type>0</type>
+            <dependencies/>
+        </trigger>
+        <trigger>
+            <expression>({TRIGGER.VALUE}=0 and {Template PostgreSQL Server:pg.prepared_xacts_ratio[{$PG_CONN},{$PG_DB}].last()}&gt;{$PG_PXACT_WARN} and  {Template PostgreSQL Server:pg.prepared_xacts_ratio[{$PG_CONN},{$PG_DB}].last()}&lt;{$PG_PXACT_CRIT}) or ({TRIGGER.VALUE}=1 and {Template PostgreSQL Server:pg.prepared_xacts_ratio[{$PG_CONN},{$PG_DB}].last()}&gt;{$PG_PXACT_WARN})</expression>
+            <name>PostgreSQL Prepared transactions are near exhaustion on {HOST.NAME}</name>
+            <url>https://www.postgresql.org/docs/current/static/runtime-config-resource.html#GUC-MAX-PREPARED-TRANSACTIONS</url>
+            <status>0</status>
+            <priority>2</priority>
+            <description>80% of the maximum configured prepared transactions are in use.&#13;
+&#13;
+Investigate the issue and consider increasing max_prepared_transactions.</description>
+            <type>0</type>
+            <dependencies/>
+        </trigger>
         <trigger>
             <expression>{Template PostgreSQL Server:pg.uptime[{$PG_CONN},{$PG_DB}].change(0)}&lt;0</expression>
             <name>PostgreSQL Server on {HOST.NAME} has just been restarted</name>
@@ -4909,9 +5546,19 @@ Description: {#DESCRIPTION}</description>
             <dependencies/>
         </trigger>
         <trigger>
+            <expression>{Template PostgreSQL Server:pg.version[{$PG_CONN},{$PG_DB}].diff(0)}&gt;0</expression>
+            <name>PostgreSQL Server version was changed on {HOST.NAME}</name>
+            <url/>
+            <status>0</status>
+            <priority>1</priority>
+            <description/>
+            <type>0</type>
+            <dependencies/>
+        </trigger>
+        <trigger>
             <expression>{Template PostgreSQL Server:pg.db.xid_age[{$PG_CONN},{$PG_DB}].last()}&gt;{$PG_XID_CRIT}</expression>
-            <name>Transaction IDs are exhausted on {HOST.NAME}</name>
-            <url>https://www.postgresql.org/docs/9.5/static/routine-vacuuming.html#VACUUM-FOR-WRAPAROUND</url>
+            <name>PostgreSQL Transaction IDs are exhausted on {HOST.NAME}</name>
+            <url>https://www.postgresql.org/docs/current/static/routine-vacuuming.html#VACUUM-FOR-WRAPAROUND</url>
             <status>0</status>
             <priority>4</priority>
             <description>Less than 1 million (0.0005%) Transactions IDs are remaining for allocation.&#13;
@@ -4922,33 +5569,13 @@ Perform a VACUUM immediately to reset the available Transaction IDs and review y
         </trigger>
         <trigger>
             <expression>({TRIGGER.VALUE}=0 and {Template PostgreSQL Server:pg.db.xid_age[{$PG_CONN},{$PG_DB}].last()}&gt;{$PG_XID_WARN} and {Template PostgreSQL Server:pg.db.xid_age[{$PG_CONN},{$PG_DB}].last()}&lt;{$PG_XID_CRIT}) or ({TRIGGER.VALUE}=1 and {Template PostgreSQL Server:pg.db.xid_age[{$PG_CONN},{$PG_DB}].last()}&gt;{$PG_XID_WARN})</expression>
-            <name>Transaction IDs are near exhaustion on {HOST.NAME}</name>
-            <url>https://www.postgresql.org/docs/9.5/static/routine-vacuuming.html#VACUUM-FOR-WRAPAROUND</url>
+            <name>PostgreSQL Transaction IDs are near exhaustion on {HOST.NAME}</name>
+            <url>https://www.postgresql.org/docs/current/static/routine-vacuuming.html#VACUUM-FOR-WRAPAROUND</url>
             <status>0</status>
             <priority>2</priority>
             <description>Less than 10 million (0.04%) Transactions IDs are remaining for allocation.&#13;
 &#13;
 Perform a VACUUM as soon a possible to reset the available Transaction IDs and review your auto-vacuum policy.</description>
-            <type>0</type>
-            <dependencies/>
-        </trigger>
-        <trigger>
-            <expression>{Template PostgreSQL Server:pg.modver.diff(0)}&gt;0</expression>
-            <name>Version of PostgreSQL agent module was changed on {HOST.NAME}</name>
-            <url/>
-            <status>0</status>
-            <priority>1</priority>
-            <description/>
-            <type>0</type>
-            <dependencies/>
-        </trigger>
-        <trigger>
-            <expression>{Template PostgreSQL Server:pg.version[{$PG_CONN},{$PG_DB}].diff(0)}&gt;0</expression>
-            <name>Version of PostgreSQL server was changed on {HOST.NAME}</name>
-            <url/>
-            <status>0</status>
-            <priority>1</priority>
-            <description/>
             <type>0</type>
             <dependencies/>
         </trigger>
@@ -5094,6 +5721,38 @@ Perform a VACUUM as soon a possible to reset the available Transaction IDs and r
                     <item>
                         <host>Template PostgreSQL Server</host>
                         <key>pg.checkpoint_write_time[{$PG_CONN},{$PG_DB}]</key>
+                    </item>
+                </graph_item>
+            </graph_items>
+        </graph>
+        <graph>
+            <name>PostgreSQL Configuration thresholds</name>
+            <width>900</width>
+            <height>200</height>
+            <yaxismin>0.0000</yaxismin>
+            <yaxismax>100.0000</yaxismax>
+            <show_work_period>1</show_work_period>
+            <show_triggers>0</show_triggers>
+            <type>0</type>
+            <show_legend>1</show_legend>
+            <show_3d>0</show_3d>
+            <percent_left>0.0000</percent_left>
+            <percent_right>0.0000</percent_right>
+            <ymin_type_1>1</ymin_type_1>
+            <ymax_type_1>1</ymax_type_1>
+            <ymin_item_1>0</ymin_item_1>
+            <ymax_item_1>0</ymax_item_1>
+            <graph_items>
+                <graph_item>
+                    <sortorder>0</sortorder>
+                    <drawtype>5</drawtype>
+                    <color>C80000</color>
+                    <yaxisside>0</yaxisside>
+                    <calc_fnc>2</calc_fnc>
+                    <type>0</type>
+                    <item>
+                        <host>Template PostgreSQL Server</host>
+                        <key>pg.prepared_xacts_ratio[{$PG_CONN},{$PG_DB}]</key>
                     </item>
                 </graph_item>
             </graph_items>
