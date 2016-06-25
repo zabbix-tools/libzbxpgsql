@@ -11,8 +11,8 @@ out-of-the-box in production without first configuring the check intervals,
 configuration macros, discovery rule filters, etc. to suit your environment.
 
 Import `template_postgresql_server.xml` (from 
-[GitHub](https://raw.githubusercontent.com/cavaliercoder/libzbxpgsql/latest/template_postgresql_server.xml)
-or from the [source tarball](https://sourceforge.net/projects/libzbxpgsl/files/sources/))
+[GitHub](https://raw.githubusercontent.com/cavaliercoder/libzbxpgsql/498670967bbc4e99606d58589aff0c8f9c71d829/template_postgresql_server.xml)
+or from the [source tarball]({{ site.baseurl }}/download)
 into Zabbix to get started. See the [Zabbix manual](https://www.zabbix.com/documentation/2.4/manual/xml_export_import)
 for details on importing templates from XML.
 
