@@ -10,8 +10,8 @@ loaded by a Zabbix agent using the `LoadModule` directive. The module enables
 discovery and monitoring of tablespaces, databases, namespaces, tables,
 indexes, etc.
 
-* Read the [documentation](http://cavaliercoder.github.io/libzbxpgsql/)
-* Download the [packages](https://sourceforge.net/projects/libzbxpgsl/files/)
+* Read the [documentation](http://cavaliercoder.com/libzbxpgsql/)
+* Download the [packages](http://cavaliercoder.com/libzbxpgsql/downloads)
 * Clone the [sources](http://github.com/cavaliercoder/libzbxpgsql)
 * Follow the [author](http://cavaliercoder.com)
 
@@ -27,7 +27,7 @@ To compile the agent module the following items are required:
 If you are building from sources cloned from GitHub, you first need to
 regenerate the build scripts using `./autogen.sh`. Otherwise:
 
-    ./configure --with-zabbix=/usr/src/zabbix/include
+    ./configure --with-zabbix=/usr/src/zabbix
     make
     make install
 
