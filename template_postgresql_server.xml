@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>3.0</version>
-    <date>2016-06-25T13:14:22Z</date>
+    <date>2016-06-25T13:23:55Z</date>
     <groups>
         <group>
             <name>Templates</name>
@@ -9,8 +9,8 @@
     </groups>
     <templates>
         <template>
-            <template>Template PostgreSQL Server</template>
-            <name>Template PostgreSQL Server</name>
+            <template>Template App PostgreSQL</template>
+            <name>Template App PostgreSQL</name>
             <description/>
             <groups>
                 <group>
@@ -2794,7 +2794,7 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                                     <calc_fnc>2</calc_fnc>
                                     <type>0</type>
                                     <item>
-                                        <host>Template PostgreSQL Server</host>
+                                        <host>Template App PostgreSQL</host>
                                         <key>pg.db.blks_hit[{$PG_CONN},{$PG_DB},{#DATABASE}]</key>
                                     </item>
                                 </graph_item>
@@ -2806,7 +2806,7 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                                     <calc_fnc>2</calc_fnc>
                                     <type>0</type>
                                     <item>
-                                        <host>Template PostgreSQL Server</host>
+                                        <host>Template App PostgreSQL</host>
                                         <key>pg.db.blks_read[{$PG_CONN},{$PG_DB},{#DATABASE}]</key>
                                     </item>
                                 </graph_item>
@@ -2838,7 +2838,7 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                                     <calc_fnc>2</calc_fnc>
                                     <type>0</type>
                                     <item>
-                                        <host>Template PostgreSQL Server</host>
+                                        <host>Template App PostgreSQL</host>
                                         <key>pg.db.blks_hit[{$PG_CONN},{$PG_DB},{#DATABASE}]</key>
                                     </item>
                                 </graph_item>
@@ -2850,7 +2850,7 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                                     <calc_fnc>2</calc_fnc>
                                     <type>0</type>
                                     <item>
-                                        <host>Template PostgreSQL Server</host>
+                                        <host>Template App PostgreSQL</host>
                                         <key>pg.db.blks_read[{$PG_CONN},{$PG_DB},{#DATABASE}]</key>
                                     </item>
                                 </graph_item>
@@ -2882,7 +2882,7 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                                     <calc_fnc>2</calc_fnc>
                                     <type>0</type>
                                     <item>
-                                        <host>Template PostgreSQL Server</host>
+                                        <host>Template App PostgreSQL</host>
                                         <key>pg.db.size[{$PG_CONN},{$PG_DB},{#DATABASE}]</key>
                                     </item>
                                 </graph_item>
@@ -2914,7 +2914,7 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                                     <calc_fnc>2</calc_fnc>
                                     <type>0</type>
                                     <item>
-                                        <host>Template PostgreSQL Server</host>
+                                        <host>Template App PostgreSQL</host>
                                         <key>pg.db.size[{$PG_CONN},{$PG_DB},{#DATABASE}]</key>
                                     </item>
                                 </graph_item>
@@ -2946,7 +2946,7 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                                     <calc_fnc>2</calc_fnc>
                                     <type>0</type>
                                     <item>
-                                        <host>Template PostgreSQL Server</host>
+                                        <host>Template App PostgreSQL</host>
                                         <key>pg.db.conflicts[{$PG_CONN},{$PG_DB},{#DATABASE}]</key>
                                     </item>
                                 </graph_item>
@@ -2958,7 +2958,7 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                                     <calc_fnc>2</calc_fnc>
                                     <type>0</type>
                                     <item>
-                                        <host>Template PostgreSQL Server</host>
+                                        <host>Template App PostgreSQL</host>
                                         <key>pg.db.deadlocks[{$PG_CONN},{$PG_DB},{#DATABASE}]</key>
                                     </item>
                                 </graph_item>
@@ -2990,7 +2990,7 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                                     <calc_fnc>2</calc_fnc>
                                     <type>0</type>
                                     <item>
-                                        <host>Template PostgreSQL Server</host>
+                                        <host>Template App PostgreSQL</host>
                                         <key>pg.db.conflicts[{$PG_CONN},{$PG_DB},{#DATABASE}]</key>
                                     </item>
                                 </graph_item>
@@ -3002,7 +3002,7 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                                     <calc_fnc>2</calc_fnc>
                                     <type>0</type>
                                     <item>
-                                        <host>Template PostgreSQL Server</host>
+                                        <host>Template App PostgreSQL</host>
                                         <key>pg.db.deadlocks[{$PG_CONN},{$PG_DB},{#DATABASE}]</key>
                                     </item>
                                 </graph_item>
@@ -3034,7 +3034,7 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                                     <calc_fnc>2</calc_fnc>
                                     <type>0</type>
                                     <item>
-                                        <host>Template PostgreSQL Server</host>
+                                        <host>Template App PostgreSQL</host>
                                         <key>pg.table.idx_tup_fetch[{$PG_CONN},{#DATABASE}]</key>
                                     </item>
                                 </graph_item>
@@ -3046,7 +3046,7 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                                     <calc_fnc>2</calc_fnc>
                                     <type>0</type>
                                     <item>
-                                        <host>Template PostgreSQL Server</host>
+                                        <host>Template App PostgreSQL</host>
                                         <key>pg.table.seq_tup_read[{$PG_CONN},{#DATABASE}]</key>
                                     </item>
                                 </graph_item>
@@ -3078,7 +3078,7 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                                     <calc_fnc>2</calc_fnc>
                                     <type>0</type>
                                     <item>
-                                        <host>Template PostgreSQL Server</host>
+                                        <host>Template App PostgreSQL</host>
                                         <key>pg.table.idx_tup_fetch[{$PG_CONN},{#DATABASE}]</key>
                                     </item>
                                 </graph_item>
@@ -3090,7 +3090,7 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                                     <calc_fnc>2</calc_fnc>
                                     <type>0</type>
                                     <item>
-                                        <host>Template PostgreSQL Server</host>
+                                        <host>Template App PostgreSQL</host>
                                         <key>pg.table.seq_tup_read[{$PG_CONN},{#DATABASE}]</key>
                                     </item>
                                 </graph_item>
@@ -3122,7 +3122,7 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                                     <calc_fnc>2</calc_fnc>
                                     <type>0</type>
                                     <item>
-                                        <host>Template PostgreSQL Server</host>
+                                        <host>Template App PostgreSQL</host>
                                         <key>pg.db.blk_read_time[{$PG_CONN},{$PG_DB},{#DATABASE}]</key>
                                     </item>
                                 </graph_item>
@@ -3134,7 +3134,7 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                                     <calc_fnc>2</calc_fnc>
                                     <type>0</type>
                                     <item>
-                                        <host>Template PostgreSQL Server</host>
+                                        <host>Template App PostgreSQL</host>
                                         <key>pg.db.blk_write_time[{$PG_CONN},{$PG_DB},{#DATABASE}]</key>
                                     </item>
                                 </graph_item>
@@ -3166,7 +3166,7 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                                     <calc_fnc>2</calc_fnc>
                                     <type>0</type>
                                     <item>
-                                        <host>Template PostgreSQL Server</host>
+                                        <host>Template App PostgreSQL</host>
                                         <key>pg.db.blk_read_time[{$PG_CONN},{$PG_DB},{#DATABASE}]</key>
                                     </item>
                                 </graph_item>
@@ -3178,7 +3178,7 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                                     <calc_fnc>2</calc_fnc>
                                     <type>0</type>
                                     <item>
-                                        <host>Template PostgreSQL Server</host>
+                                        <host>Template App PostgreSQL</host>
                                         <key>pg.db.blk_write_time[{$PG_CONN},{$PG_DB},{#DATABASE}]</key>
                                     </item>
                                 </graph_item>
@@ -3210,7 +3210,7 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                                     <calc_fnc>2</calc_fnc>
                                     <type>0</type>
                                     <item>
-                                        <host>Template PostgreSQL Server</host>
+                                        <host>Template App PostgreSQL</host>
                                         <key>pg.table.n_dead_tup[{$PG_CONN},{#DATABASE}]</key>
                                     </item>
                                 </graph_item>
@@ -3222,7 +3222,7 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                                     <calc_fnc>2</calc_fnc>
                                     <type>0</type>
                                     <item>
-                                        <host>Template PostgreSQL Server</host>
+                                        <host>Template App PostgreSQL</host>
                                         <key>pg.table.n_live_tup[{$PG_CONN},{#DATABASE}]</key>
                                     </item>
                                 </graph_item>
@@ -3234,7 +3234,7 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                                     <calc_fnc>2</calc_fnc>
                                     <type>0</type>
                                     <item>
-                                        <host>Template PostgreSQL Server</host>
+                                        <host>Template App PostgreSQL</host>
                                         <key>pg.table.rows[{$PG_CONN},{#DATABASE}]</key>
                                     </item>
                                 </graph_item>
@@ -3266,7 +3266,7 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                                     <calc_fnc>2</calc_fnc>
                                     <type>0</type>
                                     <item>
-                                        <host>Template PostgreSQL Server</host>
+                                        <host>Template App PostgreSQL</host>
                                         <key>pg.table.n_dead_tup[{$PG_CONN},{#DATABASE}]</key>
                                     </item>
                                 </graph_item>
@@ -3278,7 +3278,7 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                                     <calc_fnc>2</calc_fnc>
                                     <type>0</type>
                                     <item>
-                                        <host>Template PostgreSQL Server</host>
+                                        <host>Template App PostgreSQL</host>
                                         <key>pg.table.n_live_tup[{$PG_CONN},{#DATABASE}]</key>
                                     </item>
                                 </graph_item>
@@ -3290,7 +3290,7 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                                     <calc_fnc>2</calc_fnc>
                                     <type>0</type>
                                     <item>
-                                        <host>Template PostgreSQL Server</host>
+                                        <host>Template App PostgreSQL</host>
                                         <key>pg.table.rows[{$PG_CONN},{#DATABASE}]</key>
                                     </item>
                                 </graph_item>
@@ -3322,7 +3322,7 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                                     <calc_fnc>2</calc_fnc>
                                     <type>0</type>
                                     <item>
-                                        <host>Template PostgreSQL Server</host>
+                                        <host>Template App PostgreSQL</host>
                                         <key>pg.db.tup_deleted[{$PG_CONN},{$PG_DB},{#DATABASE}]</key>
                                     </item>
                                 </graph_item>
@@ -3334,7 +3334,7 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                                     <calc_fnc>2</calc_fnc>
                                     <type>0</type>
                                     <item>
-                                        <host>Template PostgreSQL Server</host>
+                                        <host>Template App PostgreSQL</host>
                                         <key>pg.db.tup_fetched[{$PG_CONN},{$PG_DB},{#DATABASE}]</key>
                                     </item>
                                 </graph_item>
@@ -3346,7 +3346,7 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                                     <calc_fnc>2</calc_fnc>
                                     <type>0</type>
                                     <item>
-                                        <host>Template PostgreSQL Server</host>
+                                        <host>Template App PostgreSQL</host>
                                         <key>pg.db.tup_inserted[{$PG_CONN},{$PG_DB},{#DATABASE}]</key>
                                     </item>
                                 </graph_item>
@@ -3358,7 +3358,7 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                                     <calc_fnc>2</calc_fnc>
                                     <type>0</type>
                                     <item>
-                                        <host>Template PostgreSQL Server</host>
+                                        <host>Template App PostgreSQL</host>
                                         <key>pg.db.tup_returned[{$PG_CONN},{$PG_DB},{#DATABASE}]</key>
                                     </item>
                                 </graph_item>
@@ -3370,7 +3370,7 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                                     <calc_fnc>2</calc_fnc>
                                     <type>0</type>
                                     <item>
-                                        <host>Template PostgreSQL Server</host>
+                                        <host>Template App PostgreSQL</host>
                                         <key>pg.db.tup_updated[{$PG_CONN},{$PG_DB},{#DATABASE}]</key>
                                     </item>
                                 </graph_item>
@@ -3402,7 +3402,7 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                                     <calc_fnc>2</calc_fnc>
                                     <type>0</type>
                                     <item>
-                                        <host>Template PostgreSQL Server</host>
+                                        <host>Template App PostgreSQL</host>
                                         <key>pg.db.tup_deleted[{$PG_CONN},{$PG_DB},{#DATABASE}]</key>
                                     </item>
                                 </graph_item>
@@ -3414,7 +3414,7 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                                     <calc_fnc>2</calc_fnc>
                                     <type>0</type>
                                     <item>
-                                        <host>Template PostgreSQL Server</host>
+                                        <host>Template App PostgreSQL</host>
                                         <key>pg.db.tup_fetched[{$PG_CONN},{$PG_DB},{#DATABASE}]</key>
                                     </item>
                                 </graph_item>
@@ -3426,7 +3426,7 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                                     <calc_fnc>2</calc_fnc>
                                     <type>0</type>
                                     <item>
-                                        <host>Template PostgreSQL Server</host>
+                                        <host>Template App PostgreSQL</host>
                                         <key>pg.db.tup_inserted[{$PG_CONN},{$PG_DB},{#DATABASE}]</key>
                                     </item>
                                 </graph_item>
@@ -3438,7 +3438,7 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                                     <calc_fnc>2</calc_fnc>
                                     <type>0</type>
                                     <item>
-                                        <host>Template PostgreSQL Server</host>
+                                        <host>Template App PostgreSQL</host>
                                         <key>pg.db.tup_returned[{$PG_CONN},{$PG_DB},{#DATABASE}]</key>
                                     </item>
                                 </graph_item>
@@ -3450,7 +3450,7 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                                     <calc_fnc>2</calc_fnc>
                                     <type>0</type>
                                     <item>
-                                        <host>Template PostgreSQL Server</host>
+                                        <host>Template App PostgreSQL</host>
                                         <key>pg.db.tup_updated[{$PG_CONN},{$PG_DB},{#DATABASE}]</key>
                                     </item>
                                 </graph_item>
@@ -3482,7 +3482,7 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                                     <calc_fnc>2</calc_fnc>
                                     <type>0</type>
                                     <item>
-                                        <host>Template PostgreSQL Server</host>
+                                        <host>Template App PostgreSQL</host>
                                         <key>pg.table.n_tup_ins[{$PG_CONN},{#DATABASE}]</key>
                                     </item>
                                 </graph_item>
@@ -3494,7 +3494,7 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                                     <calc_fnc>2</calc_fnc>
                                     <type>0</type>
                                     <item>
-                                        <host>Template PostgreSQL Server</host>
+                                        <host>Template App PostgreSQL</host>
                                         <key>pg.table.n_tup_upd[{$PG_CONN},{#DATABASE}]</key>
                                     </item>
                                 </graph_item>
@@ -3506,7 +3506,7 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                                     <calc_fnc>2</calc_fnc>
                                     <type>0</type>
                                     <item>
-                                        <host>Template PostgreSQL Server</host>
+                                        <host>Template App PostgreSQL</host>
                                         <key>pg.table.n_tup_hot_upd[{$PG_CONN},{#DATABASE}]</key>
                                     </item>
                                 </graph_item>
@@ -3518,7 +3518,7 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                                     <calc_fnc>2</calc_fnc>
                                     <type>0</type>
                                     <item>
-                                        <host>Template PostgreSQL Server</host>
+                                        <host>Template App PostgreSQL</host>
                                         <key>pg.table.n_tup_del[{$PG_CONN},{#DATABASE}]</key>
                                     </item>
                                 </graph_item>
@@ -3550,7 +3550,7 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                                     <calc_fnc>2</calc_fnc>
                                     <type>0</type>
                                     <item>
-                                        <host>Template PostgreSQL Server</host>
+                                        <host>Template App PostgreSQL</host>
                                         <key>pg.table.n_tup_ins[{$PG_CONN},{#DATABASE}]</key>
                                     </item>
                                 </graph_item>
@@ -3562,7 +3562,7 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                                     <calc_fnc>2</calc_fnc>
                                     <type>0</type>
                                     <item>
-                                        <host>Template PostgreSQL Server</host>
+                                        <host>Template App PostgreSQL</host>
                                         <key>pg.table.n_tup_upd[{$PG_CONN},{#DATABASE}]</key>
                                     </item>
                                 </graph_item>
@@ -3574,7 +3574,7 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                                     <calc_fnc>2</calc_fnc>
                                     <type>0</type>
                                     <item>
-                                        <host>Template PostgreSQL Server</host>
+                                        <host>Template App PostgreSQL</host>
                                         <key>pg.table.n_tup_hot_upd[{$PG_CONN},{#DATABASE}]</key>
                                     </item>
                                 </graph_item>
@@ -3586,7 +3586,7 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                                     <calc_fnc>2</calc_fnc>
                                     <type>0</type>
                                     <item>
-                                        <host>Template PostgreSQL Server</host>
+                                        <host>Template App PostgreSQL</host>
                                         <key>pg.table.n_tup_del[{$PG_CONN},{#DATABASE}]</key>
                                     </item>
                                 </graph_item>
@@ -3618,7 +3618,7 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                                     <calc_fnc>2</calc_fnc>
                                     <type>0</type>
                                     <item>
-                                        <host>Template PostgreSQL Server</host>
+                                        <host>Template App PostgreSQL</host>
                                         <key>pg.db.xact_commit[{$PG_CONN},{$PG_DB},{#DATABASE}]</key>
                                     </item>
                                 </graph_item>
@@ -3630,7 +3630,7 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                                     <calc_fnc>2</calc_fnc>
                                     <type>0</type>
                                     <item>
-                                        <host>Template PostgreSQL Server</host>
+                                        <host>Template App PostgreSQL</host>
                                         <key>pg.db.xact_rollback[{$PG_CONN},{$PG_DB},{#DATABASE}]</key>
                                     </item>
                                 </graph_item>
@@ -3662,7 +3662,7 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                                     <calc_fnc>2</calc_fnc>
                                     <type>0</type>
                                     <item>
-                                        <host>Template PostgreSQL Server</host>
+                                        <host>Template App PostgreSQL</host>
                                         <key>pg.db.xact_commit[{$PG_CONN},{$PG_DB},{#DATABASE}]</key>
                                     </item>
                                 </graph_item>
@@ -3674,7 +3674,7 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                                     <calc_fnc>2</calc_fnc>
                                     <type>0</type>
                                     <item>
-                                        <host>Template PostgreSQL Server</host>
+                                        <host>Template App PostgreSQL</host>
                                         <key>pg.db.xact_rollback[{$PG_CONN},{$PG_DB},{#DATABASE}]</key>
                                     </item>
                                 </graph_item>
@@ -4053,7 +4053,7 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                                     <calc_fnc>2</calc_fnc>
                                     <type>0</type>
                                     <item>
-                                        <host>Template PostgreSQL Server</host>
+                                        <host>Template App PostgreSQL</host>
                                         <key>pg.index.idx_blks_read[{$PG_CONN},{#DATABASE},{#INDEX}]</key>
                                     </item>
                                 </graph_item>
@@ -4065,7 +4065,7 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                                     <calc_fnc>2</calc_fnc>
                                     <type>0</type>
                                     <item>
-                                        <host>Template PostgreSQL Server</host>
+                                        <host>Template App PostgreSQL</host>
                                         <key>pg.index.idx_blks_hit[{$PG_CONN},{#DATABASE},{#INDEX}]</key>
                                     </item>
                                 </graph_item>
@@ -4097,7 +4097,7 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                                     <calc_fnc>2</calc_fnc>
                                     <type>0</type>
                                     <item>
-                                        <host>Template PostgreSQL Server</host>
+                                        <host>Template App PostgreSQL</host>
                                         <key>pg.index.size[{$PG_CONN},{#DATABASE},{#INDEX}]</key>
                                     </item>
                                 </graph_item>
@@ -4129,7 +4129,7 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                                     <calc_fnc>2</calc_fnc>
                                     <type>0</type>
                                     <item>
-                                        <host>Template PostgreSQL Server</host>
+                                        <host>Template App PostgreSQL</host>
                                         <key>pg.index.idx_tup_fetch[{$PG_CONN},{#DATABASE},{#INDEX}]</key>
                                     </item>
                                 </graph_item>
@@ -4141,7 +4141,7 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                                     <calc_fnc>2</calc_fnc>
                                     <type>0</type>
                                     <item>
-                                        <host>Template PostgreSQL Server</host>
+                                        <host>Template App PostgreSQL</host>
                                         <key>pg.index.idx_tup_read[{$PG_CONN},{#DATABASE},{#INDEX}]</key>
                                     </item>
                                 </graph_item>
@@ -4153,7 +4153,7 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                                     <calc_fnc>2</calc_fnc>
                                     <type>0</type>
                                     <item>
-                                        <host>Template PostgreSQL Server</host>
+                                        <host>Template App PostgreSQL</host>
                                         <key>pg.index.idx_scan[{$PG_CONN},{#DATABASE},{#INDEX}]</key>
                                     </item>
                                 </graph_item>
@@ -4185,7 +4185,7 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                                     <calc_fnc>2</calc_fnc>
                                     <type>0</type>
                                     <item>
-                                        <host>Template PostgreSQL Server</host>
+                                        <host>Template App PostgreSQL</host>
                                         <key>pg.index.rows[{$PG_CONN},{#DATABASE},{#INDEX}]</key>
                                     </item>
                                 </graph_item>
@@ -4281,7 +4281,7 @@ Description: {#DESCRIPTION}</description>
                     </item_prototypes>
                     <trigger_prototypes>
                         <trigger_prototype>
-                            <expression>{Template PostgreSQL Server:pg.setting[{$PG_CONN},{$PG_DB},{#SETTING}].diff(0)}&gt;0</expression>
+                            <expression>{Template App PostgreSQL:pg.setting[{$PG_CONN},{$PG_DB},{#SETTING}].diff(0)}&gt;0</expression>
                             <name>PostgreSQL Setting: {#SETTING} has changed</name>
                             <url>https://www.postgresql.org/docs/current/static/runtime-config.html</url>
                             <status>0</status>
@@ -5236,7 +5236,7 @@ Description: {#DESCRIPTION}</description>
                                     <calc_fnc>2</calc_fnc>
                                     <type>0</type>
                                     <item>
-                                        <host>Template PostgreSQL Server</host>
+                                        <host>Template App PostgreSQL</host>
                                         <key>pg.table.size[{$PG_CONN},{#DATABASE},{#TABLE}]</key>
                                     </item>
                                 </graph_item>
@@ -5268,7 +5268,7 @@ Description: {#DESCRIPTION}</description>
                                     <calc_fnc>2</calc_fnc>
                                     <type>0</type>
                                     <item>
-                                        <host>Template PostgreSQL Server</host>
+                                        <host>Template App PostgreSQL</host>
                                         <key>pg.table.idx_tup_fetch[{$PG_CONN},{#DATABASE},{#TABLE}]</key>
                                     </item>
                                 </graph_item>
@@ -5280,7 +5280,7 @@ Description: {#DESCRIPTION}</description>
                                     <calc_fnc>2</calc_fnc>
                                     <type>0</type>
                                     <item>
-                                        <host>Template PostgreSQL Server</host>
+                                        <host>Template App PostgreSQL</host>
                                         <key>pg.table.seq_tup_read[{$PG_CONN},{#DATABASE},{#TABLE}]</key>
                                     </item>
                                 </graph_item>
@@ -5312,7 +5312,7 @@ Description: {#DESCRIPTION}</description>
                                     <calc_fnc>2</calc_fnc>
                                     <type>0</type>
                                     <item>
-                                        <host>Template PostgreSQL Server</host>
+                                        <host>Template App PostgreSQL</host>
                                         <key>pg.table.analyze_count[{$PG_CONN},{#DATABASE},{#TABLE}]</key>
                                     </item>
                                 </graph_item>
@@ -5324,7 +5324,7 @@ Description: {#DESCRIPTION}</description>
                                     <calc_fnc>2</calc_fnc>
                                     <type>0</type>
                                     <item>
-                                        <host>Template PostgreSQL Server</host>
+                                        <host>Template App PostgreSQL</host>
                                         <key>pg.table.autoanalyze_count[{$PG_CONN},{#DATABASE},{#TABLE}]</key>
                                     </item>
                                 </graph_item>
@@ -5336,7 +5336,7 @@ Description: {#DESCRIPTION}</description>
                                     <calc_fnc>2</calc_fnc>
                                     <type>0</type>
                                     <item>
-                                        <host>Template PostgreSQL Server</host>
+                                        <host>Template App PostgreSQL</host>
                                         <key>pg.table.autovacuum_count[{$PG_CONN},{#DATABASE},{#TABLE}]</key>
                                     </item>
                                 </graph_item>
@@ -5348,7 +5348,7 @@ Description: {#DESCRIPTION}</description>
                                     <calc_fnc>2</calc_fnc>
                                     <type>0</type>
                                     <item>
-                                        <host>Template PostgreSQL Server</host>
+                                        <host>Template App PostgreSQL</host>
                                         <key>pg.table.vacuum_count[{$PG_CONN},{#DATABASE},{#TABLE}]</key>
                                     </item>
                                 </graph_item>
@@ -5380,7 +5380,7 @@ Description: {#DESCRIPTION}</description>
                                     <calc_fnc>2</calc_fnc>
                                     <type>0</type>
                                     <item>
-                                        <host>Template PostgreSQL Server</host>
+                                        <host>Template App PostgreSQL</host>
                                         <key>pg.table.n_dead_tup[{$PG_CONN},{#DATABASE},{#TABLE}]</key>
                                     </item>
                                 </graph_item>
@@ -5392,7 +5392,7 @@ Description: {#DESCRIPTION}</description>
                                     <calc_fnc>2</calc_fnc>
                                     <type>0</type>
                                     <item>
-                                        <host>Template PostgreSQL Server</host>
+                                        <host>Template App PostgreSQL</host>
                                         <key>pg.table.n_live_tup[{$PG_CONN},{#DATABASE},{#TABLE}]</key>
                                     </item>
                                 </graph_item>
@@ -5404,7 +5404,7 @@ Description: {#DESCRIPTION}</description>
                                     <calc_fnc>2</calc_fnc>
                                     <type>0</type>
                                     <item>
-                                        <host>Template PostgreSQL Server</host>
+                                        <host>Template App PostgreSQL</host>
                                         <key>pg.table.rows[{$PG_CONN},{#DATABASE},{#TABLE}]</key>
                                     </item>
                                 </graph_item>
@@ -5436,7 +5436,7 @@ Description: {#DESCRIPTION}</description>
                                     <calc_fnc>2</calc_fnc>
                                     <type>0</type>
                                     <item>
-                                        <host>Template PostgreSQL Server</host>
+                                        <host>Template App PostgreSQL</host>
                                         <key>pg.table.idx_scan[{$PG_CONN},{#DATABASE},{#TABLE}]</key>
                                     </item>
                                 </graph_item>
@@ -5448,7 +5448,7 @@ Description: {#DESCRIPTION}</description>
                                     <calc_fnc>2</calc_fnc>
                                     <type>0</type>
                                     <item>
-                                        <host>Template PostgreSQL Server</host>
+                                        <host>Template App PostgreSQL</host>
                                         <key>pg.table.seq_scan[{$PG_CONN},{#DATABASE},{#TABLE}]</key>
                                     </item>
                                 </graph_item>
@@ -5480,7 +5480,7 @@ Description: {#DESCRIPTION}</description>
                                     <calc_fnc>2</calc_fnc>
                                     <type>0</type>
                                     <item>
-                                        <host>Template PostgreSQL Server</host>
+                                        <host>Template App PostgreSQL</host>
                                         <key>pg.table.n_tup_ins[{$PG_CONN},{#DATABASE},{#TABLE}]</key>
                                     </item>
                                 </graph_item>
@@ -5492,7 +5492,7 @@ Description: {#DESCRIPTION}</description>
                                     <calc_fnc>2</calc_fnc>
                                     <type>0</type>
                                     <item>
-                                        <host>Template PostgreSQL Server</host>
+                                        <host>Template App PostgreSQL</host>
                                         <key>pg.table.n_tup_upd[{$PG_CONN},{#DATABASE},{#TABLE}]</key>
                                     </item>
                                 </graph_item>
@@ -5504,7 +5504,7 @@ Description: {#DESCRIPTION}</description>
                                     <calc_fnc>2</calc_fnc>
                                     <type>0</type>
                                     <item>
-                                        <host>Template PostgreSQL Server</host>
+                                        <host>Template App PostgreSQL</host>
                                         <key>pg.table.n_tup_hot_upd[{$PG_CONN},{#DATABASE},{#TABLE}]</key>
                                     </item>
                                 </graph_item>
@@ -5516,7 +5516,7 @@ Description: {#DESCRIPTION}</description>
                                     <calc_fnc>2</calc_fnc>
                                     <type>0</type>
                                     <item>
-                                        <host>Template PostgreSQL Server</host>
+                                        <host>Template App PostgreSQL</host>
                                         <key>pg.table.n_tup_del[{$PG_CONN},{#DATABASE},{#TABLE}]</key>
                                     </item>
                                 </graph_item>
@@ -5631,7 +5631,7 @@ Description: {#DESCRIPTION}</description>
                                     <calc_fnc>2</calc_fnc>
                                     <type>0</type>
                                     <item>
-                                        <host>Template PostgreSQL Server</host>
+                                        <host>Template App PostgreSQL</host>
                                         <key>pg.tablespace.size[{$PG_CONN},{$PG_DB},{#TABLESPACE}]</key>
                                     </item>
                                 </graph_item>
@@ -5677,7 +5677,7 @@ Description: {#DESCRIPTION}</description>
     </templates>
     <triggers>
         <trigger>
-            <expression>{Template PostgreSQL Server:pg.modver.diff(0)}&gt;0</expression>
+            <expression>{Template App PostgreSQL:pg.modver.diff(0)}&gt;0</expression>
             <name>PostgreSQL Agent module version was changed on {HOST.NAME}</name>
             <url/>
             <status>0</status>
@@ -5687,7 +5687,7 @@ Description: {#DESCRIPTION}</description>
             <dependencies/>
         </trigger>
         <trigger>
-            <expression>{Template PostgreSQL Server:pg.prepared_xacts_ratio[{$PG_CONN},{$PG_DB}].last()}&lt;{$PG_BACKENDS_CRIT}</expression>
+            <expression>{Template App PostgreSQL:pg.prepared_xacts_ratio[{$PG_CONN},{$PG_DB}].last()}&lt;{$PG_BACKENDS_CRIT}</expression>
             <name>PostgreSQL Backend connections are exhausted on {HOST.NAME}</name>
             <url>https://www.postgresql.org/docs/current/static/runtime-config-connection.html#GUC-MAX-CONNECTIONS</url>
             <status>0</status>
@@ -5699,7 +5699,7 @@ Investigate the issue immediately and consider increasing max_connections.</desc
             <dependencies/>
         </trigger>
         <trigger>
-            <expression>({TRIGGER.VALUE}=0 and {Template PostgreSQL Server:pg.prepared_xacts_ratio[{$PG_CONN},{$PG_DB}].last()}&gt;{$PG_PXACT_WARN} and  {Template PostgreSQL Server:pg.prepared_xacts_ratio[{$PG_CONN},{$PG_DB}].last()}&lt;{$PG_PXACT_CRIT}) or ({TRIGGER.VALUE}=1 and {Template PostgreSQL Server:pg.prepared_xacts_ratio[{$PG_CONN},{$PG_DB}].last()}&gt;{$PG_PXACT_WARN})</expression>
+            <expression>({TRIGGER.VALUE}=0 and {Template App PostgreSQL:pg.prepared_xacts_ratio[{$PG_CONN},{$PG_DB}].last()}&gt;{$PG_PXACT_WARN} and  {Template App PostgreSQL:pg.prepared_xacts_ratio[{$PG_CONN},{$PG_DB}].last()}&lt;{$PG_PXACT_CRIT}) or ({TRIGGER.VALUE}=1 and {Template App PostgreSQL:pg.prepared_xacts_ratio[{$PG_CONN},{$PG_DB}].last()}&gt;{$PG_PXACT_WARN})</expression>
             <name>PostgreSQL Prepared transactions are near exhaustion on {HOST.NAME}</name>
             <url>https://www.postgresql.org/docs/current/static/runtime-config-resource.html#GUC-MAX-PREPARED-TRANSACTIONS</url>
             <status>0</status>
@@ -5711,7 +5711,7 @@ Investigate the issue and consider increasing max_prepared_transactions.</descri
             <dependencies/>
         </trigger>
         <trigger>
-            <expression>{Template PostgreSQL Server:pg.uptime[{$PG_CONN},{$PG_DB}].change(0)}&lt;0</expression>
+            <expression>{Template App PostgreSQL:pg.uptime[{$PG_CONN},{$PG_DB}].change(0)}&lt;0</expression>
             <name>PostgreSQL Server on {HOST.NAME} has just been restarted</name>
             <url/>
             <status>0</status>
@@ -5721,7 +5721,7 @@ Investigate the issue and consider increasing max_prepared_transactions.</descri
             <dependencies/>
         </trigger>
         <trigger>
-            <expression>{Template PostgreSQL Server:pg.connect[{$PG_CONN},{$PG_DB}].max(#3)}&lt;1</expression>
+            <expression>{Template App PostgreSQL:pg.connect[{$PG_CONN},{$PG_DB}].max(#3)}&lt;1</expression>
             <name>PostgreSQL Server on {HOST.NAME} is unreachable for the last 3 polls</name>
             <url/>
             <status>0</status>
@@ -5731,7 +5731,7 @@ Investigate the issue and consider increasing max_prepared_transactions.</descri
             <dependencies/>
         </trigger>
         <trigger>
-            <expression>{Template PostgreSQL Server:pg.version[{$PG_CONN},{$PG_DB}].diff(0)}&gt;0</expression>
+            <expression>{Template App PostgreSQL:pg.version[{$PG_CONN},{$PG_DB}].diff(0)}&gt;0</expression>
             <name>PostgreSQL Server version was changed on {HOST.NAME}</name>
             <url/>
             <status>0</status>
@@ -5741,7 +5741,7 @@ Investigate the issue and consider increasing max_prepared_transactions.</descri
             <dependencies/>
         </trigger>
         <trigger>
-            <expression>{Template PostgreSQL Server:pg.db.xid_age[{$PG_CONN},{$PG_DB}].last()}&gt;{$PG_XID_CRIT}</expression>
+            <expression>{Template App PostgreSQL:pg.db.xid_age[{$PG_CONN},{$PG_DB}].last()}&gt;{$PG_XID_CRIT}</expression>
             <name>PostgreSQL Transaction IDs are exhausted on {HOST.NAME}</name>
             <url>https://www.postgresql.org/docs/current/static/routine-vacuuming.html#VACUUM-FOR-WRAPAROUND</url>
             <status>0</status>
@@ -5753,7 +5753,7 @@ Perform a VACUUM immediately to reset the available Transaction IDs and review y
             <dependencies/>
         </trigger>
         <trigger>
-            <expression>({TRIGGER.VALUE}=0 and {Template PostgreSQL Server:pg.db.xid_age[{$PG_CONN},{$PG_DB}].last()}&gt;{$PG_XID_WARN} and {Template PostgreSQL Server:pg.db.xid_age[{$PG_CONN},{$PG_DB}].last()}&lt;{$PG_XID_CRIT}) or ({TRIGGER.VALUE}=1 and {Template PostgreSQL Server:pg.db.xid_age[{$PG_CONN},{$PG_DB}].last()}&gt;{$PG_XID_WARN})</expression>
+            <expression>({TRIGGER.VALUE}=0 and {Template App PostgreSQL:pg.db.xid_age[{$PG_CONN},{$PG_DB}].last()}&gt;{$PG_XID_WARN} and {Template App PostgreSQL:pg.db.xid_age[{$PG_CONN},{$PG_DB}].last()}&lt;{$PG_XID_CRIT}) or ({TRIGGER.VALUE}=1 and {Template App PostgreSQL:pg.db.xid_age[{$PG_CONN},{$PG_DB}].last()}&gt;{$PG_XID_WARN})</expression>
             <name>PostgreSQL Transaction IDs are near exhaustion on {HOST.NAME}</name>
             <url>https://www.postgresql.org/docs/current/static/routine-vacuuming.html#VACUUM-FOR-WRAPAROUND</url>
             <status>0</status>
@@ -5792,7 +5792,7 @@ Perform a VACUUM as soon a possible to reset the available Transaction IDs and r
                     <calc_fnc>2</calc_fnc>
                     <type>0</type>
                     <item>
-                        <host>Template PostgreSQL Server</host>
+                        <host>Template App PostgreSQL</host>
                         <key>pg.backends.count[{$PG_CONN},{$PG_DB}]</key>
                     </item>
                 </graph_item>
@@ -5824,7 +5824,7 @@ Perform a VACUUM as soon a possible to reset the available Transaction IDs and r
                     <calc_fnc>2</calc_fnc>
                     <type>0</type>
                     <item>
-                        <host>Template PostgreSQL Server</host>
+                        <host>Template App PostgreSQL</host>
                         <key>pg.buffers_alloc[{$PG_CONN},{$PG_DB}]</key>
                     </item>
                 </graph_item>
@@ -5836,7 +5836,7 @@ Perform a VACUUM as soon a possible to reset the available Transaction IDs and r
                     <calc_fnc>2</calc_fnc>
                     <type>0</type>
                     <item>
-                        <host>Template PostgreSQL Server</host>
+                        <host>Template App PostgreSQL</host>
                         <key>pg.buffers_clean[{$PG_CONN},{$PG_DB}]</key>
                     </item>
                 </graph_item>
@@ -5848,7 +5848,7 @@ Perform a VACUUM as soon a possible to reset the available Transaction IDs and r
                     <calc_fnc>2</calc_fnc>
                     <type>0</type>
                     <item>
-                        <host>Template PostgreSQL Server</host>
+                        <host>Template App PostgreSQL</host>
                         <key>pg.buffers_backend[{$PG_CONN},{$PG_DB}]</key>
                     </item>
                 </graph_item>
@@ -5860,7 +5860,7 @@ Perform a VACUUM as soon a possible to reset the available Transaction IDs and r
                     <calc_fnc>2</calc_fnc>
                     <type>0</type>
                     <item>
-                        <host>Template PostgreSQL Server</host>
+                        <host>Template App PostgreSQL</host>
                         <key>pg.buffers_checkpoint[{$PG_CONN},{$PG_DB}]</key>
                     </item>
                 </graph_item>
@@ -5892,7 +5892,7 @@ Perform a VACUUM as soon a possible to reset the available Transaction IDs and r
                     <calc_fnc>2</calc_fnc>
                     <type>0</type>
                     <item>
-                        <host>Template PostgreSQL Server</host>
+                        <host>Template App PostgreSQL</host>
                         <key>pg.checkpoint_sync_time[{$PG_CONN},{$PG_DB}]</key>
                     </item>
                 </graph_item>
@@ -5904,7 +5904,7 @@ Perform a VACUUM as soon a possible to reset the available Transaction IDs and r
                     <calc_fnc>2</calc_fnc>
                     <type>0</type>
                     <item>
-                        <host>Template PostgreSQL Server</host>
+                        <host>Template App PostgreSQL</host>
                         <key>pg.checkpoint_write_time[{$PG_CONN},{$PG_DB}]</key>
                     </item>
                 </graph_item>
@@ -5936,7 +5936,7 @@ Perform a VACUUM as soon a possible to reset the available Transaction IDs and r
                     <calc_fnc>2</calc_fnc>
                     <type>0</type>
                     <item>
-                        <host>Template PostgreSQL Server</host>
+                        <host>Template App PostgreSQL</host>
                         <key>pg.prepared_xacts_ratio[{$PG_CONN},{$PG_DB}]</key>
                     </item>
                 </graph_item>
@@ -5948,7 +5948,7 @@ Perform a VACUUM as soon a possible to reset the available Transaction IDs and r
                     <calc_fnc>2</calc_fnc>
                     <type>0</type>
                     <item>
-                        <host>Template PostgreSQL Server</host>
+                        <host>Template App PostgreSQL</host>
                         <key>pg.backends.ratio[{$PG_CONN},{$PG_DB}]</key>
                     </item>
                 </graph_item>
