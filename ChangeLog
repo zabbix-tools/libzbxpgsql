@@ -1,4 +1,4 @@
-v1.0.0 TBC
+v1.0.0 26 Jun 2016
 
 * Added support for Zabbix v3
 * Added multi-database support for discovering schema, tables and indexes
