@@ -601,7 +601,7 @@ Requires libzbxpgsql v1.0.0 or above.</description>
                     <snmp_community/>
                     <multiplier>1</multiplier>
                     <snmp_oid/>
-                    <key>pg.checkpoint_time_perc[{$PG_CONN},{$PG_DB}]</key>
+                    <key>pg.checkpoint_time_ratio[{$PG_CONN},{$PG_DB}]</key>
                     <delay>60</delay>
                     <history>7</history>
                     <trends>365</trends>

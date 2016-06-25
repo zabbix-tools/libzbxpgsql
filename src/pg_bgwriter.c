@@ -123,7 +123,7 @@ FROM pg_stat_bgwriter;";
 }
 
 /*
- * Custom key pg.checkpoint_time_perc
+ * Custom key pg.checkpoint_time_ratio
  *
  * Returns the percentage of time spent writing or syncing checkpoints since
  * statistics were reset.
@@ -135,12 +135,12 @@ FROM pg_stat_bgwriter;";
  *
  * Returns: d
  */
-int     PG_BG_TIME_PERC(AGENT_REQUEST *request, AGENT_RESULT *result)
+int     PG_BG_TIME_RATIO(AGENT_REQUEST *request, AGENT_RESULT *result)
 {
     int         ret = SYSINFO_RET_FAIL;                 // Request result code
-    const char  *__function_name = "PG_BG_TIME_PERC";   // Function name for log file
+    const char  *__function_name = "PG_BG_TIME_RATIO";   // Function name for log file
 
-    const char  *pgsql_bg_time_perc = "\
+    const char  *pgsql_bg_time_ratio = "\
 SELECT \
     (%s / 1000) / EXTRACT(EPOCH FROM NOW() - stats_reset) \
 FROM pg_stat_bgwriter;";
@@ -164,7 +164,7 @@ FROM pg_stat_bgwriter;";
     }
 
     // build query
-    zbx_snprintf(query, sizeof(query), pgsql_bg_time_perc, field);
+    zbx_snprintf(query, sizeof(query), pgsql_bg_time_ratio, field);
 
     // get result
     ret = pg_get_dbl(request, result, query, NULL);

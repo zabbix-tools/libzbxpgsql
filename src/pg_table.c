@@ -266,10 +266,10 @@ out:
     return ret;
 }
 
-int     PG_TABLE_IDX_SCAN_PERC(AGENT_REQUEST *request, AGENT_RESULT *result)
+int     PG_TABLE_IDX_SCAN_RATIO(AGENT_REQUEST *request, AGENT_RESULT *result)
 {
     int         ret = SYSINFO_RET_FAIL;                         // Request result code
-    const char  *__function_name = "PG_TABLE_IDX_SCAN_PERC";    // Function name for log file
+    const char  *__function_name = "PG_TABLE_IDX_SCAN_RATIO";    // Function name for log file
     
     char        *tablename = NULL;
     
@@ -342,10 +342,10 @@ int    PG_STATIO_ALL_TABLES(AGENT_REQUEST *request, AGENT_RESULT *result)
     return ret;
 }
 
-int     PG_TABLE_HEAP_BLKS_PERC(AGENT_REQUEST *request, AGENT_RESULT *result)
+int     PG_TABLE_HEAP_BLKS_RATIO(AGENT_REQUEST *request, AGENT_RESULT *result)
 {
     int         ret = SYSINFO_RET_FAIL;                         // Request result code
-    const char  *__function_name = "PG_TABLE_HEAP_BLKS_PERC";  // Function name for log file
+    const char  *__function_name = "PG_TABLE_HEAP_BLKS_RATIO";  // Function name for log file
     
     char        *tablename = NULL;
     
@@ -378,10 +378,10 @@ int     PG_TABLE_HEAP_BLKS_PERC(AGENT_REQUEST *request, AGENT_RESULT *result)
     return ret; 
 }
 
-int     PG_TABLE_IDX_BLKS_PERC(AGENT_REQUEST *request, AGENT_RESULT *result)
+int     PG_TABLE_IDX_BLKS_RATIO(AGENT_REQUEST *request, AGENT_RESULT *result)
 {
     int         ret = SYSINFO_RET_FAIL;                         // Request result code
-    const char  *__function_name = "PG_TABLE_IDX_BLKS_PERC";  // Function name for log file
+    const char  *__function_name = "PG_TABLE_IDX_BLKS_RATIO";  // Function name for log file
     
     char        *tablename = NULL;
     
@@ -414,10 +414,10 @@ int     PG_TABLE_IDX_BLKS_PERC(AGENT_REQUEST *request, AGENT_RESULT *result)
     return ret; 
 }
 
-int     PG_TABLE_TOAST_BLKS_PERC(AGENT_REQUEST *request, AGENT_RESULT *result)
+int     PG_TABLE_TOAST_BLKS_RATIO(AGENT_REQUEST *request, AGENT_RESULT *result)
 {
     int         ret = SYSINFO_RET_FAIL;                         // Request result code
-    const char  *__function_name = "PG_TABLE_TOAST_BLKS_PERC";  // Function name for log file
+    const char  *__function_name = "PG_TABLE_TOAST_BLKS_RATIO";  // Function name for log file
     
     char        *tablename = NULL;
     
@@ -450,10 +450,10 @@ int     PG_TABLE_TOAST_BLKS_PERC(AGENT_REQUEST *request, AGENT_RESULT *result)
     return ret; 
 }
 
-int     PG_TABLE_TIDX_BLKS_PERC(AGENT_REQUEST *request, AGENT_RESULT *result)
+int     PG_TABLE_TIDX_BLKS_RATIO(AGENT_REQUEST *request, AGENT_RESULT *result)
 {
     int         ret = SYSINFO_RET_FAIL;                         // Request result code
-    const char  *__function_name = "PG_TABLE_TIDX_BLKS_PERC";  // Function name for log file
+    const char  *__function_name = "PG_TABLE_TIDX_BLKS_RATIO";  // Function name for log file
     
     char        *tablename = NULL;
     

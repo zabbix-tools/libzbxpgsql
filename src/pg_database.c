@@ -140,10 +140,10 @@ out:
     return ret;
 }
 
-int     PG_DB_BLKS_PERC(AGENT_REQUEST *request, AGENT_RESULT *result)
+int     PG_DB_BLKS_RATIO(AGENT_REQUEST *request, AGENT_RESULT *result)
 {
     int         ret = SYSINFO_RET_FAIL;                 // Request result code
-    const char  *__function_name = "PG_DB_BLKS_PERC";   // Function name for log file
+    const char  *__function_name = "PG_DB_BLKS_RATIO";   // Function name for log file
     
     char        *dbname = NULL;
     

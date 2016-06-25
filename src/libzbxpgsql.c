@@ -59,7 +59,7 @@ static ZBX_METRIC keys[] =
     {"pg.checkpoint_write_time",    CF_HAVEPARAMS,  PG_STAT_BGWRITER,               NULL},
     {"pg.checkpoint_sync_time",     CF_HAVEPARAMS,  PG_STAT_BGWRITER,               NULL},
     {"pg.checkpoint_avg_interval",  CF_HAVEPARAMS,  PG_BG_AVG_INTERVAL,             NULL},
-    {"pg.checkpoint_time_perc",     CF_HAVEPARAMS,  PG_BG_TIME_PERC,                NULL},
+    {"pg.checkpoint_time_ratio",    CF_HAVEPARAMS,  PG_BG_TIME_RATIO,               NULL},
     {"pg.buffers_checkpoint",       CF_HAVEPARAMS,  PG_STAT_BGWRITER,               NULL},
     {"pg.buffers_clean",            CF_HAVEPARAMS,  PG_STAT_BGWRITER,               NULL},
     {"pg.maxwritten_clean",         CF_HAVEPARAMS,  PG_STAT_BGWRITER,               NULL},
@@ -97,7 +97,7 @@ static ZBX_METRIC keys[] =
     {"pg.db.xact_rollback",         CF_HAVEPARAMS,  PG_STAT_DATABASE,               NULL},
     {"pg.db.blks_read",             CF_HAVEPARAMS,  PG_STAT_DATABASE,               NULL},
     {"pg.db.blks_hit",              CF_HAVEPARAMS,  PG_STAT_DATABASE,               NULL},
-    {"pg.db.blks_perc",             CF_HAVEPARAMS,  PG_DB_BLKS_PERC,                NULL},
+    {"pg.db.blks_ratio",            CF_HAVEPARAMS,  PG_DB_BLKS_RATIO,                NULL},
     {"pg.db.tup_returned",          CF_HAVEPARAMS,  PG_STAT_DATABASE,               NULL},
     {"pg.db.tup_fetched",           CF_HAVEPARAMS,  PG_STAT_DATABASE,               NULL},
     {"pg.db.tup_inserted",          CF_HAVEPARAMS,  PG_STAT_DATABASE,               NULL},
@@ -116,7 +116,7 @@ static ZBX_METRIC keys[] =
     {"pg.table.seq_scan",           CF_HAVEPARAMS,  PG_STAT_ALL_TABLES,             NULL},
     {"pg.table.seq_tup_read",       CF_HAVEPARAMS,  PG_STAT_ALL_TABLES,             NULL},
     {"pg.table.idx_scan",           CF_HAVEPARAMS,  PG_STAT_ALL_TABLES,             NULL},
-    {"pg.table.idx_scan_perc",      CF_HAVEPARAMS,  PG_TABLE_IDX_SCAN_PERC,         NULL},
+    {"pg.table.idx_scan_ratio",     CF_HAVEPARAMS,  PG_TABLE_IDX_SCAN_RATIO,        NULL},
     {"pg.table.idx_tup_fetch",      CF_HAVEPARAMS,  PG_STAT_ALL_TABLES,             NULL},
     {"pg.table.n_tup_ins",          CF_HAVEPARAMS,  PG_STAT_ALL_TABLES,             NULL},
     {"pg.table.n_tup_upd",          CF_HAVEPARAMS,  PG_STAT_ALL_TABLES,             NULL},
@@ -137,16 +137,16 @@ static ZBX_METRIC keys[] =
     // Table IO Statistics (as per pg_statio_all_tables)
     {"pg.table.heap_blks_read",     CF_HAVEPARAMS,  PG_STATIO_ALL_TABLES,           NULL},
     {"pg.table.heap_blks_hit",      CF_HAVEPARAMS,  PG_STATIO_ALL_TABLES,           NULL},
-    {"pg.table.heap_blks_perc",     CF_HAVEPARAMS,  PG_TABLE_HEAP_BLKS_PERC,        NULL},
+    {"pg.table.heap_blks_ratio",    CF_HAVEPARAMS,  PG_TABLE_HEAP_BLKS_RATIO,       NULL},
     {"pg.table.idx_blks_read",      CF_HAVEPARAMS,  PG_STATIO_ALL_TABLES,           NULL},
     {"pg.table.idx_blks_hit",       CF_HAVEPARAMS,  PG_STATIO_ALL_TABLES,           NULL},
-    {"pg.table.idx_blks_perc",      CF_HAVEPARAMS,  PG_TABLE_IDX_BLKS_PERC,         NULL},
+    {"pg.table.idx_blks_ratio",     CF_HAVEPARAMS,  PG_TABLE_IDX_BLKS_RATIO,        NULL},
     {"pg.table.toast_blks_read",    CF_HAVEPARAMS,  PG_STATIO_ALL_TABLES,           NULL},
     {"pg.table.toast_blks_hit",     CF_HAVEPARAMS,  PG_STATIO_ALL_TABLES,           NULL},
-    {"pg.table.toast_blks_perc",    CF_HAVEPARAMS,  PG_TABLE_TOAST_BLKS_PERC,       NULL},
+    {"pg.table.toast_blks_ratio",   CF_HAVEPARAMS,  PG_TABLE_TOAST_BLKS_RATIO,      NULL},
     {"pg.table.tidx_blks_read",     CF_HAVEPARAMS,  PG_STATIO_ALL_TABLES,           NULL},
     {"pg.table.tidx_blks_hit",      CF_HAVEPARAMS,  PG_STATIO_ALL_TABLES,           NULL},
-    {"pg.table.tidx_blks_perc",     CF_HAVEPARAMS,  PG_TABLE_TIDX_BLKS_PERC,        NULL},
+    {"pg.table.tidx_blks_ratio",    CF_HAVEPARAMS,  PG_TABLE_TIDX_BLKS_RATIO,       NULL},
     
     // Index statistics (as per pg_stat_all_indexes)
     {"pg.index.idx_scan",           CF_HAVEPARAMS,  PG_STAT_ALL_INDEXES,            NULL},
@@ -156,7 +156,7 @@ static ZBX_METRIC keys[] =
     // Index IO statistics (as per pg_statio_all_indexes)
     {"pg.index.idx_blks_read",      CF_HAVEPARAMS,  PG_STATIO_ALL_INDEXES,          NULL},
     {"pg.index.idx_blks_hit",       CF_HAVEPARAMS,  PG_STATIO_ALL_INDEXES,          NULL},
-    {"pg.index.idx_blks_perc",      CF_HAVEPARAMS,  PG_INDEX_IDX_BLKS_PERC,         NULL},
+    {"pg.index.idx_blks_ratio",     CF_HAVEPARAMS,  PG_INDEX_IDX_BLKS_RATIO,        NULL},
     
     // Null terminator
     {NULL}
