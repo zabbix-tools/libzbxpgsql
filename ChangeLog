@@ -16,6 +16,8 @@ v1.0.0 TBC
 * Added `pg.table.n_mod_since_analyze` to return the estimated number of rows
   that have been modified since the last table analyze
 * Added support for `pg.queries.longest` in PostgreSQL versions prior to 9.2
+* Added `pg.prepared_xacts_count` to return the number of transactions currently
+  parepared for two phase commit
 * Added `--with-postgresql` switch to source configuration script
 * Added `--with-zabbix` switch to source configuration script
 * Fixed misreporting in `pg.queries.longest` when no queries were in progress

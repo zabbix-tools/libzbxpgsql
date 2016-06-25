@@ -34,6 +34,7 @@ static ZBX_METRIC keys[] =
     {"pg.version",                  CF_HAVEPARAMS,  PG_VERSION,                     NULL},
     {"pg.starttime",                CF_HAVEPARAMS,  PG_STARTTIME,                   NULL},
     {"pg.uptime",                   CF_HAVEPARAMS,  PG_UPTIME,                      NULL},
+    {"pg.prepared_xacts_count",     CF_HAVEPARAMS,  PG_PREPARED_XACTS_COUNT,        NULL},
 
     {"pg.setting",                  CF_HAVEPARAMS,  PG_SETTING,                     ",,data_directory"},
     {"pg.setting.discovery",        CF_HAVEPARAMS,  PG_SETTING_DISCOVERY,           NULL},

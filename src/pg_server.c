@@ -38,9 +38,9 @@
  */
 int    PG_CONNECT(AGENT_REQUEST *request, AGENT_RESULT *result)
 {
-    int             ret = SYSINFO_RET_FAIL;             // Request result code
-    const char          *__function_name = "PG_CONNECT";        // Function name for log file
-    PGconn      *conn = NULL;
+    int             ret = SYSINFO_RET_FAIL;
+    const char      *__function_name = "PG_CONNECT";
+    PGconn          *conn = NULL;
     
     zabbix_log(LOG_LEVEL_DEBUG, "In %s()", __function_name);
     
@@ -137,6 +137,41 @@ int    PG_UPTIME(AGENT_REQUEST *request, AGENT_RESULT *result)
     zabbix_log(LOG_LEVEL_DEBUG, "In %s()", __function_name);
     
     ret = pg_get_int(request, result, query, NULL);
+    
+    zabbix_log(LOG_LEVEL_DEBUG, "End of %s()", __function_name);
+    return ret;
+}
+
+/*
+ * Custom key pg.prepared_xacts_count
+ *
+ * Returns the number of transactions that are currently prepared for two phase
+ * commit.
+ *
+ * Parameters:
+ *   0:  connection string
+ *   1:  connection database
+ *   2:  filter by database
+ *
+ * Returns: u
+ */
+int    PG_PREPARED_XACTS_COUNT(AGENT_REQUEST *request, AGENT_RESULT *result)
+{
+    int             ret = SYSINFO_RET_FAIL;
+    const char      *__function_name = "PG_PREPARED_XACTS_COUNT";
+    
+    char            query[MAX_STRING_LEN];
+    char            *datname = NULL;
+    
+    zabbix_log(LOG_LEVEL_DEBUG, "In %s()", __function_name);
+
+    // Build query
+    datname = get_rparam(request, PARAM_FIRST);
+    if(strisnull(datname)) {
+        ret = pg_get_int(request, result, "SELECT COUNT (transaction) FROM pg_prepared_xacts;", NULL);
+    } else {
+        ret = pg_get_int(request, result, "SELECT COUNT (transaction) FROM pg_prepared_xacts WHERE database = $1;", param_new(datname));
+    }
     
     zabbix_log(LOG_LEVEL_DEBUG, "End of %s()", __function_name);
     return ret;
