@@ -21,6 +21,8 @@ v1.0.0 TBC
 * Added `pg.prepared_xacts_ratio` to return the number of transactions currently
   prepared for two phase commit as a ratio of the maximum permitted prepared
   transaction count
+* Added `pg.prepared_xacts_age` to return the age of the oldest transaction
+  currently prepared for two phase commit
 * Added `--with-postgresql` switch to source configuration script
 * Added `--with-zabbix` switch to source configuration script
 * Fixed misreporting in `pg.queries.longest` when no queries were in progress

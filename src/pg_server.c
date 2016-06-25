@@ -160,12 +160,11 @@ int    PG_PREPARED_XACTS_COUNT(AGENT_REQUEST *request, AGENT_RESULT *result)
     int             ret = SYSINFO_RET_FAIL;
     const char      *__function_name = "PG_PREPARED_XACTS_COUNT";
     
-    char            query[MAX_STRING_LEN];
     char            *datname = NULL;
     
     zabbix_log(LOG_LEVEL_DEBUG, "In %s()", __function_name);
 
-    // Build query
+    // get requested database
     datname = get_rparam(request, PARAM_FIRST);
     if(strisnull(datname)) {
         ret = pg_get_int(request, result, "SELECT COUNT (transaction) FROM pg_prepared_xacts;", NULL);
@@ -210,6 +209,57 @@ WHERE name = 'max_prepared_transactions';",
         NULL
     );
     
+    zabbix_log(LOG_LEVEL_DEBUG, "End of %s()", __function_name);
+    return ret;
+}
+
+/*
+ * Custom key pg.prepared_xacts_age
+ *
+ * Returns the age in seconds of the oldest transaction currently prepared for
+ * two phase commit.
+ *
+ * Parameters:
+ *   0:  connection string
+ *   1:  connection database
+ *   2:  filter by database
+ *
+ * Returns: d
+ */
+int     PG_PREPARED_XACTS_AGE(AGENT_REQUEST *request, AGENT_RESULT *result)
+{
+    int             ret = SYSINFO_RET_FAIL;
+    const char      *__function_name = "PG_PREPARED_XACTS_AGE";
+    
+    char            *datname = NULL;
+
+    zabbix_log(LOG_LEVEL_DEBUG, "In %s()", __function_name);
+
+    // get requested database
+    datname = get_rparam(request, PARAM_FIRST);
+    if(strisnull(datname)) {
+        ret = pg_get_int(
+            request,
+            result,
+            "\
+SELECT \
+  COALESCE(MAX((EXTRACT(EPOCH FROM NOW()) - EXTRACT(EPOCH FROM prepared))::integer), 0) \
+FROM pg_prepared_xacts;",
+            NULL
+        );
+    } else {
+        ret = pg_get_int(
+            request,
+            result,
+            "\
+SELECT \
+  COALESCE(MAX((EXTRACT(EPOCH FROM NOW()) - EXTRACT(EPOCH FROM prepared))::integer), 0) \
+FROM pg_prepared_xacts \
+WHERE database = $1;",
+            param_new(datname)
+        );
+    }
+
     zabbix_log(LOG_LEVEL_DEBUG, "End of %s()", __function_name);
     return ret;
 }
