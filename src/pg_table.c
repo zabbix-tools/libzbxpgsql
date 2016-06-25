@@ -22,6 +22,7 @@
 #define PGSQL_DISCOVER_TABLES       "\
 SELECT \
     c.oid AS oid \
+    , current_database() || '.' || n.nspname || '.' || c.relname AS path\
     , current_database() AS database \
     , n.nspname AS schema \
     , CASE c.reltablespace \
@@ -41,11 +42,12 @@ WHERE \
     AND n.nspname <> 'pg_catalog' \
     AND n.nspname <> 'information_schema' \
     AND n.nspname !~ '^pg_toast' \
-ORDER BY c.relname"
+ORDER BY c.relname;"
 
 #define PGSQL_DISCOVER_TABLE_CHILDREN   "\
 SELECT \
     c.oid AS oid \
+    , current_database() || '.' || n.nspname || '.' || c.relname AS path \
     , c.relname AS table \
     , n.nspname AS schema \
 FROM pg_inherits i \

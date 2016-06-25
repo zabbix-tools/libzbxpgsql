@@ -22,6 +22,7 @@
 #define PGSQL_DISCOVER_DBS  "\
 SELECT \
     d.oid as oid, \
+    d.datname as path, \
     d.datname as database, \
     pg_catalog.pg_encoding_to_char(d.encoding) as encoding, \
     d.datcollate as lc_collate, \

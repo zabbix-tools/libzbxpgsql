@@ -22,6 +22,7 @@
 #define PGSQL_DISCOVER_INDEXES      "\
 SELECT \
     ic.oid AS oid \
+    , current_database() || '.' || n.nspname || '.' || t.relname || '.' || ic.relname AS path \
     , ic.relname AS index \
     , current_database() AS database \
     , n.nspname AS schema \

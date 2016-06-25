@@ -22,6 +22,7 @@
 #define PGSQL_DISCOVER_NAMESPACES   "\
 SELECT  \
   n.oid AS oid, \
+  current_database() || '.' || n.nspname AS path, \
   n.nspname AS schema, \
   n.nspname AS namespace, \
   current_database() AS database, \
