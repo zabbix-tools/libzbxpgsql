@@ -179,6 +179,91 @@ out:
 }
 
 /*
+ * Custom key pg.backends.ratio
+ *
+ * Returns the ratio of used available backend connections
+ *
+ * Parameters:
+ *   0:  connection string
+ *   1:  connection database
+ *
+ * Returns: d
+ */
+ int    PG_BACKENDS_RATIO(AGENT_REQUEST *request, AGENT_RESULT *result)
+ {
+    int         ret = SYSINFO_RET_FAIL;
+    const char  *__function_name = "PG_BACKENDS_RATIO";
+
+    char        query[MAX_QUERY_LEN];
+    char        *pid = "pid";
+    int         version = 0;
+    
+    zabbix_log(LOG_LEVEL_DEBUG, "In %s()", __function_name);
+
+    // pid column is named 'procpid' in < v9.2
+    if (0 == (version = pg_version(request, result)))
+        goto out;
+    else if (version < 90200)
+        pid = "procpid";
+
+    // build the full sql query
+    memset(query, 0, sizeof(query));
+    zbx_snprintf(
+        query,
+        MAX_QUERY_LEN,
+        "\
+SELECT \
+  CASE \
+    WHEN COUNT(datid) = 0 THEN 0.00 \
+    ELSE (COUNT(datid)::float / current_setting('max_connections')::integer) \
+  END \
+FROM pg_stat_activity \
+WHERE %s != pg_backend_pid();",
+        pid
+    );
+
+    // get results
+    ret = pg_get_dbl(request, result, query, NULL);
+
+out:
+    zabbix_log(LOG_LEVEL_DEBUG, "End of %s()", __function_name);
+    return ret;
+}
+
+/*
+ * Custom key pg.backends.free
+ *
+ * Returns the number of available backend connections.
+ *
+ * Parameters:
+ *   0:  connection string
+ *   1:  connection database
+ *
+ * Returns: d
+ */
+ int    PG_BACKENDS_FREE(AGENT_REQUEST *request, AGENT_RESULT *result)
+ {
+    int         ret = SYSINFO_RET_FAIL;
+    const char  *__function_name = "PG_BACKENDS_FREE";
+    
+    zabbix_log(LOG_LEVEL_DEBUG, "In %s()", __function_name);
+
+    // The +1 is to account for the connection used by this query.
+    ret = pg_get_dbl(
+        request,
+        result,
+        "\
+SELECT \
+  current_setting('max_connections')::integer - COUNT(datid) + 1 \
+FROM pg_stat_activity;",
+        NULL
+    );
+
+    zabbix_log(LOG_LEVEL_DEBUG, "End of %s()", __function_name);
+    return ret;
+}
+
+/*
  * Custom key pg.queries.longest
  *
  * Returns the duration in seconds of the longest running current query

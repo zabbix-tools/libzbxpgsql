@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>3.0</version>
-    <date>2016-06-25T09:29:42Z</date>
+    <date>2016-06-25T13:09:05Z</date>
     <groups>
         <group>
             <name>Templates</name>
@@ -105,6 +105,96 @@ Database: count only the given database name or OID&#13;
 User: count only the given user name or OID&#13;
 Client: count only the given IP address or hostname&#13;
 Waiting: true|false count only backends waiting on a lock&#13;
+&#13;
+Requires libzbxpgsql v1.0.0 or above.</description>
+                    <inventory_link>0</inventory_link>
+                    <applications>
+                        <application>
+                            <name>PostgreSQL Backend Connections</name>
+                        </application>
+                    </applications>
+                    <valuemap/>
+                    <logtimefmt/>
+                </item>
+                <item>
+                    <name>PostgreSQL Backends connections available</name>
+                    <type>7</type>
+                    <snmp_community/>
+                    <multiplier>0</multiplier>
+                    <snmp_oid/>
+                    <key>pg.backends.free[{$PG_CONN},{$PG_DB}]</key>
+                    <delay>60</delay>
+                    <history>7</history>
+                    <trends>365</trends>
+                    <status>0</status>
+                    <value_type>3</value_type>
+                    <allowed_hosts/>
+                    <units/>
+                    <delta>0</delta>
+                    <snmpv3_contextname/>
+                    <snmpv3_securityname/>
+                    <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                    <snmpv3_authprotocol>0</snmpv3_authprotocol>
+                    <snmpv3_authpassphrase/>
+                    <snmpv3_privprotocol>0</snmpv3_privprotocol>
+                    <snmpv3_privpassphrase/>
+                    <formula>1</formula>
+                    <delay_flex/>
+                    <params/>
+                    <ipmi_sensor/>
+                    <data_type>0</data_type>
+                    <authtype>0</authtype>
+                    <username/>
+                    <password/>
+                    <publickey/>
+                    <privatekey/>
+                    <port/>
+                    <description>Returns the total number of available backend connections remaining (excluding the check query itself).&#13;
+&#13;
+Requires libzbxpgsql v1.0.0 or above.</description>
+                    <inventory_link>0</inventory_link>
+                    <applications>
+                        <application>
+                            <name>PostgreSQL Backend Connections</name>
+                        </application>
+                    </applications>
+                    <valuemap/>
+                    <logtimefmt/>
+                </item>
+                <item>
+                    <name>PostgreSQL Backends connections used %</name>
+                    <type>7</type>
+                    <snmp_community/>
+                    <multiplier>1</multiplier>
+                    <snmp_oid/>
+                    <key>pg.backends.ratio[{$PG_CONN},{$PG_DB}]</key>
+                    <delay>60</delay>
+                    <history>7</history>
+                    <trends>365</trends>
+                    <status>0</status>
+                    <value_type>0</value_type>
+                    <allowed_hosts/>
+                    <units>%</units>
+                    <delta>0</delta>
+                    <snmpv3_contextname/>
+                    <snmpv3_securityname/>
+                    <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                    <snmpv3_authprotocol>0</snmpv3_authprotocol>
+                    <snmpv3_authpassphrase/>
+                    <snmpv3_privprotocol>0</snmpv3_privprotocol>
+                    <snmpv3_privpassphrase/>
+                    <formula>100</formula>
+                    <delay_flex/>
+                    <params/>
+                    <ipmi_sensor/>
+                    <data_type>0</data_type>
+                    <authtype>0</authtype>
+                    <username/>
+                    <password/>
+                    <publickey/>
+                    <privatekey/>
+                    <port/>
+                    <description>Returns the total number of used backend connections as a ratio of the total available.&#13;
 &#13;
 Requires libzbxpgsql v1.0.0 or above.</description>
                     <inventory_link>0</inventory_link>
@@ -5844,6 +5934,18 @@ Perform a VACUUM as soon a possible to reset the available Transaction IDs and r
                     <item>
                         <host>Template PostgreSQL Server</host>
                         <key>pg.prepared_xacts_ratio[{$PG_CONN},{$PG_DB}]</key>
+                    </item>
+                </graph_item>
+                <graph_item>
+                    <sortorder>1</sortorder>
+                    <drawtype>5</drawtype>
+                    <color>F63100</color>
+                    <yaxisside>0</yaxisside>
+                    <calc_fnc>2</calc_fnc>
+                    <type>0</type>
+                    <item>
+                        <host>Template PostgreSQL Server</host>
+                        <key>pg.backends.ratio[{$PG_CONN},{$PG_DB}]</key>
                     </item>
                 </graph_item>
             </graph_items>

@@ -49,6 +49,8 @@ static ZBX_METRIC keys[] =
     
     // Client connection statistics
     {"pg.backends.count",           CF_HAVEPARAMS,  PG_BACKENDS_COUNT,              NULL},
+    {"pg.backends.free",            CF_HAVEPARAMS,  PG_BACKENDS_FREE,               NULL},
+    {"pg.backends.ratio",           CF_HAVEPARAMS,  PG_BACKENDS_RATIO,              NULL},
     {"pg.queries.longest",          CF_HAVEPARAMS,  PG_QUERIES_LONGEST,             NULL},
     
     // Server statistics (as per pg_stat_bgwriter)

@@ -23,6 +23,9 @@ v1.0.0 TBC
   transaction count
 * Added `pg.prepared_xacts_age` to return the age of the oldest transaction
   currently prepared for two phase commit
+* Added `pg.backends.free` to return the number of available backend connections
+* Added `pg.backends.ratio` to return the ratio of used available backend
+  connections
 * Added `--with-postgresql` switch to source configuration script
 * Added `--with-zabbix` switch to source configuration script
 * Fixed misreporting in `pg.queries.longest` when no queries were in progress
