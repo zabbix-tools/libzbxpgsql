@@ -5,13 +5,17 @@
 
 - key: pg.connect
   description: >
-    Monitor the availability of a PostgreSQL server. Returns 1 if the Zabbix Agent
-    can connect to a PostgreSQL database with the specified connection string.
+    Monitor the availability of a PostgreSQL server. Returns 1 if
+    the Zabbix Agent can connect to the given PostgreSQL database with the
+    specified connection string.
 
     If you are using connection pooling, the connection string specified in
     this key should bypass your pooling agent to better reflect the
     availability of your PostgreSQL server. All other keys can be safely
     rerouted through a pooling agent.
+
+    To monitor the availability of a connection pooler, create a second item
+    with this key.
 
   type: Numeric (Unsigned)
   value-map: 
@@ -91,6 +95,53 @@
 - key: pg.backends.count
   description: Returns the number of active backend processes for remote connections.
   type: Numeric (unsigned)
+  superuser: true
+  parameters: 
+    - parameter: database
+      description: database name or OID (may be different to the connected database)
+
+    - parameter: user
+      description: user name or OID
+
+    - parameter: client
+      description: >
+        client hostname or IP address (hostname only supported on PostgreSQL
+        v9.1 and above)
+
+    - parameter: waiting
+      description: processes waiting on a lock
+      options: 
+        - option: true
+          description: only return waiting processes
+        - option: false
+          description: only return processes that are not waiting
+        - option: default
+          description: no filtering based on waiting status
+
+  source: SELECT COUNT(datid) FROM pg_stat_activity WHERE pid != pg_backend_pid();
+  example: pg.backends.count[,,mydb,dbuser,myapp,::1,,active]
+
+- key: pg.queries.longest
+  description: >
+    Returns the duration of the longest running, currently active query in
+    seconds or 0 if no queries are active.
+
+    Stats are only returned for backends owned by the connected role unless the
+    role is a superuser (not recommended).
+  type: Numeric (float)
+  units: Seconds
+  superuser: true
+  source: >
+    SELECT
+      COALESCE(
+        (SELECT
+          EXTRACT(EPOCH FROM NOW()) - EXTRACT(EPOCH FROM query_start) AS duration
+        FROM pg_stat_activity
+        WHERE
+          state = 'active'
+          AND pid != pg_backend_pid()
+        ORDER BY duration DESC
+        LIMIT 1), 0);
   parameters: 
     - parameter: database
       description: database name or OID (may be different to the connected database)
@@ -110,24 +161,6 @@
           description: only return processes that are not waiting
         - option: default
           description: no filtering based on waiting status
-
-  source: SELECT COUNT(datid) FROM pg_stat_activity WHERE...
-  example: pg.backends.count[,,mydb,dbuser,myapp,::1,,active]
-
-- key: pg.queries.longest
-  description: >
-    Returns the duration of the longest running, currently active query in
-    seconds.
-  type: Numeric (float)
-  units: Seconds
-  require: 9.2
-  source: >
-    SELECT
-      EXTRACT(EPOCH FROM NOW()) - EXTRACT(EPOCH FROM query_start) AS duration
-    FROM pg_stat_activity
-    WHERE state = 'active'
-    ORDER BY duration DESC
-    LIMIT 1
 
 - key: pg.checkpoints_timed
   description: >
@@ -161,14 +194,18 @@
 
 - key: pg.checkpoint_avg_interval
   description: >
-    Returns the average interval between each checkpoints that have occurred
-    since statistics were reset, in seconds.
+    Returns the average interval in seconds between each checkpoint that has
+    occurred since statistics were reset, or 0 if no checkpoints have occurred.
+
   type: Numeric (float)
   units: Seconds
   require: 9.2
   source: >
     SELECT
-      EXTRACT(EPOCH FROM (NOW() - stats_reset)) / (checkpoints_timed + checkpoints_req)
+      CASE checkpoints_timed + checkpoints_req
+        WHEN 0 THEN 0
+        ELSE EXTRACT(EPOCH FROM (NOW() - stats_reset)) / (checkpoints_timed + checkpoints_req)
+      END
     FROM pg_stat_bgwriter;
 
 - key: pg.checkpoint_time_perc
