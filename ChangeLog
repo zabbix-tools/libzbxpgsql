@@ -17,7 +17,10 @@ v1.0.0 TBC
   that have been modified since the last table analyze
 * Added support for `pg.queries.longest` in PostgreSQL versions prior to 9.2
 * Added `pg.prepared_xacts_count` to return the number of transactions currently
-  parepared for two phase commit
+  prepared for two phase commit
+* Added `pg.prepared_xacts_ratio` to return the number of transactions currently
+  prepared for two phase commit as a ratio of the maximum permitted prepared
+  transaction count
 * Added `--with-postgresql` switch to source configuration script
 * Added `--with-zabbix` switch to source configuration script
 * Fixed misreporting in `pg.queries.longest` when no queries were in progress

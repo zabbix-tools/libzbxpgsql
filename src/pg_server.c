@@ -176,3 +176,40 @@ int    PG_PREPARED_XACTS_COUNT(AGENT_REQUEST *request, AGENT_RESULT *result)
     zabbix_log(LOG_LEVEL_DEBUG, "End of %s()", __function_name);
     return ret;
 }
+
+/*
+ * Custom key pg.prepared_xacts_ratio
+ *
+ * Returns the number of transactions that are currently prepared for two phase
+ * commit as ratio of the maximum allowed prepared transactions.
+ *
+ * Parameters:
+ *   0:  connection string
+ *   1:  connection database
+ *
+ * Returns: d
+ */
+int     PG_PREPARED_XACTS_RATIO(AGENT_REQUEST *request, AGENT_RESULT *result)
+{
+    int             ret = SYSINFO_RET_FAIL;
+    const char      *__function_name = "PG_PREPARED_XACTS_RATIO";
+    
+    zabbix_log(LOG_LEVEL_DEBUG, "In %s()", __function_name);
+
+    ret = pg_get_dbl(
+        request,
+        result,
+        "\
+SELECT \
+  CASE \
+    WHEN setting::integer = 0 THEN 0.00 \
+    ELSE ((SELECT COUNT (transaction) FROM pg_prepared_xacts)::float / setting::integer) \
+  END \
+FROM pg_settings \
+WHERE name = 'max_prepared_transactions';",
+        NULL
+    );
+    
+    zabbix_log(LOG_LEVEL_DEBUG, "End of %s()", __function_name);
+    return ret;
+}
