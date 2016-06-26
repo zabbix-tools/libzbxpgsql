@@ -3,8 +3,15 @@
 - key: pg.schema.discovery
   description: >
     Returns a JSON array of all known PostgreSQL schemata (A.K.A namespaces)
-    that are defined in the connected database
+    that are defined in all databases which are accessible to the connected
+    user.
   type: Discovery
+  parameters:
+    - parameter: search mode
+      description: >
+        search all accessible databases (`deep`) or only the connected database
+        (`shallow`)
+      default: "`deep`"
   macros: 
     - macro: "{#OID}"
       description: Namespace unique identifier

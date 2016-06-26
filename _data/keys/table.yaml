@@ -1,9 +1,15 @@
 ---
 - key: pg.table.discovery
   description: >
-    Returns a JSON array of all known PostgreSQL tables in the currently
-    connected database
+    Returns a JSON array of all known PostgreSQL tables in all databses which
+    are accessible to the connected user.
   type: Discovery
+  parameters:
+    - parameter: search mode
+      description: >
+        search all accessible databases (`deep`) or only the connected database
+        (`shallow`)
+      default: "`deep`"
   source: >
     SELECT
       c.oid AS oid
@@ -242,6 +248,17 @@
     - parameter: table
       description: table to return statistics for
   source: SELECT n_dead_tup FROM pg_stat_all_tables WHERE relname = $1
+
+- key: pg.table.n_mod_since_analyze
+  description: >
+    Returns the estimated number of rows modified since this table was last
+    analyzed
+  type: Numeric (unsigned)
+  parameters:
+    - parameter: table
+      description: table to return statistics for
+  require: 9.4
+  source: SELECT n_mod_since_analyze FROM pg_stat_all_tables WHERE relname = $1
 
 - key: pg.table.last_vacuum
   description: Returns the last time at which this table was manually vacuumed (not counting VACUUM FULL)
