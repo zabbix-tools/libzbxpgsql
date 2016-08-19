@@ -12,6 +12,7 @@ libzbxpgsql_la_SOURCES = \
 	pg_namespace.c \
 	pg_params.c \
 	pg_query.c \
+	pg_query2.c \
 	pg_server.c \
 	pg_setting.c \
 	pg_table.c \
@@ -26,6 +27,7 @@ libzbxpgsql_la_CFLAGS = \
 
 libzbxpgsql_la_LDFLAGS = \
 	-shared \
+	-lconfig \
 	-avoid-version
 
 # Prevent install of the redundant *.la files

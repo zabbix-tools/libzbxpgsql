@@ -27,6 +27,11 @@
 // PostgreSQL headers
 #include <libpq-fe.h>
 
+// Reading Config Files
+#include <stdio.h>
+#include <stdlib.h>
+#include <libconfig.h>
+
 // Zabbix source headers
 #include <sysinc.h>
 #include <module.h>
@@ -108,6 +113,7 @@ int     PG_SETTING(AGENT_REQUEST *request, AGENT_RESULT *result);
 int     PG_SETTING_DISCOVERY(AGENT_REQUEST *request, AGENT_RESULT *result);
 
 int     PG_QUERY(AGENT_REQUEST *request, AGENT_RESULT *result);
+int     PG_QUERY2(AGENT_REQUEST *request, AGENT_RESULT *result);
 
 int     PG_BACKENDS_COUNT(AGENT_REQUEST *request, AGENT_RESULT *result);
 int     PG_BACKENDS_FREE(AGENT_REQUEST *request, AGENT_RESULT *result);
