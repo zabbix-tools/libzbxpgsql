@@ -46,6 +46,12 @@ static ZBX_METRIC keys[] =
     {"pg.query.integer",            CF_HAVEPARAMS,  PG_QUERY,                       ",,SELECT pg_backend_pid();"},
     {"pg.query.double",             CF_HAVEPARAMS,  PG_QUERY,                       ",,SELECT CAST(1234 AS double precision);"},
     {"pg.query.discovery",          CF_HAVEPARAMS,  PG_QUERY,                       ",,SELECT * FROM pg_database;"},
+
+    // User queries from config file
+    {"pg.query2.string",            CF_HAVEPARAMS,  PG_QUERY2,                      ",,test1"},
+    {"pg.query2.integer",           CF_HAVEPARAMS,  PG_QUERY2,                      ",,test2"},
+    {"pg.query2.double",            CF_HAVEPARAMS,  PG_QUERY2,                      ",,test3"},
+    {"pg.query2.discovery",         CF_HAVEPARAMS,  PG_QUERY2,                      ",,test4"},
     
     // Client connection statistics
     {"pg.backends.count",           CF_HAVEPARAMS,  PG_BACKENDS_COUNT,              NULL},

@@ -1,3 +1,7 @@
+v1.1.0 19 Aug 2016
+
+* Implemented `pg.query2.*` keys - Rob Brucks
+
 v1.0.0 26 Jun 2016
 
 * Added support for Zabbix v3
