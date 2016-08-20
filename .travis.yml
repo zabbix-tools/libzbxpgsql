@@ -7,9 +7,9 @@ sudo: false
 addons:
   apt:
     packages:
-    - rpm
     - devscripts
-    - debhelper
+    - libconfig-dev
+    - libpq-dev
 
 # before build script, run autoreconf
 before_script: ./autogen.sh
