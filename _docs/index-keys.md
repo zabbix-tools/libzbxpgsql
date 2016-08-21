@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Index keys
-permalink: /agent-keys/indexes/
+permalink: /documentation/reference/indexes/
 ---
 
 The agent item keys described in this document allow you to discover and

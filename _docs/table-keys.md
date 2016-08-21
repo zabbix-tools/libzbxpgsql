@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Table item keys
-permalink: /agent-keys/tables/
+permalink: /documentation/reference/tables/
 ---
 
 The agent item keys described in this document allow you to discover and

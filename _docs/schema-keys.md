@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Schema keys
-permalink: /agent-keys/schema/
+permalink: /documentation/reference/schema/
 ---
 
 The agent item keys described in this document allow you to discover and

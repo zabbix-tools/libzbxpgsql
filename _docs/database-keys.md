@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Database item keys
-permalink: /agent-keys/databases/
+permalink: /documentation/reference/databases/
 ---
 
 The agent item keys described in this document allow you to discover and

@@ -1,0 +1,35 @@
+---
+server:
+  title: Server item keys
+  description: Monitor the postmaster server and its processes
+  link: /documentation/reference/server/
+
+query:
+  title: Query item keys
+  description: Execute custom queries
+  link: /documentation/reference/queries/
+
+tablespace:
+  title: Tablespace item keys
+  description: Discover and monitor PostgreSQL Tablespaces
+  link: /documentation/reference/tablespaces/
+
+database:
+  title: Database item keys
+  description: Discover and monitor PostgreSQL Databases
+  link: /documentation/reference/databases/
+
+schema:
+  title: Schema item keys
+  description: Discover and monitor PostgreSQL Namespaces (Schema)
+  link: /documentation/reference/schema/
+
+table:
+  title: Table item keys
+  description: Discover and monitor PostgreSQL Tables
+  link: /documentation/reference/tables/
+
+index:
+  title: Index item keys
+  description: Discover and monitor PostgreSQL Table indexes
+  link: /documentation/reference/indexes/

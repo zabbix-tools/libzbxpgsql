@@ -5,10 +5,50 @@ menu: Release notes
 permalink: /release-notes/
 ---
 
-## v1.0.0-alpha
-Release: __Unreleased__
+## v1.0.0
+Release: Jun 26 2016
 
 This release includes breaking changes from previous versions.
+
+- Added support for Zabbix v3
+
+- Added error messages to failed requests
+
+- Added `pg.db.xid_age` to monitor the allocation of Transaction IDs
+
+- Added `pg.stats_reset_interval` to return seconds since background writer
+  stats were reset
+
+- Added `pg.table.n_mod_since_analyze` to return the estimated number of rows
+  that have been modified since the last table analyze
+
+- Added support for `pg.queries.longest` in PostgreSQL versions prior to 9.2
+
+- Added `pg.prepared_xacts_count` to return the number of transactions currently
+  prepared for two phase commit
+
+- Added `pg.prepared_xacts_ratio` to return the number of transactions currently
+  prepared for two phase commit as a ratio of the maximum permitted prepared
+  transaction count
+
+- Added `pg.prepared_xacts_age` to return the age of the oldest transaction
+  currently prepared for two phase commit
+
+- Added `pg.backends.free` to return the number of available backend connections
+
+- Added `pg.backends.ratio` to return the ratio of used available backend
+  connections
+
+- Added `--with-postgresql` switch to source configuration script
+
+- Added `--with-zabbix` switch to source configuration script
+
+- Fixed misreporting in `pg.queries.longest` when no queries were in progress
+
+- Fixed build dependencies on Debian (thanks darkweaver87)
+
+- Moved build scripts to a new repository
+  ([libzbxpgsql-build](https://github.com/cavaliercoder/libzbxpgsql-build))
 
 - Enabled "deep" discovery of database specific assets
 
@@ -31,6 +71,7 @@ This release includes breaking changes from previous versions.
   * `pg.table.discovery`
   * `pg.index.discovery`
 
+
 - Added cache hit rate keys
 
   To determine the effectiveness of caches on databases, tables and indexes,
@@ -40,12 +81,13 @@ This release includes breaking changes from previous versions.
 
   Keys include:
 
-  * `pg.db.blks_perc`: cache hit rate for a database
-  * `pg.table.idx_scan_perc`: index hit rate of all scans on a table
-  * `pg.table.heap_blks_perc`: cache hit rate for a table's data
-  * `pg.table.idx_blks_perc`: cache hit rate for a table's indexes
-  * `pg.table.toast_blks_perc`: cache hit rate for a table's TOAST data
-  * `pg.table.tidx_blks_perc`: cache hit rate for a table's TOAST indexes
+  * `pg.db.blks_ratio`: cache hit rate for a database
+  * `pg.table.idx_scan_ratio`: index hit rate of all scans on a table
+  * `pg.table.heap_blks_ratio`: cache hit rate for a table's data
+  * `pg.table.idx_blks_ratio`: cache hit rate for a table's indexes
+  * `pg.table.toast_blks_ratio`: cache hit rate for a table's TOAST data
+  * `pg.table.tidx_blks_ratio`: cache hit rate for a table's TOAST indexes
+
 
 - Added keys for additional checkpoint monitoring
 
@@ -57,7 +99,7 @@ This release includes breaking changes from previous versions.
   * `pg.checkpoint_avg_interval`: average interval in seconds between each
     checkpoint since statistics were reset by the server
 
-  * `pg.checkpoint_time_perc`: percentage of time spent writing and/or syncing
+  * `pg.checkpoint_time_ratio`: percentage of time spent writing and/or syncing
     checkpoints since statistics were reset by the server
 
 ## v0.2.1
@@ -193,4 +235,4 @@ Release: Feb 16 2015
 ## v0.1.0
 Release: Feb 8 2015
 
-* Initial release
+- Initial release

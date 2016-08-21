@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Query keys
-permalink: /agent-keys/queries/
+permalink: /documentation/reference/queries/
 ---
 
 The keys described in the document allow for custom SQL queries to be executed

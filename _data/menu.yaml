@@ -1,15 +1,9 @@
 ---
 - title: Download
-  link: /download
+  link: /download/
 
-- title: Installation
-  link: /installation
-
-- title: Keys
-  link: /agent-keys
-
-- title: Template
-  link: /template
+- title: Documentation
+  link: /documentation/
 
 - title: Release notes
-  link: /release-notes
+  link: /release-notes/

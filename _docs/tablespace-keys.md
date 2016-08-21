@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Tablespace keys
-permalink: /agent-keys/tablespaces/
+permalink: /documentation/reference/tablespaces/
 ---
 
 The agent item keys described in this document allow you to discover and
