@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Local monitoring agent
-permalink: /documentation/local-monitoring-agent
+permalink: /documentation/local-monitoring-agent/
 ---
 
 If the Zabbix agent is running on the PostgreSQL server with `libzbxpgsql`

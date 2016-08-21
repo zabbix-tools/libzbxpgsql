@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Connection pooling
-permalink: /documentation/connection-pooling
+permalink: /documentation/connection-pooling/
 ---
 
 Monitoring your PostgreSQL server will consume additional backend connections.

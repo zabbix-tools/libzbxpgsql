@@ -2,7 +2,7 @@
 layout: page
 title: Download libzbxpgsql
 menu: Download
-permalink: /download
+permalink: /download/
 ---
 
 __Thanks for downloading!__

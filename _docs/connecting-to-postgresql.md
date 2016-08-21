@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Connecting to PostgreSQL
-permalink: /documentation/connecting-to-postgresql
+permalink: /documentation/connecting-to-postgresql/
 ---
 
 The first two parameters of all agent keys in `libzbxpgsql` specify the desired

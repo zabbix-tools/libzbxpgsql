@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Remote monitoring agent
-permalink: /documentation/remote-monitoring-agent
+permalink: /documentation/remote-monitoring-agent/
 ---
 
 The module can also monitor remote PostgreSQL servers without the need to
