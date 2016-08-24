@@ -5687,7 +5687,7 @@ Description: {#DESCRIPTION}</description>
             <dependencies/>
         </trigger>
         <trigger>
-            <expression>{Template App PostgreSQL:pg.prepared_xacts_ratio[{$PG_CONN},{$PG_DB}].last()}&lt;{$PG_BACKENDS_CRIT}</expression>
+            <expression>{Template App PostgreSQL:pg.backends.free[{$PG_CONN},{$PG_DB}].last()}&lt;{$PG_BACKENDS_CRIT}</expression>
             <name>PostgreSQL Backend connections are exhausted on {HOST.NAME}</name>
             <url>https://www.postgresql.org/docs/current/static/runtime-config-connection.html#GUC-MAX-CONNECTIONS</url>
             <status>0</status>
