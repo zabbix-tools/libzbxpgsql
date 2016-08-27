@@ -50,6 +50,13 @@ int     PG_QUERY(AGENT_REQUEST *request, AGENT_RESULT *result)
         goto out;
     }
 
+    // Check if query comes from configs
+    if(SQLkeysearch(query) >= 0) {
+        zabbix_log(LOG_LEVEL_INFORMATION, "Found key \"%i\" in memory", *query);
+        query = SQLstmt[SQLkeysearch(query)];
+        zabbix_log(LOG_LEVEL_INFORMATION, "Now SQL query = \"%i\"", *query);
+    }
+
     // parse user params
     zabbix_log(LOG_LEVEL_DEBUG, "Appending %i params to query", request->nparam - 3);
     for (i = 3; i < request->nparam; i++) {
