@@ -77,7 +77,8 @@
 #define PG_RELKIND_FGNTABLE     "f"
 
 // Shared globals
-extern char  *SQLstmt[MAX_NUMBER_SQL_STATEMENT_IN_RAM];
+extern char  *SQLkey[MAX_NUMBER_SQL_STATEMENT_IN_RAM+1];
+extern char  *SQLstmt[MAX_NUMBER_SQL_STATEMENT_IN_RAM+1];
 
 // function to determine if a string is null or empty
 #define strisnull(c)            (NULL == c || '\0' == *c)

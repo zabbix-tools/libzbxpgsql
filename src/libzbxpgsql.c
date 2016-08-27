@@ -164,13 +164,13 @@ static ZBX_METRIC keys[] =
 
 // Global Variables
 const char  pgquerypath[MAX_GLOBBING_PATH_LENGTH] = DEFAULT_PG_QUERY_CONF_PATH;
-//const char  pgquerypath[] = DEFAULT_PG_QUERY_CONF_PATH;
 char        *configPath[MAX_NUMBER_CONFIG_FILES];
 int         fileCount = 0;
-char        *SQLkey[MAX_NUMBER_SQL_STATEMENT_IN_RAM];
-char        *SQLstmt[MAX_NUMBER_SQL_STATEMENT_IN_RAM];
+char        *SQLkey[MAX_NUMBER_SQL_STATEMENT_IN_RAM+1];
+char        *SQLstmt[MAX_NUMBER_SQL_STATEMENT_IN_RAM+1];
 int         SQLcount = 0;
 
+// Forward function definition
 const char * getPGQUERYPATH();
 
 // Required Zabbix module functions
@@ -190,20 +190,23 @@ int         zbx_module_init() {
     // log version on startup
     zabbix_log(LOG_LEVEL_INFORMATION, "Starting agent module %s", PACKAGE_STRING);
 
-// Process SQL Query config files, if needed
+    // init arrays
+    SQLkey[0]=NULL;
+    SQLstmt[0]=NULL;
 
     // get query config file path
     zbx_strlcpy(confdir,getPGQUERYPATH(),strlen(getPGQUERYPATH())+1);
 
-    zabbix_log(LOG_LEVEL_CRIT, "rob: %s", confdir);
-    // append slash if needed plus *.conf glob
+    // append slash if needed, plus *.conf glob
     if ('/' == confdir[strlen(confdir)-1]) {
         strcat(confdir,"*.conf");
     } else {
         strcat(confdir,"/*.conf");
     }
+
     // get the number of files that matched the glob
     numfiles = globfilelist(confdir);
+
     // process all the config files
     if (numfiles < 0) {
         zabbix_log(LOG_LEVEL_CRIT, "%s: ERROR invoking globfilelist function", PACKAGE);
@@ -212,11 +215,13 @@ int         zbx_module_init() {
     for (i = 0; i < numfiles; i++) {
         zabbix_log(LOG_LEVEL_INFORMATION, "%s: Parsing config file \"%s\"", PACKAGE, configPath[i]);
         if(readconfig(configPath[i]) == EXIT_FAILURE) {
+            zbx_free(configPath[i]);
             return ZBX_MODULE_FAIL;
         }
         zbx_free(configPath[i]);
     }
 
+    zabbix_log(LOG_LEVEL_DEBUG, "%s: End of init", PACKAGE);
     return ZBX_MODULE_OK; 
 }
 
@@ -624,8 +629,9 @@ const char * getPGQUERYPATH() {
     const char  *__function_name = "getPGQUERYPATH";
     const char  *envPGQUERYPATH = getenv("PGQUERYPATH");
 
-    zabbix_log(LOG_LEVEL_DEBUG, "In %s", __function_name);
+    zabbix_log(LOG_LEVEL_DEBUG, "%s: In %s", PACKAGE, __function_name);
     if(NULL == &envPGQUERYPATH || '\0' == envPGQUERYPATH) {
+        zabbix_log(LOG_LEVEL_TRACE, "%s: Using default config path", PACKAGE);
         return pgquerypath;
     } else {
         if (strlen(envPGQUERYPATH) > MAX_GLOBBING_PATH_LENGTH) {
@@ -634,9 +640,9 @@ const char * getPGQUERYPATH() {
                 PACKAGE, strlen(envPGQUERYPATH), MAX_GLOBBING_PATH_LENGTH);
             return NULL;
         }
+        zabbix_log(LOG_LEVEL_TRACE, "%s: Using config path from PGQUERYPATH env variable", PACKAGE);
         return envPGQUERYPATH;
     }
-    zabbix_log(LOG_LEVEL_DEBUG, "End of %s", __function_name);
 }
 
 /*
@@ -665,28 +671,33 @@ int globfilelist(const char *pattern) {
     glob_t   filenames;
     int      strsize;
 
-    zabbix_log(LOG_LEVEL_DEBUG, "In %s(%s)", __function_name, pattern);
+    zabbix_log(LOG_LEVEL_DEBUG, "%s: In %s", PACKAGE, __function_name);
+    zabbix_log(LOG_LEVEL_INFORMATION, "%s: Looking for config files: \"%s\"", PACKAGE, pattern);
     switch(glob(pattern, GLOB_ERR, globerror, &filenames)) {
         case 0 :
             for (fileCount = 0; fileCount < filenames.gl_pathc; fileCount++) {
                 if (fileCount >= MAX_NUMBER_CONFIG_FILES) {
-                    zabbix_log(LOG_LEVEL_ERR, "%s ERROR: Conf file count hit %i", PACKAGE, MAX_NUMBER_CONFIG_FILES);
-                    break;
+                    zabbix_log(LOG_LEVEL_ERR, "%s ERROR: Found more than %i config files: %i", PACKAGE, MAX_NUMBER_CONFIG_FILES, fileCount);
+                    return EXIT_FAILURE;
                 }
                 strsize = strlen(filenames.gl_pathv[fileCount]) + 1;
                 configPath[fileCount] = zbx_malloc(configPath[fileCount],strsize * sizeof(char));
+                if (configPath[fileCount] == NULL) {
+                    zabbix_log(LOG_LEVEL_CRIT, "%s: ERROR: zbx_malloc failed", PACKAGE);
+                    return EXIT_FAILURE;
+                }
                 zbx_strlcpy(configPath[fileCount],filenames.gl_pathv[fileCount],strlen(filenames.gl_pathv[fileCount])+1);
             }
             globfree(&filenames);
             break;
         case GLOB_NOMATCH :
-            zabbix_log(LOG_LEVEL_WARNING, "%s: No config file matches found... continuing", PACKAGE);
+            zabbix_log(LOG_LEVEL_INFORMATION, "%s: No config files found to process... skipping", PACKAGE);
             fileCount = 0;
             break;
-        default :
+        default : // untrapped glob error
             fileCount = -1;
     }
-    zabbix_log(LOG_LEVEL_DEBUG, "End of %s", __function_name);
+    zabbix_log(LOG_LEVEL_DEBUG, "%s: End of %s (fileCount=%i)", PACKAGE, __function_name, fileCount);
     return fileCount;
 }
 
@@ -710,7 +721,7 @@ int  storeSQLstmt(const char *key, const char *stmt) {
     const char  *__function_name = "storeSQLstmt";
     int  i;
 
-    zabbix_log(LOG_LEVEL_DEBUG, "In %s(%s,%s)", __function_name, key, stmt);
+    zabbix_log(LOG_LEVEL_DEBUG, "%s: In %s(%s,<stmt>)", PACKAGE, __function_name, key);
     // make sure we have space
     if (SQLcount >= MAX_NUMBER_SQL_STATEMENT_IN_RAM) {
         zabbix_log(LOG_LEVEL_ERR, "%s: ERROR: Keystore full: %i statements stored already", PACKAGE, SQLcount);
@@ -718,14 +729,16 @@ int  storeSQLstmt(const char *key, const char *stmt) {
     }
     // exclude dupes
     if (SQLkeysearch((char *)key) != -1) {
-        zabbix_log(LOG_LEVEL_ERR, "%s: ERROR: Duplicate key: \"%s\", discarding it", PACKAGE, key);
-        return EXIT_FAILURE;   // fatal
+        zabbix_log(LOG_LEVEL_ERR, "%s: ERROR: Duplicate key: \"%s\"", PACKAGE, key);
+        return EXIT_FAILURE;
     }
     // start at the end of the index and push out
     // entries to the next spot until you find the
     // right spot to insert the new key/value pair
-    i = SQLcount - 1;  // indexes start at zero, so -1
+    i = SQLcount - 1;
+    zabbix_log(LOG_LEVEL_TRACE, "%s: Starting to look for insert location (i:%i)", PACKAGE, i);
     while (i >= 0 && strcmp(key,SQLkey[i]) < 0) {
+        zabbix_log(LOG_LEVEL_TRACE, "%s: moving data from slot %i to slot %i", PACKAGE, i, i+1);
         SQLkey[i+1]  = SQLkey[i];
         SQLstmt[i+1] = SQLstmt[i];
         i--;
@@ -743,11 +756,16 @@ int  storeSQLstmt(const char *key, const char *stmt) {
         return EXIT_FAILURE;
     }
     // store the key and value
+    zabbix_log(LOG_LEVEL_TRACE, "%s: storing data in slot %i", PACKAGE, i+1);
     zbx_strlcpy(SQLkey[i+1],key,strlen(key)+1);
     zbx_strlcpy(SQLstmt[i+1],stmt,strlen(stmt)+1);
     SQLcount++;
 
-    zabbix_log(LOG_LEVEL_DEBUG, "End of %s(%s,stmt)", __function_name, key);
+    // Append NULL marker
+    SQLkey[SQLcount+1] = NULL;
+    SQLstmt[SQLcount+1] = NULL;
+
+    zabbix_log(LOG_LEVEL_DEBUG, "%s: End of %s", PACKAGE, __function_name);
     return EXIT_SUCCESS;
 }
 
@@ -767,24 +785,25 @@ int SQLkeysearch(char *key) {
     int  top;
     int  mid;
     int  bottom;
-    int  ctr;
 
-    zabbix_log(LOG_LEVEL_DEBUG, "In %s(%s)", __function_name, key);
+    zabbix_log(LOG_LEVEL_DEBUG, "%s: In %s(%s)", PACKAGE, __function_name, key);
     top = SQLcount - 1;
     bottom = 0;
-    ctr = 0;
     while (bottom <= top) {
-        ctr++;
         mid = (bottom + top)/2;
+        zabbix_log(LOG_LEVEL_TRACE, "%s: range top:%i mid:%i bottom:%i", PACKAGE, top, mid, bottom);
         if (strcmp(SQLkey[mid], key) == 0) {
+            zabbix_log(LOG_LEVEL_TRACE, "%s: found in slot:%i", PACKAGE, mid);
             return mid;
         } else if (strcmp(SQLkey[mid], key) > 0) {
+            zabbix_log(LOG_LEVEL_TRACE, "%s: key between bottom and middle of range", PACKAGE);
             top    = mid - 1;
         } else if (strcmp(SQLkey[mid], key) < 0) {
+            zabbix_log(LOG_LEVEL_TRACE, "%s: key between middle and top of range", PACKAGE);
             bottom = mid + 1;
         }
     }
-    zabbix_log(LOG_LEVEL_DEBUG, "End of %s(%s)", __function_name, key);
+    zabbix_log(LOG_LEVEL_DEBUG, "%s: End of %s", PACKAGE, __function_name);
     return -1;
 }
 
@@ -796,13 +815,18 @@ int SQLkeysearch(char *key) {
  * Returns: 
  */
 int  SQLCleanup() {
+    const char  *__function_name = "SQLCleanup";
     int   i;
 
+    zabbix_log(LOG_LEVEL_DEBUG, "%s: In %s", PACKAGE, __function_name);
+    zabbix_log(LOG_LEVEL_TRACE, "%s: SQLcount:%i", PACKAGE, SQLcount);
     for (i = 0; i < SQLcount; i++) {
+        zabbix_log(LOG_LEVEL_TRACE, "%s: i:%i", PACKAGE, i);
         zbx_free(SQLkey[i]);
         zbx_free(SQLstmt[i]);
     }
     SQLcount = 0;
+    zabbix_log(LOG_LEVEL_DEBUG, "%s: End of %s", PACKAGE, __function_name);
     return EXIT_SUCCESS;
 }
 
@@ -828,39 +852,46 @@ int readconfig(const char *cfgfile) {
     int               i;
     const char        *key, *value;
 
-    zabbix_log(LOG_LEVEL_DEBUG, "In %s(%s)", __function_name, cfgfile);
+    zabbix_log(LOG_LEVEL_DEBUG, "%s: In %s(%s)", PACKAGE, __function_name, cfgfile);
     config_init(&cfg);
     // call libconfig to parse config file into memory
     if(! config_read_file(&cfg, cfgfile)) {
         zabbix_log(LOG_LEVEL_ERR, "%s: ERROR: %s for file \"%s\"",
             PACKAGE, config_error_text(&cfg), cfgfile);
-        if(CONFIG_ERR_PARSE == config_error_type(&cfg)) 
+        if(CONFIG_ERR_PARSE == config_error_type(&cfg)) {
             zabbix_log(LOG_LEVEL_ERR, "%s: ERROR: Parsing error on or near line %i",
                 PACKAGE, config_error_line(&cfg));
+        }
         config_destroy(&cfg);
         return EXIT_FAILURE;
     }
     // start retrieving key/value pairs
     root = config_root_setting(&cfg);
+    zabbix_log(LOG_LEVEL_TRACE, "%s: config_setting_length:%i", PACKAGE, config_setting_length(root));
     for (i = 0; i < config_setting_length(root); i++) {
         element = config_setting_get_elem(root, i);
         key = config_setting_name(element);
+        zabbix_log(LOG_LEVEL_DEBUG, "%s: Found config key=[%s]", PACKAGE, key);
         // we only want strings
         if(CONFIG_TYPE_STRING == config_setting_type(element)) {
             value = config_setting_get_string_elem(root, i);
+            zabbix_log(LOG_LEVEL_DEBUG, "%s: Found config value=[%s]", PACKAGE, value);
+            zabbix_log(LOG_LEVEL_INFORMATION, "%s: ----Storing key \"%s\" and value", PACKAGE, key);
             // store it in our key/value store
             if (storeSQLstmt(key, value) == EXIT_FAILURE) {
                 config_destroy(&cfg);
                 return EXIT_FAILURE;
             }
-        }
-        else
-            zabbix_log(LOG_LEVEL_ERR, "%s: ERROR: Element \"%s\" in \"%s\" on line %i is not a string - discarding",
+        } else {
+            zabbix_log(LOG_LEVEL_DEBUG, "%s: config_setting_type:%i", PACKAGE, config_setting_type(element));
+            zabbix_log(LOG_LEVEL_ERR, "%s: ERROR: Element \"%s\" in \"%s\" on line %i is not a string",
                    PACKAGE, key, config_setting_source_file(element), config_setting_source_line(element));
+            config_destroy(&cfg);
+            return EXIT_FAILURE;
+        }
     }
-
     config_destroy(&cfg);
-    zabbix_log(LOG_LEVEL_DEBUG, "End of %s(%s)", __function_name, cfgfile);
+    zabbix_log(LOG_LEVEL_DEBUG, "%s: End of %s", PACKAGE, __function_name);
     return EXIT_SUCCESS;
 }
 
