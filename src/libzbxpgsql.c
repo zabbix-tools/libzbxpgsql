@@ -178,12 +178,20 @@ int         zbx_module_api_version()                { return ZBX_MODULE_API_VERS
 void        zbx_module_item_timeout(int timeout)    { return; }
 ZBX_METRIC  *zbx_module_item_list()                 { return keys; }
 
-int         zbx_module_uninit() {
+/*
+ * zbx_module_uninit
+*/
+
+int  zbx_module_uninit() {
     SQLCleanup();
     return ZBX_MODULE_OK;
 }
 
-int         zbx_module_init() { 
+/*
+ * zbx_module_init
+*/
+
+int  zbx_module_init() { 
     char        confdir[MAX_GLOBBING_PATH_LENGTH];
     int         numfiles, i;
 
@@ -812,7 +820,6 @@ int SQLkeysearch(char *key) {
  *
  * Free up array memory when done.
  *
- * Returns: 
  */
 int  SQLCleanup() {
     const char  *__function_name = "SQLCleanup";
@@ -859,7 +866,7 @@ int readconfig(const char *cfgfile) {
         zabbix_log(LOG_LEVEL_ERR, "%s: ERROR: %s for file \"%s\"",
             PACKAGE, config_error_text(&cfg), cfgfile);
         if(CONFIG_ERR_PARSE == config_error_type(&cfg)) {
-            zabbix_log(LOG_LEVEL_ERR, "%s: ERROR: Parsing error on or near line %i",
+            zabbix_log(LOG_LEVEL_ERR, "%s: ERROR: Parsing error on or before line %i",
                 PACKAGE, config_error_line(&cfg));
         }
         config_destroy(&cfg);
@@ -876,7 +883,7 @@ int readconfig(const char *cfgfile) {
         if(CONFIG_TYPE_STRING == config_setting_type(element)) {
             value = config_setting_get_string_elem(root, i);
             zabbix_log(LOG_LEVEL_DEBUG, "%s: Found config value=[%s]", PACKAGE, value);
-            zabbix_log(LOG_LEVEL_INFORMATION, "%s: ----Storing key \"%s\" and value", PACKAGE, key);
+            zabbix_log(LOG_LEVEL_INFORMATION, "%s:     Storing key \"%s\" and value", PACKAGE, key);
             // store it in our key/value store
             if (storeSQLstmt(key, value) == EXIT_FAILURE) {
                 config_destroy(&cfg);
@@ -884,7 +891,7 @@ int readconfig(const char *cfgfile) {
             }
         } else {
             zabbix_log(LOG_LEVEL_DEBUG, "%s: config_setting_type:%i", PACKAGE, config_setting_type(element));
-            zabbix_log(LOG_LEVEL_ERR, "%s: ERROR: Element \"%s\" in \"%s\" on line %i is not a string",
+            zabbix_log(LOG_LEVEL_ERR, "%s: ERROR: Value for key \"%s\" in \"%s\" on line %i is not a string",
                    PACKAGE, key, config_setting_source_file(element), config_setting_source_line(element));
             config_destroy(&cfg);
             return EXIT_FAILURE;

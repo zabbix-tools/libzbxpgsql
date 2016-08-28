@@ -52,9 +52,9 @@ int     PG_QUERY(AGENT_REQUEST *request, AGENT_RESULT *result)
 
     // Check if query comes from configs
     if(SQLkeysearch(query) >= 0) {
-        zabbix_log(LOG_LEVEL_DEBUG, "%s: Found key \"%s\" in memory", PACKAGE, query);
+        zabbix_log(LOG_LEVEL_DEBUG, "%s: Matched key \"%s\" in memory", PACKAGE, query);
         query = SQLstmt[SQLkeysearch(query)];
-        zabbix_log(LOG_LEVEL_DEBUG, "%s: SQL query now = \"%s\"", PACKAGE, query);
+        zabbix_log(LOG_LEVEL_DEBUG, "%s: SQL query = \"%s\"", PACKAGE, query);
     }
 
     // parse user params
