@@ -41,17 +41,24 @@ int     PG_QUERY(AGENT_REQUEST *request, AGENT_RESULT *result)
     int         i = 0;
     PGparams    params = NULL;
 
-    zabbix_log(LOG_LEVEL_DEBUG, "In %s()", __function_name);
+    zabbix_log(LOG_LEVEL_DEBUG, "%s: In %s()", PACKAGE, __function_name);
 
     // Get the user SQL query parameter
     query = get_rparam(request, PARAM_FIRST);
     if(NULL == query || '\0' == *query) {
-        set_err_result(result, "No query specified");
+        set_err_result(result, "No query or query-key specified");
         goto out;
     }
 
+    // Check if query comes from configs
+    if(SQLkeysearch(query) >= 0) {
+        zabbix_log(LOG_LEVEL_DEBUG, "%s: Matched key \"%s\" in memory", PACKAGE, query);
+        query = SQLstmt[SQLkeysearch(query)];
+        zabbix_log(LOG_LEVEL_DEBUG, "%s: SQL query = \"%s\"", PACKAGE, query);
+    }
+
     // parse user params
-    zabbix_log(LOG_LEVEL_DEBUG, "Appending %i params to query", request->nparam - 3);
+    zabbix_log(LOG_LEVEL_DEBUG, "%s: Appending %i params to query", PACKAGE, request->nparam - 3);
     for (i = 3; i < request->nparam; i++) {
         params = param_append(params, get_rparam(request, i));
     }
@@ -74,6 +81,6 @@ int     PG_QUERY(AGENT_REQUEST *request, AGENT_RESULT *result)
         set_err_result(result, "Unsupported query type: %s", request->key[9]);
 
 out:
-    zabbix_log(LOG_LEVEL_DEBUG, "End of %s()", __function_name);
+    zabbix_log(LOG_LEVEL_DEBUG, "%s: End of %s()", PACKAGE, __function_name);
     return ret;
 }

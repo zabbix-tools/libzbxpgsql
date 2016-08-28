@@ -31,14 +31,25 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <libconfig.h>
+#include <glob.h>
+#include <string.h>
 
 // Zabbix source headers
+#define HAVE_TIME_H 1
 #include <sysinc.h>
 #include <module.h>
 #include <common.h>
 #include <log.h>
 #include <zbxjson.h>
 #include <version.h>
+
+// Default query config file location
+#define DEFAULT_PG_QUERY_CONF_PATH       "/etc/libzbxpgsql.d"
+
+// Default memory usage
+#define MAX_GLOBBING_PATH_LENGTH         512
+#define MAX_NUMBER_CONFIG_FILES          100
+#define MAX_NUMBER_SQL_STATEMENT_IN_RAM  500
 
 // Default connection settings
 #define LOCALHOST       "localhost"
@@ -65,6 +76,10 @@
 #define PG_RELKIND_TOAST        "t"
 #define PG_RELKIND_FGNTABLE     "f"
 
+// Shared globals
+extern char  *SQLkey[MAX_NUMBER_SQL_STATEMENT_IN_RAM+1];
+extern char  *SQLstmt[MAX_NUMBER_SQL_STATEMENT_IN_RAM+1];
+
 // function to determine if a string is null or empty
 #define strisnull(c)            (NULL == c || '\0' == *c)
 
@@ -78,6 +93,7 @@ PGconn      *pg_connect_request(AGENT_REQUEST *request, AGENT_RESULT *result);
 PGresult    *pg_exec(PGconn *conn, const char *command, PGparams params);
 int         pg_scalar(AGENT_REQUEST *request, AGENT_RESULT *result, const char *query, PGparams params, char *buffer, size_t bufferlen);
 long int    pg_version(AGENT_REQUEST *request, AGENT_RESULT *result);
+int         SQLkeysearch(char *key);
 
 int     pg_get_result(AGENT_REQUEST *request, AGENT_RESULT *result, int type, const char *query, PGparams params);
 int     pg_get_discovery(AGENT_REQUEST *request, AGENT_RESULT *result, const char *query, PGparams params);
@@ -113,7 +129,6 @@ int     PG_SETTING(AGENT_REQUEST *request, AGENT_RESULT *result);
 int     PG_SETTING_DISCOVERY(AGENT_REQUEST *request, AGENT_RESULT *result);
 
 int     PG_QUERY(AGENT_REQUEST *request, AGENT_RESULT *result);
-int     PG_QUERY2(AGENT_REQUEST *request, AGENT_RESULT *result);
 
 int     PG_BACKENDS_COUNT(AGENT_REQUEST *request, AGENT_RESULT *result);
 int     PG_BACKENDS_FREE(AGENT_REQUEST *request, AGENT_RESULT *result);
