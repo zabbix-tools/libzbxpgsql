@@ -753,13 +753,13 @@ int  storeSQLstmt(const char *key, const char *stmt) {
     }
     // allocate memory for the new key
     SQLkey[i+1] = zbx_malloc(SQLkey[i+1],sizeof(char) * (strlen(key)+1));
-    if (SQLkey[SQLcount] == NULL) {
+    if (SQLkey[i+1] == NULL) {
         zabbix_log(LOG_LEVEL_CRIT, "%s: ERROR: zbx_malloc failed", PACKAGE);
         return EXIT_FAILURE;
     }
     // allocate memory for the new value
     SQLstmt[i+1] = zbx_malloc(SQLstmt[i+1],sizeof(char) * (strlen(stmt)+1));
-    if (SQLstmt[SQLcount] == NULL) {
+    if (SQLstmt[i+1] == NULL) {
         zabbix_log(LOG_LEVEL_CRIT, "%s: ERROR: zbx_malloc failed", PACKAGE);
         return EXIT_FAILURE;
     }
@@ -793,6 +793,7 @@ int SQLkeysearch(char *key) {
     int  top;
     int  mid;
     int  bottom;
+    int  cmp;
 
     zabbix_log(LOG_LEVEL_DEBUG, "%s: In %s(%s)", PACKAGE, __function_name, key);
     top = SQLcount - 1;
@@ -800,13 +801,14 @@ int SQLkeysearch(char *key) {
     while (bottom <= top) {
         mid = (bottom + top)/2;
         zabbix_log(LOG_LEVEL_TRACE, "%s: range top:%i mid:%i bottom:%i", PACKAGE, top, mid, bottom);
-        if (strcmp(SQLkey[mid], key) == 0) {
+        cmp=strcmp(SQLkey[mid], key);
+        if (cmp == 0) {
             zabbix_log(LOG_LEVEL_TRACE, "%s: found in slot:%i", PACKAGE, mid);
             return mid;
-        } else if (strcmp(SQLkey[mid], key) > 0) {
+        } else if (cmp > 0) {
             zabbix_log(LOG_LEVEL_TRACE, "%s: key between bottom and middle of range", PACKAGE);
             top    = mid - 1;
-        } else if (strcmp(SQLkey[mid], key) < 0) {
+        } else if (cmp < 0) {
             zabbix_log(LOG_LEVEL_TRACE, "%s: key between middle and top of range", PACKAGE);
             bottom = mid + 1;
         }
