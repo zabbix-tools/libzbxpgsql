@@ -867,10 +867,8 @@ int readconfig(const char *cfgfile) {
     if(! config_read_file(&cfg, cfgfile)) {
         zabbix_log(LOG_LEVEL_ERR, "%s: ERROR: %s for file \"%s\"",
             PACKAGE, config_error_text(&cfg), cfgfile);
-        if(CONFIG_ERR_PARSE == config_error_type(&cfg)) {
             zabbix_log(LOG_LEVEL_ERR, "%s: ERROR: Parsing error on or before line %i",
                 PACKAGE, config_error_line(&cfg));
-        }
         config_destroy(&cfg);
         return EXIT_FAILURE;
     }
@@ -894,7 +892,7 @@ int readconfig(const char *cfgfile) {
         } else {
             zabbix_log(LOG_LEVEL_DEBUG, "%s: config_setting_type:%i", PACKAGE, config_setting_type(element));
             zabbix_log(LOG_LEVEL_ERR, "%s: ERROR: Value for key \"%s\" in \"%s\" on line %i is not a string",
-                   PACKAGE, key, config_setting_source_file(element), config_setting_source_line(element));
+                   PACKAGE, key, cfgfile, config_setting_source_line(element));
             config_destroy(&cfg);
             return EXIT_FAILURE;
         }
