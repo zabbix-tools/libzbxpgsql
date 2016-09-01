@@ -26,7 +26,6 @@ libzbxpgsql_la_CFLAGS = \
 
 libzbxpgsql_la_LDFLAGS = \
 	-shared \
-	-lconfig \
 	-avoid-version
 
 # Prevent install of the redundant *.la files
