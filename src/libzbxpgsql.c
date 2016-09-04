@@ -172,6 +172,7 @@ int         SQLcount = 0;
 
 // Forward function definition
 const char * getPGQUERYPATH();
+int globerror(const char *filename, int errorcode);
 
 // Required Zabbix module functions
 int         zbx_module_api_version()                { return ZBX_MODULE_API_VERSION_ONE; }
@@ -194,6 +195,7 @@ int  zbx_module_uninit() {
 int  zbx_module_init() { 
     char        confdir[MAX_GLOBBING_PATH_LENGTH];
     int         numfiles, i;
+    glob_t      filenames;
 
     // log version on startup
     zabbix_log(LOG_LEVEL_INFORMATION, "Starting agent module %s", PACKAGE_STRING);
@@ -202,8 +204,22 @@ int  zbx_module_init() {
     SQLkey[0]=NULL;
     SQLstmt[0]=NULL;
 
-    // get query config file path
+    // set config directory path
     zbx_strlcpy(confdir,getPGQUERYPATH(),strlen(getPGQUERYPATH())+1);
+
+    // see if config dir exists
+    switch (glob(confdir, GLOB_ERR, globerror, &filenames)) {
+        case 0 :
+            globfree(&filenames);
+            break;
+        case GLOB_NOMATCH :
+            zabbix_log(LOG_LEVEL_INFORMATION, "%s: Config dir \"%s\" not found, continuing.", PACKAGE, getPGQUERYPATH());
+            fileCount = 0;
+            goto out;
+        default :
+            zabbix_log(LOG_LEVEL_CRIT, "%s: ERROR invoking globfilelist function", PACKAGE);
+            return ZBX_MODULE_FAIL;
+    }
 
     // append slash if needed, plus *.conf glob
     if ('/' == confdir[strlen(confdir)-1]) {
@@ -229,6 +245,7 @@ int  zbx_module_init() {
         zbx_free(configPath[i]);
     }
 
+out:
     zabbix_log(LOG_LEVEL_DEBUG, "%s: End of init", PACKAGE);
     return ZBX_MODULE_OK; 
 }
@@ -858,17 +875,20 @@ int readconfig(const char *cfgfile) {
     const char  *__function_name = "readconfig";
     config_t          cfg;
     config_setting_t  *root, *element;
-    int               i;
+    int               i, rc;
     const char        *key, *value;
 
     zabbix_log(LOG_LEVEL_DEBUG, "%s: In %s(%s)", PACKAGE, __function_name, cfgfile);
     config_init(&cfg);
     // call libconfig to parse config file into memory
-    if(! config_read_file(&cfg, cfgfile)) {
-        zabbix_log(LOG_LEVEL_ERR, "%s: ERROR: %s for file \"%s\"",
-            PACKAGE, config_error_text(&cfg), cfgfile);
+    rc = config_read_file(&cfg, cfgfile);
+    if (rc != 1) {
+        zabbix_log(LOG_LEVEL_ERR, "%s: ERROR: %s for file \"%s\" rc=%i",
+            PACKAGE, config_error_text(&cfg), cfgfile, rc);
+        if (config_error_line(&cfg) != 0) {
             zabbix_log(LOG_LEVEL_ERR, "%s: ERROR: Parsing error on or before line %i",
                 PACKAGE, config_error_line(&cfg));
+        }
         config_destroy(&cfg);
         return EXIT_FAILURE;
     }
