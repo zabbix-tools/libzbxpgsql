@@ -5,4 +5,5 @@ SUBDIRS = \
 
 EXTRA_DIST = \
 	README.md \
+	query.conf \
 	template_postgresql_server.xml
