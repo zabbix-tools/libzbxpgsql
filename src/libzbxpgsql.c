@@ -170,9 +170,12 @@ char        *SQLkey[MAX_NUMBER_SQL_STATEMENT_IN_RAM+1];
 char        *SQLstmt[MAX_NUMBER_SQL_STATEMENT_IN_RAM+1];
 int         SQLcount = 0;
 
-// Forward function definition
+// Forward function definitions
 const char * getPGQUERYPATH();
 int globerror(const char *filename, int errorcode);
+int SQLCleanup();
+int globfilelist(const char *pattern);
+int readconfig(const char *cfgfile);
 
 // Required Zabbix module functions
 int         zbx_module_api_version()                { return ZBX_MODULE_API_VERSION_ONE; }
@@ -655,7 +658,7 @@ const char * getPGQUERYPATH() {
     const char  *envPGQUERYPATH = getenv("PGQUERYPATH");
 
     zabbix_log(LOG_LEVEL_DEBUG, "%s: In %s", PACKAGE, __function_name);
-    if(NULL == &envPGQUERYPATH || '\0' == envPGQUERYPATH) {
+    if('\0' == envPGQUERYPATH) {
         zabbix_log(LOG_LEVEL_TRACE, "%s: Using default config path", PACKAGE);
         return pgquerypath;
     } else {
@@ -766,6 +769,8 @@ int  storeSQLstmt(const char *key, const char *stmt) {
         zabbix_log(LOG_LEVEL_TRACE, "%s: moving data from slot %i to slot %i", PACKAGE, i, i+1);
         SQLkey[i+1]  = SQLkey[i];
         SQLstmt[i+1] = SQLstmt[i];
+        SQLkey[i] = NULL;
+        SQLstmt[i] = NULL;
         i--;
     }
     // allocate memory for the new key
