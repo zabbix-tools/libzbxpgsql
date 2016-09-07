@@ -46,8 +46,15 @@ int     PG_QUERY(AGENT_REQUEST *request, AGENT_RESULT *result)
     // Get the user SQL query parameter
     query = get_rparam(request, PARAM_FIRST);
     if(NULL == query || '\0' == *query) {
-        set_err_result(result, "No query specified");
+        set_err_result(result, "No query or query-key specified");
         goto out;
+    }
+
+    // Check if query comes from configs
+    if(SQLkeysearch(query) >= 0) {
+        zabbix_log(LOG_LEVEL_DEBUG, "%s: Matched key \"%s\" in memory", PACKAGE, query);
+        query = SQLstmt[SQLkeysearch(query)];
+        zabbix_log(LOG_LEVEL_DEBUG, "%s: SQL query = \"%s\"", PACKAGE, query);
     }
 
     // parse user params
