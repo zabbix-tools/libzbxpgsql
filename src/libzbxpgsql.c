@@ -659,7 +659,7 @@ const char * getPGQUERYPATH() {
 
     zabbix_log(LOG_LEVEL_DEBUG, "In %s", __function_name);
     if('\0' == envPGQUERYPATH) {
-        zabbix_log(LOG_LEVEL_TRACE, "Using default config path");
+        zabbix_log(LOG_LEVEL_DEBUG, "Using default config path");
         return pgquerypath;
     } else {
         if (strlen(envPGQUERYPATH) > MAX_GLOBBING_PATH_LENGTH) {
@@ -668,7 +668,7 @@ const char * getPGQUERYPATH() {
                 strlen(envPGQUERYPATH), MAX_GLOBBING_PATH_LENGTH);
             return NULL;
         }
-        zabbix_log(LOG_LEVEL_TRACE, "Using config path from PGQUERYPATH env variable");
+        zabbix_log(LOG_LEVEL_DEBUG, "Using config path from PGQUERYPATH env variable");
         return envPGQUERYPATH;
     }
 }
@@ -764,9 +764,9 @@ int  storeSQLstmt(const char *key, const char *stmt) {
     // entries to the next spot until you find the
     // right spot to insert the new key/value pair
     i = SQLcount - 1;
-    zabbix_log(LOG_LEVEL_TRACE, "Starting to look for insert location (i:%i)", i);
+    zabbix_log(LOG_LEVEL_DEBUG, "Starting to look for insert location (i:%i)", i);
     while (i >= 0 && strcmp(key,SQLkey[i]) < 0) {
-        zabbix_log(LOG_LEVEL_TRACE, "moving data from slot %i to slot %i", i, i+1);
+        zabbix_log(LOG_LEVEL_DEBUG, "moving data from slot %i to slot %i", i, i+1);
         SQLkey[i+1]  = SQLkey[i];
         SQLstmt[i+1] = SQLstmt[i];
         SQLkey[i] = NULL;
@@ -786,7 +786,7 @@ int  storeSQLstmt(const char *key, const char *stmt) {
         return EXIT_FAILURE;
     }
     // store the key and value
-    zabbix_log(LOG_LEVEL_TRACE, "storing data in slot %i", i+1);
+    zabbix_log(LOG_LEVEL_DEBUG, "storing data in slot %i", i+1);
     zbx_strlcpy(SQLkey[i+1],key,strlen(key)+1);
     zbx_strlcpy(SQLstmt[i+1],stmt,strlen(stmt)+1);
     SQLcount++;
@@ -822,16 +822,16 @@ int SQLkeysearch(char *key) {
     bottom = 0;
     while (bottom <= top) {
         mid = (bottom + top)/2;
-        zabbix_log(LOG_LEVEL_TRACE, "range top:%i mid:%i bottom:%i", top, mid, bottom);
+        zabbix_log(LOG_LEVEL_DEBUG, "range top:%i mid:%i bottom:%i", top, mid, bottom);
         cmp=strcmp(SQLkey[mid], key);
         if (cmp == 0) {
-            zabbix_log(LOG_LEVEL_TRACE, "found in slot:%i", mid);
+            zabbix_log(LOG_LEVEL_DEBUG, "found in slot:%i", mid);
             return mid;
         } else if (cmp > 0) {
-            zabbix_log(LOG_LEVEL_TRACE, "key between bottom and middle of range");
+            zabbix_log(LOG_LEVEL_DEBUG, "key between bottom and middle of range");
             top    = mid - 1;
         } else if (cmp < 0) {
-            zabbix_log(LOG_LEVEL_TRACE, "key between middle and top of range");
+            zabbix_log(LOG_LEVEL_DEBUG, "key between middle and top of range");
             bottom = mid + 1;
         }
     }
@@ -850,9 +850,9 @@ int  SQLCleanup() {
     int   i;
 
     zabbix_log(LOG_LEVEL_DEBUG, "In %s", __function_name);
-    zabbix_log(LOG_LEVEL_TRACE, "SQLcount:%i", SQLcount);
+    zabbix_log(LOG_LEVEL_DEBUG, "SQLcount:%i", SQLcount);
     for (i = 0; i < SQLcount; i++) {
-        zabbix_log(LOG_LEVEL_TRACE, "i:%i", i);
+        zabbix_log(LOG_LEVEL_DEBUG, "i:%i", i);
         zbx_free(SQLkey[i]);
         zbx_free(SQLstmt[i]);
     }
@@ -899,7 +899,7 @@ int readconfig(const char *cfgfile) {
     }
     // start retrieving key/value pairs
     root = config_root_setting(&cfg);
-    zabbix_log(LOG_LEVEL_TRACE, "config_setting_length:%i", config_setting_length(root));
+    zabbix_log(LOG_LEVEL_DEBUG, "config_setting_length:%i", config_setting_length(root));
     for (i = 0; i < config_setting_length(root); i++) {
         element = config_setting_get_elem(root, i);
         key = config_setting_name(element);
