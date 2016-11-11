@@ -49,7 +49,11 @@
 #include <version.h>
 
 // Default query config file location
+#ifdef __FreeBSD__
+#define DEFAULT_PG_QUERY_CONF_PATH       "/usr/local/etc/libzbxpgsql.d"
+#else
 #define DEFAULT_PG_QUERY_CONF_PATH       "/etc/libzbxpgsql.d"
+#endif
 
 // Default memory usage
 #define MAX_GLOBBING_PATH_LENGTH         512
