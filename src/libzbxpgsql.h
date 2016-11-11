@@ -24,6 +24,11 @@
 #include <stdarg.h>
 #include <arpa/inet.h>
 
+#ifdef __FreeBSD__
+#include <netinet/in.h>
+#include <sys/socket.h>
+#endif
+
 // PostgreSQL headers
 #include <libpq-fe.h>
 
