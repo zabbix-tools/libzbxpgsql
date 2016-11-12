@@ -24,6 +24,11 @@
 #include <stdarg.h>
 #include <arpa/inet.h>
 
+#ifdef __FreeBSD__
+#include <netinet/in.h>
+#include <sys/socket.h>
+#endif
+
 // PostgreSQL headers
 #include <libpq-fe.h>
 
@@ -44,7 +49,11 @@
 #include <version.h>
 
 // Default query config file location
+#ifdef __FreeBSD__
+#define DEFAULT_PG_QUERY_CONF_PATH       "/usr/local/etc/libzbxpgsql.d"
+#else
 #define DEFAULT_PG_QUERY_CONF_PATH       "/etc/libzbxpgsql.d"
+#endif
 
 // Default memory usage
 #define MAX_GLOBBING_PATH_LENGTH         512
