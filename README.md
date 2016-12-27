@@ -11,7 +11,7 @@ discovery and monitoring of tablespaces, databases, namespaces, tables,
 indexes, etc.
 
 * Read the [documentation](http://cavaliercoder.github.io/libzbxpgsql/)
-* Download the [packages](https://sourceforge.net/projects/libzbxpgsl/files/)
+* Download the [packages](http://cavaliercoder.com/libzbxpgsql/download/)
 * Clone the [sources](http://github.com/cavaliercoder/libzbxpgsql)
 * Follow the [author](http://cavaliercoder.com)
 
