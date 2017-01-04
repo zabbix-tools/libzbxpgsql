@@ -37,24 +37,24 @@ int     PG_QUERY(AGENT_REQUEST *request, AGENT_RESULT *result)
 {
     int         ret = SYSINFO_RET_FAIL;         // Request result code
     const char  *__function_name = "PG_QUERY";  // Function name for log file
-    char        *query = NULL;
+    char        *queryKey = NULL, *query = NULL;
     int         i = 0;
     PGparams    params = NULL;
 
     zabbix_log(LOG_LEVEL_DEBUG, "In %s()", __function_name);
 
     // Get the user SQL query parameter
-    query = get_rparam(request, PARAM_FIRST);
-    if(NULL == query || '\0' == *query) {
+    queryKey = get_rparam(request, PARAM_FIRST);
+    if (strisnull(queryKey)) {
         set_err_result(result, "No query or query-key specified");
         goto out;
     }
 
     // Check if query comes from configs
-    if(SQLkeysearch(query) >= 0) {
-        zabbix_log(LOG_LEVEL_DEBUG, "%s: Matched key \"%s\" in memory", PACKAGE, query);
-        query = SQLstmt[SQLkeysearch(query)];
-        zabbix_log(LOG_LEVEL_DEBUG, "%s: SQL query = \"%s\"", PACKAGE, query);
+    query = query_by_key(queryKey);
+    if(NULL == query) {
+        zabbix_log(LOG_LEVEL_INFORMATION, "No query found for %s", queryKey);
+        query = queryKey;
     }
 
     // parse user params

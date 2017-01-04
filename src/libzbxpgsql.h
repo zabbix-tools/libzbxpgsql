@@ -104,7 +104,7 @@ PGconn      *pg_connect_request(AGENT_REQUEST *request, AGENT_RESULT *result);
 PGresult    *pg_exec(PGconn *conn, const char *command, PGparams params);
 int         pg_scalar(AGENT_REQUEST *request, AGENT_RESULT *result, const char *query, PGparams params, char *buffer, size_t bufferlen);
 long int    pg_version(AGENT_REQUEST *request, AGENT_RESULT *result);
-int         SQLkeysearch(char *key);
+char        *query_by_key(const char *key);
 
 int     pg_get_result(AGENT_REQUEST *request, AGENT_RESULT *result, int type, const char *query, PGparams params);
 int     pg_get_discovery(AGENT_REQUEST *request, AGENT_RESULT *result, const char *query, PGparams params);

@@ -17,12 +17,6 @@
 ** Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 **/
 
-/*
- * See:
- *     LibPQ:       http://www.postgresql.org/docs/9.4/static/libpq.html
- *     Statistics:  http://www.postgresql.org/docs/9.4/static/monitoring-stats.html
- */
-
 #include "libzbxpgsql.h"
 
 // Global Variables
@@ -207,7 +201,7 @@ int  storeSQLstmt(const char *key, const char *stmt) {
         return EXIT_FAILURE;
     }
     // exclude dupes
-    if (SQLkeysearch((char *)key) != -1) {
+    if (NULL != query_by_key(key)) {
         zabbix_log(LOG_LEVEL_ERR, "ERROR: Duplicate key: \"%s\"", key);
         return EXIT_FAILURE;
     }
@@ -251,43 +245,35 @@ int  storeSQLstmt(const char *key, const char *stmt) {
 }
 
 /*
- * Function SQLkeysearch
+ * Function query_by_key
  *
  * Searches the key array to find the
  * corresponding SQL stmt using binary
  * search.
  *
  * Returns: 
- *    If Key Found: index to key
- *    If Not Found: -1
+ *    If Key Found: pointer to query string
+ *    If Not Found: NULL
  */
-int SQLkeysearch(char *key) {
-    const char  *__function_name = "SQLkeysearch";
-    int  top;
-    int  mid;
-    int  bottom;
-    int  cmp;
+char *query_by_key(const char *key) {
+    int top = SQLcount -1;
+    int mid = 0;
+    int bottom = 0;
+    int cmp = -1;
 
-    zabbix_log(LOG_LEVEL_DEBUG, "In %s(%s)", __function_name, key);
-    top = SQLcount - 1;
-    bottom = 0;
     while (bottom <= top) {
         mid = (bottom + top)/2;
-        zabbix_log(LOG_LEVEL_DEBUG, "range top:%i mid:%i bottom:%i", top, mid, bottom);
-        cmp=strcmp(SQLkey[mid], key);
+        cmp = strcmp(SQLkey[mid], key);
         if (cmp == 0) {
-            zabbix_log(LOG_LEVEL_DEBUG, "found in slot:%i", mid);
-            return mid;
+            return SQLstmt[mid];
         } else if (cmp > 0) {
-            zabbix_log(LOG_LEVEL_DEBUG, "key between bottom and middle of range");
-            top    = mid - 1;
+            top = mid - 1;
         } else if (cmp < 0) {
-            zabbix_log(LOG_LEVEL_DEBUG, "key between middle and top of range");
             bottom = mid + 1;
         }
     }
-    zabbix_log(LOG_LEVEL_DEBUG, "End of %s", __function_name);
-    return -1;
+    
+    return NULL;
 }
 
 /*
