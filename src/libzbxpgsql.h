@@ -55,6 +55,8 @@
 #define DEFAULT_PG_QUERY_CONF_PATH       "/etc/libzbxpgsql.d"
 #endif
 
+int init_config();
+
 // Default memory usage
 #define MAX_GLOBBING_PATH_LENGTH         512
 #define MAX_NUMBER_CONFIG_FILES          100
