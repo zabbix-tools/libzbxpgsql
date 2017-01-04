@@ -191,25 +191,24 @@ int globfilelist(const char *pattern) {
  *   -1           = duplicate key discarded
  */
 int  storeSQLstmt(const char *key, const char *stmt) {
-    const char  *__function_name = "storeSQLstmt";
     int  i;
-
-    zabbix_log(LOG_LEVEL_DEBUG, "In %s(%s,<stmt>)", __function_name, key);
+    
     // make sure we have space
     if (SQLcount >= MAX_NUMBER_SQL_STATEMENT_IN_RAM) {
-        zabbix_log(LOG_LEVEL_ERR, "ERROR: Keystore full: %i statements stored already", SQLcount);
+        zabbix_log(LOG_LEVEL_ERR, "keystore full: %i statements stored already", SQLcount);
         return EXIT_FAILURE;
     }
     // exclude dupes
     if (NULL != query_by_key(key)) {
-        zabbix_log(LOG_LEVEL_ERR, "ERROR: Duplicate key: \"%s\"", key);
+        zabbix_log(LOG_LEVEL_ERR, "duplicate query key: \"%s\"", key);
         return EXIT_FAILURE;
     }
     // start at the end of the index and push out
     // entries to the next spot until you find the
     // right spot to insert the new key/value pair
+    // TODO: reduce storeSQLstmt from O(n log^n) to O(log^n)
     i = SQLcount - 1;
-    zabbix_log(LOG_LEVEL_DEBUG, "Starting to look for insert location (i:%i)", i);
+    zabbix_log(LOG_LEVEL_DEBUG, "starting to look for insert location (i:%i)", i);
     while (i >= 0 && strcmp(key,SQLkey[i]) < 0) {
         zabbix_log(LOG_LEVEL_DEBUG, "moving data from slot %i to slot %i", i, i+1);
         SQLkey[i+1]  = SQLkey[i];
@@ -220,27 +219,24 @@ int  storeSQLstmt(const char *key, const char *stmt) {
     }
     // allocate memory for the new key
     SQLkey[i+1] = zbx_malloc(SQLkey[i+1],sizeof(char) * (strlen(key)+1));
-    if (SQLkey[i+1] == NULL) {
-        zabbix_log(LOG_LEVEL_CRIT, "ERROR: zbx_malloc failed");
+    if (SQLkey[i+1] == NULL)
         return EXIT_FAILURE;
-    }
+
     // allocate memory for the new value
     SQLstmt[i+1] = zbx_malloc(SQLstmt[i+1],sizeof(char) * (strlen(stmt)+1));
-    if (SQLstmt[i+1] == NULL) {
-        zabbix_log(LOG_LEVEL_CRIT, "ERROR: zbx_malloc failed");
+    if (SQLstmt[i+1] == NULL)
         return EXIT_FAILURE;
-    }
+
     // store the key and value
     zabbix_log(LOG_LEVEL_DEBUG, "storing data in slot %i", i+1);
-    zbx_strlcpy(SQLkey[i+1],key,strlen(key)+1);
-    zbx_strlcpy(SQLstmt[i+1],stmt,strlen(stmt)+1);
+    zbx_strlcpy(SQLkey[i+1], key, strlen(key)+1);
+    zbx_strlcpy(SQLstmt[i+1], stmt, strlen(stmt)+1);
     SQLcount++;
 
     // Append NULL marker
     SQLkey[SQLcount+1] = NULL;
     SQLstmt[SQLcount+1] = NULL;
 
-    zabbix_log(LOG_LEVEL_DEBUG, "End of %s", __function_name);
     return EXIT_SUCCESS;
 }
 
@@ -272,7 +268,7 @@ char *query_by_key(const char *key) {
             bottom = mid + 1;
         }
     }
-    
+
     return NULL;
 }
 
@@ -283,18 +279,13 @@ char *query_by_key(const char *key) {
  *
  */
 int  SQLCleanup() {
-    const char  *__function_name = "SQLCleanup";
     int   i;
-
-    zabbix_log(LOG_LEVEL_DEBUG, "In %s", __function_name);
-    zabbix_log(LOG_LEVEL_DEBUG, "SQLcount:%i", SQLcount);
     for (i = 0; i < SQLcount; i++) {
-        zabbix_log(LOG_LEVEL_DEBUG, "i:%i", i);
         zbx_free(SQLkey[i]);
         zbx_free(SQLstmt[i]);
     }
+
     SQLcount = 0;
-    zabbix_log(LOG_LEVEL_DEBUG, "End of %s", __function_name);
     return EXIT_SUCCESS;
 }
 
@@ -314,52 +305,55 @@ int  SQLCleanup() {
  *   EXIT_FAILURE = parse failed
  */
 int readconfig(const char *cfgfile) {
-    const char  *__function_name = "readconfig";
     config_t          cfg;
     config_setting_t  *root, *element;
-    int               i, rc;
+    int               i, rc, config_count, query_count;
     const char        *key, *value;
 
-    zabbix_log(LOG_LEVEL_DEBUG, "In %s(%s)", __function_name, cfgfile);
     config_init(&cfg);
+
     // call libconfig to parse config file into memory
     rc = config_read_file(&cfg, cfgfile);
-    if (rc != 1) {
-        zabbix_log(LOG_LEVEL_ERR, "ERROR: %s for file \"%s\" rc=%i",
-            config_error_text(&cfg), cfgfile, rc);
-        if (config_error_line(&cfg) != 0) {
-            zabbix_log(LOG_LEVEL_ERR, "ERROR: Parsing error on or before line %i",
-                config_error_line(&cfg));
-        }
+    if (1 != rc) {
+        zabbix_log(LOG_LEVEL_ERR, "%s (%i) in %s:%i",
+            config_error_text(&cfg), rc, cfgfile, config_error_line(&cfg));
+
         config_destroy(&cfg);
         return EXIT_FAILURE;
     }
+
     // start retrieving key/value pairs
     root = config_root_setting(&cfg);
-    zabbix_log(LOG_LEVEL_DEBUG, "config_setting_length:%i", config_setting_length(root));
-    for (i = 0; i < config_setting_length(root); i++) {
+    config_count = config_setting_length(root);
+    query_count = 0;
+    zabbix_log(LOG_LEVEL_DEBUG, "config_setting_length: %i", config_count);
+
+    for (i = 0; i < config_count; i++) {
         element = config_setting_get_elem(root, i);
         key = config_setting_name(element);
-        zabbix_log(LOG_LEVEL_DEBUG, "Found config key=[%s]", key);
+
         // we only want strings
         if(CONFIG_TYPE_STRING == config_setting_type(element)) {
             value = config_setting_get_string_elem(root, i);
-            zabbix_log(LOG_LEVEL_DEBUG, "Found config value=[%s]", value);
-            zabbix_log(LOG_LEVEL_INFORMATION, "    Storing key \"%s\" and value", key);
+            zabbix_log(LOG_LEVEL_DEBUG, "found query key %s = %s", key, value);
+
             // store it in our key/value store
-            if (storeSQLstmt(key, value) == EXIT_FAILURE) {
+            if (EXIT_FAILURE == storeSQLstmt(key, value)) {
                 config_destroy(&cfg);
                 return EXIT_FAILURE;
             }
+            query_count++;
         } else {
-            zabbix_log(LOG_LEVEL_DEBUG, "config_setting_type:%i", config_setting_type(element));
-            zabbix_log(LOG_LEVEL_ERR, "ERROR: Value for key \"%s\" in \"%s\" on line %i is not a string",
-                   key, cfgfile, config_setting_source_line(element));
+            zabbix_log(LOG_LEVEL_ERR, "query key \"%s\" in %s:%i is not a string",
+                key, cfgfile, config_setting_source_line(element));
+
             config_destroy(&cfg);
             return EXIT_FAILURE;
         }
     }
+    zabbix_log(LOG_LEVEL_INFORMATION, "found %i query keys in %s", query_count, cfgfile);
+
     config_destroy(&cfg);
-    zabbix_log(LOG_LEVEL_DEBUG, "End of %s", __function_name);
+    
     return EXIT_SUCCESS;
 }
