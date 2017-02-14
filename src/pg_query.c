@@ -37,7 +37,7 @@ int     PG_QUERY(AGENT_REQUEST *request, AGENT_RESULT *result)
 {
     int         ret = SYSINFO_RET_FAIL;         // Request result code
     const char  *__function_name = "PG_QUERY";  // Function name for log file
-    char        *queryKey = NULL, *query = NULL;
+    const char  *queryKey = NULL, *query = NULL;
     int         i = 0;
     PGparams    params = NULL;
 
@@ -51,7 +51,7 @@ int     PG_QUERY(AGENT_REQUEST *request, AGENT_RESULT *result)
     }
 
     // Check if query comes from configs
-    query = query_by_key(queryKey);
+    query = get_query_by_name(queryKey);
     if(NULL == query) {
         zabbix_log(LOG_LEVEL_INFORMATION, "No query found for %s", queryKey);
         query = queryKey;

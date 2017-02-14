@@ -172,8 +172,7 @@ ZBX_METRIC  *zbx_module_item_list()                 { return keys; }
 */
 
 int  zbx_module_uninit() {
-    SQLCleanup();
-    return ZBX_MODULE_OK;
+    return uninit_config();
 }
 
 /*

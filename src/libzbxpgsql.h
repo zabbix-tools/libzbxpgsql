@@ -48,15 +48,6 @@
 #include <zbxjson.h>
 #include <version.h>
 
-// Default query config file location
-#ifdef __FreeBSD__
-#define DEFAULT_PG_QUERY_CONF_PATH       "/usr/local/etc/libzbxpgsql.d"
-#else
-#define DEFAULT_PG_QUERY_CONF_PATH       "/etc/libzbxpgsql.d"
-#endif
-
-int init_config();
-
 // Default memory usage
 #define MAX_GLOBBING_PATH_LENGTH         512
 #define MAX_NUMBER_CONFIG_FILES          100
@@ -87,10 +78,6 @@ int init_config();
 #define PG_RELKIND_TOAST        "t"
 #define PG_RELKIND_FGNTABLE     "f"
 
-// Shared globals
-extern char  *SQLkey[MAX_NUMBER_SQL_STATEMENT_IN_RAM+1];
-extern char  *SQLstmt[MAX_NUMBER_SQL_STATEMENT_IN_RAM+1];
-
 // function to determine if a string is null or empty
 #define strisnull(c)            (NULL == c || '\0' == *c)
 
@@ -104,7 +91,6 @@ PGconn      *pg_connect_request(AGENT_REQUEST *request, AGENT_RESULT *result);
 PGresult    *pg_exec(PGconn *conn, const char *command, PGparams params);
 int         pg_scalar(AGENT_REQUEST *request, AGENT_RESULT *result, const char *query, PGparams params, char *buffer, size_t bufferlen);
 long int    pg_version(AGENT_REQUEST *request, AGENT_RESULT *result);
-char        *query_by_key(const char *key);
 
 int     pg_get_result(AGENT_REQUEST *request, AGENT_RESULT *result, int type, const char *query, PGparams params);
 int     pg_get_discovery(AGENT_REQUEST *request, AGENT_RESULT *result, const char *query, PGparams params);
@@ -125,6 +111,11 @@ void        param_free(PGparams params);
 #define     param_new(s)    param_append(NULL, s)
 
 int     PG_GET_CLASS_SIZE(AGENT_REQUEST *request, AGENT_RESULT *result, char *relkind, char *relname);
+
+// config file handling
+int			init_config();
+int			uninit_config();
+const char	*get_query_by_name(const char *key);
 
 // Define agent key functions
 int     MODVER(AGENT_REQUEST *request, AGENT_RESULT *result);
