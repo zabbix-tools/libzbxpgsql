@@ -566,7 +566,7 @@ char *strcat2(char *dest, const char *src)
     while (*dest) dest++;
 
     // copy one char at a time from source
-    while (*dest++ = *src++);
+    while ((*dest++ = *src++));
     
     // return the last character
     return --dest;

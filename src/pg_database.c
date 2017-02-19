@@ -239,7 +239,6 @@ int    PG_DB_XID_AGE(AGENT_REQUEST *request, AGENT_RESULT *result)
     
     char        *datname = NULL;
     char        *query = NULL;
-    PGparams    params = NULL; // freed later in pg_exec
 
     zabbix_log(LOG_LEVEL_DEBUG, "In %s()", __function_name);
 
@@ -252,9 +251,6 @@ int    PG_DB_XID_AGE(AGENT_REQUEST *request, AGENT_RESULT *result)
     }
 
     ret = pg_get_int(request, result, query, param_new(datname));
-    
-out:
-
     zabbix_log(LOG_LEVEL_DEBUG, "End of %s()", __function_name);
     return ret;
 }   

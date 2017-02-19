@@ -5,5 +5,5 @@ SUBDIRS = \
 
 EXTRA_DIST = \
 	README.md \
-	query.conf \
+	conf/libzbxpgsql.conf \
 	templates/
