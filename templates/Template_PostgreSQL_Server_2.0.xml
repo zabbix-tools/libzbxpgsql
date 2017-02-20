@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>2.0</version>
-    <date>2016-10-20T04:02:57Z</date>
+    <date>2017-02-20T12:12:34Z</date>
     <groups>
         <group>
             <name>Templates</name>
@@ -5598,7 +5598,7 @@ Description: {#DESCRIPTION}</description>
             <dependencies />
         </trigger>
         <trigger>
-            <expression>{Template App PostgreSQL:pg.backends.free[{$PG_CONN},{$PG_DB}].last(#1)}&lt;{$PG_BACKENDS_CRIT}</expression>
+            <expression>{Template App PostgreSQL:pg.backends.free[{$PG_CONN},{$PG_DB}].last(0)}&lt;{$PG_BACKENDS_CRIT}</expression>
             <name>PostgreSQL Backend connections are exhausted on {HOST.NAME}</name>
             <url>https://www.postgresql.org/docs/current/static/runtime-config-connection.html#GUC-MAX-CONNECTIONS</url>
             <status>0</status>
@@ -5610,7 +5610,7 @@ Investigate the issue immediately and consider increasing max_connections.</desc
             <dependencies />
         </trigger>
         <trigger>
-            <expression>({TRIGGER.VALUE}=0&amp;{Template App PostgreSQL:pg.prepared_xacts_ratio[{$PG_CONN},{$PG_DB}].last(#1)}&gt;{$PG_PXACT_WARN}&amp;{Template App PostgreSQL:pg.prepared_xacts_ratio[{$PG_CONN},{$PG_DB}].last(#1)}&lt;{$PG_PXACT_CRIT})|({TRIGGER.VALUE}=1&amp;{Template App PostgreSQL:pg.prepared_xacts_ratio[{$PG_CONN},{$PG_DB}].last(#1)}&gt;{$PG_PXACT_WARN})</expression>
+            <expression>({TRIGGER.VALUE}=0&amp;{Template App PostgreSQL:pg.prepared_xacts_ratio[{$PG_CONN},{$PG_DB}].last(0)}&gt;{$PG_PXACT_WARN}&amp;{Template App PostgreSQL:pg.prepared_xacts_ratio[{$PG_CONN},{$PG_DB}].last(0)}&lt;{$PG_PXACT_CRIT})|({TRIGGER.VALUE}=1&amp;{Template App PostgreSQL:pg.prepared_xacts_ratio[{$PG_CONN},{$PG_DB}].last(0)}&gt;{$PG_PXACT_WARN})</expression>
             <name>PostgreSQL Prepared transactions are near exhaustion on {HOST.NAME}</name>
             <url>https://www.postgresql.org/docs/current/static/runtime-config-resource.html#GUC-MAX-PREPARED-TRANSACTIONS</url>
             <status>0</status>
@@ -5652,7 +5652,7 @@ Investigate the issue and consider increasing max_prepared_transactions.</descri
             <dependencies />
         </trigger>
         <trigger>
-            <expression>{Template App PostgreSQL:pg.db.xid_age[{$PG_CONN},{$PG_DB}].last(#1)}&gt;{$PG_XID_CRIT}</expression>
+            <expression>{Template App PostgreSQL:pg.db.xid_age[{$PG_CONN},{$PG_DB}].last(0)}&gt;{$PG_XID_CRIT}</expression>
             <name>PostgreSQL Transaction IDs are exhausted on {HOST.NAME}</name>
             <url>https://www.postgresql.org/docs/current/static/routine-vacuuming.html#VACUUM-FOR-WRAPAROUND</url>
             <status>0</status>
@@ -5664,7 +5664,7 @@ Perform a VACUUM immediately to reset the available Transaction IDs and review y
             <dependencies />
         </trigger>
         <trigger>
-            <expression>({TRIGGER.VALUE}=0&amp;{Template App PostgreSQL:pg.db.xid_age[{$PG_CONN},{$PG_DB}].last(#1)}&gt;{$PG_XID_WARN}&amp;{Template App PostgreSQL:pg.db.xid_age[{$PG_CONN},{$PG_DB}].last(#1)}&lt;{$PG_XID_CRIT})|({TRIGGER.VALUE}=1&amp;{Template App PostgreSQL:pg.db.xid_age[{$PG_CONN},{$PG_DB}].last(#1)}&gt;{$PG_XID_WARN})</expression>
+            <expression>({TRIGGER.VALUE}=0&amp;{Template App PostgreSQL:pg.db.xid_age[{$PG_CONN},{$PG_DB}].last(0)}&gt;{$PG_XID_WARN}&amp;{Template App PostgreSQL:pg.db.xid_age[{$PG_CONN},{$PG_DB}].last(0)}&lt;{$PG_XID_CRIT})|({TRIGGER.VALUE}=1&amp;{Template App PostgreSQL:pg.db.xid_age[{$PG_CONN},{$PG_DB}].last(0)}&gt;{$PG_XID_WARN})</expression>
             <name>PostgreSQL Transaction IDs are near exhaustion on {HOST.NAME}</name>
             <url>https://www.postgresql.org/docs/current/static/routine-vacuuming.html#VACUUM-FOR-WRAPAROUND</url>
             <status>0</status>
