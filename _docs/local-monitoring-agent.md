@@ -20,7 +20,7 @@ following to the __top__ of your `pg_hba.conf`:
     local   all             monitoring                              ident map=monitoring
 
 Allow the Zabbix agent identity (typically `zabbix` or `root`) to connect as
-the monitoring role by adding the following to your `pg_indent.conf`:
+the monitoring role by adding the following to your `pg_ident.conf`:
 
     # MAPNAME       SYSTEM-USERNAME         PG-USERNAME
     monitoring      zabbix                  monitoring

@@ -71,7 +71,7 @@ source.
 ## Validate installation
 
 * If the module is loaded correctly, you will see the following line in your
-  Zabbix agent log file (`/var/log/zabbix/zabbix_agentd.conf`):
+  Zabbix agent log file (`/var/log/zabbix/zabbix_agentd.log`):
 
       loaded modules: libzbxpgsql.so
 
