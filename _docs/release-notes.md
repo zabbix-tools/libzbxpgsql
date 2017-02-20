@@ -5,6 +5,18 @@ menu: Release notes
 permalink: /release-notes/
 ---
 
+## v1.1.0
+Release: Feb 20 2017
+
+- Added a config file (`/etc/zabbix/libzbxpgsql.conf`) to enable named SQL
+  queries to be used in `pg.query.*` keys - Thanks to Rob Brucks
+
+- Fixed the `PostgreSQL Backend connections are exhausted on Zabbix server`
+  trigger expression
+
+- Added Makefile to backport templates to older version of Zabbix using the
+  [Zabbix Template Convertor](https://github.com/cavaliercoder/zabbix-template-convertor)
+
 ## v1.0.0
 Release: Jun 26 2016
 

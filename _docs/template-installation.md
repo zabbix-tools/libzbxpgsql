@@ -10,9 +10,9 @@ template.
 ## Import the template
 
 The latest version of PostgreSQL monitoring template is available on
-[GitHub](https://raw.githubusercontent.com/cavaliercoder/libzbxpgsql/v1.0.0/template_postgresql_server.xml).
-It can also be found in the root of the source tarball available from the
-[downloads page]({{ site.baseurl }}/download/).
+[GitHub](https://github.com/cavaliercoder/libzbxpgsql/tree/v1.1.0/templates).
+It can also be found in the `/templates` directory in the source tarball
+available from the [downloads page]({{ site.baseurl }}/download/).
 
 * Save the XML template file to a convenient location
 

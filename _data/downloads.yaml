@@ -2,55 +2,55 @@
 - target: Source package
   files:
     - label: Universal
-      url: http://s3.cavaliercoder.com/libzbxpgsql/libzbxpgsql-1.0.0.tar.gz
+      url: http://cdn.cavaliercoder.com/libzbxpgsql/libzbxpgsql-1.1.0.tar.gz
 
 - target: Debian Jessie (amd64)
   files:
     - label: Zabbix v2.2+
-      url: http://s3.cavaliercoder.com/libzbxpgsql/apt/zabbix2/debian/jessie/amd64/libzbxpgsql_1.0.0-1%2Bjessie_amd64.deb
+      url: http://cdn.cavaliercoder.com/libzbxpgsql/apt/zabbix22/debian/jessie/amd64/libzbxpgsql_1.1.0-1%2Bjessie_amd64.deb
     - label: Zabbix v3.0+
-      url: http://s3.cavaliercoder.com/libzbxpgsql/apt/zabbix3/debian/jessie/amd64/libzbxpgsql_1.0.0-1%2Bjessie_amd64.deb
+      url: http://cdn.cavaliercoder.com/libzbxpgsql/apt/zabbix30/debian/jessie/amd64/libzbxpgsql_1.1.0-1%2Bjessie_amd64.deb
     - label: Zabbix v3.2+
-      url: http://s3.cavaliercoder.com/libzbxpgsql/apt/zabbix32/debian/jessie/amd64/libzbxpgsql_1.0.0-1%2Bjessie_amd64.deb
+      url: http://cdn.cavaliercoder.com/libzbxpgsql/apt/zabbix32/debian/jessie/amd64/libzbxpgsql_1.1.0-1%2Bjessie_amd64.deb
 
 - target: Debian Wheezy (amd64)
   files:
     - label: Zabbix v2.2+
-      url: http://s3.cavaliercoder.com/libzbxpgsql/apt/zabbix2/debian/wheezy/amd64/libzbxpgsql_1.0.0-1%2Bwheezy_amd64.deb
+      url: http://cdn.cavaliercoder.com/libzbxpgsql/apt/zabbix22/debian/wheezy/amd64/libzbxpgsql_1.1.0-1%2Bwheezy_amd64.deb
     - label: Zabbix v3.0+
-      url: http://s3.cavaliercoder.com/libzbxpgsql/apt/zabbix3/debian/wheezy/amd64/libzbxpgsql_1.0.0-1%2Bwheezy_amd64.deb
+      url: http://cdn.cavaliercoder.com/libzbxpgsql/apt/zabbix30/debian/wheezy/amd64/libzbxpgsql_1.1.0-1%2Bwheezy_amd64.deb
     - label: Zabbix v3.2+
-      url: http://s3.cavaliercoder.com/libzbxpgsql/apt/zabbix32/debian/wheezy/amd64/libzbxpgsql_1.0.0-1%2Bwheezy_amd64.deb
+      url: http://cdn.cavaliercoder.com/libzbxpgsql/apt/zabbix32/debian/wheezy/amd64/libzbxpgsql_1.1.0-1%2Bwheezy_amd64.deb
 
 - target: Ubuntu Trusty (amd64)
   files:
     - label: Zabbix v2.2+
-      url: http://s3.cavaliercoder.com/libzbxpgsql/apt/zabbix2/ubuntu/trusty/amd64/libzbxpgsql_1.0.0-1%2Btrusty_amd64.deb
+      url: http://cdn.cavaliercoder.com/libzbxpgsql/apt/zabbix22/ubuntu/trusty/amd64/libzbxpgsql_1.1.0-1%2Btrusty_amd64.deb
     - label: Zabbix v3.0+
-      url: http://s3.cavaliercoder.com/libzbxpgsql/apt/zabbix3/ubuntu/trusty/amd64/libzbxpgsql_1.0.0-1%2Btrusty_amd64.deb
+      url: http://cdn.cavaliercoder.com/libzbxpgsql/apt/zabbix30/ubuntu/trusty/amd64/libzbxpgsql_1.1.0-1%2Btrusty_amd64.deb
     - label: Zabbix v3.2+
-      url: http://s3.cavaliercoder.com/libzbxpgsql/apt/zabbix32/ubuntu/trusty/amd64/libzbxpgsql_1.0.0-1%2Btrusty_amd64.deb
+      url: http://cdn.cavaliercoder.com/libzbxpgsql/apt/zabbix32/ubuntu/trusty/amd64/libzbxpgsql_1.1.0-1%2Btrusty_amd64.deb
 
 - target: Ubuntu Precise (amd64)
   files:
     - label: Zabbix v2.2+
-      url: http://s3.cavaliercoder.com/libzbxpgsql/apt/zabbix2/ubuntu/precise/amd64/libzbxpgsql_1.0.0-1%2Bprecise_amd64.deb
+      url: http://cdn.cavaliercoder.com/libzbxpgsql/apt/zabbix22/ubuntu/precise/amd64/libzbxpgsql_1.1.0-1%2Bprecise_amd64.deb
 
 - target: RedHat/CentOS 7 (x86_64)
   files:
     - label: Zabbix v2.2+
-      url: http://s3.cavaliercoder.com/libzbxpgsql/yum/zabbix2/rhel/7/x86_64/libzbxpgsql-1.0.0-1.el7.x86_64.rpm
+      url: http://cdn.cavaliercoder.com/libzbxpgsql/yum/zabbix22/rhel/7/x86_64/libzbxpgsql-1.1.0-1.el7.x86_64.rpm
     - label: Zabbix v3.0+
-      url: http://s3.cavaliercoder.com/libzbxpgsql/yum/zabbix3/rhel/7/x86_64/libzbxpgsql-1.0.0-1.el7.x86_64.rpm
+      url: http://cdn.cavaliercoder.com/libzbxpgsql/yum/zabbix30/rhel/7/x86_64/libzbxpgsql-1.1.0-1.el7.x86_64.rpm
     - label: Zabbix v3.2+
-      url: http://s3.cavaliercoder.com/libzbxpgsql/yum/zabbix32/rhel/7/x86_64/libzbxpgsql-1.0.0-1.el7.x86_64.rpm
+      url: http://cdn.cavaliercoder.com/libzbxpgsql/yum/zabbix32/rhel/7/x86_64/libzbxpgsql-1.1.0-1.el7.x86_64.rpm
 
 - target: RedHat/CentOS 6 (x86_64)
   files:
     - label: Zabbix v2.2+
-      url: http://s3.cavaliercoder.com/libzbxpgsql/yum/zabbix2/rhel/6/x86_64/libzbxpgsql-1.0.0-1.el6.x86_64.rpm
+      url: http://cdn.cavaliercoder.com/libzbxpgsql/yum/zabbix22/rhel/6/x86_64/libzbxpgsql-1.1.0-1.el6.x86_64.rpm
     - label: Zabbix v3.0+
-      url: http://s3.cavaliercoder.com/libzbxpgsql/yum/zabbix3/rhel/6/x86_64/libzbxpgsql-1.0.0-1.el6.x86_64.rpm
+      url: http://cdn.cavaliercoder.com/libzbxpgsql/yum/zabbix30/rhel/6/x86_64/libzbxpgsql-1.1.0-1.el6.x86_64.rpm
     - label: Zabbix v3.2+
-      url: http://s3.cavaliercoder.com/libzbxpgsql/yum/zabbix32/rhel/6/x86_64/libzbxpgsql-1.0.0-1.el6.x86_64.rpm
+      url: http://cdn.cavaliercoder.com/libzbxpgsql/yum/zabbix32/rhel/6/x86_64/libzbxpgsql-1.1.0-1.el6.x86_64.rpm
 
