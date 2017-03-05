@@ -53,7 +53,7 @@ int     PG_QUERY(AGENT_REQUEST *request, AGENT_RESULT *result)
     // Check if query comes from configs
     query = get_query_by_name(queryKey);
     if(NULL == query) {
-        zabbix_log(LOG_LEVEL_INFORMATION, "No query found for %s", queryKey);
+        zabbix_log(LOG_LEVEL_DEBUG, "No query found for %s", queryKey);
         query = queryKey;
     }
 
