@@ -208,7 +208,7 @@
       END
     FROM pg_stat_bgwriter;
 
-- key: pg.checkpoint_time_perc
+- key: pg.checkpoint_time_ratio
   description: >
     Returns the percentage of time spent writing or syncing checkpoints since
     statistics were reset as a fraction of 1.

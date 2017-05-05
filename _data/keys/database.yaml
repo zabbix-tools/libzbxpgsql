@@ -114,7 +114,7 @@
         database)
       default: sum for all database
 
-- key: pg.db.blks_perc
+- key: pg.db.blks_ratio
   description: >
     Returns the percentage of in-memory cache hits to disk reads as a fraction
     of 1.
