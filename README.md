@@ -29,9 +29,17 @@ regenerate the build scripts using `./autogen.sh`. Otherwise:
 
     ./configure --with-zabbix=/usr/src/zabbix
     make
-    make install
+    sudo make install
 
 Module file `libzbxpgsql.so` will then be installed in `/usr/local/lib`.
+
+If you are using a packaged version of Zabbix, you may with to redirect the
+installation directories as follows:
+
+    $ sudo make prefix=/usr sysconfdir=/etc libdir=/usr/lib64 install
+
+__Note:__ Please use a clean copy of the Zabbix source code. Once you configure
+or build the Zabbix sources, they are no longer useful for building this module.
 
 To build the RPM package on a RHEL6+ family system with `rpm-build` installed:
 
