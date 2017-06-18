@@ -94,13 +94,13 @@ AC_DEFUN([AX_LIB_POSTGRESQL],
             POSTGRESQL_CPPFLAGS="-I`$PG_CONFIG --includedir`"
             POSTGRESQL_LDFLAGS="-L`$PG_CONFIG --libdir`"
             POSTGRESQL_LIBS="-lpq"
-            POSTGRESQL_VERSION=`$PG_CONFIG --version | sed -e 's#PostgreSQL ##'`
+            POSTGRESQL_VERSION="`$PG_CONFIG --version | $AWK '{print $[2]}'`"
 
             AC_DEFINE([HAVE_POSTGRESQL], [1],
                 [Define to 1 if PostgreSQL libraries are available])
 
             found_postgresql="yes"
-            AC_MSG_RESULT([yes])
+            AC_MSG_RESULT([$POSTGRESQL_VERSION])
         else
             found_postgresql="no"
             AC_MSG_RESULT([no])
