@@ -47,17 +47,19 @@ To build the RPM package on a RHEL6+ family system with `rpm-build` installed:
 
 ## Templates
 
-	For Zabbix 3.0 there are 2 templates:
+For Zabbix 3.0 there are 2 templates:
 
-	* Main Template called `Template_PostgreSQL_Server_3.0.xml`
-	* Secondary Template called `Template_PostgreSQL_Server_3.0_Secondary.xml`
+* Main Template called `Template_PostgreSQL_Server_3.0.xml`
+* Secondary Template called `Template_PostgreSQL_Server_3.0_Secondary.xml`
 
-	In order to use the Secondary one it is necessary to prepare it:
+In order to use the Secondary one it is necessary to prepare it:
 
-	* Variable `@Secondary@` is for UI Names
-	* Variable `@SECONDARY@` is for separating `PG_CONN` from main template - #112, #107
+* Variable `@Secondary@` is for UI Names
+* Variable `@SECONDARY@` is for separating `PG_CONN` from main template - #112, #107
 
-	sed -e 's/@Secondary@/SomeNiceName/g; s/@SECONDARY@/INSTANCENAME/g;' Template_PostgreSQL_Server_3.0_Secondary.xml > Template_PostgreSQL_Server_3.0_SomeNiceName.xml
+```
+sed -e 's/@Secondary@/SomeNiceName/g; s/@SECONDARY@/INSTANCENAME/g;' Template_PostgreSQL_Server_3.0_Secondary.xml > Template_PostgreSQL_Server_3.0_SomeNiceName.xml
+```
 
 This will distinguish instances running on same host but different ports.
 
