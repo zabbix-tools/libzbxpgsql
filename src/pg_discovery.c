@@ -74,7 +74,7 @@ out:
  *
  * Parameter [result]:  Zabbix agent result structure
  *
- * Paramater [query]:   PostgreSQL query to execute. Query should column names
+ * Parameter [query]:   PostgreSQL query to execute. Query should column names
  *           that match the desired discovery fields.
  *
  * Parameter [deep]:    Execute against all connectable databases
@@ -165,7 +165,7 @@ out:
  *
  * Parameter [result]:  Zabbix agent result structure
  *
- * Paramater [query]:   PostgreSQL query to execute. Query should column names
+ * Parameter [query]:   PostgreSQL query to execute. Query should column names
  *           that match the desired discovery fields.
  *
  * Parameter [deep]:    Execute against all connectable databases

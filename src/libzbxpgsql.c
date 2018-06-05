@@ -332,7 +332,7 @@ out:
  * Parameter [type]:    Result type to set. May be one of AR_STRING, AR_UINT64
  *          or AR_DOUBLE.
  *
- * Paramater [query]:   PostgreSQL query to execute. Query should return a
+ * Parameter [query]:   PostgreSQL query to execute. Query should return a
  *          single scalar string value. Parameters defined using PostgreSQL's
  *          '$n' notation will be replaced with the corresponding variadic
  *          argument provided in ...
