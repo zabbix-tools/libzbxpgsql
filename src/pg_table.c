@@ -148,7 +148,7 @@ WHERE i.inhparent = $1::regclass"
  *                        "{#TABLE}":"MyTable",
  *                        "{#TYPE}":"MyTable",
  *                        "{#OWNER}":"postgres",
- *                        "{#PERSISTENCE":"permenant|temporary",
+ *                        "{#PERSISTENCE":"permanent|temporary",
  *                        "{#ISSUBCLASS}":"0"}]}
  */
 int    PG_TABLE_DISCOVERY(AGENT_REQUEST *request, AGENT_RESULT *result)
