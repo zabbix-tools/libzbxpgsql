@@ -97,7 +97,7 @@ out:
 
     zabbix_log(LOG_LEVEL_DEBUG, "In %s(%s)", __function_name, request->key);
 
-    // Connect to PostreSQL
+    // Connect to PostgreSQL
     if(NULL == (conn = pg_connect_request(request, result)))
         goto out;
     
@@ -204,7 +204,7 @@ out:
         zbx_free(connstring);
         connstring = build_connstring(get_rparam(request, PARAM_CONN_STRING), db);
 
-        // Connect to PostreSQL
+        // Connect to PostgreSQL
         if(NULL == (conn = pg_connect(connstring, result)))
             goto out;
         

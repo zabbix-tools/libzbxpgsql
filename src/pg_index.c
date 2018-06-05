@@ -180,7 +180,7 @@ int    PG_STAT_ALL_INDEXES(AGENT_REQUEST *request, AGENT_RESULT *result)
     else
         zbx_snprintf(query, sizeof(query),  "SELECT %s FROM pg_stat_all_indexes WHERE indexrelname = $1", field);
 
-    // Connect to PostreSQL
+    // Connect to PostgreSQL
     if(NULL == (conn = pg_connect_request(request, result)))
         goto out;
     
