@@ -65,7 +65,7 @@ ORDER BY 1;"
  *                        "{#LC_CTYPE}":"en_US.UTF-8",
  *                        "{#TEMPLATE}":"1|0",
  *                        "{#TABLESPACE":"pg_default",
- *                        "{#DESCRIPTION}":"something or otheer"}]}
+ *                        "{#DESCRIPTION}":"something or other"}]}
  */
 int    PG_DB_DISCOVERY(AGENT_REQUEST *request, AGENT_RESULT *result)
 {
