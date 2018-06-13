@@ -5,7 +5,7 @@
  *
  * Allocates and returns a libpq compatible connection string. This function
  * takes as input, a libpq compatible connection string with the `dbname` field
- * ommitted and the desired database name as the second parameter. This enables
+ * omitted and the desired database name as the second parameter. This enables
  * connection strings to be built from Zabbix discovery rules where the
  * connected database may not be known when configuring Zabbix.
  *
