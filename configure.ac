@@ -16,14 +16,11 @@ AC_CHECK_HEADERS(libconfig.h, [], [ AC_MSG_ERROR("Unable to locate libconfig dev
 AC_CHECK_LIB([config],[config_init],[],AC_MSG_ERROR(["Unable to locate libconfig library."]))
 
 # Checking for PostgreSQL support
-AX_LIB_POSTGRESQL("8.1")
-if test "x$found_postgresql" = "xyes"; then
-	if test "$postgresql_version_check" != "1"; then
-		AC_MSG_ERROR([PostgreSQL version mismatch])
-	fi
-else
-	AC_MSG_ERROR([PostgreSQL library not found])
-fi
+AX_LIB_POSTGRESQL([8.1])
+AS_IF([test "x$found_postgresql" = "xyes"],
+    [ AS_IF([test "Xfound_postgresql_req_version" = "Xno"],
+        [ AC_MSG_ERROR([PostgreSQL version mismatch])])], [
+    AC_MSG_ERROR([PostgreSQL library not found])])
 
 # Checking for Zabbix headers
 AX_LIB_ZABBIX
