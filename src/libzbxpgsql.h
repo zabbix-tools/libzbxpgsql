@@ -43,7 +43,11 @@
 #define HAVE_TIME_H 1
 #include <sysinc.h>
 #include <module.h>
+#define zbx_snprintf any_name_is_better /* don't want common.h to declare zbx_snprintf() function */
 #include <common.h>
+#undef zbx_snprintf /* forget macro definition from old common.h and/or our own macro definition two lines above */
+#define zbx_snprintf pgsql_snprintf /* prevent symbol conflict with zbx_snprintf() function in new Zabbix binaries */
+extern size_t (*zbx_snprintf)(char *str, size_t count, const char *fmt, ...); /* use old name to avoid changing much of our code */
 #include <log.h>
 #include <zbxjson.h>
 #include <version.h>
