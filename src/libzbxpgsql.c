@@ -25,6 +25,10 @@
 
 #include "libzbxpgsql.h"
 
+#include <dlfcn.h>
+
+size_t (*zbx_snprintf)(char *str, size_t count, const char *fmt, ...) = NULL;
+
 // Define custom keys
 static ZBX_METRIC keys[] =
 /*      KEY                         FLAG            FUNCTION                        TEST PARAMETERS */
@@ -180,7 +184,26 @@ int  zbx_module_uninit() {
 */
 
 int  zbx_module_init() {
+    void *handle;
+
     zabbix_log(LOG_LEVEL_INFORMATION, "starting agent module %s", PACKAGE_STRING);
+
+    if (NULL == (handle = dlopen(NULL, RTLD_LAZY | RTLD_NOLOAD)))
+    {
+        zabbix_log(LOG_LEVEL_ERR, "failed to dlopen() Zabbix binary: %s", dlerror());
+        return ZBX_MODULE_FAIL;
+    }
+
+    if (NULL == (zbx_snprintf = dlsym(handle, "zbx_snprintf")) &&
+        NULL == (zbx_snprintf = dlsym(handle, "__zbx_zbx_snprintf")))
+    {
+        zabbix_log(LOG_LEVEL_ERR, "failed to find zbx_snprintf() or __zbx_zbx_snprintf(): %s", dlerror());
+        dlclose(handle);
+        return ZBX_MODULE_FAIL;
+    }
+
+    dlclose(handle);
+
     return init_config();
 }
 

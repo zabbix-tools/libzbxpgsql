@@ -42,6 +42,9 @@ if test ! "x$found_zabbix" = "xyes"; then
 	AC_MSG_ERROR([Zabbix headers not found])
 fi
 
+# Checking for libdl
+AC_CHECK_LIB(dl,dlopen)
+
 # output
 AC_CONFIG_FILES([
  Makefile
