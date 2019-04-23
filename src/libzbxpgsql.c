@@ -496,7 +496,7 @@ int set_err_result(AGENT_RESULT *result, const char *format, ...)
 
     // parse message string
     va_start (args, format);
-    zbx_vsnprintf((char*)&msg, sizeof(msg), format, args);
+    zbx_vsnprintf(msg, sizeof(msg), format, args);
 
     // log message
     zabbix_log(LOG_LEVEL_ERR, "PostgreSQL: %s", msg);
