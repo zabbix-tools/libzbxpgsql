@@ -37,6 +37,7 @@ echo 'LoadModule=%{name}.so' > %{_topdir}/SOURCES/%{name}.conf
 cp -r %{_topdir}/BUILD/%{name}- %{_topdir}/BUILD/zabbix-%{main_version}.%{minor_version}/src/modules
 
 %build
+./configure
 cd src/modules/%{name}-
 ./autogen.sh
 %configure --with-zabbix=%{_topdir}/BUILD/zabbix-%{main_version}.%{minor_version}
