@@ -4,7 +4,7 @@ This project provides comprehensive monitoring of PostgreSQL servers using a
 natively compiled Zabbix agent module, written in C.
 
 **N.B.** Zabbix 6+ users will probably prefer the official support for PostrgreSQL
-available in `zabbix_agent2`, [documented here](https://www.zabbix.com/documentation/6.0/en/manual/appendix/config/zabbix_agent2_plugins/postgresql_plugin).
+available in `zabbix_agent2`, [documented here](https://git.zabbix.com/projects/AP/repos/postgresql/browse/README.md).
 
 A preconfigured Zabbix Template is also included for your convenience.
 
